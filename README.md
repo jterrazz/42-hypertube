@@ -17,3 +17,4 @@ Useful links:
 ### Development
 
 - [Dummy API](https://www.mockapi.io/projects/5d5d524b6cf1330014fead51)
+- https://stackoverflow.com/questions/33644499/what-does-it-mean-when-they-say-react-is-xss-protected
