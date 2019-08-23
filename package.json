@@ -1,13 +1,19 @@
 {
-  "scripts":{
+  "scripts": {
     "lint": "yarn --cwd server lint"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint",
+      "pre-commit": "lint-staged"
     }
   },
+  "lint-staged": {
+    "*.{js,jsx,ts}": [
+      "yarn lint"
+    ]
+  },
   "devDependencies": {
-    "husky": "^3.0.4"
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.3"
   }
 }
