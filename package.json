@@ -1,7 +1,4 @@
 {
-  "scripts": {
-    "lint": "yarn --cwd server lint"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -9,11 +6,17 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts}": [
-      "yarn lint"
+      "eslint --fix"
     ]
   },
   "devDependencies": {
     "husky": "^3.0.4",
-    "lint-staged": "^9.2.3"
+    "lint-staged": "^9.2.3",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.2.1",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2"
   }
 }
