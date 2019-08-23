@@ -9,7 +9,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts}": [
-      "echo test"
+      "yarn lint"
     ]
   },
   "devDependencies": {
