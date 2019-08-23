@@ -3,6 +3,8 @@
 A peer to peer streaming website made with ReactJS and NodeJS.
 It allows you to beautifully search a torrent database and to stream the file directly into your browser.
 
+Disclaimer: This application was created for learning at the 42 Paris School. For legal reasons, you shouldn't use it in production.
+
 ## Starting guide
 
 ### Requirements
