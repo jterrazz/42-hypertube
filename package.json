@@ -1,7 +1,11 @@
 {
   "scripts":{
-    "precommit": "yarn lint",
     "lint": "yarn --cwd server lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+    }
   },
   "devDependencies": {
     "husky": "^3.0.4"
