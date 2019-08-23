@@ -9,7 +9,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts}": [
-      "eslint"
+      "echo test"
     ]
   },
   "devDependencies": {
