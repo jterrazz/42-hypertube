@@ -1,6 +1,6 @@
 # 42-hypertube
 
-A peer to peer streaming website made with ReactJS and NodeJS. We use the ES6 syntax.
+A peer to peer streaming website made with ReactJS and NodeJS.
 It allows you to beautifully search a torrent database and to stream the file directly into your browser.
 
 Disclaimer: This application was created for learning at the 42 Paris School. For legal reasons, you shouldn't use it in production.
@@ -22,7 +22,12 @@ yarn start # Uses this in production to start the process
 ## Implementation
 
 ### Backend
-REST API made with NodeJS, Koa and MongoDB. We use `typescript` and `nodemon` for hot reloading.
+REST compliant API using:
+- `NodeJS` with the framework `koa`.
+    - ES6 syntax
+    - `typescript`
+    - `nodemon` for hot reloading the development environment
+- MongoDB
 
 Useful links:
 - Design ...
@@ -33,10 +38,10 @@ Useful links:
 ### Frontend
 Web app with server rendering made with NextJS (and ReactJS).
 
-### Others
-The root package.json is here to enforce linting rules on commits. `husky` calls `lint-stagged` for every javascript staged file.
+### File structure
+The root `package.json` is here to enforce linting rules on each commits. `husky` calls `lint-stagged` for every javascript staged file.
 
-The linting rules are composed of basic eslint checks and enforces the Prettier syntax.
+Linting is made with a mix of basic react/typescript `eslint` rules and the `prettier` syntax.
 
 ## Resources
 
