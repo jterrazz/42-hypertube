@@ -8,10 +8,16 @@ Disclaimer: This application was created for learning at the 42 Paris School. Fo
 ## Starting guide
 
 ### Requirements
-- NodeJS 12: `brew install node`
-- yarn: `brew install yarn`
+- [nodeJS >12.0](https://nodejs.org/en/)
+- [yarn](https://yarnpkg.com/en/)
 
-Simply run `yarn` to install dependencies. For the client and server, `yarn dev` will start a hot reload environment. Use `yarn start` when the project no longer requires changes.
+```bash
+yarn # Installs dependencies. 
+
+# cd ./web or cd ./server
+yarn dev # Starts a hot reload environment
+yarn start # Uses this in production to start the process
+```
 
 ## Implementation
 
@@ -24,18 +30,8 @@ Useful links:
 - [Database schema](https://drawsql.app/jterrazz/diagrams/42-hypertube)
 - [Dummy API](https://www.mockapi.io/projects/5d5d524b6cf1330014fead51)
 
-```bash
-cd server
-yarn start # or dev
-```
-
 ### Frontend
 Web app with server rendering made with NextJS (and ReactJS).
-
-```bash
-cd web
-yarn start # or dev
-```
 
 ### Others
 The root package.json is here to enforce linting rules on commits. `husky` calls `lint-stagged` for every javascript staged file.
