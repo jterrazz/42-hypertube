@@ -1,7 +1,11 @@
 {
+  "private": true,
   "scripts": {
-    "install": "yarn --cwd ./server && yarn --cwd ./web",
-    "lint": "eslint --fix --ext .js,.jsx,.ts server/src web/src"
+    "lint": "eslint --fix --ext .js,.jsx,.ts app/server app/web",
+    "dev.server": "cd server && nodemon",
+    "dev.web": "next dev ./web",
+    "build.web": "next build ./web",
+    "start.web": "next start ./web"
   },
   "husky": {
     "hooks": {
@@ -12,6 +16,14 @@
     "*.{js,jsx,ts}": [
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "next": "9.0.4",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "nodemon": "^1.19.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.0.0",

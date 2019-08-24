@@ -58,6 +58,3 @@ Linting is made with a mix of basic react/typescript `eslint` rules and the `pre
 ### Go further
 - [Master ReactJS](https://medium.mybridge.co/learn-react-js-from-top-50-articles-for-the-past-year-v-2019-baaacfc521c)
 - [Linting with ESLint and Prettier](https://medium.com/javascript-scene/streamline-code-reviews-with-eslint-prettier-6fb817a6b51d)
-
-### TODO
-- [Check against all XSS attacks](https://stackoverflow.com/questions/33644499/what-does-it-mean-when-they-say-react-is-xss-protected)
