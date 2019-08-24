@@ -1,9 +1,8 @@
 # 42-hypertube
 
-A peer to peer streaming website made with ReactJS and NodeJS.
-It allows you to beautifully search a torrent database and to stream the file directly into your browser.
+A web application to search and watch videos. Videos are downloaded through the BitTorrent protocol and played directly in the browser.
 
-Disclaimer: This application was created for learning at the 42 Paris School. For legal reasons, you shouldn't use it in production.
+*Disclaimer: This application was created for learning purposes at the 42 Paris School. For legal reasons, you should not use it in production.*
 
 ## Starting guide
 
@@ -63,3 +62,8 @@ Linting is made with a mix of basic react/typescript `eslint` rules and the `pre
 ### Go further
 - [Master ReactJS](https://medium.mybridge.co/learn-react-js-from-top-50-articles-for-the-past-year-v-2019-baaacfc521c)
 - [Linting with ESLint and Prettier](https://medium.com/javascript-scene/streamline-code-reviews-with-eslint-prettier-6fb817a6b51d)
+
+## Credits
+- @plogan
+- @abbensid
+- @jterrazz
