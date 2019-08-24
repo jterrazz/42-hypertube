@@ -5,7 +5,8 @@
     "dev.server": "cd server && nodemon",
     "dev.web": "next dev ./web",
     "build.web": "next build ./web",
-    "start.web": "next start ./web"
+    "start.web": "next start ./web",
+    "start.server": "ts-node ./server/index.ts"
   },
   "husky": {
     "hooks": {

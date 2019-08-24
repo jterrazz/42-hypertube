@@ -12,11 +12,16 @@ Disclaimer: This application was created for learning at the 42 Paris School. Fo
 - [yarn](https://yarnpkg.com/en/)
 
 ```bash
-yarn # Installs dependencies. 
+# Install dependencies. 
+yarn 
 
-# cd ./web or cd ./server
-yarn dev # Starts a hot reload environment
-yarn start # Uses this in production to start the process
+# Start a hot reload environment
+yarn dev.web
+yarn dev.server
+
+# Start in production mode
+yarn start.web
+yarn start.server
 ```
 
 ## Implementation
