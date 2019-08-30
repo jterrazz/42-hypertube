@@ -6,6 +6,7 @@ dotenv.config()
 
 const envFormat = Joi.object()
   .keys({
+    NODE_ENV: Joi.string().allow(['development', 'production']),
     PORT: Joi.number().required(),
   })
   .unknown()
@@ -21,4 +22,5 @@ export default {
   SERVER: {
     PORT: envValues.PORT,
   },
+  IS_DEV: envValues.NODE_ENV != 'production',
 }
