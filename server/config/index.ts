@@ -4,14 +4,14 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
-const envFormat = Joi.object()
+const envValidator = Joi.object()
   .keys({
     NODE_ENV: Joi.string().allow(['development', 'production']),
     PORT: Joi.number().required(),
   })
   .unknown()
 
-const { error, value: envValues } = Joi.validate(process.env, envFormat)
+const { error, value: envValues } = Joi.validate(process.env, envValidator)
 
 if (error) {
   logs.error('Environment variable error')
@@ -23,4 +23,5 @@ export default {
     PORT: envValues.PORT,
   },
   IS_DEV: envValues.NODE_ENV != 'production',
+  BCRYPT_COST: 10
 }

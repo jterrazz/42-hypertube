@@ -13,21 +13,3 @@ export const getVideoCommentsController = () => {
 export const addVideoCommentController = () => {
   return 0
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// kaurent gear+ podcasts e1
