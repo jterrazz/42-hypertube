@@ -20,6 +20,7 @@ export const addUserController: Koa.Middleware = async ctx => {
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
   })
+
   const userInput = await Joi.validate(ctx.request.body, userValidator)
   console.log(ctx.request.body)
   console.log(userInput)
