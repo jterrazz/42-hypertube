@@ -2,19 +2,21 @@ import * as Router from 'koa-router'
 import {
   addUserController,
   addVideoCommentController,
-  getUserIdController,
+  getMeController,
+  getUsernameController,
   getVideoCommentsController,
   getVideosController,
   getVideoTorrentsController,
-  signInController,
+  authUsernameController,
   updateUserId,
 } from './controllers'
 
 export const router = new Router()
 
-router.get('/auth', signInController)
+router.post('/auth', authUsernameController)
 
-router.get('/users/:userId', getUserIdController)
+router.get('/me', getMeController)
+router.get('/users/:username', getUsernameController)
 router.post('/users', addUserController)
 router.patch('/users/:userId', updateUserId)
 
