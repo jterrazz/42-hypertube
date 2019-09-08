@@ -1,5 +1,9 @@
-export const getVideosController = () => {
-  return 0
+import { Middleware } from 'koa'
+import * as tmbApi from '../services/movieAPI'
+
+export const findMoviesController: Middleware = async ctx => {
+  // TODO Check empty queries ?
+  ctx.body = await tmbApi.findMovies(ctx.query.query, ctx.query.page)
 }
 
 export const getVideoTorrentsController = () => {

@@ -1,4 +1,4 @@
-# 42-hypertube
+# [IN PROGRESS] 42-hypertube
 
 A web application to search and watch videos. Videos are downloaded through the BitTorrent protocol and played directly in the browser.
 

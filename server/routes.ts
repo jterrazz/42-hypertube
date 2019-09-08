@@ -5,7 +5,7 @@ import {
   getMeController,
   getUsernameController,
   getVideoCommentsController,
-  getVideosController,
+  findMoviesController,
   getVideoTorrentsController,
   authUsernameController,
   updateUserId,
@@ -20,7 +20,8 @@ router.get('/users/:username', getUsernameController)
 router.post('/users', addUserController)
 router.patch('/users/:userId', updateUserId)
 
-router.get('/videos', getVideosController)
+// TODO Add tv shows ??
+router.get('/search/movies', findMoviesController)
 router.get('/videos/:videoId/torrents', getVideoTorrentsController)
 router.get('/videos/:videoId/comments', getVideoCommentsController)
 router.post('/videos/:videoId/comments', addVideoCommentController)

@@ -1,10 +1,10 @@
 db.createUser({
-  user: "hypertube_api",
-  pwd: "dev_password",
+  user: 'hypertube_api',
+  pwd: 'dev_password',
   roles: [
     {
-      role: "readWrite",
-      db: "hypertube"
+      role: 'readWrite',
+      db: 'hypertube',
     },
   ],
 })
