@@ -21,13 +21,11 @@ mongoose
         logs.info(`Server listening on port ${config.SERVER.PORT} 😊`)
       })
       .on('error', err => {
-        // TODO Hide if subject is stupid
         logs.error(err.message)
         process.exit(1)
       })
   })
   .catch(err => {
-    // TODO Hide if subject is stupid
     logs.error(err.message)
     process.exit(1)
   })

@@ -10,7 +10,7 @@ export const getMeController: Middleware = async ctx => {
   const username = 'jterrazz'
   const user = await User.findOne({ username })
 
-  ctx.assert(user, 404, 'User not found') // TODO Maybe send disconnect code
+  ctx.assert(user, 404, 'User not found')
   ctx.body = _.pick(user, publicUserProperties)
 }
 
