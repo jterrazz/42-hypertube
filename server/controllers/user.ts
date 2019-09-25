@@ -42,10 +42,14 @@ export const addUserController: Middleware = async ctx => {
 
   const userInput = await Joi.validate(ctx.request.body, userValidator)
   const user = await new User(userInput)
+
   await user.savePassword(userInput.password)
-  await user.save()
-  // TODO Check mongodb errors (validation or others) dont come here to avoid leak
-  // TODO Handle duplicate mongodb
+  try {
+    await user.save()
+  } catch (err) {
+    ctx.assert(err.code != 11000 && !err.keyPattern.hasOwnProperty('username'), 401, 'Username taken')
+    throw err
+  }
 
   ctx.status = 200
 }

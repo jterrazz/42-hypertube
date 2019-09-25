@@ -25,11 +25,11 @@ const UserSchema = new Schema({
 })
 
 UserSchema.methods = {
-  savePassword: async function(password) {
+  savePassword: async function(password): Promise<void> {
     const hashedPassword = await bcrypt.hash(password, config.BCRYPT_COST)
     this.set('hashedPassword', hashedPassword)
   },
-  authenticate: async function(password) {
+  authenticate: async function(password): Promise<boolean> {
     return await bcrypt.compare(password, this.hashedPassword)
   },
 }

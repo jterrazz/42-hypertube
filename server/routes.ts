@@ -14,7 +14,6 @@ import {
 export const router = new Router()
 
 router.post('/auth', authUsernameController)
-
 router.get('/me', getMeController)
 router.get('/users/:username', getUsernameController)
 router.post('/users', addUserController)
