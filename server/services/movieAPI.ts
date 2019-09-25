@@ -1,4 +1,5 @@
 import axios from 'axios'
+import * as _ from 'lodash'
 
 import config from '../config'
 
@@ -11,8 +12,13 @@ ytsClient.interceptors.request.use(request => {
 })
 
 // TODO Add language
-// TODO Maybe add series
 export const findMovies = async (query, page) => {
-  const res = await ytsClient.get(`list_movies.json`, { params: { query, page } })
-  return res.data
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  const res = await ytsClient.get(`list_movies.json`, { params: { query_term: query, page } })
+  const movies = _.get(res, ['data', 'data', 'movies'])
+
+  if (Array.isArray(movies)) {
+    movies.forEach(movie => delete movie.torrents)
+  }
+  return movies
 }
