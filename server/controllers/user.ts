@@ -1,5 +1,5 @@
 import { Middleware } from 'koa'
-import * as Joi from 'joi'
+import * as Joi from '@hapi/joi'
 import * as _ from 'lodash'
 
 import { User } from '../models'
@@ -16,7 +16,7 @@ export const getMeController: Middleware = async ctx => {
 
 export const getUsernameController: Middleware = async ctx => {
   const usernameValidator = Joi.string().required()
-  const username = await Joi.validate(ctx.params.username, usernameValidator)
+  const username = await usernameValidator.validate(ctx.params.username)
 
   const user = await User.findOne({ username })
   ctx.assert(user, 404, 'User not found')
@@ -24,7 +24,7 @@ export const getUsernameController: Middleware = async ctx => {
 }
 
 export const addUserController: Middleware = async ctx => {
-  const userValidator = Joi.object()
+  const userSchema = Joi.object()
     .keys({
       username: Joi.string().required(),
       email: Joi.string()
@@ -40,7 +40,7 @@ export const addUserController: Middleware = async ctx => {
     })
     .required()
 
-  const userInput = await Joi.validate(ctx.request.body, userValidator)
+  const userInput = await userSchema.validate(ctx.request.body)
   const user = await new User(userInput)
 
   await user.savePassword(userInput.password)

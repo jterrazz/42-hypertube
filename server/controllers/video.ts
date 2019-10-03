@@ -1,5 +1,5 @@
 import { Middleware } from 'koa'
-import * as Joi from 'joi'
+import * as Joi from '@hapi/joi'
 
 import * as tmbApi from '../services/movieAPI'
 import * as torrentAPI from '../services/torrentAPI'
@@ -13,7 +13,7 @@ export const findMoviesController: Middleware = async ctx => {
     })
     .required()
 
-  const query = await Joi.validate(ctx.query, querySchema)
+  const query = await querySchema.validate(ctx.query)
   try {
     ctx.body = {
       results: await tmbApi.findMovies(query.query, query.page),

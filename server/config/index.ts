@@ -1,12 +1,12 @@
-import * as Joi from 'joi'
+import * as Joi from '@hapi/joi'
 import * as dotenv from 'dotenv'
 import logs from '../utils/logger'
 
 dotenv.config()
 
-const envValidator = Joi.object()
+const envSchema = Joi.object()
   .keys({
-    NODE_ENV: Joi.string().allow(['development', 'production']),
+    NODE_ENV: Joi.string().allow('development', 'production'),
     SERVER_PORT: Joi.number(),
     MONGO_URL: Joi.string(),
     MONGO_USER: Joi.string(),
@@ -16,7 +16,7 @@ const envValidator = Joi.object()
   })
   .unknown()
 
-const { error, value: envValues } = Joi.validate(process.env, envValidator)
+const { error, value: envValues } = envSchema.validate(process.env)
 
 if (error) {
   logs.error(`Environment variable error: ${error.message}`)

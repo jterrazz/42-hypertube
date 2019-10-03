@@ -1,6 +1,6 @@
 import { User } from '../models'
 import { Middleware } from 'koa'
-import * as Joi from 'joi'
+import * as Joi from '@hapi/joi'
 import * as jwt from 'jsonwebtoken'
 import config from '../config'
 
@@ -11,7 +11,7 @@ export const authUsernameController: Middleware = async ctx => {
       password: Joi.string().required(),
     })
     .required()
-  const userData = await Joi.validate(ctx.request.body, userSchema)
+  const userData = await userSchema.validate(ctx.request.body)
   const user = await User.findOne({ username: userData.username })
 
   ctx.assert(await user.authenticate(userData.password), 401, 'Bad credentials')
