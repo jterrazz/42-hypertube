@@ -13,6 +13,8 @@ const envSchema = Joi.object()
     MONGO_PWD: Joi.string(),
     DEV_SECRET: Joi.string(),
     API_THE_MOVIE_DB_KEY: Joi.string().required(),
+    GOOGLE_CONSUMER_KEY: Joi.string().required(),
+    GOOGLE_CONSUMER_SECRET: Joi.string().required()
   })
   .unknown()
 
@@ -38,5 +40,7 @@ export default {
   JWT_EXP_DELAY: 60 * 60 * 24 * 31,
   APIS: {
     THE_MOVIE_DB_KEY: envValues.API_THE_MOVIE_DB_KEY,
+    GOOGLE_CONSUMER_KEY: envValues.GOOGLE_CONSUMER_KEY,
+    GOOGLE_CONSUMER_SECRET: envValues.GOOGLE_CONSUMER_SECRET
   },
 }

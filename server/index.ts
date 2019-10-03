@@ -9,6 +9,8 @@ import { errorMiddleware } from './middlewares/error-handler'
 
 const app = new Koa()
 
+import './auth'
+
 app.use(errorMiddleware)
 app.use(bodyParser())
 app.use(router.routes()).use(router.allowedMethods())

@@ -1,4 +1,5 @@
 import * as Router from 'koa-router'
+import * as passport from 'koa-passport'
 import {
   addUserController,
   addVideoCommentController,
@@ -13,7 +14,13 @@ import {
 
 export const router = new Router()
 
-router.post('/auth', authUsernameController)
+router.post('/auth/mail', authUsernameController)
+
+router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), ctx => {
+  ctx.body = 'yo'
+})
+
 router.get('/me', getMeController)
 router.get('/users/:username', getUsernameController)
 router.post('/users', addUserController)
