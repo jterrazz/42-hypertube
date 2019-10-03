@@ -9,5 +9,6 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:3000/auth/google/callback'
 }, (accessToken, refreshToken, profile, cb) => {
     console.log("Google authentication ft here")
+
     cb()
 }))

@@ -11,3 +11,16 @@ services:
       MONGO_INITDB_DATABASE: hypertube
     volumes:
       - ./server/config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  api:
+    image: node:12.10-alpine
+    depends_on:
+      - mongo
+    restart: always
+    working_dir: /app
+    environment:
+      MONGO_URL: mongodb://mongo/hypertube
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+    command: "yarn dev.server"
