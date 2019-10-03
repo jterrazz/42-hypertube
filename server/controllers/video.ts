@@ -2,7 +2,9 @@ import { Middleware } from 'koa'
 import * as Joi from 'joi'
 
 import * as tmbApi from '../services/movieAPI'
+import * as torrentAPI from '../services/torrentAPI'
 
+// TODO Add  REST Paging
 export const findMoviesController: Middleware = async ctx => {
   const querySchema = Joi.object()
     .keys({
@@ -14,7 +16,7 @@ export const findMoviesController: Middleware = async ctx => {
   const query = await Joi.validate(ctx.query, querySchema)
   try {
     ctx.body = {
-      results: await tmbApi.findMovies(query.query, query.page)
+      results: await tmbApi.findMovies(query.query, query.page),
     }
   } catch (err) {
     ctx.statusCode = 500
@@ -22,8 +24,10 @@ export const findMoviesController: Middleware = async ctx => {
   }
 }
 
-export const getVideoTorrentsController = () => {
-  return 0
+export const getVideoTorrentsController: Middleware = async ctx => {
+  ctx.body = {
+    tpb: await torrentAPI.searchTPB(ctx.params.videoId),
+  }
 }
 
 export const getVideoCommentsController = () => {
