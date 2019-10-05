@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as _ from 'lodash'
 
-import config from '../config'
+import config, { MOVIE_ID_PREFIX_YTS } from '../config'
 
 const ytsClient = axios.create({ baseURL: 'https://yts.lt/api/v2' })
 
@@ -16,9 +16,18 @@ export const findMovies = async (query, page) => {
   // eslint-disable-next-line @typescript-eslint/camelcase
   const res = await ytsClient.get(`list_movies.json`, { params: { query_term: query, page } })
   const movies = _.get(res, ['data', 'data', 'movies'])
+  const pageNumber = _.get(res, ['data', 'data', 'page_number'])
 
   if (Array.isArray(movies)) {
-    movies.forEach(movie => delete movie.torrents)
+    return {
+      page: pageNumber,
+      results: movies.map(m => {
+        delete m.torrents
+        delete m.url
+        m.id = `${MOVIE_ID_PREFIX_YTS}${m.id}`
+        return m
+      }),
+    }
   }
-  return movies
+  return { page, results: [] }
 }

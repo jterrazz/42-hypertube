@@ -18,6 +18,7 @@ router.post('/auth/mail', authUsernameController)
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), ctx => {
+  console.log('success')
   ctx.body = 'yo'
 })
 
@@ -29,8 +30,12 @@ router.patch('/users/:userId', updateUserId)
 // TODO Add tv shows ??
 router.get('/search/movies', findMoviesController)
 // TODO Explain format of videoid (can be imdb or string)
+// TODO Rename route
 router.get('/videos/:videoId/torrents', getVideoTorrentsController)
-// Should interactions be saved per torrent or per video group ?
-router.get('/videos/:videoId/comments', getVideoCommentsController)
-router.post('/videos/:videoId/comments', addVideoCommentController)
-// router.post('/videos/:videoId/lastseen', addVideoCommentController)
+
+// We save comments based on the torrentHash
+router.get('/torrents/:torrentHash/comments', getVideoCommentsController)
+router.post('/torrents/:torrentHash/comments', addVideoCommentController)
+
+// We save played movies based on the torrentHash and the movieId if available
+// router.post('/me/played', addVideoCommentController)
