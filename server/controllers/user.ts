@@ -28,4 +28,19 @@ export const getUsernameController: Middleware = async ctx => {
   ctx.body = _.pick(user, publicUserProperties)
 }
 
-export const updateMeController = () => {}
+// TODO If we validate email, we need to verify it if we change it
+export const updateMeController: Middleware = async ctx => {
+  const userSchema = Joi.object()
+    .keys({
+      username: Joi.string(),
+      email: Joi.string().email(),
+      password: Joi.string().min(6),
+      firstName: Joi.string(),
+      lastName: Joi.string(),
+    })
+    .required()
+
+  const { value: userInput } = await userSchema.validate(ctx.request.body)
+  await User.updateOne({ _id: ctx.state.user._id }, userInput)
+  ctx.status = 200
+}

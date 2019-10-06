@@ -1,18 +1,11 @@
 import { Middleware } from 'koa'
-import * as _ from 'lodash'
 
 /*
 TODO Document the behaviour of authComplete and explain isUser middlewares
  */
 
-export enum Roles {
-  User = 'user',
-  Anonymous = 'anonymous',
-}
-
 export const isUser: Middleware = async (ctx, next) => {
-  const role = _.get(ctx, 'state.user.role')
-  ctx.assert(role === Roles.User, 403, 'This action requires user authentication')
+  ctx.assert(ctx.state.user, 403, 'This action requires user authentication')
   await next()
 }
 

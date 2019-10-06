@@ -9,14 +9,15 @@ import {
   getVideoTorrentsController,
   updateMeController,
 } from '../controllers'
+import { isUser } from '../middlewares/auth'
 
 const router = new Router()
 
 router.use(authRouter.routes()).use(authRouter.allowedMethods())
 
 router.get('/me', getMeController)
+router.patch('/me', isUser, updateMeController)
 router.get('/users/:username', getUsernameController)
-router.patch('/users/:userId', updateMeController)
 
 router.get('/search/movies', findMoviesController)
 // TODO Explain format of videoid (can be imdb or string)
