@@ -30,6 +30,8 @@ export const getUsernameController: Middleware = async ctx => {
 }
 
 // TODO If we validate email, we need to verify it if we change it
+// TODO Handle hashed password
+
 export const updateMeController: Middleware = async ctx => {
   const userSchema = Joi.object()
     .keys({
