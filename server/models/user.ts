@@ -13,16 +13,17 @@ export interface UserModelInterface extends Document {
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
-  firstName: { type: String },
-  lastName: { type: String },
+  firstName: String,
+  lastName: String,
   email: { type: String, required: true },
   profilePicture: {
-    url: { type: String },
+    url: String,
   },
   language: { type: String, enum: ['en', 'fr'], default: 'en' },
-  hashedPassword: { type: String },
-  googleAuthId: { type: String },
-  intraAuthId: { type: String },
+  hashedPassword: String,
+  googleAuthId: String,
+  intraAuthId: String,
+  plays: [{ hash: String, videoId: String, createdAt: Date }],
 })
 
 UserSchema.methods = {

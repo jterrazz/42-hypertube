@@ -13,6 +13,7 @@ export const publicUserProperties = [
   'profilePicture',
   'username',
   '_id',
+  'plays',
 ]
 
 export const getMeController: Middleware = async ctx => {

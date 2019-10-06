@@ -1,5 +1,5 @@
 import * as Router from 'koa-router'
-import authRouter from './auth'
+
 import {
   addVideoCommentController,
   getMeController,
@@ -8,8 +8,10 @@ import {
   findMoviesController,
   getVideoTorrentsController,
   updateMeController,
+  addTorrentPlayController,
 } from '../controllers'
 import { isUser } from '../middlewares/auth'
+import authRouter from './auth'
 
 const router = new Router()
 
@@ -19,16 +21,14 @@ router.get('/me', getMeController)
 router.patch('/me', isUser, updateMeController)
 router.get('/users/:username', getUsernameController)
 
-router.get('/search/movies', findMoviesController)
+router.get('/search', findMoviesController)
 // TODO Explain format of videoid (can be imdb or string)
 // TODO Rename route
-router.get('/videos/:videoId/torrents', getVideoTorrentsController)
+router.get('/torrents/search/:query', getVideoTorrentsController)
 
 // We save comments based on the torrentHash
-router.get('/torrents/:torrentHash/comments', getVideoCommentsController)
-router.post('/torrents/:torrentHash/comments', addVideoCommentController)
-
-// We save played movies based on the torrentHash and the movieId if available
-// router.post('/me/played', addVideoCommentController)
+router.get('/torrents/:hash/comments', getVideoCommentsController)
+router.post('/torrents/:hash/comments', isUser, addVideoCommentController)
+router.post('/torrents/:hash/play', isUser, addTorrentPlayController)
 
 export default router

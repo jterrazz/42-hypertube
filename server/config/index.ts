@@ -46,6 +46,3 @@ export default {
     GOOGLE_CONSUMER_SECRET: envValues.GOOGLE_CONSUMER_SECRET,
   },
 }
-
-export const MOVIE_ID_PREFIX_YTS = 'yts-'
-export const MOVIE_ID_PREFIX_QUERY = 'q-'

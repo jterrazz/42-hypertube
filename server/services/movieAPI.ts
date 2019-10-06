@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as _ from 'lodash'
 
-import config, { MOVIE_ID_PREFIX_YTS } from '../config'
+import config from '../config'
 
 const ytsClient = axios.create({ baseURL: 'https://yts.lt/api/v2' })
 
@@ -24,7 +24,6 @@ export const findMovies = async (query, page) => {
       results: movies.map(m => {
         delete m.torrents
         delete m.url
-        m.id = `${MOVIE_ID_PREFIX_YTS}${m.id}`
         return m
       }),
     }
