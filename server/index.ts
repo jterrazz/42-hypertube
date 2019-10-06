@@ -9,6 +9,7 @@ import logs from './utils/logger'
 import router from './routes'
 import config from './config'
 import './services/auth'
+import { checkProfileCompleted } from './middlewares/auth'
 
 const app = new Koa()
 
@@ -18,6 +19,7 @@ app.keys = [config.SESSION_SECRET]
 app.use(session({}, app))
 app.use(passport.initialize()) // Currently keeps the sessions only in the local process
 app.use(passport.session())
+app.use(checkProfileCompleted)
 app.use(router.routes()).use(router.allowedMethods())
 
 mongoose

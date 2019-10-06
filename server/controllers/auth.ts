@@ -5,6 +5,13 @@ import * as jwt from 'jsonwebtoken'
 
 import config from '../config'
 
+export const successfulAuthenticationController: Middleware = async ctx => {
+  ctx.body = {
+    message: 'Authentication successful',
+    user: ctx.state.user,
+  }
+}
+
 export const authUsernameController: Middleware = async ctx => {
   // const userSchema = Joi.object()
   //   .keys({
