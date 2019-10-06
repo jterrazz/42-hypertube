@@ -12,15 +12,24 @@ import {
   updateUserId,
 } from './controllers'
 
-export const router = new Router()
+const router = new Router()
 
-router.post('/auth/mail', authUsernameController)
+router.post('/auth/username', authUsernameController)
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), ctx => {
-  console.log('success')
-  ctx.body = 'yo'
+router.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email'],
+  }),
+)
+router.get('/auth/google/callback', passport.authenticate('google'), ctx => {
+  ctx.body = {
+    message: 'Authentication successful',
+    user: ctx.state.user,
+  }
 })
+
+// TODO Add Facebook Authentication
 
 router.get('/me', getMeController)
 router.get('/users/:username', getUsernameController)
@@ -39,3 +48,5 @@ router.post('/torrents/:torrentHash/comments', addVideoCommentController)
 
 // We save played movies based on the torrentHash and the movieId if available
 // router.post('/me/played', addVideoCommentController)
+
+export default router

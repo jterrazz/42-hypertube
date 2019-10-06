@@ -13,15 +13,16 @@ export interface UserModelInterface extends Document {
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
-  name: {
-    first: { type: String, required: true },
-    last: { type: String, required: true },
-  },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   email: { type: String, required: true },
+  profilePicture: {
+    url: { type: String },
+  },
   language: { type: String, enum: ['en', 'fr'], default: 'en' },
-  hashedPassword: { type: String, required: true },
-  google2FA: { type: String },
-  school2FA: { type: String },
+  hashedPassword: { type: String },
+  googleAuthId: { type: String },
+  intraAuthId: { type: String },
 })
 
 UserSchema.methods = {
@@ -34,4 +35,4 @@ UserSchema.methods = {
   },
 }
 
-export const User: Model<UserModelInterface> = model('users', UserSchema)
+export const User: Model<UserModelInterface, any> = model('users', UserSchema)

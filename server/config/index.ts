@@ -11,10 +11,11 @@ const envSchema = Joi.object()
     MONGO_URL: Joi.string(),
     MONGO_USER: Joi.string(),
     MONGO_PWD: Joi.string(),
-    DEV_SECRET: Joi.string(),
+    JWT_SECRET: Joi.string(),
+    SESSION_SECRET: Joi.string(),
     API_THE_MOVIE_DB_KEY: Joi.string().required(),
     GOOGLE_CONSUMER_KEY: Joi.string().required(),
-    GOOGLE_CONSUMER_SECRET: Joi.string().required()
+    GOOGLE_CONSUMER_SECRET: Joi.string().required(),
   })
   .unknown()
 
@@ -36,12 +37,13 @@ export default {
   },
   IS_DEV: envValues.NODE_ENV != 'production',
   BCRYPT_COST: 10,
-  JWT_SECRET: envValues.DEV_SECRET || 'dev_secret',
+  JWT_SECRET: envValues.JWT_SECRET || 'dev_secret',
   JWT_EXP_DELAY: 60 * 60 * 24 * 31,
+  SESSION_SECRET: envValues.SESSION_SECRET || 'not_secure_secret',
   APIS: {
     THE_MOVIE_DB_KEY: envValues.API_THE_MOVIE_DB_KEY,
     GOOGLE_CONSUMER_KEY: envValues.GOOGLE_CONSUMER_KEY,
-    GOOGLE_CONSUMER_SECRET: envValues.GOOGLE_CONSUMER_SECRET
+    GOOGLE_CONSUMER_SECRET: envValues.GOOGLE_CONSUMER_SECRET,
   },
 }
 
