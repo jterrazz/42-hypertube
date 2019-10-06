@@ -1,21 +1,22 @@
 import * as Router from 'koa-router'
+import authRouter from './auth'
 import {
-  addUserController,
   addVideoCommentController,
   getMeController,
   getUsernameController,
   getVideoCommentsController,
   findMoviesController,
   getVideoTorrentsController,
-  updateUserId,
+  updateMeController,
 } from '../controllers'
 
 const router = new Router()
 
+router.use(authRouter.routes()).use(authRouter.allowedMethods())
+
 router.get('/me', getMeController)
 router.get('/users/:username', getUsernameController)
-router.post('/users', addUserController)
-router.patch('/users/:userId', updateUserId)
+router.patch('/users/:userId', updateMeController)
 
 router.get('/search/movies', findMoviesController)
 // TODO Explain format of videoid (can be imdb or string)

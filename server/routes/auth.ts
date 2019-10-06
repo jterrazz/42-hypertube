@@ -1,18 +1,18 @@
-import { authUsernameController, successfulAuthenticationController } from '../controllers'
 import * as passport from 'koa-passport'
 import * as Router from 'koa-router'
 
-const router = new Router()
+import { successfulAuthController } from '../controllers'
 
-router.post('/auth/username', authUsernameController)
+const authRouter = new Router()
 
-router.get(
+authRouter.post('/auth/signup', passport.authenticate('signup'), successfulAuthController)
+authRouter.post('/auth/signin', passport.authenticate('signin'), successfulAuthController)
+authRouter.get(
   '/auth/google',
   passport.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email'],
   }),
 )
-router.get('/auth/google/callback', passport.authenticate('google'), successfulAuthenticationController)
+authRouter.get('/auth/google/callback', passport.authenticate('google'), successfulAuthController)
 
-// TODO Add Facebook Authentication
-// TODO Check if request is logged, then send error and ask for logout
+export default authRouter

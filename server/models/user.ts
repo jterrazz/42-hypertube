@@ -13,8 +13,8 @@ export interface UserModelInterface extends Document {
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String },
+  lastName: { type: String },
   email: { type: String, required: true },
   profilePicture: {
     url: { type: String },
@@ -30,7 +30,7 @@ UserSchema.methods = {
     const hashedPassword = await bcrypt.hash(password, config.BCRYPT_COST)
     this.set('hashedPassword', hashedPassword)
   },
-  authenticate: async function(password): Promise<boolean> {
+  verifyPassword: async function(password): Promise<boolean> {
     return await bcrypt.compare(password, this.hashedPassword)
   },
 }

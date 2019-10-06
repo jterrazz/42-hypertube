@@ -19,7 +19,7 @@ app.keys = [config.SESSION_SECRET]
 app.use(session({}, app))
 app.use(passport.initialize()) // Currently keeps the sessions only in the local process
 app.use(passport.session())
-app.use(checkProfileCompleted)
+// app.use(checkProfileCompleted) // Not for auth routes ? Maybe complete it when doing it
 app.use(router.routes()).use(router.allowedMethods())
 
 mongoose

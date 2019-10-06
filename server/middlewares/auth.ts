@@ -10,15 +10,17 @@ export enum Roles {
   Anonymous = 'anonymous',
 }
 
-export const isUser: Middleware = ctx => {
+export const isUser: Middleware = async (ctx, next) => {
   const role = _.get(ctx, 'state.user.role')
   ctx.assert(role === Roles.User, 403, 'This action requires user authentication')
+  await next()
 }
 
-export const checkProfileCompleted: Middleware = ctx => {
+export const checkProfileCompleted: Middleware = async (ctx, next) => {
   const user = ctx.state.user
 
   if (user && (!user.firstName || !user.lastName || !user.email)) {
-    ctx.throw(412, 'The user need to complete profile informations')
+    return ctx.throw(412, 'The user need to complete profile information')
   }
+  await next()
 }
