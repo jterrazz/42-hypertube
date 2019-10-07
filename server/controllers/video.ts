@@ -1,8 +1,8 @@
 import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 
-import * as tmbApi from '../services/movieAPI'
-import * as torrentAPI from '../services/torrentAPI'
+import * as tmbApi from '../services/ytsAPI'
+import * as tpbAPI from '../services/tpbAPI'
 
 // TODO Add viewed torrents
 export const findMoviesController: Middleware = async ctx => {
@@ -40,7 +40,7 @@ export const getVideoTorrentsController: Middleware = async ctx => {
     // Simple Yts search
   }
 
-  const tpbResults = await torrentAPI.searchTPB(query)
+  const tpbResults = await tpbAPI.searchTPB(query)
   tpbResults.forEach(r => {
     r.hash = r.trackerId.replace('magnet:?xt=urn:btih:', '').split('&')[0]
     if (ctx.state.user && ctx.state.user.plays) r.played = ctx.state.user.plays.find(x => x.hash === r.hash)

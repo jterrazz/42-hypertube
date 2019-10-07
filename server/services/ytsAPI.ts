@@ -7,7 +7,7 @@ const ytsClient = axios.create({ baseURL: 'https://yts.lt/api/v2' })
 
 ytsClient.interceptors.request.use(request => {
   // eslint-disable-next-line @typescript-eslint/camelcase
-  request.params = { ...request.params, api_key: config.APIS.THE_MOVIE_DB_KEY }
+  request.params.api_key = config.APIS.THE_MOVIE_DB_KEY
   return request
 })
 
@@ -29,4 +29,9 @@ export const findMovies = async (query, page) => {
     }
   }
   return { page, results: [] }
+}
+
+export const getMovieDetails = async movieId => {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  const res = await ytsClient.get('movie_details.json', { params: { movie_id: 12 } })
 }
