@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   language: { type: String, enum: ['en', 'fr'], default: 'en' },
   hashedPassword: String,
   googleAuthId: String,
+  facebookAuthId: String,
   intraAuthId: String,
   plays: [{ hash: String, videoId: String, createdAt: Date }],
 })

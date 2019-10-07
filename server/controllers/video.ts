@@ -1,7 +1,7 @@
 import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 
-import * as tmbApi from '../services/ytsAPI'
+import * as ytsApi from '../services/ytsAPI'
 import * as tpbAPI from '../services/tpbAPI'
 
 // TODO Add viewed torrents
@@ -15,7 +15,7 @@ export const findMoviesController: Middleware = async ctx => {
 
   const { value: query } = await querySchema.validate(ctx.query)
   try {
-    const movies = await tmbApi.findMovies(query.query, query.page)
+    const movies = await ytsApi.findMovies(query.query, query.page)
     movies.results.forEach(m => {
       if (ctx.state.user && ctx.state.user.plays) m.played = ctx.state.user.plays.find(x => x.videoId == m.id)
     })

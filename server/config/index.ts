@@ -16,6 +16,8 @@ const envSchema = Joi.object()
     API_THE_MOVIE_DB_KEY: Joi.string().required(),
     GOOGLE_CONSUMER_KEY: Joi.string().required(),
     GOOGLE_CONSUMER_SECRET: Joi.string().required(),
+    FACEBOOK_APP_ID: Joi.string().required(),
+    FACEBOOK_APP_SECRET: Joi.string().required(),
   })
   .unknown()
 
@@ -44,5 +46,7 @@ export default {
     THE_MOVIE_DB_KEY: envValues.API_THE_MOVIE_DB_KEY,
     GOOGLE_CONSUMER_KEY: envValues.GOOGLE_CONSUMER_KEY,
     GOOGLE_CONSUMER_SECRET: envValues.GOOGLE_CONSUMER_SECRET,
+    FACEBOOK_APP_ID: envValues.FACEBOOK_APP_ID,
+    FACEBOOK_APP_SECRET: envValues.FACEBOOK_APP_SECRET,
   },
 }

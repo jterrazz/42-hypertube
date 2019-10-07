@@ -98,11 +98,11 @@ passport.use(
         firstName: _.get(profile, ['name', 'givenName']),
         lastName: _.get(profile, ['name', 'familyName']),
       }
-      if (!profile.emails.length) {
+      if (!profile.emails) { // TODO better
         return cb(new Error('Google auth: no email found')) // TODO Pass error to client using HTML code failed auth
       }
       googleData.email = profile.emails[0].value
-      if (profile.photos.length) {
+      if (profile.photos) {
         googleData.profilePicture = profile.photos[0].value
       }
 
@@ -125,4 +125,25 @@ passport.use(
       }
     },
   ),
+)
+
+/*
+ ** Facebook
+ */
+
+const FacebookStrategy = require('passport-facebook').Strategy
+
+passport.use(
+    new FacebookStrategy({
+        clientID: config.APIS.FACEBOOK_APP_ID,
+        clientSecret: config.APIS.FACEBOOK_APP_SECRET,
+        callbackURL: "/auth/facebook/callback",
+        profileFields: ['email', 'id', 'name', 'photos'],
+    },
+        function(accessToken, refreshToken, profile, cb) {
+        const facebookData= {firstname: profile.name.familyName, lastname: profile.name.givenName,
+            email: profile._json.email, photo: profile.photos ? profile.photos[0].value : null}
+        }
+        )
+
 )
