@@ -14,7 +14,7 @@ authRouter.get(
   }),
 )
 authRouter.get('/auth/google/callback', passport.authenticate('google'), successfulAuthController)
-authRouter.get('/auth/facebook/', passport.authenticate('facebook', { scope: ['email']}))
-authRouter.get('/auth/facebook/callback', passport.authenticate('facebook'))
+authRouter.get('/auth/facebook/', passport.authenticate('facebook', { scope: ['email'] }))
+authRouter.get('/auth/facebook/callback', passport.authenticate('facebook'), successfulAuthController)
 
 export default authRouter

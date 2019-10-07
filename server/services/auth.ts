@@ -98,7 +98,8 @@ passport.use(
         firstName: _.get(profile, ['name', 'givenName']),
         lastName: _.get(profile, ['name', 'familyName']),
       }
-      if (!profile.emails) { // TODO better
+      if (!profile.emails) {
+        // TODO better
         return cb(new Error('Google auth: no email found')) // TODO Pass error to client using HTML code failed auth
       }
       googleData.email = profile.emails[0].value
@@ -112,7 +113,7 @@ passport.use(
         user = await User.findOneAndUpdate({ email: googleData.email }, { $set: { googleAuthId: profile.id } })
         if (user) return cb(null, user)
         user = new User({
-          username: googleData.firstName + crypto.randomBytes(10).toString('hex'),
+          username: crypto.randomBytes(20).toString('hex'),
           firstName: googleData.firstName,
           lastName: googleData.lastName,
           profilePicture: { url: googleData.profilePicture },
@@ -134,16 +135,53 @@ passport.use(
 const FacebookStrategy = require('passport-facebook').Strategy
 
 passport.use(
-    new FacebookStrategy({
-        clientID: config.APIS.FACEBOOK_APP_ID,
-        clientSecret: config.APIS.FACEBOOK_APP_SECRET,
-        callbackURL: "/auth/facebook/callback",
-        profileFields: ['email', 'id', 'name', 'photos'],
+  new FacebookStrategy(
+    {
+      clientID: config.APIS.FACEBOOK_APP_ID,
+      clientSecret: config.APIS.FACEBOOK_APP_SECRET,
+      callbackURL: '/auth/facebook/callback',
+      profileFields: ['email', 'id', 'name', 'photos'],
     },
-        function(accessToken, refreshToken, profile, cb) {
-        const facebookData= {firstname: profile.name.familyName, lastname: profile.name.givenName,
-            email: profile._json.email, photo: profile.photos ? profile.photos[0].value : null}
-        }
-        )
-
+    function(accessToken, refreshToken, profile, cb) {
+      if (!profile._json.email) {
+        return cb(new Error('Facebook auth: no email found'))
+      }
+      User.findOne({ facebookAuthId: profile.id })
+        .then(user => {
+          if (!user) {
+            const newUser = new User({
+              username: crypto.randomBytes(20).toString('hex'),
+              firstName: profile.name.givenName,
+              lastName: profile.name.familyName,
+              email: profile._json.email,
+              profilePicture: profile.photos ? profile.photos[0].value : null,
+              facebookAuthId: profile.id,
+            })
+            User.findOneAndUpdate({ email: profile._json.email }, { $set: { facebookAuthId: profile.id } })
+              .then(user => {
+                if (user) {
+                  return cb(null, user)
+                } else {
+                  newUser
+                    .save()
+                    .then(user => {
+                      return cb(null, user)
+                    })
+                    .catch(err => {
+                      return cb(err)
+                    })
+                }
+              })
+              .catch(err => {
+                return cb(err)
+              })
+          } else {
+            return cb(null, user)
+          }
+        })
+        .catch(err => {
+          return cb(err)
+        })
+    },
+  ),
 )
