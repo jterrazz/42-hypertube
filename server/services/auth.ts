@@ -185,3 +185,44 @@ passport.use(
     },
   ),
 )
+
+const FortyTwoStrategy = require('passport-42').Strategy
+
+passport.use(
+  new FortyTwoStrategy(
+    {
+      clientID: config.APIS.FORTYTWO_APP_ID,
+      clientSecret: config.APIS.FORTYTWO_APP_SECRET,
+      callbackURL: '/auth/42/callback',
+    },
+    async function(accessToken, refreshToken, profile, cb) {
+      if (!profile.emails[0].value) {
+        return cb(new Error('42 auth: no email found'))
+      }
+      try {
+        let user = await User.findOne({ intraAuthId: profile.id })
+        if (!user) {
+          const newUser = new User({
+            username: crypto.randomBytes(20).toString('hex'),
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            email: profile.emails[0].value,
+            profilePicture: profile.photos[0].value,
+            intraAuthId: profile.id,
+          })
+          user = await User.findOneAndUpdate({ email: profile.emails[0].value }, { $set: { intraAuthId: profile.id } })
+          if (!user) {
+            user = await newUser.save()
+            return cb(null, user)
+          } else {
+            return cb(null, user)
+          }
+        } else {
+          return cb(null, user)
+        }
+      } catch (err) {
+        return cb(err)
+      }
+    },
+  ),
+)

@@ -33,6 +33,7 @@
     "mongoose": "^5.6.12",
     "next": "9.0.4",
     "nodemon": "^1.19.1",
+    "passport-42": "^1.2.6",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",

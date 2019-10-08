@@ -18,6 +18,8 @@ const envSchema = Joi.object()
     GOOGLE_CONSUMER_SECRET: Joi.string().required(),
     FACEBOOK_APP_ID: Joi.string().required(),
     FACEBOOK_APP_SECRET: Joi.string().required(),
+    FORTYTWO_APP_ID: Joi.string().required(),
+    FORTYTWO_APP_SECRET: Joi.string().required(),
   })
   .unknown()
 
@@ -48,5 +50,7 @@ export default {
     GOOGLE_CONSUMER_SECRET: envValues.GOOGLE_CONSUMER_SECRET,
     FACEBOOK_APP_ID: envValues.FACEBOOK_APP_ID,
     FACEBOOK_APP_SECRET: envValues.FACEBOOK_APP_SECRET,
+    FORTYTWO_APP_ID: envValues.FORTYTWO_APP_ID,
+    FORTYTWO_APP_SECRET: envValues.FORTYTWO_APP_SECRET,
   },
 }
