@@ -3,17 +3,16 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import {withFormik} from "formik";
-import * as Yup from "yup";
+import {makeStyles, withStyles} from '@material-ui/core/styles';
+import { withFormik } from "formik";
+import * as Yup from 'yup';
+
 
 function Copyright() {
     return (
@@ -57,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const signInSide = props => {
+const forgotPassword = props => {
     const {
         values,
         touched,
@@ -80,7 +79,7 @@ const signInSide = props => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Forgot Your Password
                     </Typography>
                     <form className={classes.form} onSubmit={handleSubmit}>
                         <TextField
@@ -88,35 +87,15 @@ const signInSide = props => {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
                             value={values.email}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             helperText={touched.email ? errors.email : ""}
                             error={touched.email && Boolean(errors.email)}
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            value={values.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            helperText={touched.password ? errors.password : ""}
-                            error={touched.password && Boolean(errors.password)}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
                         />
                         <Button
                             type="submit"
@@ -126,17 +105,12 @@ const signInSide = props => {
                             className={classes.submit}
                             disabled={isSubmitting}
                         >
-                            Sign In
+                            Reset
                         </Button>
                         <Grid container>
-                            <Grid item xs>
-                                <Link href="/forgot" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
                             <Grid item>
-                                <Link href="/signup" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                <Link href="/" variant="body2">
+                                    {"Already have an account? Sign in"}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -148,16 +122,14 @@ const signInSide = props => {
             </Grid>
         </Grid>
     );
-}
+};
 
-const SignInSide = withFormik({
+const ForgotPassword = withFormik({
     mapPropsToValues: ({
         email,
-        password,
     }) => {
         return {
             email: email || "",
-            password: password || "",
         };
     },
 
@@ -165,9 +137,6 @@ const SignInSide = withFormik({
         email: Yup.string()
             .email("Enter a valid email")
             .required("Email is required"),
-        password: Yup.string()
-            .min(8, "Password must contain at least 8 characters")
-            .required("Enter your password"),
     }),
 
     handleSubmit: (values, { setSubmitting }) => {
@@ -177,6 +146,6 @@ const SignInSide = withFormik({
             setSubmitting(false);
         }, 1000);
     }
-})(signInSide);
+})(forgotPassword);
 
-export default SignInSide;
+export default ForgotPassword;
