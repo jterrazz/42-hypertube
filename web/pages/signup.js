@@ -15,9 +15,9 @@ import FacebookIcon from '@material-ui/icons/Facebook'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import PersonalVideoIcon from '@material-ui/icons/PersonalVideo'
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-import { withFormik } from 'formik'
+import { withFormik, Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import CustomImageInput from "../src/CustomImageInput";
 
 function Copyright() {
   return (
@@ -75,7 +75,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const signUpSide = props => {
-  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit } = props;
+  const {
+    values,
+    touched,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = props;
   const classes = useStyles();
 
   return (
@@ -127,22 +136,17 @@ const signUpSide = props => {
             </Grid>
             <Divider variant="middle" className={classes.divider} />
             <Grid container justify="center" spacing={2}>
-              <Grid container justify="center" item xs={6} sm={2}>
-                <input
-                  accept="image/*"
-                  className={classes.input}
-                  style={{ display: 'none' }}
-                  id="raised-button-file"
-                  type="file"
+              <Grid container direction="column" justify="center" alignItems="center" item xs={6} sm={2}>
+                <Field
+                  name="file"
+                  component={CustomImageInput}
+                  title="Select a file"
+                  setFieldValue={setFieldValue}
+                  errorMessage={errors["file"] ? errors["file"] : undefined}
+                  touched={touched["file"]}
+                  style={{ display: "flex" }}
+                  onBlur={handleBlur}
                 />
-                <label htmlFor="raised-button-file">
-                  <Button component="span" className={classes.button}>
-                    <Avatar
-                        className={classes.BigAvatar}>
-                      <PhotoCameraIcon />
-                    </Avatar>
-                  </Button>
-                </label>
               </Grid>
               <Grid item xs={12} sm={5}>
                 <TextField
@@ -264,14 +268,22 @@ const signUpSide = props => {
   )
 };
 
+const FILE_SIZE = 160 * 1024;
+const SUPPORTED_FORMATS = [
+  "image/jpg",
+  "image/jpeg",
+  "image/png"
+];
+
 const SignUpSide = withFormik({
-  mapPropsToValues: ({ firstName, lastName, email, password, confirmPassword }) => {
+  mapPropsToValues: ({ firstName, lastName, email, password, confirmPassword, file }) => {
     return {
       firstName: firstName || '',
       lastName: lastName || '',
       email: email || '',
       password: password || '',
       confirmPassword: confirmPassword || '',
+      file: file || '',
     }
   },
 
@@ -287,6 +299,18 @@ const SignUpSide = withFormik({
     confirmPassword: Yup.string()
       .required('Confirm your password')
       .oneOf([Yup.ref('password')], 'Password does not match'),
+    file: Yup.mixed()
+      .required("A file is required")
+      .test(
+        "fileFormat",
+        "Unsupported Format",
+        value => value && SUPPORTED_FORMATS.includes(value.type)
+      )
+      .test(
+        "fileSize",
+        "File too large",
+        value => value && value.size <= FILE_SIZE
+      )
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
