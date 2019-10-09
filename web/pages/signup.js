@@ -66,13 +66,10 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
-  boxbutton: {
-    // marginTop: '20px',
+  BigAvatar: {
+    width: 50,
+    height: 50,
   },
-    BigAvatar: {
-      width: 50,
-      height: 50,
-    },
 }));
 
 const signUpSide = props => {
@@ -100,7 +97,7 @@ const signUpSide = props => {
             Sign up
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
-            <Grid container justify="center" className={classes.boxbutton}>
+            <Grid container justify="center">
               <Grid item xs>
                 <Button variant="contained" color="primary" className={classes.button} startIcon={<FacebookIcon />}>
                   Facebook
@@ -239,15 +236,20 @@ const signUpSide = props => {
             </Grid>
             <Grid>
               <Grid container justify="center">
-                <Recaptcha
-                  sitekey="6Lfdu7wUAAAAAMj_bppkQZ8kSLrcd_6Vv1P-xHgF"
-                  render="explicit"
-                  verifyCallback={(response) => { setFieldValue("recaptcha", response); }}
-                />
-                {errors.recaptcha
-                && touched.recaptcha && (
-                    <p>{errors.recaptcha}</p>
-                )}
+                <div className="form-group">
+                  <Recaptcha
+                    name="recaptcha"
+                    sitekey="6Lfdu7wUAAAAAMj_bppkQZ8kSLrcd_6Vv1P-xHgF"
+                    render="explicit"
+                    verifyCallback={(response) => { setFieldValue("recaptcha", response); }}
+                  />
+                  {errors.recaptcha
+                  && touched.recaptcha && (
+                      <Typography variant="caption" color="error">
+                        {errors.recaptcha}
+                      </Typography>
+                  )}
+                </div>
               </Grid>
             </Grid>
             <Button
@@ -326,7 +328,7 @@ const SignUpSide = withFormik({
         "File too large",
         value => value && value.size <= FILE_SIZE
       ),
-    recaptcha: Yup.string().required(),
+    recaptcha: Yup.string().required('Required'),
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
