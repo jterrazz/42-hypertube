@@ -135,4 +135,4 @@ const ForgotPassword = withFormik({
   },
 })(forgotPassword);
 
-export default ForgotPassword
+export default ForgotPassword;

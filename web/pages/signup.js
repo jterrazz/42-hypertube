@@ -15,9 +15,10 @@ import FacebookIcon from '@material-ui/icons/Facebook'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import PersonalVideoIcon from '@material-ui/icons/PersonalVideo'
-import { withFormik, Formik, Field } from 'formik'
+import { withFormik, Field } from 'formik'
 import * as Yup from 'yup'
 import CustomImageInput from "../src/CustomImageInput";
+import Recaptcha from "react-recaptcha";
 
 function Copyright() {
   return (
@@ -236,6 +237,19 @@ const signUpSide = props => {
                 error={touched.confirmPassword && Boolean(errors.confirmPassword)}
               />
             </Grid>
+            <Grid>
+              <Grid container justify="center">
+                <Recaptcha
+                  sitekey="6Lfdu7wUAAAAAMj_bppkQZ8kSLrcd_6Vv1P-xHgF"
+                  render="explicit"
+                  verifyCallback={(response) => { setFieldValue("recaptcha", response); }}
+                />
+                {errors.recaptcha
+                && touched.recaptcha && (
+                    <p>{errors.recaptcha}</p>
+                )}
+              </Grid>
+            </Grid>
             <Button
               type="submit"
               fullWidth
@@ -276,7 +290,7 @@ const SUPPORTED_FORMATS = [
 ];
 
 const SignUpSide = withFormik({
-  mapPropsToValues: ({ firstName, lastName, email, password, confirmPassword, file }) => {
+  mapPropsToValues: ({ firstName, lastName, email, password, confirmPassword, file, recaptcha }) => {
     return {
       firstName: firstName || '',
       lastName: lastName || '',
@@ -284,6 +298,7 @@ const SignUpSide = withFormik({
       password: password || '',
       confirmPassword: confirmPassword || '',
       file: file || '',
+      recaptcha: recaptcha || '',
     }
   },
 
@@ -310,7 +325,8 @@ const SignUpSide = withFormik({
         "fileSize",
         "File too large",
         value => value && value.size <= FILE_SIZE
-      )
+      ),
+    recaptcha: Yup.string().required(),
   }),
 
   handleSubmit: (values, { setSubmitting }) => {

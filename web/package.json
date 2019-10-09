@@ -13,6 +13,7 @@
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-recaptcha": "^2.3.10",
     "yup": "latest"
   },
   "scripts": {
