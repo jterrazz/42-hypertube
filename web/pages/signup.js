@@ -1,7 +1,6 @@
 import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
 import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
@@ -10,13 +9,13 @@ import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import PersonalVideoIcon from '@material-ui/icons/PersonalVideo'
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt'
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
 
@@ -67,23 +66,20 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   },
   boxbutton: {
-    marginTop: '20px',
+    // marginTop: '20px',
   },
     BigAvatar: {
-        margin: 10,
-        width: 60,
-        height: 60,
+      width: 50,
+      height: 50,
     },
 }));
 
 const signUpSide = props => {
-  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit } = props
-
+  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit } = props;
   const classes = useStyles();
 
   return (
     <Grid container component="main" className={classes.root}>
-      <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
@@ -125,99 +121,117 @@ const signUpSide = props => {
                   className={classes.button}
                   startIcon={<PersonalVideoIcon />}
                 >
-                  Intra 42
+                  Intra_42
                 </Button>
               </Grid>
             </Grid>
             <Divider variant="middle" className={classes.divider} />
-            <Grid container spacing={3}>
-                <Grid item sm={2}>
-                    <Avatar className={classes.BigAvatar}>
-                        <SystemUpdateAltIcon />
+            <Grid container justify="center" spacing={2}>
+              <Grid container justify="center" item xs={6} sm={2}>
+                <input
+                  accept="image/*"
+                  className={classes.input}
+                  style={{ display: 'none' }}
+                  id="raised-button-file"
+                  type="file"
+                />
+                <label htmlFor="raised-button-file">
+                  <Button component="span" className={classes.button}>
+                    <Avatar
+                        className={classes.BigAvatar}>
+                      <PhotoCameraIcon />
                     </Avatar>
-                </Grid>
-                <Grid item sm>
-                    <TextField
-                        autoComplete="fname"
-                        margin="normal"
-                        name="firstName"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="firstName"
-                        label="First Name"
-                        value={values.firstName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.firstName ? errors.firstName : ''}
-                        error={touched.firstName && Boolean(errors.firstName)}
-                    />
-                </Grid>
-                <Grid item sm>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="Last Name"
-                        name="lastName"
-                        autoComplete="lname"
-                        value={values.lastName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.lastName ? errors.lastName : ''}
-                        error={touched.lastName && Boolean(errors.lastName)}
-                    />
-                </Grid>
+                  </Button>
+                </label>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <TextField
+                  autoComplete="fname"
+                  margin="normal"
+                  name="firstName"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  value={values.firstName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.firstName ? errors.firstName : ''}
+                  error={touched.firstName && Boolean(errors.firstName)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="lname"
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.lastName ? errors.lastName : ''}
+                  error={touched.lastName && Boolean(errors.lastName)}
+                />
+              </Grid>
             </Grid>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.email ? errors.email : ''}
-              error={touched.email && Boolean(errors.email)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.password ? errors.password : ''}
-              error={touched.password && Boolean(errors.password)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="confirmPassword"
-              type="password"
-              label="Confirm Password"
-              id="confirmPassword"
-              autoComplete="confirm-password"
-              value={values.confirmPassword}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={touched.confirmPassword ? errors.confirmPassword : ''}
-              error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-            />
+            <Grid>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.email ? errors.email : ''}
+                error={touched.email && Boolean(errors.email)}
+              />
+            </Grid>
+            <Grid>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.password ? errors.password : ''}
+                error={touched.password && Boolean(errors.password)}
+              />
+            </Grid>
+            <Grid>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="confirmPassword"
+                type="password"
+                label="Confirm Password"
+                id="confirmPassword"
+                autoComplete="confirm-password"
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.confirmPassword ? errors.confirmPassword : ''}
+                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+              />
+            </Grid>
             <Button
               type="submit"
               fullWidth
@@ -282,6 +296,6 @@ const SignUpSide = withFormik({
       setSubmitting(false)
     }, 1000)
   },
-})(signUpSide)
+})(signUpSide);
 
-export default SignUpSide
+export default SignUpSide;

@@ -7,14 +7,14 @@ import theme from '../src/theme'
 
 export default class MyApp extends App {
   componentDidMount() {
-    const jssStyles = document.querySelector('#jss-server-side')
+    const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentNode.removeChild(jssStyles)
     }
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps } = this.props;
 
     return (
       <React.Fragment>
