@@ -284,7 +284,7 @@ const signUpSide = props => {
   )
 };
 
-const FILE_SIZE = 160 * 1024;
+const FILE_SIZE = 1600 * 1024;
 const SUPPORTED_FORMATS = [
   "image/jpg",
   "image/jpeg",
@@ -328,7 +328,7 @@ const SignUpSide = withFormik({
         "File too large",
         value => value && value.size <= FILE_SIZE
       ),
-    recaptcha: Yup.string().required('Required'),
+    // recaptcha: Yup.string().required('Required'),
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
