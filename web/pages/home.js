@@ -16,12 +16,20 @@ import ListItem from '@material-ui/core/ListItem'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import Rating from '@material-ui/lab/Rating';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Fab from '@material-ui/core/Fab';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const drawerWidth = 240;
 
@@ -55,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
   },
   BigAvatar: {
     width: 80,
@@ -73,6 +81,10 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     borderRadius : 10,
+    height: 250
+  },
+  tab: {
+    textTransform: 'none'
   }
 }));
 
@@ -81,6 +93,12 @@ function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const [value, setValue] = React.useState(2);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -154,112 +172,198 @@ function ResponsiveDrawer(props) {
   );
 
   return (
-      <div className={classes.root}>
-        <AppBar
-            position="fixed"
-            className={classes.appBar}
-            color={"default"}
-            elevation={0}
-        >
-          <Toolbar>
-            <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-                container={container}
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-                }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                variant="permanent"
-                open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className={classes.content} >
-          <div className={classes.toolbar} />
-          <Container fixed>
-            <Typography variant="h6">
-              Featured
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              Discover our best picks
-            </Typography>
-            <Grid container spacing={5}>
-              <Grid item xs={12} sm={6}>
-                <Box my={5}>
-                  <img
-                    style={{ height: 200 }}
-                    alt={data[0].title}
-                    src={data[0].src}
+    <div className={classes.root}>
+      <AppBar
+        position="fixed"
+        className={classes.appBar}
+        color={"default"}
+        elevation={0}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+      <main className={classes.content} >
+        <div className={classes.toolbar} />
+        <Container fixed>
+          <Typography variant="h6">
+            Featured
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Discover our best picks
+          </Typography>
+          <Grid container
+            spacing={5}
+            style={{ marginTop: 20 }}
+          >
+            <Grid item xs={12} sm={6}>
+              <Card
+                  elevation={0}>
+                <CardActionArea>
+                  <CardMedia
+                    title={data[0].title}
+                    image={data[0].src}
                     className={ classes.img }
                   />
-                  <Box paddingRight={2}>
-                    <Typography gutterBottom variant="h6">
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
                       {data[0].title}
                     </Typography>
-                    <Typography display="block" variant="caption" color="textSecondary">
-                      {`${data[0].createdAt} • ${data[0].type[0]} | ${data[0].type[1]}`}
-                    </Typography>
-                    <Typography variant="caption" color="textSecondary">
+                    <Box mb={1}>
+                      <Typography variant="body2" color="textSecondary">
+                        {`${data[0].createdAt} • ${data[0].type[0]} | ${data[0].type[1]}`}
+                      </Typography>
+                    </Box>
+                    <Rating
+                        style={{ fontSize: 13}}
+                        name="customized-empty"
+                        value={1}
+                        max={1}
+                        emptyIcon={<StarBorderIcon />}
+                    />
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      style={{ margin: theme.spacing(0.5), }}
+                    >
                       {`${data[0].review} (${data[0].views})`}
                     </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box my={5}>
-                  <img
-                    style={{ height: 200 }}
-                    alt={data[1].title}
-                    src={data[1].src}
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Card
+              elevation={0}>
+                <CardActionArea>
+                  <CardMedia
+                    title={data[1].title}
+                    image={data[1].src}
                     className={ classes.img }
                   />
-                  <Box paddingRight={2}>
-                    <Typography gutterBottom variant="h6">
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
                       {data[1].title}
                     </Typography>
-                    <Typography display="block" variant="caption" color="textSecondary">
-                      {`${data[1].createdAt} • ${data[1].type[0]} | ${data[1].type[1]}`}
-                    </Typography>
-                    <Typography variant="caption" color="textSecondary">
+                    <Box mb={1}>
+                      <Typography variant="body2" color="textSecondary">
+                        {`${data[1].createdAt} • ${data[1].type[0]} | ${data[1].type[1]}`}
+                      </Typography>
+                    </Box>
+                    <Rating
+                        style={{ fontSize: 13}}
+                        name="customized-empty"
+                        value={1}
+                        max={1}
+                        emptyIcon={<StarBorderIcon />}
+                    />
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      style={{ margin: theme.spacing(0.5), }}
+                    >
                       {`${data[1].review} (${data[1].views})`}
                     </Typography>
-                  </Box>
-                </Box>
-              </Grid>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             </Grid>
-          </Container>
-        </main>
-      </div>
+          </Grid>
+          <Box mt={2}>
+            <Typography variant="h6">
+              Browse by category
+            </Typography>
+          </Box>
+          <Grid container>
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              <Tab label="Action" className={classes.tab}/>
+              <Tab label="Adventure" className={classes.tab}/>
+              <Tab label="Fantasy" className={classes.tab}/>
+              <Tab label="Romance" className={classes.tab}/>
+            </Tabs>
+            {/*<Fab*/}
+                {/*variant="contained"*/}
+                {/*size="small"*/}
+                {/*color="secondary"*/}
+                {/*className={classes.fab}*/}
+            {/*>*/}
+              {/*Action*/}
+            {/*</Fab>*/}
+            {/*<Fab*/}
+                {/*variant="extended"*/}
+                {/*size="small"*/}
+                {/*color="default"*/}
+                {/*className={classes.fab}*/}
+            {/*>*/}
+              {/*Adventure*/}
+            {/*</Fab>*/}
+            {/*<Fab*/}
+                {/*variant="extended"*/}
+                {/*size="small"*/}
+                {/*color="default"*/}
+                {/*className={classes.fab}*/}
+            {/*>*/}
+              {/*Fantasy*/}
+            {/*</Fab>*/}
+            {/*<Fab*/}
+                {/*variant="extended"*/}
+                {/*size="small"*/}
+                {/*color="default"*/}
+                {/*className={classes.fab}*/}
+            {/*>*/}
+              {/*Romance*/}
+            {/*</Fab>*/}
+
+          </Grid>
+
+        </Container>
+      </main>
+    </div>
   );
 }
 
