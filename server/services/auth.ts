@@ -6,7 +6,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 import config from '../config'
 import { User } from '../models'
 import * as Joi from '@hapi/joi'
-import { publicUserProperties } from '../controllers'
+import { PUBLIC_USER_PROPS } from '../controllers'
 
 /*
 TODO Need testing for:
@@ -32,6 +32,7 @@ passport.deserializeUser(async (id, done) => {
  ** Username/password
  */
 
+// TODO Add maximum for each field
 passport.use(
   'signup',
   new LocalStrategy({ passReqToCallback: true }, async (req, username, password, done) => {
@@ -46,6 +47,7 @@ passport.use(
           .required(),
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
+        language: Joi.string().allow('fr', 'en'),
       })
       .required()
 
@@ -55,7 +57,7 @@ passport.use(
     try {
       await user.savePassword(userInput.password)
       await user.save()
-      done(null, _.pick(user, publicUserProperties))
+      done(null, _.pick(user, PUBLIC_USER_PROPS))
     } catch (err) {
       if (err.code == 11000 && err.keyPattern && err.keyPattern.hasOwnProperty('username')) {
         done(err)

@@ -4,7 +4,19 @@ import * as Joi from '@hapi/joi'
 import * as ytsApi from '../services/ytsAPI'
 import * as tpbAPI from '../services/tpbAPI'
 
-// TODO Add viewed torrents
+export const hotMoviesController: Middleware = async ctx => {
+  // TODO with real data
+  const body = {
+    topMovies: {
+      yts: [
+        { id: 2, title: 'blyat movie' }
+      ]
+    }
+  }
+  ctx.body = body
+}
+
+// TODO Check viewed torrents
 export const findMoviesController: Middleware = async ctx => {
   const querySchema = Joi.object()
     .keys({

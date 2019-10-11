@@ -1,21 +1,48 @@
 import { Middleware } from 'koa'
+import * as torrentStream from 'torrent-stream'
+
 import { Torrent, User } from '../models'
 
-export const getVideoCommentsController: Middleware = async ctx => {
-  const hash = ctx.params.hash
-  // const page = ctx.query.page || 0
+/*
+ ** A torrent magnet link is composed only by two important fields: a hash of the files and a list of trackers that handles sharing of of ip addresses.
+ ** We only need to store the hashes to identify and connect to peers.
+ */
 
-  // ctx.assert(Number.isInteger(page), 422, 'The page param must be a number') // TODO Use real http code
+export const getTorrentStreamController: Middleware = ctx => {
+  // TODO Bad input format check for hash
+  const magnet =
+      'magnet:?xt=urn:btih:426ec6d01964bac82c0da451b8e67842608fcc61&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80'
+  const hash = '426ec6d01964bac82c0da451b8e67842608fcc61'
+  const engine = torrentStream(magnet, { path: `./public/${hash}` })
 
-  const torrent = await Torrent.findOne({ hash }).populate('comments.user')
-  if (!torrent) {
-    ctx.body = { comments: [] }
-  } else {
-    ctx.body = { comments: torrent.comments }
-  }
+  return new Promise((resolve, reject) => {
+    // TODO Add reject
+    engine.on('ready', function() {
+      // TODO By size take 1st .video
+      engine.files.forEach(function(file) {
+        console.log('filename:', file.name)
+        const stream = file.createReadStream() //only on video
+        // stream is readable stream to containing the file content
+        // ctx.body = {
+        //   yo: 'test',
+        //   files: engine.files,
+        // }
+        ctx.body = stream
+        resolve()
+      })
+    })
+  })
 }
 
-export const addVideoCommentController: Middleware = async ctx => {
+export const getTorrentCommentsController: Middleware = async ctx => {
+  const hash = ctx.params.hash
+
+  const torrent = await Torrent.findOne({ hash }).populate('comments.user')
+  ctx.body = { comments: torrent ? torrent.comments : [] }
+}
+
+// TODO Add maximum for each field
+export const addTorrentCommentController: Middleware = async ctx => {
   const hash = ctx.params.hash
   const text = ctx.request.body.text
 
@@ -30,13 +57,12 @@ export const addVideoCommentController: Middleware = async ctx => {
   ctx.status = 200
 }
 
-export const addTorrentPlayController: Middleware = async ctx => {
+export const addTorrentPlaytimeController: Middleware = async ctx => {
   const hash = ctx.params.hash
   const videoId = ctx.query.videoId
   const play = { createdAt: new Date(), hash, videoId }
 
   const me = await User.findOneAndUpdate({ _id: ctx.state.user._id }, { $push: { plays: play } })
-  console.log(me)
   ctx.assert(me, 400, 'Error adding the torrent play time') // TODO Use real http code
   ctx.status = 200
 }

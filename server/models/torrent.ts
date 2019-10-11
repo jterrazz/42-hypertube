@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose'
-import { User } from './user'
 
 const TorrentSchema = new Schema({
   hash: String,
+  downloaded: Boolean,
   comments: [
     {
       text: String,
-      user: { type: Schema.Types.ObjectId, ref: 'torrents' }, // TODO Not working
+      user: { type: Schema.Types.ObjectId, ref: 'users' }, // TODO Not working
       date: Date,
     },
   ],

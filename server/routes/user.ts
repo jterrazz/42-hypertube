@@ -1,5 +1,5 @@
-import {getMeController, getUsernameController, updateMeController} from "../controllers";
-import {isUser} from "../middlewares/auth";
+import { getMeController, getUsernameController, updateMeController } from '../controllers'
+import { isUser } from '../middlewares/auth'
 import * as Router from 'koa-router'
 
 const router = new Router()

@@ -4,7 +4,7 @@ import * as _ from 'lodash'
 
 import { User } from '../models'
 
-export const publicUserProperties = [
+export const PUBLIC_USER_PROPS = [
   'profilePicture',
   'language',
   'firstName',
@@ -17,7 +17,7 @@ export const publicUserProperties = [
 ]
 
 export const getMeController: Middleware = async ctx => {
-  ctx.body = _.pick(ctx.state.user, publicUserProperties)
+  ctx.body = _.pick(ctx.state.user, PUBLIC_USER_PROPS)
 }
 
 export const getUsernameController: Middleware = async ctx => {
@@ -26,11 +26,11 @@ export const getUsernameController: Middleware = async ctx => {
 
   const user = await User.findOne({ username })
   ctx.assert(user, 404, 'User not found')
-  ctx.body = _.pick(user, publicUserProperties)
+  ctx.body = _.pick(user, PUBLIC_USER_PROPS)
 }
 
-// TODO If we validate email, we need to verify it if we change it
 // TODO Handle hashed password
+// TODO Add maximum for each field
 
 export const updateMeController: Middleware = async ctx => {
   const userSchema = Joi.object()
@@ -40,10 +40,16 @@ export const updateMeController: Middleware = async ctx => {
       password: Joi.string().min(6),
       firstName: Joi.string(),
       lastName: Joi.string(),
+      language: Joi.string().allow('fr', 'en'),
     })
     .required()
 
   const { value: userInput } = await userSchema.validate(ctx.request.body)
   await User.updateOne({ _id: ctx.state.user._id }, userInput)
-  ctx.status = 200
+if (userInput.password) {
+    const user = await User.findOne({ _id: ctx.state.user._id })
+    await user.savePassword(userInput.password)
+    await user.save()
+}
+ctx.status = 200
 }
