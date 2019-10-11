@@ -23,11 +23,11 @@ app.use(passport.session())
 app.use(router.routes()).use(router.allowedMethods())
 
 mongoose
-  .connect(config.MONGO.URL, { useNewUrlParser: true, user: config.MONGO.USER, pass: config.MONGO.PWD })
+  .connect(config.MONGO_URL, { useNewUrlParser: true, user: config.MONGO_USER, pass: config.MONGO_PWD })
   .then(() => {
     app
-      .listen(config.SERVER.PORT, () => {
-        logs.info(`Server listening on port ${config.SERVER.PORT} 😊`)
+      .listen(config.SERVER_PORT, () => {
+        logs.info(`Server listening on port ${config.SERVER_PORT} 😊`)
       })
       .on('error', err => {
         logs.error(err.message)

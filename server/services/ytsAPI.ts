@@ -7,7 +7,7 @@ const ytsClient = axios.create({ baseURL: 'https://yts.lt/api/v2' })
 
 ytsClient.interceptors.request.use(request => {
   // eslint-disable-next-line @typescript-eslint/camelcase
-  request.params.api_key = config.APIS.THE_MOVIE_DB_KEY
+  request.params.api_key = config.API_YTS_KEY
   return request
 })
 

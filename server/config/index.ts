@@ -1,29 +1,38 @@
 import * as Joi from '@hapi/joi'
 import * as dotenv from 'dotenv'
+
 import logs from '../utils/logger'
 
 dotenv.config()
 
-// TODO Replace with only one field
-
 const envSchema = Joi.object()
   .keys({
-    NODE_ENV: Joi.string().allow('development', 'production'),
-    SERVER_PORT: Joi.number(),
-    MONGO_URL: Joi.string(),
-    MONGO_USER: Joi.string(),
-    MONGO_PWD: Joi.string(),
-    JWT_SECRET: Joi.string(),
-    SESSION_SECRET: Joi.string(),
-    API_THE_MOVIE_DB_KEY: Joi.string().required(),
-    GOOGLE_CONSUMER_KEY: Joi.string().required(),
-    GOOGLE_CONSUMER_SECRET: Joi.string().required(),
-    FACEBOOK_APP_ID: Joi.string().required(),
-    FACEBOOK_APP_SECRET: Joi.string().required(),
-    FORTYTWO_APP_ID: Joi.string().required(),
-    FORTYTWO_APP_SECRET: Joi.string().required(),
-    GITHUB_CLIENT_ID: Joi.string().required(),
-    GITHUB_CLIENT_SECRET: Joi.string().required(),
+    NODE_ENV: Joi.string()
+      .allow('development', 'production')
+      .default('development'),
+    SERVER_PORT: Joi.number().default(3000),
+
+    // MongoDB
+    MONGO_URL: Joi.string().default('mongodb://localhost/hypertube'),
+    MONGO_USER: Joi.string().default('hypertube_api'),
+    MONGO_PWD: Joi.string().default('dev_password'),
+
+    // Security
+    JWT_SECRET: Joi.string().default('test_only_secret'),
+    JWT_EXP_DELAY: Joi.number().default(60 * 60 * 24 * 31),
+    SESSION_SECRET: Joi.string().default('test_only_secret'),
+    BCRYPT_COST: Joi.number().default(10),
+
+    // External services
+    API_YTS_KEY: Joi.string().required(),
+    API_GOOGLE_CONSUMER_KEY: Joi.string().required(),
+    API_GOOGLE_CONSUMER_SECRET: Joi.string().required(),
+    API_FACEBOOK_APP_ID: Joi.string().required(),
+    API_FACEBOOK_APP_SECRET: Joi.string().required(),
+    API_FORTYTWO_APP_ID: Joi.string().required(),
+    API_FORTYTWO_APP_SECRET: Joi.string().required(),
+    API_GITHUB_CLIENT_ID: Joi.string().required(),
+    API_GITHUB_CLIENT_SECRET: Joi.string().required(),
   })
   .unknown()
 
@@ -34,29 +43,5 @@ if (error) {
   process.exit(1)
 }
 
-export default {
-  SERVER: {
-    PORT: envValues.SERVER_PORT || 3000,
-  },
-  MONGO: {
-    URL: envValues.MONGO_URL || 'mongodb://localhost/hypertube',
-    USER: envValues.MONGO_USER || 'hypertube_api',
-    PWD: envValues.MONGO_PWD || 'dev_password',
-  },
-  IS_DEV: envValues.NODE_ENV != 'production',
-  BCRYPT_COST: 10,
-  JWT_SECRET: envValues.JWT_SECRET || 'dev_secret',
-  JWT_EXP_DELAY: 60 * 60 * 24 * 31,
-  SESSION_SECRET: envValues.SESSION_SECRET || 'not_secure_secret',
-  APIS: {
-    THE_MOVIE_DB_KEY: envValues.API_THE_MOVIE_DB_KEY,
-    GOOGLE_CONSUMER_KEY: envValues.GOOGLE_CONSUMER_KEY,
-    GOOGLE_CONSUMER_SECRET: envValues.GOOGLE_CONSUMER_SECRET,
-    FACEBOOK_APP_ID: envValues.FACEBOOK_APP_ID,
-    FACEBOOK_APP_SECRET: envValues.FACEBOOK_APP_SECRET,
-    FORTYTWO_APP_ID: envValues.FORTYTWO_APP_ID,
-    FORTYTWO_APP_SECRET: envValues.FORTYTWO_APP_SECRET,
-    GITHUB_CLIENT_ID: envValues.GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET: envValues.GITHUB_CLIENT_SECRET,
-  },
-}
+// envValues.IS_DEV = envValues.NODE_ENV != 'production'
+export default envValues
