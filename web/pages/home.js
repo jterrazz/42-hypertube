@@ -14,6 +14,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import ListItem from '@material-ui/core/ListItem'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -69,6 +70,9 @@ const useStyles = makeStyles(theme => ({
   listItem: {
     marginTop: 20,
     marginLeft: 20
+  },
+  img: {
+    borderRadius : 10,
   }
 }));
 
@@ -81,6 +85,24 @@ function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const data = [
+    {
+      src: 'https://themightyblog.fr/wp-content/uploads/2019/03/shazam-review-1024x576.jpg',
+      title: 'Shazam!',
+      type: ['Action', 'Fantasy'],
+      views: '396,457',
+      createdAt: '2019',
+      review: '8.5'
+    },{
+      src: 'https://www.ecranlarge.com/media/cache/1600x1200/uploads/articles/000/000/000/alita-battle-angel-affiche-chinoise-1068754-large.jpg',
+      title: 'Alita: Battle Angel',
+      type: ['Adventure', 'Comedy'],
+      views: '12,568',
+      createdAt: '2018',
+      review: '6.5'
+    }
+  ];
 
   const drawer = (
     <div>
@@ -185,29 +207,56 @@ function ResponsiveDrawer(props) {
         <main className={classes.content} >
           <div className={classes.toolbar} />
           <Container fixed>
-            <Typography paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-              ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-              facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-              gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-              donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-              adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-              Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-              imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-              arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-              donec massa sapien faucibus et molestie ac.
+            <Typography variant="h6">
+              Featured
             </Typography>
-            <Typography paragraph>
-              Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-              facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-              tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-              consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-              vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-              hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-              tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-              nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-              accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
+            <Typography variant="body2" color="textSecondary">
+              Discover our best picks
             </Typography>
+            <Grid container spacing={5}>
+              <Grid item xs={12} sm={6}>
+                <Box my={5}>
+                  <img
+                    style={{ height: 200 }}
+                    alt={data[0].title}
+                    src={data[0].src}
+                    className={ classes.img }
+                  />
+                  <Box paddingRight={2}>
+                    <Typography gutterBottom variant="h6">
+                      {data[0].title}
+                    </Typography>
+                    <Typography display="block" variant="caption" color="textSecondary">
+                      {`${data[0].createdAt} • ${data[0].type[0]} | ${data[0].type[1]}`}
+                    </Typography>
+                    <Typography variant="caption" color="textSecondary">
+                      {`${data[0].review} (${data[0].views})`}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Box my={5}>
+                  <img
+                    style={{ height: 200 }}
+                    alt={data[1].title}
+                    src={data[1].src}
+                    className={ classes.img }
+                  />
+                  <Box paddingRight={2}>
+                    <Typography gutterBottom variant="h6">
+                      {data[1].title}
+                    </Typography>
+                    <Typography display="block" variant="caption" color="textSecondary">
+                      {`${data[1].createdAt} • ${data[1].type[0]} | ${data[1].type[1]}`}
+                    </Typography>
+                    <Typography variant="caption" color="textSecondary">
+                      {`${data[1].review} (${data[1].views})`}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
           </Container>
         </main>
       </div>
