@@ -5,7 +5,7 @@ import {
   addTorrentCommentController,
   getTorrentCommentsController,
   getVideoTorrentsController,
-  getTorrentStreamController
+  getTorrentStreamController,
 } from '../controllers'
 import { isUser } from '../middlewares/auth'
 

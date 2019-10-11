@@ -8,6 +8,18 @@ A web application to search and watch videos. Videos are downloaded through the 
 
 ### Requirements
 - Docker
+Need a `.env` in root folder (or set the environment variables)
+```dotenv
+SERVER_PORT=4242 # Default to 3000
+API_THE_MOVIE_DB_KEY=XXX
+GOOGLE_CONSUMER_KEY=XXX
+GOOGLE_CONSUMER_SECRET=XXX
+FACEBOOK_APP_ID=XXX
+FACEBOOK_APP_SECRET=XXX
+FORTYTWO_APP_ID=XXX
+FORTYTWO_APP_SECRET=XXX
+```
+
 #### Simple start
 ```bash
 docker-compose up

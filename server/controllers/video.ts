@@ -8,10 +8,8 @@ export const hotMoviesController: Middleware = async ctx => {
   // TODO with real data
   const body = {
     topMovies: {
-      yts: [
-        { id: 2, title: 'blyat movie' }
-      ]
-    }
+      yts: [{ id: 2, title: 'blyat movie' }],
+    },
   }
   ctx.body = body
 }

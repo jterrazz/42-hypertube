@@ -46,10 +46,10 @@ export const updateMeController: Middleware = async ctx => {
 
   const { value: userInput } = await userSchema.validate(ctx.request.body)
   await User.updateOne({ _id: ctx.state.user._id }, userInput)
-if (userInput.password) {
+  if (userInput.password) {
     const user = await User.findOne({ _id: ctx.state.user._id })
     await user.savePassword(userInput.password)
     await user.save()
-}
-ctx.status = 200
+  }
+  ctx.status = 200
 }
