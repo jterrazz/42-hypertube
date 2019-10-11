@@ -4,6 +4,8 @@ import logs from '../utils/logger'
 
 dotenv.config()
 
+// TODO Replace with only one field
+
 const envSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().allow('development', 'production'),
