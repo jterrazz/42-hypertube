@@ -244,7 +244,7 @@ passport.use(
     {
       clientID: config.API_GITHUB_CLIENT_ID,
       clientSecret: config.API_GITHUB_CLIENT_SECRET,
-      callbackURL: '/auth/github/callback'
+      callbackURL: '/auth/github/callback',
     },
     async function(accessToken, refreshToken, profile, cb) {
       if (!profile._json.email) {
@@ -253,7 +253,7 @@ passport.use(
       try {
         let user = await User.findOne({ githubAuthId: profile.id })
         if (!user) {
-          user = await User.findOneAndUpdate({ email: profile._json.email}, { $set: { githubAuthId: profile.id } })
+          user = await User.findOneAndUpdate({ email: profile._json.email }, { $set: { githubAuthId: profile.id } })
           if (!user) {
             const newUser = new User({
               username: crypto.randomBytes(20).toString('hex'),
@@ -274,6 +274,6 @@ passport.use(
       } catch (err) {
         return cb(err)
       }
-    }
-  )
+    },
+  ),
 )

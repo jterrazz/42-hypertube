@@ -5,21 +5,27 @@ import * as mongoose from 'mongoose'
 import * as passport from 'koa-passport'
 
 import { errorMiddleware } from './middlewares/error-handler'
+import { checkProfileCompleted } from './middlewares/auth'
 import logs from './utils/logger'
 import router from './routes'
 import config from './config'
 import './services/auth'
-import { checkProfileCompleted } from './middlewares/auth'
 
 const app = new Koa()
+
+/*
+ * A session in created for each authenticated client. Locally the process saves the data,
+ * and a secure matching token is sent to the client. If you need to used multiple threads,
+ * you can use redis to sync the sessions.
+ */
 
 app.use(errorMiddleware)
 app.use(bodyParser())
 app.keys = [config.SESSION_SECRET]
 app.use(session({}, app))
-app.use(passport.initialize()) // Currently keeps the sessions only in the local process
+app.use(passport.initialize())
 app.use(passport.session())
-// app.use(checkProfileCompleted) // Not for auth routes ? Maybe complete it when doing it
+// app.use(checkProfileCompleted) // TODO Not for auth routes ? Maybe complete it when doing it
 app.use(router.routes()).use(router.allowedMethods())
 
 mongoose

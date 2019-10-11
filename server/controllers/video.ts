@@ -35,6 +35,13 @@ export const findMoviesController: Middleware = async ctx => {
   }
 }
 
+export const getMovieController: Middleware = async ctx => {
+  const tmp = {
+    yo: 'yo'
+  }
+  ctx.body = tmp
+}
+
 // TODO Add viewed torrents
 export const getVideoTorrentsController: Middleware = async ctx => {
   /*

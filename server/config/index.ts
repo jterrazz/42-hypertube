@@ -43,5 +43,4 @@ if (error) {
   process.exit(1)
 }
 
-// envValues.IS_DEV = envValues.NODE_ENV != 'production'
 export default envValues
