@@ -188,6 +188,10 @@ passport.use(
   ),
 )
 
+/*
+ ** 42
+ */
+
 const FortyTwoStrategy = require('passport-42').Strategy
 
 passport.use(
@@ -227,4 +231,49 @@ passport.use(
       }
     },
   ),
+)
+
+/*
+ ** GitHub
+ */
+
+const GitHubStrategy = require('passport-github').Strategy
+
+passport.use(
+    new GitHubStrategy(
+        {
+            clientID: config.APIS.GITHUB_CLIENT_ID,
+            clientSecret: config.APIS.GITHUB_CLIENT_SECRET,
+            callbackURL: '/auth/github/callback'
+        },
+        async function(accessToken, refreshToken, profile, cb) {
+            if (!profile._json.email) {
+                return cb(new Error('Github auth: no email found'))
+            }
+            try {
+                let user = await User.findOne({ githubAuthId: profile.id })
+                if (!user) {
+                    user = await User.findOneAndUpdate({ email: profile._json.email}, { $set: { githubAuthId: profile.id } })
+                    if (!user) {
+                        const newUser = new User({
+                            username: crypto.randomBytes(20).toString('hex'),
+                            firstName: 'undefined',//no firstName or lastName fields in github profile?
+                            lastName: 'undefined',
+                            email: profile._json.email,
+                            profilePicture: profile._json.avatar_url,
+                            githubAuthId: profile.id,
+                        })
+                        user = await newUser.save()
+                        return cb(null, user)
+                    } else {
+                        return cb(null, user)
+                    }
+                } else {
+                    return cb(null, user)
+                }
+            } catch (err) {
+                return cb(err)
+            }
+        }
+    )
 )

@@ -20,6 +20,8 @@ const envSchema = Joi.object()
     FACEBOOK_APP_SECRET: Joi.string().required(),
     FORTYTWO_APP_ID: Joi.string().required(),
     FORTYTWO_APP_SECRET: Joi.string().required(),
+    GITHUB_CLIENT_ID: Joi.string().required(),
+    GITHUB_CLIENT_SECRET: Joi.string().required(),
   })
   .unknown()
 
@@ -52,5 +54,7 @@ export default {
     FACEBOOK_APP_SECRET: envValues.FACEBOOK_APP_SECRET,
     FORTYTWO_APP_ID: envValues.FORTYTWO_APP_ID,
     FORTYTWO_APP_SECRET: envValues.FORTYTWO_APP_SECRET,
+    GITHUB_CLIENT_ID: envValues.GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET: envValues.GITHUB_CLIENT_SECRET,
   },
 }
