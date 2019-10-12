@@ -20,7 +20,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
-import CustomSearchInput from "../src/CustomSearchInput";
+import CardMedia from '@material-ui/core/CardMedia'
+import Box from '@material-ui/core/Box'
+import Paper from '@material-ui/core/Paper'
+import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
+
 
 const drawerWidth = 240;
 
@@ -66,25 +70,50 @@ const useStyles = makeStyles(theme => ({
     marginTop: 40,
     marginBottom: 40
   },
-  listItem: {
-    marginTop: 20,
-    marginLeft: 20
+  media: {
+    // borderRadius : 10,
+    height: 300
   },
-  Bigimg: {
-    borderRadius : 10,
-    height: 250
+  state: {
+    color: "#EBBA16"
   },
-  img: {
-    borderRadius : 5,
-    height: 250,
+  Paper: {
+    padding: theme.spacing(1, 1),
+    backgroundColor: "#FCFBFC",
+    marginBottom: 15
   },
-  tab: {
-    textTransform: 'none'
+  play: {
+    color: "#EBBA16",
+    fontSize: 36
   },
-  card: {
-    maxWidth: 300,
-  }
+  toolbarButtons: {
+    marginLeft: "auto",
+    marginRight: -12
+  },
+
 }));
+
+const data_torrent = [
+  {
+    title: 'The Avangers Cam Version, but the best of these still.',
+    seeder: '396',
+    leecher: '201',
+    size: '8.5'
+  },{
+    title: 'The Avangers (2012) CAM NL subs DutchReleaseTeam',
+    seeder: '6',
+    leecher: '2',
+    size: '6.5'
+  }
+];
+
+const source_torrent = [
+  {
+    name: 'ThePirateBay',
+  },{
+    name: 'KickassTorrente',
+  }
+];
 
 function ResponsiveDrawer(props) {
   const { container } = props;
@@ -199,7 +228,106 @@ function ResponsiveDrawer(props) {
         <main className={classes.content} >
           <div className={classes.toolbar} />
           <Container fixed>
-            <CustomSearchInput />
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h2" gutterBottom>
+                  Avengers: Endgame
+                </Typography>
+                <Typography variant="h4" gutterBottom color="textSecondary">
+                  24 avril 2019
+                </Typography>
+                <Typography variant="body2" gutterBottom color="textPrimary">
+                  Le Titan Thanos, ayant réussi à s'approprier les six Pierres d'Infinité et à les réunir sur le Gantelet doré, a pu réaliser son objectif de pulvériser la moitié de la population de l'Univers. Cinq ans plus tard, Scott Lang, alias Ant-Man, parvient à s'échapper de la dimension subatomique où il était coincé. Il propose aux Avengers une solution pour faire revenir à la vie tous les êtres disparus, dont leurs alliés et coéquipiers : récupérer les Pierres d'Infinité dans le passé.
+                </Typography>
+
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CardMedia
+                  className={classes.media}
+                  image="https://media.melty.fr/article-3996373-head-f5/avengers-endgame-avengers.jpg"
+                  title="avangers"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h4">
+                  Torrents
+                </Typography>
+                <Box mt={3} mb={2}>
+                  <Typography variant="body1" color="textSecondary">
+                    ThePirateBay
+                  </Typography>
+                </Box>
+                { data_torrent.map((item, index) => (
+                  <Paper
+                    key={index}
+                    className={classes.Paper}
+                    elevation={0}
+                    >
+                    <Toolbar>
+                      <Box mr={2}>
+                        <Typography variant="h6">
+                          {`${item.size}go`}
+                        </Typography>
+                      </Box>
+                      <Typography variant="subtitle1">
+                        <div>
+                          <Typography variant="subtitle1">
+                            {item.title}
+                          </Typography>
+                        </div>
+                        <div>
+                          <Typography component="p" className={classes.state}>
+                            {`${item.seeder} seeder - {${item.leecher} leecher`}
+                          </Typography>
+                        </div>
+                      </Typography>
+                      <span className={classes.toolbarButtons}>
+                      <IconButton color="inherit" aria-label="More Options">
+                        <PlayCircleFilledWhiteIcon className={classes.play}/>
+                      </IconButton>
+                    </span>
+                    </Toolbar>
+                  </Paper>
+                ))}
+                <Box mt={3} mb={2}>
+                  <Typography variant="body1" color="textSecondary">
+                    KickassTorrente
+                  </Typography>
+                </Box>
+                  { data_torrent.map((item, index) => (
+                    <Paper
+                        key={index}
+                        className={classes.Paper}
+                        elevation={0}
+                    >
+                      <Toolbar>
+                        <Box mr={2}>
+                          <Typography variant="h6">
+                            {`${item.size}go`}
+                          </Typography>
+                        </Box>
+                        <Typography variant="subtitle1">
+                          <div>
+                            <Typography variant="subtitle1">
+                              {item.title}
+                            </Typography>
+                          </div>
+                          <div>
+                            <Typography component="p" className={classes.state}>
+                              {`${item.seeder} seeder - {${item.leecher} leecher`}
+                            </Typography>
+                          </div>
+                        </Typography>
+                        <span className={classes.toolbarButtons}>
+                      <IconButton color="inherit" aria-label="More Options">
+                        <PlayCircleFilledWhiteIcon className={classes.play}/>
+                      </IconButton>
+                    </span>
+                      </Toolbar>
+                    </Paper>
+                  ))}
+              </Grid>
+            </Grid>
           </Container>
         </main>
       </div>
