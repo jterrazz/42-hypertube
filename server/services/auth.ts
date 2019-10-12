@@ -257,8 +257,8 @@ passport.use(
           if (!user) {
             const newUser = new User({
               username: crypto.randomBytes(20).toString('hex'),
-              firstName: 'undefined', // TODO no firstName or lastName fields in github profile?
-              lastName: 'undefined',
+              firstName: null, // TODO no firstName or lastName fields in github profile?
+              lastName: null,
               email: profile._json.email,
               profilePicture: profile._json.avatar_url,
               githubAuthId: profile.id,
