@@ -79,12 +79,19 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
     marginLeft: 20
   },
-  img: {
+  Bigimg: {
     borderRadius : 10,
     height: 250
   },
+  img: {
+    borderRadius : 5,
+    height: 250,
+  },
   tab: {
     textTransform: 'none'
+  },
+  card: {
+    maxWidth: 300,
   }
 }));
 
@@ -94,7 +101,7 @@ function ResponsiveDrawer(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -119,6 +126,52 @@ function ResponsiveDrawer(props) {
       views: '12,568',
       createdAt: '2018',
       review: '6.5'
+    }
+  ];
+
+  const data_cover = [
+    {
+      src: 'https://blog.francetvinfo.fr/popup/files/2018/04/AVENGERS_INFINITY_120_PAYOFF_RVB-600x817.jpg',
+      title: 'Avangers',
+      type: ['Action', 'Fantasy'],
+      views: '396,458',
+      createdAt: '2017',
+      review: '7.5'
+    },{
+      src: 'https://m.media-amazon.com/images/M/MV5BMjQ2ODIyMjY4MF5BMl5BanBnXkFtZTgwNzY4ODI2NzM@._V1_UY1200_CR90,0,630,1200_AL_.jpg',
+      title: 'Aladdin',
+      type: ['Adventure', 'Comedy'],
+      views: '12,568',
+      createdAt: '2019',
+      review: '6.5'
+    },{
+      src: 'http://fr.web.img3.acsta.net/c_215_290/pictures/18/12/03/08/53/5968896.jpg',
+      title: 'Captain Marvel',
+      type: ['Adventure', 'Comedy'],
+      views: '49,568',
+      createdAt: '2016',
+      review: '5.5'
+    },{
+      src: 'http://fr.web.img2.acsta.net/c_215_290/pictures/18/11/15/09/12/3593965.jpg',
+      title: 'Dumbo',
+      type: ['Adventure', 'Comedy'],
+      views: '4568',
+      createdAt: '2019',
+      review: '9.5'
+    },{
+      src: 'http://img.over-blog-kiwi.com/0/55/12/65/20190413/ob_52a0b0_hellboy-poster-bifff2019-717x1024.jpg',
+      title: 'HellBoy',
+      type: ['Adventure', 'Comedy'],
+      views: '14,568',
+      createdAt: '2018',
+      review: '6.5'
+    },{
+      src: 'http://fr.web.img4.acsta.net/pictures/19/09/26/09/20/3002764.jpg',
+      title: 'Joker',
+      type: ['Adventure', 'Comedy'],
+      views: '984,568',
+      createdAt: '2019',
+      review: '9.5'
     }
   ];
 
@@ -233,80 +286,46 @@ function ResponsiveDrawer(props) {
           </Typography>
           <Grid container
             spacing={5}
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 15 }}
           >
-            <Grid item xs={12} sm={6}>
-              <Card
-                  elevation={0}>
-                <CardActionArea>
-                  <CardMedia
-                    title={data[0].title}
-                    image={data[0].src}
-                    className={ classes.img }
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {data[0].title}
-                    </Typography>
-                    <Box mb={1}>
-                      <Typography variant="body2" color="textSecondary">
-                        {`${data[0].createdAt} • ${data[0].type[0]} | ${data[0].type[1]}`}
-                      </Typography>
-                    </Box>
-                    <Rating
-                        style={{ fontSize: 13}}
-                        name="customized-empty"
-                        value={1}
-                        max={1}
-                        emptyIcon={<StarBorderIcon />}
+            {data.map((item, index) => (
+              <Grid key={index} item xs={12} sm={6}>
+                <Card
+                    elevation={0}>
+                  <CardActionArea>
+                    <CardMedia
+                      title={item.title}
+                      image={item.src}
+                      className={ classes.Bigimg }
                     />
-                    <Typography
-                      variant="caption"
-                      color="textSecondary"
-                      style={{ margin: theme.spacing(0.5), }}
-                    >
-                      {`${data[0].review} (${data[0].views})`}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Card
-              elevation={0}>
-                <CardActionArea>
-                  <CardMedia
-                    title={data[1].title}
-                    image={data[1].src}
-                    className={ classes.img }
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {data[1].title}
-                    </Typography>
-                    <Box mb={1}>
-                      <Typography variant="body2" color="textSecondary">
-                        {`${data[1].createdAt} • ${data[1].type[0]} | ${data[1].type[1]}`}
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {item.title}
                       </Typography>
-                    </Box>
-                    <Rating
-                        style={{ fontSize: 13}}
-                        name="customized-empty"
-                        value={1}
-                        max={1}
-                        emptyIcon={<StarBorderIcon />}
-                    />
-                    <Typography
-                      variant="caption"
-                      color="textSecondary"
-                      style={{ margin: theme.spacing(0.5), }}
-                    >
-                      {`${data[1].review} (${data[1].views})`}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
+                      <Box mb={1}>
+                        <Typography variant="body2" color="textSecondary">
+                          {`${item.createdAt} • ${item.type[0]} | ${item.type[1]}`}
+                        </Typography>
+                      </Box>
+                      <Rating
+                          style={{ fontSize: 13}}
+                          name="customized-empty"
+                          value={1}
+                          max={1}
+                          emptyIcon={<StarBorderIcon />}
+                      />
+                      <Typography
+                        variant="caption"
+                        color="textSecondary"
+                        style={{ margin: theme.spacing(0.5), }}
+                      >
+                        {`${item.review} (${item.views})`}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
           <Box mt={2}>
             <Typography variant="h6">
@@ -314,53 +333,63 @@ function ResponsiveDrawer(props) {
             </Typography>
           </Box>
           <Grid container>
-            <Tabs
-              value={value}
-              indicatorColor="primary"
-              textColor="primary"
-              onChange={handleChange}
-              aria-label="disabled tabs example"
-            >
-              <Tab label="Action" className={classes.tab}/>
-              <Tab label="Adventure" className={classes.tab}/>
-              <Tab label="Fantasy" className={classes.tab}/>
-              <Tab label="Romance" className={classes.tab}/>
-            </Tabs>
-            {/*<Fab*/}
-                {/*variant="contained"*/}
-                {/*size="small"*/}
-                {/*color="secondary"*/}
-                {/*className={classes.fab}*/}
-            {/*>*/}
-              {/*Action*/}
-            {/*</Fab>*/}
-            {/*<Fab*/}
-                {/*variant="extended"*/}
-                {/*size="small"*/}
-                {/*color="default"*/}
-                {/*className={classes.fab}*/}
-            {/*>*/}
-              {/*Adventure*/}
-            {/*</Fab>*/}
-            {/*<Fab*/}
-                {/*variant="extended"*/}
-                {/*size="small"*/}
-                {/*color="default"*/}
-                {/*className={classes.fab}*/}
-            {/*>*/}
-              {/*Fantasy*/}
-            {/*</Fab>*/}
-            {/*<Fab*/}
-                {/*variant="extended"*/}
-                {/*size="small"*/}
-                {/*color="default"*/}
-                {/*className={classes.fab}*/}
-            {/*>*/}
-              {/*Romance*/}
-            {/*</Fab>*/}
-
+            <Grid item xs={12}>
+              <Tabs
+                  value={value}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  onChange={handleChange}
+                  aria-label="disabled tabs example"
+              >
+                <Tab label="Action" className={classes.tab}/>
+                <Tab label="Adventure" className={classes.tab}/>
+                <Tab label="Fantasy" className={classes.tab}/>
+                <Tab label="Romance" className={classes.tab}/>
+              </Tabs>
+            </Grid>
           </Grid>
-
+          <Grid container spacing={4} style={{ marginTop: 15 }}>
+            {data_cover.map((item, index) => (
+              <Grid item xs={4} sm={2} key={index}>
+                <Card
+                    elevation={0}
+                    className={classes.card}
+                  >
+                  <CardActionArea>
+                    <CardMedia
+                      title={item.title}
+                      image={item.src}
+                      className={ classes.img }
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="subtitle2" component="h5">
+                        {item.title}
+                      </Typography>
+                      <Box mb={1}>
+                        <Typography variant="caption" color="textSecondary">
+                          {`${item.createdAt} • ${item.type[0]} | ${item.type[1]}`}
+                        </Typography>
+                      </Box>
+                      <Rating
+                        style={{ fontSize: 13}}
+                        name="customized-empty"
+                        value={1}
+                        max={1}
+                        emptyIcon={<StarBorderIcon />}
+                      />
+                      <Typography
+                        variant="caption"
+                        color="textSecondary"
+                        style={{ margin: theme.spacing(0.5), }}
+                      >
+                        {`${item.review} (${item.views})`}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+              ))}
+            </Grid>
         </Container>
       </main>
     </div>
