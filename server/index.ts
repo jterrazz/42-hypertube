@@ -14,8 +14,8 @@ import './services/auth'
 const app = new Koa()
 
 /*
- * A session in created for each authenticated client. Locally the process saves the data,
- * and a secure matching token is sent to the client. If you need to used multiple threads,
+ * A session in created for each authenticated web. Locally the process saves the data,
+ * and a secure matching token is sent to the web. If you need to used multiple threads,
  * you can use redis to sync the sessions.
  */
 

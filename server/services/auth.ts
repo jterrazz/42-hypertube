@@ -21,7 +21,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const currentUser = await User.findOne({ _id: id })
-    if (!currentUser) done(new Error('User not found')) // TODO pass error to the client (error code disconnect)
+    if (!currentUser) done(new Error('User not found')) // TODO pass error to the web (error code disconnect)
     done(null, currentUser)
   } catch (err) {
     done(err)
@@ -61,7 +61,7 @@ passport.use(
     } catch (err) {
       if (err.code == 11000 && err.keyPattern && err.keyPattern.hasOwnProperty('username')) {
         done(err)
-        // TODO Pass error to client
+        // TODO Pass error to web
       }
       done(err)
     }
@@ -102,7 +102,7 @@ passport.use(
       }
       if (!profile.emails) {
         // TODO better
-        return cb(new Error('Google auth: no email found')) // TODO Pass error to client using HTML code failed auth
+        return cb(new Error('Google auth: no email found')) // TODO Pass error to web using HTML code failed auth
       }
       googleData.email = profile.emails[0].value
       if (profile.photos) {
