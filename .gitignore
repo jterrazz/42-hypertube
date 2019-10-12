@@ -19,7 +19,7 @@ public/
 
 # misc
 .DS_Store
-.env
+server/.env
 
 # debug
 npm-debug.log*
