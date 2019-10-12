@@ -333,24 +333,22 @@ function ResponsiveDrawer(props) {
             </Typography>
           </Box>
           <Grid container>
-            <Grid item xs={12}>
-              <Tabs
-                  value={value}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  onChange={handleChange}
-                  aria-label="disabled tabs example"
-              >
-                <Tab label="Action" className={classes.tab}/>
-                <Tab label="Adventure" className={classes.tab}/>
-                <Tab label="Fantasy" className={classes.tab}/>
-                <Tab label="Romance" className={classes.tab}/>
-              </Tabs>
-            </Grid>
+            <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="disabled tabs example"
+            >
+              <Tab label="Action" className={classes.tab}/>
+              <Tab label="Adventure" className={classes.tab}/>
+              <Tab label="Fantasy" className={classes.tab}/>
+              <Tab label="Romance" className={classes.tab}/>
+            </Tabs>
           </Grid>
           <Grid container spacing={4} style={{ marginTop: 15 }}>
             {data_cover.map((item, index) => (
-              <Grid item xs={4} sm={2} key={index}>
+              <Grid item xs={3} sm={2} key={index}>
                 <Card
                     elevation={0}
                     className={classes.card}
