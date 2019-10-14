@@ -21,12 +21,12 @@ const Player = () => {
   return (
       <div className={classes.playerWrapper}>
         <ReactPlayer
-            url="https://www.youtube.com/watch?v=-X4ikwUwxoE"
-            className={classes.reactPlayer}
-            playing={false}
-            width="100%"
-            height="100%"
-            controls={true}
+          url="https://www.youtube.com/watch?v=-X4ikwUwxoE"
+          className={classes.reactPlayer}
+          playing={false}
+          width="100%"
+          height="100%"
+          controls={true}
         />
       </div>
   )

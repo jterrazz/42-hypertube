@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -18,6 +20,7 @@ import Button from '@material-ui/core/Button'
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
+import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
 import Player from "../src/Player";
@@ -66,10 +69,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: 40,
     marginBottom: 40
   },
-  media: {
-    // borderRadius : 10,
-    height: 300
-  },
   state: {
     color: "#EBBA16"
   },
@@ -84,11 +83,11 @@ const useStyles = makeStyles(theme => ({
   },
   toolbarButtons: {
     marginLeft: "auto",
-    marginRight: -12
+    marginRight: -25
   },
-  player: {
-    height: 500,
-  }
+  paper: {
+    padding: theme.spacing(2),
+  },
 }));
 
 
@@ -207,6 +206,43 @@ function ResponsiveDrawer(props) {
           <Container fixed>
             <Grid>
               <Player className={classes.player} />
+            </Grid>
+            <Grid container spacing={3} style={{ marginTop: 10}}>
+              <Grid item xs={12} md={8}>
+                <Paper className={classes.paper} elevation={0}>
+                  <Typography variant="h6">
+                    Avengers: Endgame
+                  </Typography>
+                  <Box mb={1} mt={1}>
+                    <Typography variant="body2" color="textSecondary">
+                      24 avril 2019
+                    </Typography>
+                  </Box>
+                  <Typography variant="caption" component="p">
+                    Le Titan Thanos, ayant réussi à s'approprier les six Pierres d'Infinité et à les réunir sur le Gantelet doré, a pu réaliser son objectif de pulvériser la moitié de la population de l'Univers. Cinq ans plus tard, Scott Lang, alias Ant-Man, parvient à s'échapper de la dimension subatomique où il était coincé. Il propose aux Avengers une solution pour faire revenir à la vie tous les êtres disparus, dont leurs alliés et coéquipiers : récupérer les Pierres d'Infinité dans le passé.
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Paper className={classes.paper} elevation={0}>
+                  <TextField
+                    id="standard-input"
+                    className={classes.textField}
+                    margin="normal"
+                    fullWidth
+                    multiline
+                    rowsMax="4"
+                    placeholder="Ajouter un commentaire public..."
+                  />
+                  <Grid container justify="flex-end">
+                    <Grid item xs={9} md={9}>
+                      <Button variant="contained" color="primary" className={classes.button} size="small">
+                        Ajouter un commentaire
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Grid>
             </Grid>
           </Container>
         </main>

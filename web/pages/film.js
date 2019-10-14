@@ -282,10 +282,10 @@ function ResponsiveDrawer(props) {
                         </div>
                       </Typography>
                       <span className={classes.toolbarButtons}>
-                      <IconButton color="inherit" aria-label="More Options">
-                        <PlayCircleFilledWhiteIcon className={classes.play}/>
-                      </IconButton>
-                    </span>
+                        <IconButton color="inherit" aria-label="More Options">
+                          <PlayCircleFilledWhiteIcon className={classes.play}/>
+                        </IconButton>
+                      </span>
                     </Toolbar>
                   </Paper>
                 ))}
