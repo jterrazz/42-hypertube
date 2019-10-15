@@ -19,6 +19,7 @@
     "koa-session": "^5.12.3",
     "lodash": "^4.17.15",
     "mongoose": "^5.6.12",
+    "nodemailer": "^6.3.1",
     "nodemon": "^1.19.1",
     "passport-42": "^1.2.6",
     "passport-facebook": "^3.0.0",

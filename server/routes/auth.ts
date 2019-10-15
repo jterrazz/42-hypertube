@@ -1,7 +1,7 @@
 import * as passport from 'koa-passport'
 import * as Router from 'koa-router'
 
-import { successfulAuthController } from '../controllers'
+import {resetPasswordController, successfulAuthController} from '../controllers'
 
 const authRouter = new Router()
 
@@ -20,4 +20,7 @@ authRouter.get('/auth/42', passport.authenticate('42'))
 authRouter.get('/auth/42/callback', passport.authenticate('42'), successfulAuthController)
 authRouter.get('/auth/github', passport.authenticate('github',))
 authRouter.get('/auth/github/callback', passport.authenticate('github'), successfulAuthController)
+
+authRouter.post('/auth/reset-password', resetPasswordController)
+
 export default authRouter
