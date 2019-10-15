@@ -36,10 +36,8 @@ export const findMoviesController: Middleware = async ctx => {
 }
 
 export const getMovieController: Middleware = async ctx => {
-  const tmp = {
-    yo: 'yo'
-  }
-  ctx.body = tmp
+  const movieData = await ytsApi.getMovieDetails(ctx.params.movieId)
+  ctx.body = movieData
 }
 
 // TODO Add viewed torrents

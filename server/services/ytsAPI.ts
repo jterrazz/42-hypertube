@@ -33,6 +33,7 @@ export const findMovies = async (query, page) => {
 // TODO
 export const getMovieDetails = async movieId => {
   // eslint-disable-next-line @typescript-eslint/camelcase
-  const res = await ytsClient.get('movie_details.json', { params: { movie_id: movieId } })
-  return res
+  const res = await ytsClient.get('movie_details.json', { params: { movie_id: movieId, with_images: true, with_cast: true } })
+  delete res.data.data.movie.torrents
+  return res.data.data.movie
 }
