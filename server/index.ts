@@ -4,6 +4,8 @@ import * as session from 'koa-session'
 import * as mongoose from 'mongoose'
 import * as passport from 'koa-passport'
 import * as cors from '@koa/cors'
+import * as serve from 'koa-static'
+import * as mount from 'koa-mount'
 
 import { errorMiddleware } from './middlewares/error-handler'
 import { checkProfileCompleted } from './middlewares/auth'
@@ -20,15 +22,17 @@ const app = new Koa()
  * you can use redis to sync the sessions.
  */
 
-const whitelist = ["http://localhost:4242"]
+const whitelist = ['http://localhost:4242']
+
 const checkOriginAgainstWhitelist = ctx => {
-    const requestOrigin = ctx.accept.headers.origin;
-    if (!whitelist.includes(requestOrigin))
-        return ctx.throw(`🙈 ${requestOrigin} is not a valid origin`)
-    return requestOrigin
+  const requestOrigin = ctx.accept.headers.origin;
+  if (!whitelist.includes(requestOrigin)) {
+    return ctx.throw(`🙈 ${requestOrigin} is not a valid origin`)
+  }
+  return requestOrigin
 }
 
-app.use(cors({credentials: true, origin: checkOriginAgainstWhitelist}))
+app.use(cors({ credentials: true, origin: checkOriginAgainstWhitelist }))
 app.use(errorMiddleware)
 app.use(bodyParser())
 app.keys = [config.SESSION_SECRET]
@@ -37,6 +41,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 // app.use(checkProfileCompleted) // TODO Not for auth routes ? Maybe complete it when doing it
 app.use(router.routes()).use(router.allowedMethods())
+app.use(mount('/subtitles', serve('./public/subtitles')))
 
 mongoose
   .connect(config.MONGO_URL, { useNewUrlParser: true, user: config.MONGO_USER, pass: config.MONGO_PWD })

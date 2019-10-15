@@ -11,7 +11,7 @@ export const getTorrentStreamController: Middleware = ctx => {
   const magnet =
     'magnet:?xt=urn:btih:426ec6d01964bac82c0da451b8e67842608fcc61&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80'
   const hash = '426ec6d01964bac82c0da451b8e67842608fcc61'
-  const engine = torrentStream(magnet, { path: `./public/${hash}` })
+  const engine = torrentStream(magnet, { path: `./public/torrents/${hash}` })
 
   return new Promise((resolve, reject) => {
     // TODO Add reject
