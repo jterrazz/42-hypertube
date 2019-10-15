@@ -72,7 +72,7 @@ export const getMovieController: Middleware = async ctx => {
 }
 
 // TODO Add viewed torrents
-export const getVideoTorrentsController: Middleware = async ctx => {
+export const getMovieTorrentsController: Middleware = async ctx => {
   /*
    ** Accepts type: id
    */

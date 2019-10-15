@@ -5,6 +5,8 @@ import userRouter from './user'
 import torrentRouter from './torrent'
 import videoRouter from './movie'
 
+// TODO isUser
+
 /*
  * We use sub-routers to better separate the logic.
  * The main router is then attached to the main koa app.
