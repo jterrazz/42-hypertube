@@ -5,23 +5,46 @@ import * as ytsApi from '../services/ytsAPI'
 import * as tpbAPI from '../services/tpbAPI'
 import * as popcornAPI from "../services/popcornAPI";
 
-// TODO Add other source
-export const hotMoviesController: Middleware = async ctx => {
-  const results = await Promise.all([ytsApi.getMostDownloadedMovies(), popcornAPI.getTrendingMovies()])
-  console.log(results)
+// TODO Maybe translate titles etc
+// TODO Add viewed torrents
 
-  // TODO with real data
-  const body = {
-    rankedMovies: {
-      // yts: results[0],
-      popcorn: results[1],
-    },
-  }
-  ctx.body = body
+/*
+ * All the search params are centralized here.
+ * Build example: const param = SORT_TITLE | SORT_REVERSE
+ * Test example: if (param & SORT_TITLE)
+ */
+
+export enum SearchParams {
+  SORT_TITLE = 0x00000001,
+  SORT_DATE = 0x00000010,
+  SORT_TRENDING_COUNT = 0x00000100,
+  SORT_REVERSE = 0x00001000,
 }
 
-// TODO Check viewed torrents
-export const findMoviesController: Middleware = async ctx => {
+const addPlayToMovie = user => movie => {
+  if (user && user.plays) {
+    movie.played = user.plays.find(x => x.videoId == movie.imdb_id)
+  }
+  return movie
+}
+
+/*
+ * Controllers
+ */
+
+export const hotMoviesController: Middleware = async ctx => {
+  const results = await Promise.all([ytsApi.getMostDownloadedMovies(), popcornAPI.getTrendingMovies()])
+
+  ctx.body = {
+    rankedMovies: {
+      yts: results[0].map(addPlayToMovie(ctx.state.user)),
+      popcorn: results[1].map(addPlayToMovie(ctx.state.user)),
+    },
+  }
+}
+
+// TODO If error is axios then throw error 500
+export const searchMoviesController: Middleware = async ctx => {
   const querySchema = Joi.object()
     .keys({
       query: Joi.string().required(),
@@ -29,21 +52,23 @@ export const findMoviesController: Middleware = async ctx => {
     })
     .required()
 
-  const { value: query } = await querySchema.validate(ctx.query)
-  try {
-    const movies = await ytsApi.findMovies(query.query, query.page)
-    movies.results.forEach(m => {
-      if (ctx.state.user && ctx.state.user.plays) m.played = ctx.state.user.plays.find(x => x.videoId == m.id)
-    })
-    ctx.body = movies
-  } catch (err) {
-    ctx.throw(500, 'Internal error while querying the movie database')
+  const {
+    value: { query, page },
+  } = await querySchema.validate(ctx.query)
+  const movies = await ytsApi.searchMovies(query, page, null)
+
+  ctx.body = {
+    page,
+    movies: movies.map(addPlayToMovie(ctx.state.user))
   }
 }
 
 export const getMovieController: Middleware = async ctx => {
-  const movieData = await ytsApi.getMovieDetails(ctx.params.movieId)
-  ctx.body = movieData
+  const movie =
+    (await popcornAPI.getMovieDetails(ctx.params.imdbID)) || (await ytsApi.getMovieDetails(ctx.params.imdbID))
+  ctx.body = {
+    movie: addPlayToMovie(ctx.state.user)(movie),
+  }
 }
 
 // TODO Add viewed torrents

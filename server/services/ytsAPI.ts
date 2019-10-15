@@ -2,44 +2,54 @@ import axios from 'axios'
 import * as _ from 'lodash'
 
 import config from '../config'
+import {SearchParams} from "../controllers";
 
-const ytsClient = axios.create({ baseURL: 'https://yts.lt/api/v2' })
+const YTS_BASE_URL = 'https://yts.lt/api/v2'
+const ytsClient = axios.create({ baseURL: YTS_BASE_URL })
 
 ytsClient.interceptors.request.use(request => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   request.params.api_key = config.API_YTS_KEY
   return request
 })
 
-export const getMostDownloadedMovies = async () => {
-  const res = await ytsClient.get('list_movies.json', { params: { sort_by: 'date', limit: 20 } })
-  return _.get(res, 'data.data', [])
-}
+/*
+ * Translates the format used by the external YTS API to our internal format.
+ */
 
-export const findMovies = async (query, page) => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const res = await ytsClient.get(`list_movies.json`, { params: { query_term: query, page } })
-  const movies = _.get(res, ['data', 'data', 'movies'])
-  const pageNumber = _.get(res, ['data', 'data', 'page_number'])
-
-  if (Array.isArray(movies)) {
-    return {
-      page: pageNumber,
-      results: movies.map(m => {
-        delete m.torrents
-        delete m.url
-        return m
-      }),
-    }
+const ytsMovieSerializer = withTorrents => original => {
+  if (typeof original != 'object')
+    return null
+  return {
+    title: original.title_english || original.title,
+    imdb_id: original.imdb_code,
+    year: original.year,
+    rating: original.rating,
+    runtime: original.runtime,
+    genres: original.genres,
+    summary: original.summary,
+    yt_trailer_id: original.yt_trailer_code,
+    fanart_image: original.background_image,
+    poster_image: original.large_cover_image,
+    torrents: withTorrents ? original.torrents : null,
+    played: false
   }
-  return { page, results: [] }
 }
 
+/*
+ * YTS API calls
+ */
+
+export const searchMovies = async (query, page, options) => {
+  const res = await ytsClient.get('list_movies.json', { params: { query_term: query, sort_by: 'date', limit: 20 } })
+  const movies = _.get(res, 'data.data.movies', [])
+
+  return Array.isArray(movies) ? movies.map(ytsMovieSerializer(false)) : []
+}
+
+export const getMostDownloadedMovies = async () => searchMovies(null, 1, SearchParams.SORT_TRENDING_COUNT) // Trending is download_count for yts
+
+// TODO Replace by open video api to get cast etc
 export const getMovieDetails = async movieId => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const res = await ytsClient.get('movie_details.json', { params: { movie_id: movieId, with_images: true, with_cast: true } })
-  const movie = _.get(res, 'data.data.movie')
-  if (typeof movie === 'object')
-    delete movie.torrents
-  return movie
+  const movies = await searchMovies(movieId, 1, null)
+  return movies.length ? movies[0] : null
 }
