@@ -17,7 +17,7 @@ import {Movie, User} from "../models";
 
 export enum SearchParams {
   SORT_TITLE = 0x00000001,
-  SORT_DATE = 0x00000010,
+  SORT_ADDED = 0x00000010,
   SORT_TRENDING_COUNT = 0x00000100,
   SORT_REVERSE = 0x00001000,
 }
@@ -50,6 +50,7 @@ export const searchMoviesController: Middleware = async ctx => {
     .keys({
       query: Joi.string().required(),
       page: Joi.number().positive(),
+      sort: Joi.string().allow('date_added'),
     })
     .required()
 
@@ -82,7 +83,7 @@ export const getMovieTorrentsController: Middleware = async ctx => {
   }
 }
 
-const publicCommentProperties = ['_id', 'text', 'date']
+const publicCommentProperties = ['_id', 'text', 'date', 'user.username', 'user.firstName', 'user.lastName', 'user.profilePicture']
 
 export const getMovieCommentsController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId
