@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
@@ -13,14 +12,18 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
+import axios from 'axios'
+import API from '../src/API'
+import Link from '../src/Link'
+import LinkOut from '@material-ui/core/Link'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://intra.42.fr/">
+      <LinkOut color="inherit" href="https://intra.42.fr/">
         HyperTube
-      </Link>{' '}
+      </LinkOut>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -58,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 
 const signInSide = props => {
 
-  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit } = props
+  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit } = props;
 
   const classes = useStyles();
 
@@ -79,15 +82,15 @@ const signInSide = props => {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={values.email}
+              id="username"
+              label="UserName"
+              name="username"
+              autoComplete="username"
+              value={values.username}
               onChange={handleChange}
               onBlur={handleBlur}
-              helperText={touched.email ? errors.email : ''}
-              error={touched.email && Boolean(errors.email)}
+              helperText={touched.username ? errors.username : ''}
+              error={touched.username && Boolean(errors.username)}
             />
             <TextField
               variant="outlined"
@@ -119,7 +122,7 @@ const signInSide = props => {
             <Grid container>
               <Grid item xs>
                 <Link href="/forgot" variant="body2">
-                  Forgot password?
+                  {'Forgot password?'}
                 </Link>
               </Grid>
               <Grid item>
@@ -139,16 +142,15 @@ const signInSide = props => {
 };
 
 const SignInSide = withFormik({
-  mapPropsToValues: ({ email, password }) => {
+  mapPropsToValues: ({ username, password }) => {
     return {
-      email: email || '',
+      username: username || '',
       password: password || '',
     }
   },
 
   validationSchema: Yup.object().shape({
-    email: Yup.string()
-      .email('Enter a valid email')
+    username: Yup.string()
       .required('Email is required'),
     password: Yup.string()
       .min(8, 'Password must contain at least 8 characters')
@@ -156,11 +158,29 @@ const SignInSide = withFormik({
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      // submit to the server
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false)
-    }, 1000)
+    event.preventDefault();
+
+    const user = {
+      username: values.username,
+      password: values.password
+    };
+
+    const transport = axios.create({
+      withCredentials: true
+    });
+
+    transport.post(API.signin, user)
+      .then(
+        response => {
+          if (response.data.message === 'Authentication successful') {
+            window.location = "/home"
+          }
+        })
+        .catch(error => {
+          if (error.response.status === 401){
+            setSubmitting(false);
+          }
+      })
   },
 })(signInSide);
 

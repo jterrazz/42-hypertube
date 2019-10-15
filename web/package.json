@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.28",
     "@material-ui/styles": "latest",
     "autosuggest-highlight": "^3.1.1",
+    "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "clsx": "latest",
     "formik": "latest",
@@ -22,7 +23,7 @@
     "yup": "latest"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 4242",
     "build": "next build",
     "start": "next start"
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import Link from '@material-ui/core/Link'
+import LinkOut from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
@@ -19,14 +19,18 @@ import { withFormik, Field } from 'formik'
 import * as Yup from 'yup'
 import CustomImageInput from "../src/CustomImageInput";
 import Recaptcha from "react-recaptcha";
+import axios from "axios";
+import API from "../src/API";
+import Link from '../src/Link'
+
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://intra.42.fr/">
+      <LinkOut color="inherit" href="https://intra.42.fr/">
         HyperTube
-      </Link>{' '}
+      </LinkOut>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -187,6 +191,23 @@ const signUpSide = props => {
                 margin="normal"
                 required
                 fullWidth
+                id="userName"
+                label="UserName"
+                name="userName"
+                autoComplete="uname"
+                value={values.userName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.userName ? errors.userName : ''}
+                error={touched.userName && Boolean(errors.userName)}
+              />
+            </Grid>
+            <Grid>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
@@ -265,7 +286,7 @@ const signUpSide = props => {
             <Grid container>
               <Grid item xs>
                 <Link href="/forgot" variant="body2">
-                  Forgot password?
+                  {'Forgot password?'}
                 </Link>
               </Grid>
               <Grid item>
@@ -292,10 +313,11 @@ const SUPPORTED_FORMATS = [
 ];
 
 const SignUpSide = withFormik({
-  mapPropsToValues: ({ firstName, lastName, email, password, confirmPassword, file, recaptcha }) => {
+  mapPropsToValues: ({ firstName, lastName, userName, email, password, confirmPassword, file, recaptcha }) => {
     return {
       firstName: firstName || '',
       lastName: lastName || '',
+      userName: userName || '',
       email: email || '',
       password: password || '',
       confirmPassword: confirmPassword || '',
@@ -307,36 +329,65 @@ const SignUpSide = withFormik({
   validationSchema: Yup.object().shape({
     firstName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
+    userName: Yup.string()
+        .required('Required')
+        .strict()
+        .trim('Spaces not allowed in UserName'),
     email: Yup.string()
       .email('Enter a valid email')
       .required('Email is required'),
     password: Yup.string()
-      .min(8, 'Password must contain at least 8 characters')
+      .min(3, 'Password must contain at least 8 characters')
       .required('Enter your password'),
     confirmPassword: Yup.string()
       .required('Confirm your password')
       .oneOf([Yup.ref('password')], 'Password does not match'),
-    file: Yup.mixed()
-      .required("A file is required")
-      .test(
-        "fileFormat",
-        "Unsupported Format",
-        value => value && SUPPORTED_FORMATS.includes(value.type)
-      )
-      .test(
-        "fileSize",
-        "File too large",
-        value => value && value.size <= FILE_SIZE
-      ),
+    // file: Yup.mixed()
+    //   .required("A file is required")
+    //   .test(
+    //     "fileFormat",
+    //     "Unsupported Format",
+    //     value => value && SUPPORTED_FORMATS.includes(value.type)
+    //   )
+    //   .test(
+    //     "fileSize",
+    //     "File too large",
+    //     value => value && value.size <= FILE_SIZE
+    //   ),
     // recaptcha: Yup.string().required('Required'),
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      // submit to the server
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false)
-    }, 1000)
+    event.preventDefault();
+
+    const user = {
+      name:{
+        first: values.firstName,
+        last: values.lastName,
+      },
+      username: values.userName,
+      password: values.password,
+      email: values.email,
+    };
+
+    const transport = axios.create({
+      withCredentials: true
+    });
+
+
+    transport.post(API.signup, user)
+      .then(
+        response => {
+          if (response.data.message === 'Authentication successful') {
+            window.location = "/home"
+          }
+        })
+      .catch(error => {
+        // if (error.response.status === 401){
+        //   setSubmitting(false);
+        // }
+        console.log(error);
+      })
   },
 })(signUpSide);
 
