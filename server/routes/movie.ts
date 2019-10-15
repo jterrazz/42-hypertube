@@ -4,9 +4,9 @@ import {findMoviesController, getMovieController, hotMoviesController} from "../
 
 const router = new Router()
 
-router.get('/movies/:movieId', getMovieController)
 router.get('/movies/search', findMoviesController)
 router.get('/movies/hot', hotMoviesController)
+router.get('/movies/:movieId', getMovieController)
 
 export default router
 

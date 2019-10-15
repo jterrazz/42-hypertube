@@ -20,15 +20,14 @@ const app = new Koa()
  * you can use redis to sync the sessions.
  */
 
- const whitelist = ["http://localhost:4242"]
- function checkOriginAgainstWhitelist(ctx) {
- console.log("yo")
+const whitelist = ["http://localhost:4242"]
+const checkOriginAgainstWhitelist = ctx => {
     const requestOrigin = ctx.accept.headers.origin;
     if (!whitelist.includes(requestOrigin))
         return ctx.throw(`🙈 ${requestOrigin} is not a valid origin`)
     return requestOrigin
 }
-	
+
 app.use(cors({credentials: true, origin: checkOriginAgainstWhitelist}))
 app.use(errorMiddleware)
 app.use(bodyParser())

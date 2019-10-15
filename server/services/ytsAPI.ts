@@ -11,6 +11,11 @@ ytsClient.interceptors.request.use(request => {
   return request
 })
 
+export const getMostDownloadedMovies = async () => {
+  const res = await ytsClient.get('list_movies.json', { params: { sort_by: 'date', limit: 20 } })
+  return _.get(res, 'data.data', [])
+}
+
 export const findMovies = async (query, page) => {
   // eslint-disable-next-line @typescript-eslint/camelcase
   const res = await ytsClient.get(`list_movies.json`, { params: { query_term: query, page } })
@@ -30,10 +35,11 @@ export const findMovies = async (query, page) => {
   return { page, results: [] }
 }
 
-// TODO
 export const getMovieDetails = async movieId => {
   // eslint-disable-next-line @typescript-eslint/camelcase
   const res = await ytsClient.get('movie_details.json', { params: { movie_id: movieId, with_images: true, with_cast: true } })
-  delete res.data.data.movie.torrents
-  return res.data.data.movie
+  const movie = _.get(res, 'data.data.movie')
+  if (typeof movie === 'object')
+    delete movie.torrents
+  return movie
 }

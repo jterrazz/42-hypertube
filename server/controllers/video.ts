@@ -3,12 +3,18 @@ import * as Joi from '@hapi/joi'
 
 import * as ytsApi from '../services/ytsAPI'
 import * as tpbAPI from '../services/tpbAPI'
+import * as popcornAPI from "../services/popcornAPI";
 
+// TODO Add other source
 export const hotMoviesController: Middleware = async ctx => {
+  const results = await Promise.all([ytsApi.getMostDownloadedMovies(), popcornAPI.getTrendingMovies()])
+  console.log(results)
+
   // TODO with real data
   const body = {
-    topMovies: {
-      yts: [{ id: 2, title: 'blyat movie' }],
+    rankedMovies: {
+      // yts: results[0],
+      popcorn: results[1],
     },
   }
   ctx.body = body
