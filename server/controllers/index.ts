@@ -3,6 +3,6 @@
  */
 
 export * from './user'
-export * from './video'
+export * from './movie'
 export * from './auth'
 export * from './torrent'

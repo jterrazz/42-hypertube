@@ -16,9 +16,15 @@ ytsClient.interceptors.request.use(request => {
  * Translates the format used by the external YTS API to our internal format.
  */
 
-const ytsMovieSerializer = withTorrents => original => {
+const ytsMovieSerializer = getTorrents => original => {
   if (typeof original != 'object')
     return null
+  if (getTorrents) {
+    return {
+      torrents: original.torrents
+    }
+  }
+
   return {
     title: original.title_english || original.title,
     imdb_id: original.imdb_code,
@@ -30,7 +36,7 @@ const ytsMovieSerializer = withTorrents => original => {
     yt_trailer_id: original.yt_trailer_code,
     fanart_image: original.background_image,
     poster_image: original.large_cover_image,
-    torrents: withTorrents ? original.torrents : null,
+    torrents: getTorrents ? original.torrents : null,
     played: false
   }
 }
@@ -48,8 +54,15 @@ export const searchMovies = async (query, page, options) => {
 
 export const getMostDownloadedMovies = async () => searchMovies(null, 1, SearchParams.SORT_TRENDING_COUNT) // Trending is download_count for yts
 
-// TODO Replace by open video api to get cast etc
-export const getMovieDetails = async movieId => {
-  const movies = await searchMovies(movieId, 1, null)
+// TODO Replace by open video api to get cast, actors etc etc
+export const getMovieDetails = async imdbID => {
+  const movies = await searchMovies(imdbID, 1, null)
   return movies.length ? movies[0] : null
+}
+
+export const getMovieTorrents = async imdbID => {
+  const res = await ytsClient.get('list_movies.json', { params: { query_term: imdbID }})
+  const movies = _.get(res, 'data.data.movies')
+
+  return movies && movies.length ? movies[0].torrents : null
 }

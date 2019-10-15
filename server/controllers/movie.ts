@@ -2,8 +2,7 @@ import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 
 import * as ytsApi from '../services/ytsAPI'
-import * as tpbAPI from '../services/tpbAPI'
-import * as popcornAPI from "../services/popcornAPI";
+import * as popcornAPI from '../services/popcornAPI'
 
 // TODO Maybe translate titles etc
 // TODO Add viewed torrents
@@ -19,6 +18,11 @@ export enum SearchParams {
   SORT_DATE = 0x00000010,
   SORT_TRENDING_COUNT = 0x00000100,
   SORT_REVERSE = 0x00001000,
+}
+
+// TODO Place in global file
+const magnetToHash = magnet => {
+  return magnet.replace('magnet:?xt=urn:btih:', '').split('&')[0]
 }
 
 const addPlayToMovie = user => movie => {
@@ -73,26 +77,11 @@ export const getMovieController: Middleware = async ctx => {
 
 // TODO Add viewed torrents
 export const getMovieTorrentsController: Middleware = async ctx => {
-  /*
-   ** Accepts type: id
-   */
-  const query = ctx.params.query
-  const isId = ctx.query.type === 'id'
-
-  if (isId) {
-    // TODO Plogan, here we need to query the YTS API (using the movieAPI service)
-    // From it, we get the title (to later use with other torrent sources) + torrents from YTS
-  } else {
-    // Simple Yts search
-  }
-
-  const tpbResults = await tpbAPI.searchTPB(query)
-  tpbResults.forEach(r => {
-    r.hash = r.trackerId.replace('magnet:?xt=urn:btih:', '').split('&')[0]
-    if (ctx.state.user && ctx.state.user.plays) r.played = ctx.state.user.plays.find(x => x.hash === r.hash)
-  })
+  const popcornTorrents = await popcornAPI.getMovieTorrents(ctx.params.imdbID)
+  const ytsTorrents = await ytsApi.getMovieTorrents(ctx.params.imdbID)
 
   ctx.body = {
-    tpb: tpbResults,
+    popcorn: popcornTorrents,
+    yts: ytsTorrents,
   }
 }
