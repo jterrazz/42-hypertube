@@ -50,7 +50,7 @@ const popcornTorrentSerializer = original => {
     peers: original.peers,
     size: original.size_bytes,
     url: original.url,
-    hash: magnetToHash(original.url),
+    hash: magnetToHash(original.url), // TODO Not like that, its a url
   }
 }
 

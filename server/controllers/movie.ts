@@ -1,10 +1,19 @@
 import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 import * as _ from 'lodash'
+import * as OS from 'opensubtitles-api'
+import axios from 'axios'
+import * as fs from 'fs'
+import * as srt2vtt from 'srt2vtt'
 
 import * as ytsApi from '../services/ytsAPI'
 import * as popcornAPI from '../services/popcornAPI'
-import {Movie, User} from "../models";
+import { Movie, User } from '../models'
+
+const OpenSubtitles = new OS({
+  useragent: 'NodeJS',
+  ssl: true,
+})
 
 // TODO Maybe translate titles etc
 // TODO Add viewed torrents
@@ -92,6 +101,62 @@ export const getMovieCommentsController: Middleware = async ctx => {
   ctx.body = {
     comments: movie ? movie.comments.map(el => _.pick(el, publicCommentProperties)) : [],
   }
+}
+
+/*
+ * Parameters: String imdbID, String lang
+ */
+export const getMovieSubtitlesController: Middleware = async ctx => {
+  const imbdId = ctx.params.imdbId
+
+  const subtitles = await OpenSubtitles.search({ imdbid: imbdId })
+  ctx.body = { subtitles }
+}
+
+export const getMovieSubtitleController: Middleware = ctx => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const imdbId = ctx.params.imdbId
+      const { value: lang } = await Joi.string()
+        .allow('en', 'fr')
+        .required()
+        .validate(ctx.params.lang)
+
+      const filename = imdbId + '-' + lang + '.vtt'
+      const filepath = `${__dirname}/../public/subtitles/${filename}`
+
+      ctx.body = { url: `/public/subtitles/${filename}` }
+
+      fs.stat(filepath, async (err, _) => {
+        try {
+          if (err == null) {
+            return resolve()
+          } else if (err.code === 'ENOENT') {
+            const subtitles = await OpenSubtitles.search({ imdbid: imdbId })
+            ctx.assert(subtitles[lang], 404, "This subtitle doesn't exist")
+
+            const { data: srtSubtitle } = await axios.get(subtitles[lang].url)
+
+            srt2vtt(srtSubtitle, (err, vttSubtitle) => {
+              if (err) return reject(err)
+
+              fs.writeFile(filepath, vttSubtitle, err => {
+                if (err) return reject(err)
+
+                return resolve()
+              })
+            })
+          } else {
+            return reject(err)
+          }
+        } catch (err) {
+          return reject(err)
+        }
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
 }
 
 // TODO Add maximum for each field

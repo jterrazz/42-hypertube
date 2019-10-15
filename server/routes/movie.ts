@@ -8,6 +8,7 @@ import {
   getMovieCommentsController,
   addMovieCommentController,
   addTorrentPlaytimeController,
+  getMovieSubtitlesController, getMovieSubtitleController,
 } from '../controllers'
 
 import { isUser } from '../middlewares/auth'
@@ -18,6 +19,8 @@ router.get('/movies/search', searchMoviesController)
 router.get('/movies/hot', hotMoviesController)
 router.get('/movies/:imdbID', getMovieController)
 router.get('/movies/:imdbID/torrents', getMovieTorrentsController)
+router.get('/movies/:imdbId/subtitles', getMovieSubtitlesController)
+router.get('/movies/:imdbId/subtitles/:lang', getMovieSubtitleController)
 router.get('/movies/:imdbId/comments', getMovieCommentsController)
 router.post('/movies/:imdbId/comments', isUser, addMovieCommentController)
 router.post('/movies/:imdbId/play', isUser, addTorrentPlaytimeController)
