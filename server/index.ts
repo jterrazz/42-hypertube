@@ -3,6 +3,7 @@ import * as bodyParser from 'koa-bodyparser'
 import * as session from 'koa-session'
 import * as mongoose from 'mongoose'
 import * as passport from 'koa-passport'
+import * as cors from '@koa/cors'
 
 import { errorMiddleware } from './middlewares/error-handler'
 import { checkProfileCompleted } from './middlewares/auth'
@@ -18,6 +19,8 @@ const app = new Koa()
  * and a secure matching token is sent to the web. If you need to used multiple threads,
  * you can use redis to sync the sessions.
  */
+
+app.use(cors())
 
 app.use(errorMiddleware)
 app.use(bodyParser())
