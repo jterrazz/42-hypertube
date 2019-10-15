@@ -1,9 +1,9 @@
 import * as Router from 'koa-router'
 
-import { findMoviesController, getMovieController, hotMoviesController } from '../controllers'
 import authRouter from './auth'
 import userRouter from './user'
 import torrentRouter from './torrent'
+import videoRouter from './movie'
 
 const router = new Router()
 
@@ -14,9 +14,7 @@ router
   .use(userRouter.allowedMethods())
   .use(torrentRouter.routes())
   .use(torrentRouter.allowedMethods())
-
-router.get('/movies/:movieId', getMovieController)
-router.get('/movies/search', findMoviesController)
-router.get('/movies/hot', hotMoviesController)
+  .use(videoRouter.routes())
+  .use(videoRouter.allowedMethods())
 
 export default router
