@@ -5,6 +5,10 @@ import config from '../config'
 import {SearchParams} from "../controllers";
 import {magnetToHash} from "./popcornAPI";
 
+/*
+ * https://yts.lt/api
+ */
+
 const YTS_BASE_URL = 'https://yts.lt/api/v2'
 const ytsClient = axios.create({ baseURL: YTS_BASE_URL })
 

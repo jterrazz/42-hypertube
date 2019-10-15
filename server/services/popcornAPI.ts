@@ -2,6 +2,10 @@ import axios from 'axios'
 import * as _ from 'lodash'
 import {SearchParams} from "../controllers";
 
+/*
+ * https://popcornofficial.docs.apiary.io/#reference/movie/get-page/page
+ */
+
 const POPCORN_BASE_URL = 'https://tv-v2.api-fetch.website'
 const popcornClient = axios.create({ baseURL: POPCORN_BASE_URL })
 
