@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 
+// TODO We can probably delete that
 const TorrentSchema = new Schema({
   hash: String,
   downloaded: Boolean,

@@ -8,23 +8,28 @@ import * as torrentStream from 'torrent-stream'
 
 export const getTorrentStreamController: Middleware = ctx => {
   // TODO Bad input format check for hash
-  const magnet =
-    'magnet:?xt=urn:btih:426ec6d01964bac82c0da451b8e67842608fcc61&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80'
+  const trackers = [
+    'glotorrents.pw:6969/announce',
+    'tracker.opentrackr.org:1337/announce',
+    'torrent.gresille.org:80/announce',
+    'tracker.openbittorrent.com:80',
+    'tracker.coppersurfer.tk:6969',
+    'tracker.leechers-paradise.org:6969',
+    'p4p.arenabg.ch:1337',
+    'tracker.internetwarriors.net:1337',
+    'open.demonii.com:1337/announce',
+  ]
+
   const hash = '426ec6d01964bac82c0da451b8e67842608fcc61'
+  const magnet = 'magnet:?xt=urn:btih:' + hash + '&tr=udp://' + trackers.join('&tr=udp://')
   const engine = torrentStream(magnet, { path: `./public/torrents/${hash}` })
 
   return new Promise((resolve, reject) => {
-    // TODO Add reject
-    engine.on('ready', function() {
+    // TODO Handle error
+    engine.on('ready', () => {
       // TODO By size take 1st .video
-      engine.files.forEach(function(file) {
-        console.log('filename:', file.name)
-        const stream = file.createReadStream() //only on video
-        // stream is readable stream to containing the file content
-        // ctx.body = {
-        //   yo: 'test',
-        //   files: engine.files,
-        // }
+      engine.files.forEach((file) => {
+        const stream = file.createReadStream()
         ctx.body = stream
         resolve()
       })

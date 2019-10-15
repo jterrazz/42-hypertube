@@ -28,6 +28,16 @@ passport.deserializeUser(async (id, done) => {
   }
 })
 
+export class ClientError extends Error {
+  constructor(code, message) {
+    super(message)
+    this.statusCode = code
+  }
+
+  statusCode = 400
+  isPassable = true
+}
+
 /*
  ** Username/password
  */
@@ -59,9 +69,11 @@ passport.use(
       await user.save()
       done(null, _.pick(user, PUBLIC_USER_PROPS))
     } catch (err) {
-      if (err.code == 11000 && err.keyPattern && err.keyPattern.hasOwnProperty('username')) {
-        done(err)
-        // TODO Pass error to web
+      if (err.code == 11000 && err.keyPattern) {
+        if (err.keyPattern.hasOwnProperty('username'))
+          done(new ClientError(409, 'This username is already in use'))
+        else if (err.keyPattern.hasOwnProperty('email'))
+          done(new ClientError(409, 'This email is already in use'))
       }
       done(err)
     }
