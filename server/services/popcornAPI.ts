@@ -35,6 +35,23 @@ const popcornMovieSerializer = getTorrents => original => {
   }
 }
 
+// TODO Place in global file
+export const magnetToHash = magnet => {
+  return magnet.replace('magnet:?xt=urn:btih:', '').split('&')[0]
+}
+
+const popcornTorrentSerializer = original => {
+  if (typeof original != 'object') return null
+
+  return {
+    seeds: original.seed,
+    peers: original.peer,
+    size: original.filesize,
+    url: original.url,
+    hash: magnetToHash(original.url),
+  }
+}
+
 /*
  * Popcorn-time API calls
  */
@@ -62,5 +79,5 @@ export const getMovieTorrents = async imdbID => {
   const res = await popcornClient.get(`/movie/${imdbID}`)
   const ret = popcornMovieSerializer(true)(res.data)
 
-  return Object.values(ret.torrents.en)
+  return Object.values(ret.torrents.en).map(popcornTorrentSerializer)
 }

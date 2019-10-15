@@ -22,11 +22,6 @@ export enum SearchParams {
   SORT_REVERSE = 0x00001000,
 }
 
-// TODO Place in global file
-const magnetToHash = magnet => {
-  return magnet.replace('magnet:?xt=urn:btih:', '').split('&')[0]
-}
-
 const addPlayToMovie = user => movie => {
   if (user && user.plays) {
     movie.played = user.plays.find(x => x.videoId == movie.imdb_id)
@@ -114,7 +109,7 @@ export const addMovieCommentController: Middleware = async ctx => {
     await newTorrent.save()
   }
   ctx.body = {
-    comment: _.pick(newComment, publicCommentProperties)
+    comment: _.pick(newComment, publicCommentProperties),
   }
 }
 

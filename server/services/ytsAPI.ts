@@ -3,6 +3,7 @@ import * as _ from 'lodash'
 
 import config from '../config'
 import {SearchParams} from "../controllers";
+import {magnetToHash} from "./popcornAPI";
 
 const YTS_BASE_URL = 'https://yts.lt/api/v2'
 const ytsClient = axios.create({ baseURL: YTS_BASE_URL })
@@ -41,6 +42,18 @@ const ytsMovieSerializer = getTorrents => original => {
   }
 }
 
+const popcornTorrentSerializer = original => {
+  if (typeof original != 'object') return null
+
+  return {
+    seeds: original.seeds,
+    peers: original.peers,
+    size: original.size_bytes,
+    url: original.url,
+    hash: magnetToHash(original.url),
+  }
+}
+
 /*
  * YTS API calls
  */
@@ -64,5 +77,5 @@ export const getMovieTorrents = async imdbID => {
   const res = await ytsClient.get('list_movies.json', { params: { query_term: imdbID }})
   const movies = _.get(res, 'data.data.movies')
 
-  return movies && movies.length ? movies[0].torrents : null
+  return movies && movies.length ? movies[0].torrents.map(popcornTorrentSerializer) : null
 }
