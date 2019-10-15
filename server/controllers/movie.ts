@@ -1,8 +1,10 @@
 import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
+import * as _ from 'lodash'
 
 import * as ytsApi from '../services/ytsAPI'
 import * as popcornAPI from '../services/popcornAPI'
+import {Movie, User} from "../models";
 
 // TODO Maybe translate titles etc
 // TODO Add viewed torrents
@@ -75,7 +77,6 @@ export const getMovieController: Middleware = async ctx => {
   }
 }
 
-// TODO Add viewed torrents
 export const getMovieTorrentsController: Middleware = async ctx => {
   const popcornTorrents = await popcornAPI.getMovieTorrents(ctx.params.imdbID)
   const ytsTorrents = await ytsApi.getMovieTorrents(ctx.params.imdbID)
@@ -84,4 +85,46 @@ export const getMovieTorrentsController: Middleware = async ctx => {
     popcorn: popcornTorrents,
     yts: ytsTorrents,
   }
+}
+
+const publicCommentProperties = ['_id', 'text', 'date']
+
+export const getMovieCommentsController: Middleware = async ctx => {
+  const imdbId = ctx.params.imdbId
+
+  const movie = await Movie.findOne({ imdbId }).populate('comments.user')
+  ctx.body = {
+    comments: movie ? movie.comments.map(el => _.pick(el, publicCommentProperties)) : [],
+  }
+}
+
+// TODO Add maximum for each field
+export const addMovieCommentController: Middleware = async ctx => {
+  const imdbId = ctx.params.imdbId
+  const textSchema = Joi.string().max(500)
+
+  const { value: text } = await textSchema.validate(ctx.request.body.text)
+
+  ctx.assert(text, 422, 'Data is missing the comment text')
+
+  const newComment = { text, date: new Date(), user: ctx.state.user._id }
+  const torrent = await Movie.findOneAndUpdate({ imdbId }, { $push: { comments: newComment } }, { new: true })
+  if (!torrent) {
+    const newTorrent = new Movie({ imdbId, comments: [newComment] })
+    await newTorrent.save()
+  }
+  ctx.body = {
+    comment: _.pick(newComment, publicCommentProperties)
+  }
+}
+
+export const addTorrentPlaytimeController: Middleware = async ctx => {
+  const play = {
+    createdAt: new Date(),
+    imdbId: ctx.params.imdbId,
+  }
+
+  const me = await User.findOneAndUpdate({ _id: ctx.state.user._id }, { $push: { plays: play } })
+  ctx.assert(me, 500, 'Error adding the torrent play time') // TODO Use real http code
+  ctx.status = 200
 }

@@ -5,8 +5,8 @@ import {
   getMovieController,
   hotMoviesController,
   getMovieTorrentsController,
-  getTorrentCommentsController,
-  addTorrentCommentController,
+  getMovieCommentsController,
+  addMovieCommentController,
   addTorrentPlaytimeController,
 } from '../controllers'
 
@@ -18,8 +18,8 @@ router.get('/movies/search', searchMoviesController)
 router.get('/movies/hot', hotMoviesController)
 router.get('/movies/:imdbID', getMovieController)
 router.get('/movies/:imdbID/torrents', getMovieTorrentsController)
-router.get('/torrents/:hash/comments', getTorrentCommentsController)
-router.post('/torrents/:hash/comments', isUser, addTorrentCommentController)
-router.post('/torrents/:hash/play', isUser, addTorrentPlaytimeController)
+router.get('/movies/:imdbId/comments', getMovieCommentsController)
+router.post('/movies/:imdbId/comments', isUser, addMovieCommentController)
+router.post('/movies/:imdbId/play', isUser, addTorrentPlaytimeController)
 
 export default router

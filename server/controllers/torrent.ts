@@ -1,8 +1,6 @@
 import { Middleware } from 'koa'
 import * as torrentStream from 'torrent-stream'
 
-import { Torrent, User } from '../models'
-
 /*
  ** A torrent magnet link is composed only by two important fields: a hash of the files and a list of trackers that handles sharing of of ip addresses.
  ** We only need to store the hashes to identify and connect to peers.
@@ -32,37 +30,4 @@ export const getTorrentStreamController: Middleware = ctx => {
       })
     })
   })
-}
-
-export const getTorrentCommentsController: Middleware = async ctx => {
-  const hash = ctx.params.hash
-
-  const torrent = await Torrent.findOne({ hash }).populate('comments.user')
-  ctx.body = { comments: torrent ? torrent.comments : [] }
-}
-
-// TODO Add maximum for each field
-export const addTorrentCommentController: Middleware = async ctx => {
-  const hash = ctx.params.hash
-  const text = ctx.request.body.text
-
-  ctx.assert(text, 422, 'Data is missing the comment text') // TODO Use real http code
-
-  const newComment = { text, date: new Date(), user: ctx.state.user._id }
-  const torrent = await Torrent.findOneAndUpdate({ hash }, { $push: { comments: newComment } }, { new: true })
-  if (!torrent) {
-    const newTorrent = new Torrent({ hash, comments: [newComment] })
-    await newTorrent.save()
-  }
-  ctx.status = 200
-}
-
-export const addTorrentPlaytimeController: Middleware = async ctx => {
-  const hash = ctx.params.hash
-  const videoId = ctx.query.videoId
-  const play = { createdAt: new Date(), hash, videoId }
-
-  const me = await User.findOneAndUpdate({ _id: ctx.state.user._id }, { $push: { plays: play } })
-  ctx.assert(me, 400, 'Error adding the torrent play time') // TODO Use real http code
-  ctx.status = 200
 }

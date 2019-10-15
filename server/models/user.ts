@@ -25,7 +25,7 @@ const UserSchema = new Schema({
   facebookAuthId: String,
   intraAuthId: String,
   githubAuthId: String,
-  plays: [{ hash: String, videoId: String, createdAt: Date }],
+  plays: [{ imdbId: String, createdAt: Date }],
 })
 
 UserSchema.methods = {
