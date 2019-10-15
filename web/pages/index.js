@@ -15,15 +15,15 @@ import * as Yup from 'yup'
 import axios from 'axios'
 import API from '../src/API'
 import Link from '../src/Link'
-import LinkOut from '@material-ui/core/Link'
+import MuiLink from '@material-ui/core/Link'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <LinkOut color="inherit" href="https://intra.42.fr/">
+      <MuiLink color="inherit" href="https://intra.42.fr/">
         HyperTube
-      </LinkOut>{' '}
+      </MuiLink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -153,7 +153,7 @@ const SignInSide = withFormik({
     username: Yup.string()
       .required('Email is required'),
     password: Yup.string()
-      .min(8, 'Password must contain at least 8 characters')
+      .min(3, 'Password must contain at least 8 characters')
       .required('Enter your password'),
   }),
 
@@ -178,6 +178,7 @@ const SignInSide = withFormik({
         })
         .catch(error => {
           if (error.response.status === 401){
+            console.log(error);
             setSubmitting(false);
           }
       })

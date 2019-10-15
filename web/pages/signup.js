@@ -2,7 +2,7 @@ import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import LinkOut from '@material-ui/core/Link'
+import MuiLink from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
@@ -28,9 +28,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <LinkOut color="inherit" href="https://intra.42.fr/">
+      <MuiLink color="inherit" href="https://intra.42.fr/">
         HyperTube
-      </LinkOut>{' '}
+      </MuiLink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -379,7 +379,8 @@ const SignUpSide = withFormik({
       .then(
         response => {
           if (response.data.message === 'Authentication successful') {
-            window.location = "/home"
+            // window.location = "/home";
+            return (<Link herf="/home"/>);
           }
         })
       .catch(error => {

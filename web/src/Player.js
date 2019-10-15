@@ -16,6 +16,7 @@ const useStyle = makeStyles(theme => ({
 
 
 const Player = () => {
+
   const classes = useStyle();
 
   return (

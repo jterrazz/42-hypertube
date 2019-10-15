@@ -29,6 +29,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import fetch from 'isomorphic-unfetch';
 
 const drawerWidth = 240;
 
@@ -94,7 +95,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ResponsiveDrawer(props) {
+const ResponsiveDrawer = (props) => {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -176,26 +177,25 @@ function ResponsiveDrawer(props) {
 
   const drawer = (
     <div>
-      {/*<div className={classes.toolbar} />*/}
-        <Grid
-          className={classes.NavBar}
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
-          <Typography variant="h4" gutterBottom>
-            HyperTube
-          </Typography>
-          <Avatar alt="jterr" src="/static/avatar_example.jpeg" className={classes.BigAvatar} />
-          <Typography variant="subtitle2" gutterBottom>
-            Terrazzoni
-            Jean-Baptiste
-          </Typography>
-          <Button color="primary">
-            logout
-          </Button>
-        </Grid>
+      <Grid
+        className={classes.NavBar}
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <Typography variant="h4" gutterBottom>
+          HyperTube
+        </Typography>
+        <Avatar alt="jterr" src="/static/avatar_example.jpeg" className={classes.BigAvatar} />
+        <Typography variant="subtitle2" gutterBottom>
+          Terrazzoni
+          Jean-Baptiste
+        </Typography>
+        <Button color="primary">
+          logout
+        </Button>
+      </Grid>
       <Divider />
       <List
         component="nav" aria-label="main mailbox folders"
@@ -391,7 +391,18 @@ function ResponsiveDrawer(props) {
       </main>
     </div>
   );
-}
+};
+
+ResponsiveDrawer.componentDidMount = async function() {
+  const res = await fetch('http://localhost:3000/movies/hot');
+  const data = await res.json();
+
+  console.log(`Show data fetched. Count: ${data.length}`);
+
+  return {
+    shows: data.map(entry => entry.show)
+  };
+};
 
 ResponsiveDrawer.propTypes = {
   /**

@@ -12,6 +12,7 @@
     "classnames": "^2.2.6",
     "clsx": "latest",
     "formik": "latest",
+    "isomorphic-unfetch": "^3.0.0",
     "lodash": "^4.17.15",
     "next": "latest",
     "prop-types": "latest",

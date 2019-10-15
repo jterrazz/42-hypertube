@@ -11,15 +11,15 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
-import LinkOut from '@material-ui/core/Link'
+import MuiLink from '@material-ui/core/Link'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <LinkOut color="inherit" href="https://intra.42.fr/">
+      <MuiLink color="inherit" href="https://intra.42.fr/">
         HyperTube
-      </LinkOut>{' '}
+      </MuiLink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
