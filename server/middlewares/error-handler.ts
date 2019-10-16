@@ -4,7 +4,7 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    if (err.isPassable) {
+    if (err.isPassable || err.statusCode) {
       ctx.status = err.statusCode
       ctx.message = err.message
     } else {
@@ -12,6 +12,5 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
       ctx.message = 'Internal server error'
       ctx.app.emit('error', err, ctx) // TODO RM ?
     }
-
   }
 }

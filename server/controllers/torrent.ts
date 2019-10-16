@@ -1,13 +1,13 @@
 import { Middleware } from 'koa'
 import * as torrentStream from 'torrent-stream'
+import { Torrent } from '../models'
 
 /*
- ** A torrent magnet link is composed only by two important fields: a hash of the files and a list of trackers that handles sharing of of ip addresses.
- ** We only need to store the hashes to identify and connect to peers.
+ * A torrent magnet link is composed only by two important fields: a hash of the files and a list of trackers that handles sharing of of ip addresses.
+ * We only need to store the hashes to identify and connect to peers.
  */
 
 export const getTorrentStreamController: Middleware = ctx => {
-  // TODO Bad input format check for hash
   const trackers = [
     'glotorrents.pw:6969/announce',
     'tracker.opentrackr.org:1337/announce',
@@ -20,7 +20,8 @@ export const getTorrentStreamController: Middleware = ctx => {
     'open.demonii.com:1337/announce',
   ]
 
-  const hash = '426ec6d01964bac82c0da451b8e67842608fcc61'
+  const hash = ctx.params.hash
+  ctx.assert(hash.length == 40, 404, 'Badly formatted hash')
   const magnet = 'magnet:?xt=urn:btih:' + hash + '&tr=udp://' + trackers.join('&tr=udp://')
   const engine = torrentStream(magnet, { path: `./public/torrents/${hash}` })
 
@@ -28,9 +29,20 @@ export const getTorrentStreamController: Middleware = ctx => {
     // TODO Handle error
     engine.on('ready', () => {
       // TODO By size take 1st .video
-      engine.files.forEach((file) => {
+      engine.files.forEach(async file => {
         const stream = file.createReadStream()
-        ctx.body = stream
+
+        try {
+          const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
+          if (!torrent) {
+            const newTorrent = Torrent({ hash, lastRead: new Date() })
+            await newTorrent.save()
+          }
+        } catch (e) {
+          return reject(e)
+        }
+
+        // ctx.body = stream
         resolve()
       })
     })

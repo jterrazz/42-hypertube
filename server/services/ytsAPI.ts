@@ -2,8 +2,8 @@ import axios from 'axios'
 import * as _ from 'lodash'
 
 import config from '../config'
-import {SearchParams} from "../controllers";
-import {magnetToHash} from "./popcornAPI";
+import { SearchParams } from '../controllers'
+import { magnetToHash } from './popcornAPI'
 
 /*
  * https://yts.lt/api
@@ -22,11 +22,10 @@ ytsClient.interceptors.request.use(request => {
  */
 
 const ytsMovieSerializer = getTorrents => original => {
-  if (typeof original != 'object')
-    return null
+  if (typeof original != 'object') return null
   if (getTorrents) {
     return {
-      torrents: original.torrents
+      torrents: original.torrents,
     }
   }
 
@@ -42,7 +41,7 @@ const ytsMovieSerializer = getTorrents => original => {
     fanart_image: original.background_image,
     poster_image: original.large_cover_image,
     torrents: getTorrents ? original.torrents : null,
-    played: false
+    played: false,
   }
 }
 
@@ -78,7 +77,7 @@ export const getMovieDetails = async imdbID => {
 }
 
 export const getMovieTorrents = async imdbID => {
-  const res = await ytsClient.get('list_movies.json', { params: { query_term: imdbID }})
+  const res = await ytsClient.get('list_movies.json', { params: { query_term: imdbID } })
   const movies = _.get(res, 'data.data.movies')
 
   return movies && movies.length ? movies[0].torrents.map(popcornTorrentSerializer) : null

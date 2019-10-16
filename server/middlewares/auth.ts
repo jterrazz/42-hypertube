@@ -1,7 +1,7 @@
 import { Middleware } from 'koa'
 
 /*
-TODO Document the behaviour of authComplete and explain isUser middlewares
+ * Use these middleware methods to limit the access of a route based on the authentication state.
  */
 
 export const isUser: Middleware = async (ctx, next) => {
@@ -9,11 +9,13 @@ export const isUser: Middleware = async (ctx, next) => {
   await next()
 }
 
-export const checkProfileCompleted: Middleware = async (ctx, next) => {
-  const user = ctx.state.user
-
-  if (user && (!user.firstName || !user.lastName || !user.email)) {
-    return ctx.throw(412, 'The user need to complete profile information')
-  }
-  await next()
-}
+// TODO Remove if not used
+// Document the behaviour of authComplete
+// export const checkProfileCompleted: Middleware = async (ctx, next) => {
+//   const user = ctx.state.user
+//
+//   if (user && (!user.firstName || !user.lastName || !user.email)) {
+//     return ctx.throw(412, 'The user need to complete profile information')
+//   }
+//   await next()
+// }

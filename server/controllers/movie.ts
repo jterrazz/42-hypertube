@@ -70,7 +70,7 @@ export const searchMoviesController: Middleware = async ctx => {
 
   ctx.body = {
     page,
-    movies: movies.map(addPlayToMovie(ctx.state.user))
+    movies: movies.map(addPlayToMovie(ctx.state.user)),
   }
 }
 
@@ -92,7 +92,15 @@ export const getMovieTorrentsController: Middleware = async ctx => {
   }
 }
 
-const publicCommentProperties = ['_id', 'text', 'date', 'user.username', 'user.firstName', 'user.lastName', 'user.profilePicture']
+const publicCommentProperties = [
+  '_id',
+  'text',
+  'date',
+  'user.username',
+  'user.firstName',
+  'user.lastName',
+  'user.profilePicture',
+]
 
 export const getMovieCommentsController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId

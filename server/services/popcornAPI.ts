@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as _ from 'lodash'
-import {SearchParams} from "../controllers";
+import { SearchParams } from '../controllers'
 
 /*
  * https://popcornofficial.docs.apiary.io/#reference/movie/get-page/page
@@ -15,11 +15,10 @@ const popcornClient = axios.create({ baseURL: POPCORN_BASE_URL })
 
 // TODO Maybe refactor both
 const popcornMovieSerializer = getTorrents => original => {
-  if (typeof original != 'object')
-    return null
+  if (typeof original != 'object') return null
   if (getTorrents) {
     return {
-      torrents: original.torrents
+      torrents: original.torrents,
     }
   }
 
@@ -35,7 +34,7 @@ const popcornMovieSerializer = getTorrents => original => {
     fanart_image: _.get(original, '.poster.fanart'),
     poster_image: _.get(original, '.poster.banner'),
     torrents: getTorrents ? original.torrents : null,
-    played: false
+    played: false,
   }
 }
 

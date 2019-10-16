@@ -8,38 +8,37 @@ import * as serve from 'koa-static'
 import * as mount from 'koa-mount'
 
 import { errorMiddleware } from './middlewares/error-handler'
-import { checkProfileCompleted } from './middlewares/auth'
 import logs from './utils/logger'
 import router from './routes'
 import config from './config'
 import './services/auth'
 
+const ORIGIN_WHITELIST = ['http://localhost:4242']
+
 const app = new Koa()
 
-/*
- * A session in created for each authenticated web. Locally the process saves the data,
- * and a secure matching token is sent to the web. If you need to used multiple threads,
- * you can use redis to sync the sessions.
- */
-
-const whitelist = ['http://localhost:4242']
-
-const checkOriginAgainstWhitelist = ctx => {
-  const requestOrigin = ctx.accept.headers.origin;
-  if (!whitelist.includes(requestOrigin)) {
+const checkOriginMiddleware = ctx => {
+  const requestOrigin = ctx.accept.headers.origin
+  if (!ORIGIN_WHITELIST.includes(requestOrigin)) {
     return ctx.throw(`🙈 ${requestOrigin} is not a valid origin`)
   }
   return requestOrigin
 }
 
-app.use(cors({ credentials: true, origin: checkOriginAgainstWhitelist }))
+app.use(cors({ credentials: true, origin: checkOriginMiddleware }))
 app.use(errorMiddleware)
 app.use(bodyParser())
+
+/*
+ * Authentication: An in memory session in created for each authenticated client.
+ * The user data is saved locally, and a secure token matching this token is sent to the client using cookies.
+ * To use multiple threads, the session instance could easily be configured using redis.
+ */
+
 app.keys = [config.SESSION_SECRET]
 app.use(session({}, app))
 app.use(passport.initialize())
 app.use(passport.session())
-// app.use(checkProfileCompleted) // TODO Not for auth routes ? Maybe complete it when doing it
 app.use(router.routes()).use(router.allowedMethods())
 app.use(mount('/subtitles', serve('./public/subtitles')))
 

@@ -26,6 +26,6 @@ export const sendResetPasswordEmail = async to => {
     to,
     subject: 'Hello ✔',
     text: 'Hello world?',
-    html: '<b>Hello world?</b>'
+    html: '<b>Hello world?</b>',
   })
 }

@@ -1,5 +1,6 @@
 import * as Router from 'koa-router'
 
+import { isUser } from '../middlewares/auth'
 import {
   searchMoviesController,
   getMovieController,
@@ -8,21 +9,20 @@ import {
   getMovieCommentsController,
   addMovieCommentController,
   addTorrentPlaytimeController,
-  getMovieSubtitlesController, getMovieSubtitleController,
+  getMovieSubtitlesController,
+  getMovieSubtitleController,
 } from '../controllers'
 
-import { isUser } from '../middlewares/auth'
+const movieRouter = new Router()
 
-const router = new Router()
+movieRouter.get('/search', searchMoviesController)
+movieRouter.get('/hot', hotMoviesController)
+movieRouter.get('/:imdbID', isUser, getMovieController)
+movieRouter.get('/:imdbID/torrents', isUser, getMovieTorrentsController)
+movieRouter.get('/:imdbId/subtitles', isUser, getMovieSubtitlesController)
+movieRouter.get('/:imdbId/subtitles/:lang', isUser, getMovieSubtitleController)
+movieRouter.get('/:imdbId/comments', isUser, getMovieCommentsController)
+movieRouter.post('/:imdbId/comments', isUser, addMovieCommentController)
+movieRouter.post('/:imdbId/play', isUser, addTorrentPlaytimeController)
 
-router.get('/movies/search', searchMoviesController)
-router.get('/movies/hot', hotMoviesController)
-router.get('/movies/:imdbID', getMovieController)
-router.get('/movies/:imdbID/torrents', getMovieTorrentsController)
-router.get('/movies/:imdbId/subtitles', getMovieSubtitlesController)
-router.get('/movies/:imdbId/subtitles/:lang', getMovieSubtitleController)
-router.get('/movies/:imdbId/comments', getMovieCommentsController)
-router.post('/movies/:imdbId/comments', isUser, addMovieCommentController)
-router.post('/movies/:imdbId/play', isUser, addTorrentPlaytimeController)
-
-export default router
+export default movieRouter

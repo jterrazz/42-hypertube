@@ -5,7 +5,7 @@ const MovieSchema = new Schema({
   comments: [
     {
       text: String,
-      user: { type: Schema.Types.ObjectId, ref: 'users' }, // TODO Not working
+      user: { type: Schema.Types.ObjectId, ref: 'users' },
       date: Date,
     },
   ],

@@ -3,25 +3,18 @@ import * as Router from 'koa-router'
 import authRouter from './auth'
 import userRouter from './user'
 import torrentRouter from './torrent'
-import videoRouter from './movie'
-
-// TODO isUser
+import movieRouter from './movie'
 
 /*
- * We use sub-routers to better separate the logic.
- * The main router is then attached to the main koa app.
+ * The use of sub-routers allows to better separate the logic of same type routes.
  */
 
 const router = new Router()
 
 router
-  .use(authRouter.routes())
-  .use(authRouter.allowedMethods())
-  .use(userRouter.routes())
-  .use(userRouter.allowedMethods())
-  .use(torrentRouter.routes())
-  .use(torrentRouter.allowedMethods())
-  .use(videoRouter.routes())
-  .use(videoRouter.allowedMethods())
+  .use('/movies', movieRouter.routes(), movieRouter.allowedMethods())
+  .use('/auth', authRouter.routes(), authRouter.allowedMethods())
+  .use('/torrents', torrentRouter.routes(), torrentRouter.allowedMethods())
+  .use(userRouter.routes(), userRouter.allowedMethods())
 
 export default router

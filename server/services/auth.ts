@@ -6,7 +6,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 import config from '../config'
 import { User } from '../models'
 import * as Joi from '@hapi/joi'
-import { PUBLIC_USER_PROPS } from '../controllers'
+import { PRIVATE_USER_PROPS } from '../controllers'
 
 /*
 TODO Need testing for:
@@ -48,15 +48,21 @@ passport.use(
   new LocalStrategy({ passReqToCallback: true }, async (req, username, password, done) => {
     const userSchema = Joi.object()
       .keys({
-        username: Joi.string().required(),
+        username: Joi.string()
+          .max(42)
+          .required(),
         email: Joi.string()
           .email()
           .required(),
         password: Joi.string()
-          .min(6)
+          .min(8)
           .required(),
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
+        firstName: Joi.string()
+          .max(42)
+          .required(),
+        lastName: Joi.string()
+          .max(42)
+          .required(),
         language: Joi.string().allow('fr', 'en'),
       })
       .required()
@@ -67,13 +73,14 @@ passport.use(
     try {
       await user.savePassword(userInput.password)
       await user.save()
-      done(null, _.pick(user, PUBLIC_USER_PROPS))
+      done(null, _.pick(user, PRIVATE_USER_PROPS))
     } catch (err) {
       if (err.code == 11000 && err.keyPattern) {
-        if (err.keyPattern.hasOwnProperty('username'))
+        if (err.keyPattern.hasOwnProperty('username')) {
           done(new ClientError(409, 'This username is already in use'))
-        else if (err.keyPattern.hasOwnProperty('email'))
+        } else if (err.keyPattern.hasOwnProperty('email')) {
           done(new ClientError(409, 'This email is already in use'))
+        }
       }
       done(err)
     }

@@ -1,9 +1,8 @@
 import * as Router from 'koa-router'
-
 import { getTorrentStreamController } from '../controllers'
 
-const router = new Router()
+const torrentRouter = new Router()
 
-router.get('/torrents/:hash/stream', getTorrentStreamController)
+torrentRouter.get('/:hash/stream', getTorrentStreamController)
 
-export default router
+export default torrentRouter
