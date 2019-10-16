@@ -8,7 +8,7 @@ dotenv.config()
 const envSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string()
-      .allow('development', 'production')
+      .valid('development', 'production')
       .default('development'),
     SERVER_PORT: Joi.number().default(3000),
 

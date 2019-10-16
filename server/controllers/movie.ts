@@ -21,13 +21,6 @@ const OpenSubtitles = new OS({
  * Test example: if (param & SORT_TITLE)
  */
 
-export enum SearchParams {
-  SORT_TITLE = 0x00000001,
-  SORT_ADDED = 0x00000010,
-  SORT_TRENDING_COUNT = 0x00000100,
-  SORT_REVERSE = 0x00001000,
-}
-
 const addPlayToMovie = user => movie => {
   if (user && user.plays) {
     movie.played = user.plays.find(x => x.videoId == movie.imdb_id)
@@ -57,35 +50,51 @@ const MOVIE_GENRES = [
   'superhero',
 ]
 
-export const hotMoviesController: Middleware = async ctx => {
-  const genre = await Joi.string()
-    .allow(...MOVIE_GENRES)
-    .validateAsync(ctx.query.genre)
-  // TODO Use genre
-  const results = await Promise.all([ytsApi.getMostDownloadedMovies(), popcornAPI.getTrendingMovies()])
-
-  ctx.body = {
-    rankedMovies: {
-      yts: results[0].map(addPlayToMovie(ctx.state.user)),
-      popcorn: results[1].map(addPlayToMovie(ctx.state.user)),
-    },
-  }
+export const SearchParamsEnum = {
+  SORT_TITLE: 'title',
+  SORT_ADDED: 'date_added',
+  SORT_TRENDING: 'trending',
+  SORT_RATING: 'rating',
+  SORT_YEAR: 'year',
 }
 
 export const searchMoviesController: Middleware = async ctx => {
   const querySchema = Joi.object().keys({
     query: Joi.string().required(),
     page: Joi.number().positive(),
-    sort: Joi.string().allow('date_added'),
-    genre: Joi.string().allow(...MOVIE_GENRES),
+    sort: Joi.string().valid(...Object.values(SearchParamsEnum)),
+    genre: Joi.string().valid(...MOVIE_GENRES),
+    reverse: Joi.string().valid('true', 'false'),
+    source: Joi.string().valid('yts', 'popcorn'),
   })
 
-  const { query, page, sort, genre } = await querySchema.validateAsync(ctx.query)
-  const movies = await ytsApi.searchMovies(query, page, { sort, genre })
+  const { query, page, sort, genre, reverse, source } = await querySchema.validateAsync(ctx.query)
+  let movies = null
+
+  if (source == 'popcorn') {
+    movies = await popcornAPI.searchMovies(query, page, { sort, genre, reverse })
+  } else {
+    movies = await ytsApi.searchMovies(query, page, { sort, genre, reverse })
+  }
 
   ctx.body = {
     page,
     movies: movies.map(addPlayToMovie(ctx.state.user)),
+  }
+}
+
+export const hotMoviesController: Middleware = async ctx => {
+  const genre = await Joi.string()
+    .valid(...MOVIE_GENRES)
+    .validateAsync(ctx.query.genre)
+
+  const results = await Promise.all([ytsApi.getMostDownloadedMovies(genre), popcornAPI.getTrendingMovies(genre)])
+
+  ctx.body = {
+    rankedMovies: {
+      yts: results[0].map(addPlayToMovie(ctx.state.user)),
+      popcorn: results[1].map(addPlayToMovie(ctx.state.user)),
+    },
   }
 }
 
@@ -141,7 +150,7 @@ export const getMovieSubtitleController: Middleware = ctx => {
     try {
       const imdbId = ctx.params.imdbId
       const lang = await Joi.string()
-        .allow('en', 'fr')
+        .valid('en', 'fr')
         .required()
         .validateAsync(ctx.params.lang)
 

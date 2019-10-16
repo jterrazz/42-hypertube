@@ -2,7 +2,7 @@ import axios from 'axios'
 import * as _ from 'lodash'
 
 import config from '../config'
-import { SearchParams } from '../controllers'
+import { SearchParamsEnum } from '../controllers'
 
 /*
  * Documentation
@@ -36,7 +36,6 @@ class YtsSerializer {
       yt_trailer_id: original.yt_trailer_code,
       fanart_image: original.background_image,
       poster_image: original.large_cover_image,
-      torrents: getTorrents ? original.torrents : null,
       played: false,
     }
   }
@@ -56,25 +55,48 @@ class YtsSerializer {
 
 /*
  * YTS API calls
+ * Options: { }
+ * Match to https://yts.lt/api#list_movies
  */
 
 export const searchMovies = async (query, page, options) => {
-  const { genre, sort } = options
-  const reqConfig = {
-    params: {
-      query_term: query,
-      sort_by: 'date',
-      limit: 20,
-      genre,
-    },
+  const { genre, sort, reverse } = options
+
+  const params = {
+    query_term: query,
+    order_by: reverse ? 'asc' : 'desc',
+    sort_by: sort,
+    limit: 20,
+    genre,
+    page,
   }
-  const res = await ytsClient.get('list_movies.json', reqConfig)
+
+  switch (options.sort) {
+    case SearchParamsEnum.SORT_ADDED:
+      params.sort_by = 'trending'
+      break
+    case SearchParamsEnum.SORT_TRENDING:
+      params.sort_by = 'download_count'
+      break
+    case SearchParamsEnum.SORT_RATING:
+      params.sort_by = 'rating'
+      break
+    case SearchParamsEnum.SORT_YEAR:
+      params.sort_by = 'year'
+      break
+    default:
+      params.sort_by = 'title'
+      break
+  }
+
+  const res = await ytsClient.get('list_movies.json', { params })
   const movies = _.get(res, 'data.data.movies', [])
 
   return Array.isArray(movies) ? movies.map(YtsSerializer.movie(false)) : []
 }
 
-export const getMostDownloadedMovies = async () => searchMovies(null, 1, SearchParams.SORT_TRENDING_COUNT) // Trending is download_count for yts
+export const getMostDownloadedMovies = async genre =>
+  searchMovies(null, 1, { genre, sort: SearchParamsEnum.SORT_TRENDING }) // Trending is download_count for yts
 
 export const getMovieDetails = async imdbID => {
   const movies = await searchMovies(imdbID, 1, null)

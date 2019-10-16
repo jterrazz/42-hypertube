@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as _ from 'lodash'
-import { SearchParams } from '../controllers'
+import { SearchParamsEnum } from '../controllers'
 
 /*
  * Documentation
@@ -25,14 +25,14 @@ class PopcornSerializer {
     return {
       title: original.title_english || original.title,
       imdb_id: original.imdb_id,
-      year: original.year,
-      rating: _.get(original, '.rating.percentage') / 10,
-      runtime: original.runtime,
+      year: Number(original.year),
+      rating: _.get(original, 'rating.percentage') / 10,
+      runtime: Number(original.runtime),
       genres: original.genres,
       summary: original.synopsis,
       yt_trailer_id: original.trailer,
-      fanart_image: _.get(original, '.poster.fanart'),
-      poster_image: _.get(original, '.poster.banner'),
+      fanart_image: _.get(original, 'images.fanart'),
+      poster_image: _.get(original, 'images.banner'),
       played: false,
     }
   }
@@ -52,21 +52,43 @@ class PopcornSerializer {
 
 /*
  * Popcorn-time API calls
+ * option:
+ * Match: https://popcornofficial.docs.apiary.io/#reference/movie/get-pages/page
  */
 
 export const searchMovies = async (query, page, options) => {
-  const params: any = { order: -1, genre: 'all' }
+  const { genre, sort, reverse } = options
 
-  switch (options) {
-    case SearchParams.SORT_TRENDING_COUNT:
+  const params = {
+    keywords: query,
+    order: reverse ? '1' : '-1',
+    sort: sort,
+    genre,
+  }
+
+  switch (options.sort) {
+    case SearchParamsEnum.SORT_ADDED:
+      params.sort = 'updated'
+      break
+    case SearchParamsEnum.SORT_TRENDING:
       params.sort = 'trending'
+      break
+    case SearchParamsEnum.SORT_RATING:
+      params.sort = 'rating'
+      break
+    case SearchParamsEnum.SORT_YEAR:
+      params.sort = 'SORT_YEAR'
+      break
+    default:
+      params.sort = 'title'
+      break
   }
 
   const res = await popcornClient.get(`movies/${page || 1}`, { params })
   return _.get(res, 'data', []).map(PopcornSerializer.movie)
 }
 
-export const getTrendingMovies = async () => searchMovies(null, 1, SearchParams.SORT_TRENDING_COUNT)
+export const getTrendingMovies = async genre => searchMovies(null, 1, { genre, sort: SearchParamsEnum.SORT_TRENDING })
 
 export const getMovieDetails = async imdbID => {
   const res = await popcornClient.get(`/movie/${imdbID}`)
