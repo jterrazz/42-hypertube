@@ -8,26 +8,6 @@ import { User } from '../models'
 import * as Joi from '@hapi/joi'
 import { PRIVATE_USER_PROPS } from '../controllers'
 
-/*
-TODO Need testing for:
-- 3 steps of third party authentication: User exists, User mail exists, No user exists
-- Check errors are passed and promise handled
- */
-
-passport.serializeUser((user, done) => {
-  done(null, user._id)
-})
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const currentUser = await User.findOne({ _id: id })
-    if (!currentUser) done(new Error('User not found')) // TODO pass error to the web (error code disconnect)
-    done(null, currentUser)
-  } catch (err) {
-    done(err)
-  }
-})
-
 export class ClientError extends Error {
   constructor(code, message) {
     super(message)
@@ -39,7 +19,27 @@ export class ClientError extends Error {
 }
 
 /*
- ** Username/password
+ * Serialize: When a client login, we send him a secure token tied to the user._id
+ * Deserialize: When the client makes a request, he attach this secure token to its request. From the id,
+ * we then get retrieve the full user object. We can access this information with ctx.state.user
+ */
+
+passport.serializeUser((user, done) => {
+  done(null, user._id)
+})
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const currentUser = await User.findOne({ _id: id })
+    if (!currentUser) done(new ClientError(404, 'User not found'))
+    done(null, currentUser)
+  } catch (err) {
+    done(err)
+  }
+})
+
+/*
+ * STRATEGY: Username/password
  */
 
 // TODO Add maximum for each field
@@ -102,7 +102,7 @@ passport.use(
 )
 
 /*
- ** Google
+ * STRATEGY: Google
  */
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy
@@ -150,7 +150,7 @@ passport.use(
 )
 
 /*
- ** Facebook
+ * STRATEGY: Facebook
  */
 
 const FacebookStrategy = require('passport-facebook').Strategy
@@ -208,7 +208,7 @@ passport.use(
 )
 
 /*
- ** 42
+ * STRATEGY: 42
  */
 
 const FortyTwoStrategy = require('passport-42').Strategy
@@ -253,7 +253,7 @@ passport.use(
 )
 
 /*
- ** GitHub
+ * STRATEGY: GitHub
  */
 
 const GitHubStrategy = require('passport-github').Strategy

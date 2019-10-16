@@ -15,9 +15,6 @@ const OpenSubtitles = new OS({
   ssl: true,
 })
 
-// TODO Maybe translate titles etc
-// TODO Add viewed torrents
-
 /*
  * All the search params are centralized here.
  * Build example: const param = SORT_TITLE | SORT_REVERSE
@@ -76,15 +73,15 @@ export const searchMoviesController: Middleware = async ctx => {
 
 export const getMovieController: Middleware = async ctx => {
   const movie =
-    (await popcornAPI.getMovieDetails(ctx.params.imdbID)) || (await ytsApi.getMovieDetails(ctx.params.imdbID))
+    (await popcornAPI.getMovieDetails(ctx.params.imdbId)) || (await ytsApi.getMovieDetails(ctx.params.imdbId))
   ctx.body = {
     movie: addPlayToMovie(ctx.state.user)(movie),
   }
 }
 
 export const getMovieTorrentsController: Middleware = async ctx => {
-  const popcornTorrents = await popcornAPI.getMovieTorrents(ctx.params.imdbID)
-  const ytsTorrents = await ytsApi.getMovieTorrents(ctx.params.imdbID)
+  const popcornTorrents = await popcornAPI.getMovieTorrents(ctx.params.imdbId)
+  const ytsTorrents = await ytsApi.getMovieTorrents(ctx.params.imdbId)
 
   ctx.body = {
     popcorn: popcornTorrents,

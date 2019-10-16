@@ -7,10 +7,6 @@ export interface UserModelInterface extends Document {
   authenticate(password: string): boolean
 }
 
-/*
- ** Email and username indexes are defined during database init in the mongo-init.js file
- */
-
 const UserSchema = new Schema({
   username: { type: String, required: true },
   firstName: String,

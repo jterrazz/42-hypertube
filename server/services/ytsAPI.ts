@@ -6,6 +6,7 @@ import { SearchParams } from '../controllers'
 import { magnetToHash } from './popcornAPI'
 
 /*
+ * Documentation
  * https://yts.lt/api
  */
 

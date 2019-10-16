@@ -3,6 +3,7 @@ import * as _ from 'lodash'
 import { SearchParams } from '../controllers'
 
 /*
+ * Documentation
  * https://popcornofficial.docs.apiary.io/#reference/movie/get-page/page
  */
 
