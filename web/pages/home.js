@@ -30,6 +30,8 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import fetch from 'isomorphic-unfetch';
+import API from "../src/API";
+import axios from 'axios'
 
 const drawerWidth = 240;
 
@@ -95,7 +97,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ResponsiveDrawer = (props) => {
+function ResponsiveDrawer(props) {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -393,14 +395,15 @@ const ResponsiveDrawer = (props) => {
   );
 };
 
-ResponsiveDrawer.componentDidMount = async function() {
+ResponsiveDrawer.getInitialProps = async ({ req }) => {
   const res = await fetch('http://localhost:3000/movies/hot');
-  const data = await res.json();
+  // const data = await res.json();
 
-  console.log(`Show data fetched. Count: ${data.length}`);
+  console.log(`Show data fetched. Count: ${res}`);
 
   return {
-    shows: data.map(entry => entry.show)
+    // shows: data.map(entry => entry.show)
+    shows: res
   };
 };
 

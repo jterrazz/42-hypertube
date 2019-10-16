@@ -5,7 +5,7 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Avatar from "@material-ui/core/Avatar";
 
 import withStyles from "@material-ui/core/styles/withStyles";
-import classnames from "classnames";
+import classNames from "classnames";
 
 const customImageInputStyle = theme => ({
   hidden: { display: "none" },
@@ -89,7 +89,7 @@ class CustomImageInput extends Component {
     const { errorMessage, classes } = this.props;
     const { name } = this.props.field;
 
-    const avatarStyle = classnames(
+    const avatarStyle = classNames(
       classes.bigAvatar,
       this.state.file ? [classes.whiteBack] : [classes.primaryBack],
       { [classes.errorBack]: errorMessage }

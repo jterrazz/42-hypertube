@@ -6,7 +6,10 @@ import Divider from "@material-ui/core/Divider/Divider";
 import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import HomeIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import SearchIcon from '@material-ui/icons/Search';
+import PersonIcon from '@material-ui/icons/Person';
+import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import React from "react";
 import {makeStyles, useTheme} from "@material-ui/core";
@@ -20,9 +23,6 @@ import PropTypes from 'prop-types';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
@@ -47,6 +47,24 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     background: "#F2F5F9"
   },
+  content: {
+    flexGrow: 1,
+    // padding: theme.spacing(3),
+  },
+  BigAvatar: {
+    width: 80,
+    height: 80,
+    marginTop: 40,
+    marginBottom: 40
+  },
+  NavBar: {
+    marginTop: 40,
+    marginBottom: 40
+  },
+  listItem: {
+    marginTop: 20,
+    marginLeft: 20
+  }
 }));
 
 const ResponsiveDrawer = (props) => {
@@ -60,68 +78,72 @@ const ResponsiveDrawer = (props) => {
   };
 
   const drawer = (
-      <div>
-        <Grid
-            className={classes.NavBar}
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-        >
-          <Typography variant="h4" gutterBottom>
-            HyperTube
-          </Typography>
-          <Avatar alt="jterr" src="/static/avatar_example.jpeg" className={classes.BigAvatar}/>
-          <Typography variant="subtitle2" gutterBottom>
-            Terrazzoni
-            Jean-Baptiste
-          </Typography>
-          <Button color="primary">
-            logout
-          </Button>
-        </Grid>
-        <Divider/>
-        <List
-            component="nav" aria-label="main mailbox folders"
-            className={classes.listItem}
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <HomeIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Home"/>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <SearchIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Search"/>
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <PersonIcon/>
-            </ListItemIcon>
-            <ListItemText primary="My profile"/>
-          </ListItem>
-        </List>
-      </div>
+    <>
+      <Grid
+        className={classes.NavBar}
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <Typography variant="h4" gutterBottom>
+          HyperTube
+        </Typography>
+        <Avatar
+          alt="jterr"
+          src="/static/avatar_example.jpeg"
+          className={classes.BigAvatar}
+        />
+        <Typography variant="subtitle2" gutterBottom>
+          Terrazzoni
+          Jean-Baptiste
+        </Typography>
+        <Button color="primary">
+          logout
+        </Button>
+      </Grid>
+      <Divider />
+      <List
+        component="nav" aria-label="main mailbox folders"
+        className={classes.listItem}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <SearchIcon />
+          </ListItemIcon>
+          <ListItemText primary="Search" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <PersonIcon />
+          </ListItemIcon>
+          <ListItemText primary="My profile" />
+        </ListItem>
+      </List>
+    </>
   );
 
-  return (
+  return(
     <>
       <AppBar
-          position="fixed"
-          className={classes.appBar}
-          color={"default"}
-          elevation={0}
+        position="fixed"
+        className={classes.appBar}
+        color={"default"}
+        elevation={0}
       >
         <Toolbar>
           <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
@@ -131,35 +153,35 @@ const ResponsiveDrawer = (props) => {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
-              container={container}
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
           >
             {drawer}
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
           <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
           >
             {drawer}
           </Drawer>
         </Hidden>
       </nav>
     </>
-  );
+  )
 };
 
 ResponsiveDrawer.propTypes = {

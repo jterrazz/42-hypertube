@@ -107,14 +107,6 @@ const data_torrent = [
   }
 ];
 
-const source_torrent = [
-  {
-    name: 'ThePirateBay',
-  },{
-    name: 'KickassTorrente',
-  }
-];
-
 function ResponsiveDrawer(props) {
   const { container } = props;
   const classes = useStyles();

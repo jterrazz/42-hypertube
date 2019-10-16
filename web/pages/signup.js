@@ -379,8 +379,7 @@ const SignUpSide = withFormik({
       .then(
         response => {
           if (response.data.message === 'Authentication successful') {
-            // window.location = "/home";
-            return (<Link herf="/home"/>);
+            window.location = "/home";
           }
         })
       .catch(error => {

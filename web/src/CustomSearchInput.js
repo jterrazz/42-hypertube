@@ -1,6 +1,6 @@
 import React from 'react';
 import deburr from 'lodash/deburr';
-import Autosuggest from 'react-autosuggest';
+import AutoSuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import TextField from '@material-ui/core/TextField';
@@ -21,19 +21,19 @@ function renderInputComponent(inputProps) {
   const { classes, inputRef = () => {}, ref, ...other } = inputProps;
 
   return (
-      <TextField
-          fullWidth
-          InputProps={{
-            inputRef: node => {
-              ref(node);
-              inputRef(node);
-            },
-            classes: {
-              input: classes.input,
-            },
-          }}
-          {...other}
-      />
+    <TextField
+      fullWidth
+      InputProps={{
+        inputRef: node => {
+          ref(node);
+          inputRef(node);
+        },
+        classes: {
+          input: classes.input,
+        },
+      }}
+      {...other}
+    />
   );
 }
 
@@ -42,15 +42,15 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
   const parts = parse(suggestion.label, matches);
 
   return (
-      <MenuItem selected={isHighlighted} component="div">
-        <div>
-          {parts.map(part => (
-              <span key={part.text} style={{ fontWeight: part.highlight ? 500 : 400 }}>
-            {part.text}
-          </span>
-          ))}
-        </div>
-      </MenuItem>
+    <MenuItem selected={isHighlighted} component="div">
+      <div>
+        {parts.map(part => (
+            <span key={part.text} style={{ fontWeight: part.highlight ? 500 : 400 }}>
+          {part.text}
+        </span>
+        ))}
+      </div>
+    </MenuItem>
   );
 }
 
@@ -60,17 +60,17 @@ function getSuggestions(value) {
   let count = 0;
 
   return inputLength === 0
-      ? []
-      : suggestions.filter(suggestion => {
-        const keep =
-            count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
+    ? []
+    : suggestions.filter(suggestion => {
+      const keep =
+          count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
 
-        if (keep) {
-          count += 1;
-        }
+      if (keep) {
+        count += 1;
+      }
 
-        return keep;
-      });
+      return keep;
+    });
 }
 
 function getSuggestionValue(suggestion) {
@@ -142,30 +142,30 @@ export default function IntegrationAutosuggest() {
   };
 
   return (
-      <div className={classes.root}>
-        <Autosuggest
-            {...autosuggestProps}
-            inputProps={{
-              classes,
-              id: 'react-autosuggest-simple',
-              label: 'Search',
-              placeholder: 'Find Movies, TV Shhows, ...',
-              value: state.single,
-              onChange: handleChange('single'),
-            }}
-            theme={{
-              container: classes.container,
-              suggestionsContainerOpen: classes.suggestionsContainerOpen,
-              suggestionsList: classes.suggestionsList,
-              suggestion: classes.suggestion,
-            }}
-            renderSuggestionsContainer={options => (
-                <Paper {...options.containerProps} square>
-                  {options.children}
-                </Paper>
-            )}
-        />
-        <div className={classes.divider} />
-      </div>
+    <div className={classes.root}>
+      <AutoSuggest
+        {...autosuggestProps}
+        inputProps={{
+          classes,
+          id: 'react-autosuggest-simple',
+          label: 'Search',
+          placeholder: 'Find Movies, TV Shhows, ...',
+          value: state.single,
+          onChange: handleChange('single'),
+        }}
+        theme={{
+          container: classes.container,
+          suggestionsContainerOpen: classes.suggestionsContainerOpen,
+          suggestionsList: classes.suggestionsList,
+          suggestion: classes.suggestion,
+        }}
+        renderSuggestionsContainer={options => (
+            <Paper {...options.containerProps} square>
+              {options.children}
+            </Paper>
+        )}
+      />
+      <div className={classes.divider} />
+    </div>
   );
 }

@@ -205,7 +205,7 @@ function ResponsiveDrawer(props) {
           <div className={classes.toolbar} />
           <Container fixed>
             <Grid>
-              <Player className={classes.player} />
+              <Player />
             </Grid>
             <Grid container spacing={3} style={{ marginTop: 10}}>
               <Grid item xs={12} md={8}>
