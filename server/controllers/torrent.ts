@@ -33,6 +33,7 @@ export const getTorrentStreamController: Middleware = ctx => {
         const stream = file.createReadStream()
 
         try {
+          // TODO Maybe put before
           const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
           if (!torrent) {
             const newTorrent = Torrent({ hash, lastRead: new Date() })

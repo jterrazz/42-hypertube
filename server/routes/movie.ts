@@ -15,14 +15,16 @@ import {
 
 const movieRouter = new Router()
 
-movieRouter.get('/search', searchMoviesController)
-movieRouter.get('/hot', hotMoviesController)
-movieRouter.get('/:imdbId', isUser, getMovieController)
-movieRouter.get('/:imdbId/torrents', isUser, getMovieTorrentsController)
-movieRouter.get('/:imdbId/subtitles', isUser, getMovieSubtitlesController)
-movieRouter.get('/:imdbId/subtitles/:lang', isUser, getMovieSubtitleController)
-movieRouter.get('/:imdbId/comments', isUser, getMovieCommentsController)
-movieRouter.post('/:imdbId/comments', isUser, addMovieCommentController)
-movieRouter.post('/:imdbId/play', isUser, addTorrentPlaytimeController)
+movieRouter
+  .use(isUser)
+  .get('/search', searchMoviesController)
+  .get('/hot', hotMoviesController)
+  .get('/:imdbId', getMovieController)
+  .get('/:imdbId/torrents', getMovieTorrentsController)
+  .get('/:imdbId/subtitles', getMovieSubtitlesController)
+  .get('/:imdbId/subtitles/:lang', getMovieSubtitleController)
+  .get('/:imdbId/comments', getMovieCommentsController)
+  .post('/:imdbId/comments', addMovieCommentController)
+  .post('/:imdbId/play', addTorrentPlaytimeController)
 
 export default movieRouter

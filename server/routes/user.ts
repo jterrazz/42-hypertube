@@ -4,8 +4,10 @@ import { isUser } from '../middlewares/auth'
 
 const userRouter = new Router()
 
-userRouter.get('/me', getMeController)
-userRouter.patch('/me', isUser, updateMeController)
-userRouter.get('/users/:username', getUsernameController)
+userRouter
+  .use(isUser)
+  .get('/me', getMeController)
+  .patch('/me', updateMeController)
+  .get('/users/:username', getUsernameController)
 
 export default userRouter
