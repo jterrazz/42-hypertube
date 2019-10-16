@@ -50,7 +50,6 @@ export const hotMoviesController: Middleware = async ctx => {
   }
 }
 
-// TODO If error is axios then throw error 500
 export const searchMoviesController: Middleware = async ctx => {
   const querySchema = Joi.object()
     .keys({
