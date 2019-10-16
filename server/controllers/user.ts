@@ -14,7 +14,7 @@ export const getMeController: Middleware = async ctx => {
 
 export const getUsernameController: Middleware = async ctx => {
   const usernameValidator = Joi.string().required()
-  const { value: username } = await usernameValidator.validate(ctx.params.username)
+  const username = await usernameValidator.validateAsync(ctx.params.username)
 
   const user = await User.findOne({ username })
   ctx.assert(user, 404, 'User not found')
@@ -33,7 +33,7 @@ export const updateMeController: Middleware = async ctx => {
     })
     .required()
 
-  const { value: userInput } = await userSchema.validate(ctx.request.body)
+  const userInput = await userSchema.validateAsync(ctx.request.body)
   await User.updateOne({ _id: ctx.state.user._id }, userInput)
   if (userInput.password) {
     const user = await User.findOne({ _id: ctx.state.user._id })

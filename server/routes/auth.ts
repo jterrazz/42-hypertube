@@ -10,6 +10,10 @@ authRouter
   .post('/signup', passport.authenticate('signup'), successfulAuthController)
   .post('/signin', passport.authenticate('signin'), successfulAuthController)
   .post('/reset-password', resetPasswordController)
+  .get('/logout', ctx => {
+    ctx.logout()
+    ctx.status = 200
+  })
 
   // Third parties
   .get(

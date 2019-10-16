@@ -56,6 +56,7 @@ passport.use(
           .required(),
         password: Joi.string()
           .min(8)
+          .max(100)
           .required(),
         firstName: Joi.string()
           .max(42)
@@ -67,7 +68,7 @@ passport.use(
       })
       .required()
 
-    const { value: userInput } = await userSchema.validate(req.body)
+    const userInput = await userSchema.validateAsync(req.body)
     const user = new User(userInput)
 
     try {

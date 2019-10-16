@@ -13,10 +13,10 @@ export const successfulAuthController: Middleware = async ctx => {
 }
 
 export const resetPasswordController: Middleware = async ctx => {
-  const { value: email } = await Joi.string()
+  const email = await Joi.string()
     .email()
     .required()
-    .validate(ctx.query.email)
+    .validateAsync(ctx.query.email)
 
   await sendResetPasswordEmail(email)
   ctx.status = 200

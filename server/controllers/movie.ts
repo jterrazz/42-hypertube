@@ -39,7 +39,29 @@ const addPlayToMovie = user => movie => {
  * Controllers
  */
 
+const MOVIE_GENRES = [
+  'comedy',
+  'sci-fi',
+  'horror',
+  'romance',
+  'action',
+  'thriller',
+  'drama',
+  'mystery',
+  'crime',
+  'animation',
+  'adventure',
+  'fantasy',
+  'comedy-romance',
+  'action-comedy',
+  'superhero',
+]
+
 export const hotMoviesController: Middleware = async ctx => {
+  const genre = await Joi.string()
+    .allow(...MOVIE_GENRES)
+    .validateAsync(ctx.query.genre)
+  // TODO Use genre
   const results = await Promise.all([ytsApi.getMostDownloadedMovies(), popcornAPI.getTrendingMovies()])
 
   ctx.body = {
@@ -51,18 +73,15 @@ export const hotMoviesController: Middleware = async ctx => {
 }
 
 export const searchMoviesController: Middleware = async ctx => {
-  const querySchema = Joi.object()
-    .keys({
-      query: Joi.string().required(),
-      page: Joi.number().positive(),
-      sort: Joi.string().allow('date_added'),
-    })
-    .required()
+  const querySchema = Joi.object().keys({
+    query: Joi.string().required(),
+    page: Joi.number().positive(),
+    sort: Joi.string().allow('date_added'),
+    genre: Joi.string().allow(...MOVIE_GENRES),
+  })
 
-  const {
-    value: { query, page },
-  } = await querySchema.validate(ctx.query)
-  const movies = await ytsApi.searchMovies(query, page, null)
+  const { query, page, sort, genre } = await querySchema.validateAsync(ctx.query)
+  const movies = await ytsApi.searchMovies(query, page, { sort, genre })
 
   ctx.body = {
     page,
@@ -121,10 +140,10 @@ export const getMovieSubtitleController: Middleware = ctx => {
   return new Promise(async (resolve, reject) => {
     try {
       const imdbId = ctx.params.imdbId
-      const { value: lang } = await Joi.string()
+      const lang = await Joi.string()
         .allow('en', 'fr')
         .required()
-        .validate(ctx.params.lang)
+        .validateAsync(ctx.params.lang)
 
       const filename = imdbId + '-' + lang + '.vtt'
       const filepath = `${__dirname}/../public/subtitles/${filename}`
@@ -168,7 +187,7 @@ export const addMovieCommentController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId
   const textSchema = Joi.string().max(500)
 
-  const { value: text } = await textSchema.validate(ctx.request.body.text)
+  const text = await textSchema.validateAsync(ctx.request.body.text)
 
   ctx.assert(text, 422, 'Data is missing the comment text')
 

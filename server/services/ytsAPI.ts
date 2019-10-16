@@ -59,7 +59,16 @@ class YtsSerializer {
  */
 
 export const searchMovies = async (query, page, options) => {
-  const res = await ytsClient.get('list_movies.json', { params: { query_term: query, sort_by: 'date', limit: 20 } })
+  const { genre, sort } = options
+  const reqConfig = {
+    params: {
+      query_term: query,
+      sort_by: 'date',
+      limit: 20,
+      genre,
+    },
+  }
+  const res = await ytsClient.get('list_movies.json', reqConfig)
   const movies = _.get(res, 'data.data.movies', [])
 
   return Array.isArray(movies) ? movies.map(YtsSerializer.movie(false)) : []
