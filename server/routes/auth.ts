@@ -1,7 +1,7 @@
 import * as passport from 'koa-passport'
 import * as Router from 'koa-router'
 
-import { resetPasswordController, successfulAuthController } from '../controllers'
+import { sendResetEmailController, successfulAuthController, resetPasswordController } from '../controllers'
 
 const authRouter = new Router()
 
@@ -9,6 +9,7 @@ authRouter
   // Local
   .post('/signup', passport.authenticate('signup'), successfulAuthController)
   .post('/signin', passport.authenticate('signin'), successfulAuthController)
+  .post('/send-reset-email', sendResetEmailController)
   .post('/reset-password', resetPasswordController)
   .get('/logout', (ctx: any) => {
     ctx.logout()

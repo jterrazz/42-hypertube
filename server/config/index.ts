@@ -11,6 +11,7 @@ const envSchema = Joi.object()
       .valid('development', 'production')
       .default('development'),
     SERVER_PORT: Joi.number().default(3000),
+    CLIENT_URL: Joi.string().required(),
 
     // MongoDB
     MONGO_URL: Joi.string().default('mongodb://localhost/hypertube'),
@@ -19,7 +20,6 @@ const envSchema = Joi.object()
 
     // Security
     JWT_SECRET: Joi.string().default('test_only_secret'),
-    JWT_EXP_DELAY: Joi.number().default(60 * 60 * 24 * 31),
     SESSION_SECRET: Joi.string().default('test_only_secret'),
     BCRYPT_COST: Joi.number().default(10),
 

@@ -42,8 +42,15 @@ app.use(passport.session())
 app.use(router.routes()).use(router.allowedMethods())
 app.use(mount('/subtitles', serve('./public/subtitles')))
 
+const mongoOptions = {
+  useNewUrlParser: true,
+  user: config.MONGO_USER,
+  pass: config.MONGO_PWD,
+  useUnifiedTopology: true,
+}
+
 mongoose
-  .connect(config.MONGO_URL, { useNewUrlParser: true, user: config.MONGO_USER, pass: config.MONGO_PWD, useUnifiedTopology: true })
+  .connect(config.MONGO_URL, mongoOptions)
   .then(() => {
     app
       .listen(config.SERVER_PORT, () => {

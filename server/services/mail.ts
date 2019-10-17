@@ -5,15 +5,20 @@ const mailgun = require('mailgun-js')({
   domain: config.API_NODE_MAILER_DOMAIN,
 })
 
-export const sendResetPasswordEmail = async to => {
-  const data = {
-    from: 'hypertube@' + config.API_NODE_MAILER_DOMAIN,
-    to,
-    subject: 'Reinit password',
-    text: 'To reainitialize your mail go here: ',
-    html: '<b>To reainitialize your mail go here: </b>',
-  }
-  return await mailgun.messages().send(data, function (error, body) {
-    console.log(body)
+export const sendResetPasswordEmail = (to, token) =>
+  new Promise((resolve, reject) => {
+    const resetLink = `${config.CLIENT_URL}/reset-password?token=${token}`
+
+    const mailData = {
+      from: 'hypertube@' + config.API_NODE_MAILER_DOMAIN,
+      to,
+      subject: 'Reinit password',
+      text: `To reainitialize your mail go here: ${resetLink}`,
+      html: `<b>To change your password click <a href="${resetLink}">here</a></b>`,
+    }
+
+    mailgun.messages().send(mailData, (err, body) => {
+      if (err) return reject(err)
+      resolve(body)
+    })
   })
-}
