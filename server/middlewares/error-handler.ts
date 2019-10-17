@@ -13,7 +13,7 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
     } else {
       ctx.status = 500
       ctx.message = 'Internal server error'
-      ctx.app.emit('error', err, ctx) // TODO RM ?
+      ctx.app.emit('error', err, ctx)
     }
   }
 }
