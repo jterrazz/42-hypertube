@@ -227,11 +227,47 @@ const HomeComponent = (props, {movie = null}) => {
           </Grid>
           <Box mt={2}>
             <Typography variant="h6">
-              Browse by category
+              Yts
             </Typography>
           </Box>
           <Grid container spacing={4} style={{ marginTop: 15 }}>
-            {props.movie && props.movie.popcorn && props.movie.yts ? [...props.movie.popcorn.slice(0, 3), ...props.movie.yts.slice(0, 3)].map((item, index) => (
+            {props.movie && props.movie.yts ? props.movie.yts.slice(0, 6).map((item, index) => (
+              <Grid item xs={4} md={2} key={index}>
+                <Card elevation={0} className={classes.card}>
+                  <CardActionArea>
+                    <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
+                    <CardContent>
+                      <Typography gutterBottom variant="subtitle2" component="h5">
+                        {item.title}
+                      </Typography>
+                      <Box mb={1}>
+                        <Typography variant="caption" color="textSecondary">
+                          {item.release_date}
+                        </Typography>
+                      </Box>
+                      <Rating
+                        style={{ fontSize: 13 }}
+                        name="customized-empty"
+                        value={1}
+                        max={1}
+                        emptyIcon={<StarBorderIcon />}
+                      />
+                      <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
+                        {`${item.rating} (${item.runtime} min)`}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            )) : 'loading'}
+          </Grid>
+          <Box mt={2}>
+            <Typography variant="h6">
+              Popcorn
+            </Typography>
+          </Box>
+          <Grid container spacing={4} style={{ marginTop: 15 }}>
+            {props.movie && props.movie.popcorn ? props.movie.popcorn.slice(0, 6).map((item, index) => (
               <Grid item xs={4} md={2} key={index}>
                 <Card elevation={0} className={classes.card}>
                   <CardActionArea>
