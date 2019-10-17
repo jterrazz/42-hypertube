@@ -3,7 +3,8 @@
   "scripts": {
     "lint": "eslint --fix --ext .js,.jsx,.ts .",
     "dev": "nodemon index.ts | pino-pretty",
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "reset": "rm -rf public/images/* cache/* public/torrents/* public/subtitles/*"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.5",

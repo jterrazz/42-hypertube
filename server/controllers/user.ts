@@ -27,9 +27,10 @@ export const getUsernameController: Middleware = async ctx => {
 
 /*
  * Requires Image available bc multer middleware
+ * TODO Utils folder ?
  */
 
-const transfertImage = file =>
+export const transfertImage = file =>
   new Promise((resolve, reject) => {
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
       const newName = crypto.randomBytes(20).toString('hex')
@@ -71,6 +72,18 @@ export const updateMeController: Middleware = async ctx => {
       fs.unlink(IMAGE_FOLDER + oldImage, err => {})
     }
   }
-  await user.save()
+  try {
+    await user.save()
+  } catch (err) {
+    if (err.code == 11000 && err.keyPattern) {
+      if (err.keyPattern.hasOwnProperty('username')) {
+        throw new ClientError(409, 'This username is already in use')
+      } else if (err.keyPattern.hasOwnProperty('email')) {
+        throw new ClientError(409, 'This email is already in use')
+      }
+    }
+    throw err
+  }
+
   ctx.status = 200
 }

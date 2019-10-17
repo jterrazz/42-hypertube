@@ -68,10 +68,10 @@ passport.use(
       })
       .required()
 
-    const userInput = await userSchema.validateAsync(req.body)
-    const user = new User(userInput)
-
     try {
+      const userInput = await userSchema.validateAsync(req.body)
+
+      const user = new User(userInput)
       await user.savePassword(userInput.password)
       await user.save()
       done(null, _.pick(user, PRIVATE_USER_PROPS))

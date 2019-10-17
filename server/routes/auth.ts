@@ -1,13 +1,18 @@
 import * as passport from 'koa-passport'
 import * as Router from 'koa-router'
 
-import { sendResetEmailController, successfulAuthController, resetPasswordController } from '../controllers'
+import {
+  sendResetEmailController,
+  successfulAuthController,
+  resetPasswordController,
+} from '../controllers'
+import {cacheFileMiddleware, saveProfileImageMiddleware} from '../middlewares/file-uploads'
 
 const authRouter = new Router()
 
 authRouter
   // Local
-  .post('/signup', passport.authenticate('signup'), successfulAuthController)
+  .post('/signup', cacheFileMiddleware, passport.authenticate('signup'), saveProfileImageMiddleware, successfulAuthController)
   .post('/signin', passport.authenticate('signin'), successfulAuthController)
   .post('/send-reset-email', sendResetEmailController)
   .post('/reset-password', resetPasswordController)
