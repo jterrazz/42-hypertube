@@ -27,6 +27,7 @@ export const getTorrentStreamController: Middleware = ctx => {
 
   return new Promise((resolve, reject) => {
     // TODO Handle error
+    // TODO Only stream when enought
     engine.on('ready', () => {
       // TODO By size take 1st .video
       engine.files.forEach(async file => {

@@ -48,7 +48,7 @@ class YtsSerializer {
     return {
       seeds: original.seeds,
       peers: original.peers,
-      size: original.size_bytes,
+      size: original.size,
       url: original.url,
       hash: original.url.substr(original.url.length - 40),
     }
