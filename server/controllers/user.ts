@@ -1,12 +1,16 @@
 import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 import * as _ from 'lodash'
+import * as fs from 'fs'
 
 import { User } from '../models'
+import {ClientError} from "../services/auth";
+import * as crypto from "crypto";
 
-export const PUBLIC_USER_PROPS = ['profilePicture', 'language', 'firstName', 'lastName', 'username']
+export const PUBLIC_USER_PROPS = ['profileImageName', 'language', 'firstName', 'lastName', 'username']
 
 export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', ...PUBLIC_USER_PROPS]
+const IMAGE_FOLDER = __dirname + '/../public/images/'
 
 export const getMeController: Middleware = async ctx => {
   ctx.body = _.pick(ctx.state.user, PRIVATE_USER_PROPS)
@@ -25,6 +29,19 @@ export const getUsernameController: Middleware = async ctx => {
  * Requires Image available bc multer middleware
  */
 
+const transfertImage = file =>
+  new Promise((resolve, reject) => {
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const newName = crypto.randomBytes(20).toString('hex')
+      fs.rename(file.path, IMAGE_FOLDER + newName, err => {
+        if (err) return reject(err)
+        resolve(newName)
+      })
+    } else {
+      reject(new ClientError(422, 'Supported images format: png and jpeg'))
+    }
+  })
+
 export const updateMeController: Middleware = async ctx => {
   const userSchema = Joi.object()
     .keys({
@@ -37,15 +54,23 @@ export const updateMeController: Middleware = async ctx => {
     })
     .required()
 
-  console.log(ctx.request.files)
-  console.log(ctx.request.body)
-
   const userInput = await userSchema.validateAsync(ctx.request.body)
-  await User.updateOne({ _id: ctx.state.user._id }, userInput)
+  const profileImage = ctx.request.files['profile-image']
+
+  let user = await User.findOne({ _id: ctx.state.user._id })
+  ctx.assert(user, 404, "User doesn't exist")
+
+  _.merge(user, userInput)
   if (userInput.password) {
-    const user = await User.findOne({ _id: ctx.state.user._id })
     await user.savePassword(userInput.password)
-    await user.save()
   }
+  if (profileImage) {
+    const oldImage = user.profileImageName
+    user.profileImageName = await transfertImage(profileImage)
+    if (oldImage) {
+      fs.unlink(IMAGE_FOLDER + oldImage, err => {})
+    }
+  }
+  await user.save()
   ctx.status = 200
 }

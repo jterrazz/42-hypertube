@@ -12,10 +12,7 @@ const UserSchema = new Schema({
   firstName: String,
   lastName: String,
   email: { type: String, required: true },
-  profilePicture: {
-    name: { type: String, required: true },
-    data: { type: String, required: true },
-  },
+  profileImageName: String,
   language: String,
   hashedPassword: String,
   googleAuthId: String,

@@ -1,3 +1,10 @@
 import * as koaBody from 'koa-body'
 
-export const cacheFileMiddleware = koaBody({ multipart: true, formidable: { uploadDir: __dirname + '/../cache' } })
+const MAX_FILE_SIZE = 1024 * 1024 * 5
+
+const formidableOptions = {
+  uploadDir: __dirname + '/../cache',
+  maxFileSize: MAX_FILE_SIZE
+}
+
+export const cacheFileMiddleware = koaBody({ multipart: true, formidable: formidableOptions })
