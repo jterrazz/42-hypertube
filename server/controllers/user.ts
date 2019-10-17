@@ -21,6 +21,10 @@ export const getUsernameController: Middleware = async ctx => {
   ctx.body = _.pick(user, PUBLIC_USER_PROPS)
 }
 
+/*
+ * Requires Image available bc multer middleware
+ */
+
 export const updateMeController: Middleware = async ctx => {
   const userSchema = Joi.object()
     .keys({
@@ -32,6 +36,9 @@ export const updateMeController: Middleware = async ctx => {
       language: Joi.string().valid('fr-FR', 'en-US'),
     })
     .required()
+
+  console.log(ctx.request.files)
+  console.log(ctx.request.body)
 
   const userInput = await userSchema.validateAsync(ctx.request.body)
   await User.updateOne({ _id: ctx.state.user._id }, userInput)

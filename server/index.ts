@@ -1,5 +1,5 @@
 import * as Koa from 'koa'
-import * as bodyParser from 'koa-bodyparser'
+import * as koaBody from 'koa-body'
 import * as session from 'koa-session'
 import * as mongoose from 'mongoose'
 import * as passport from 'koa-passport'
@@ -27,7 +27,7 @@ const checkOriginMiddleware = ctx => {
 
 app.use(cors({ credentials: true, origin: checkOriginMiddleware }))
 app.use(errorMiddleware)
-app.use(bodyParser())
+app.use(koaBody())
 
 /*
  * Authentication: An in memory session in created for each authenticated client.

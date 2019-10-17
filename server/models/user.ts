@@ -13,7 +13,8 @@ const UserSchema = new Schema({
   lastName: String,
   email: { type: String, required: true },
   profilePicture: {
-    url: String,
+    name: { type: String, required: true },
+    data: { type: String, required: true },
   },
   language: String,
   hashedPassword: String,

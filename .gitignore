@@ -1,9 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-public/
+
+*/cache/*
+*/public/images/*
+*/public/subtitles/*
+*/public/torrents/*
+!.gitkeep
 
 # dependencies
-*node_modules
+node_modules
 *.pnp
 .pnp.js
 
@@ -19,7 +24,7 @@ public/
 
 # misc
 .DS_Store
-server/.env
+.env
 
 # debug
 npm-debug.log*

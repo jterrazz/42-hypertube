@@ -6,9 +6,9 @@ import axios from 'axios'
 import * as fs from 'fs'
 import * as srt2vtt from 'srt2vtt'
 
-import * as ytsApi from '../services/ytsAPI'
-import * as popcornAPI from '../services/popcornAPI'
-import * as tmdbAPI from '../services/tmdbAPI'
+import * as ytsApi from '../services/yts-api'
+import * as popcornAPI from '../services/popcorn-api'
+import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
 
 const OpenSubtitles = new OS({
