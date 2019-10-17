@@ -5,4 +5,4 @@ const TorrentSchema = new Schema({
   lastRead: Date,
 })
 
-export const Torrent: any = model('torrents', TorrentSchema)
+export const Torrent = model('torrents', TorrentSchema)

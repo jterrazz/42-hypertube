@@ -8,12 +8,24 @@ import * as serve from 'koa-static'
 import * as mount from 'koa-mount'
 
 import { errorMiddleware } from './middlewares/error-handler'
+import { clearCacheJob, clearOldMoviesJob } from './utils/cron'
 import logs from './utils/logger'
 import router from './routes'
 import config from './config'
 import './services/auth'
 
 const ORIGIN_WHITELIST = ['http://localhost:4242']
+
+/*
+ * Cron jobs
+ */
+
+clearCacheJob()
+clearOldMoviesJob()
+
+/*
+ * API setup
+ */
 
 const app = new Koa()
 

@@ -8,6 +8,7 @@ import { Torrent } from '../models'
  */
 
 export const getTorrentStreamController: Middleware = ctx => {
+  // They both use a static list of trackers
   const trackers = [
     'glotorrents.pw:6969/announce',
     'tracker.opentrackr.org:1337/announce',
@@ -37,7 +38,7 @@ export const getTorrentStreamController: Middleware = ctx => {
           // TODO Maybe put before
           const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
           if (!torrent) {
-            const newTorrent = Torrent({ hash, lastRead: new Date() })
+            const newTorrent = new Torrent({ hash, lastRead: new Date() })
             await newTorrent.save()
           }
         } catch (e) {
