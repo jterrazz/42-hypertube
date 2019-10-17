@@ -31,11 +31,10 @@ class YtsSerializer {
     return {
       title: original.title_english || original.title,
       imdb_id: original.imdb_code,
-      year: original.year,
+      release_date: String(original.year),
       rating: original.rating,
       runtime: original.runtime,
-      genres: original.genres,
-      summary: original.summary,
+      overview: original.summary,
       yt_trailer_id: original.yt_trailer_code,
       fanart_image: original.background_image,
       poster_image: original.large_cover_image,

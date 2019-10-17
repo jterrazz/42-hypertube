@@ -25,11 +25,10 @@ class PopcornSerializer {
     return {
       title: original.title_english || original.title,
       imdb_id: original.imdb_id,
-      year: Number(original.year),
+      release_date: original.year,
       rating: _.get(original, 'rating.percentage') / 10,
       runtime: Number(original.runtime),
-      genres: original.genres,
-      summary: original.synopsis,
+      overview: original.synopsis,
       yt_trailer_id: original.trailer,
       fanart_image: _.get(original, 'images.fanart'),
       poster_image: _.get(original, 'images.banner'),

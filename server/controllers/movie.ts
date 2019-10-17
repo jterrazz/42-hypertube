@@ -102,7 +102,7 @@ export const hotMoviesController: Middleware = async ctx => {
 // TODO Convert to have the same keys + add url paths
 export const getMovieController: Middleware = async ctx => {
   const movie =
-    (await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language) || await popcornAPI.getMovieDetails(ctx.params.imdbId)) || (await ytsApi.getMovieDetails(ctx.params.imdbId))
+    await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language) || await popcornAPI.getMovieDetails(ctx.params.imdbId) || await ytsApi.getMovieDetails(ctx.params.imdbId)
   ctx.body = {
     movie: addPlayToMovie(ctx.state.user)(movie),
   }
