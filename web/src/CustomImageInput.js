@@ -1,35 +1,35 @@
-import React, { Component } from "react";
-import Typography from "@material-ui/core/Typography";
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import Avatar from "@material-ui/core/Avatar";
+import React, { Component } from 'react'
+import Typography from '@material-ui/core/Typography'
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
+import Avatar from '@material-ui/core/Avatar'
 
-import withStyles from "@material-ui/core/styles/withStyles";
-import classNames from "classnames";
+import withStyles from '@material-ui/core/styles/withStyles'
+import classNames from 'classnames'
 
 const customImageInputStyle = theme => ({
-  hidden: { display: "none" },
+  hidden: { display: 'none' },
   bigAvatar: {
-    margin: "auto",
+    margin: 'auto',
     width: 60,
     height: 60,
     borderColor: theme.palette.primary.main,
-    borderStyle: "solid",
-    borderSize: "1px",
-    cursor: "pointer"
+    borderStyle: 'solid',
+    borderSize: '1px',
+    cursor: 'pointer',
   },
   avatarThumb: {
     maxWidth: 60,
-    maxHeight: 60
+    maxHeight: 60,
   },
   primaryBack: {
-    background: theme.palette.primary.main
+    background: theme.palette.primary.main,
   },
   whiteBack: {
-    background: "white"
+    background: 'white',
   },
 
-  errorBack: { background: theme.palette.error.main }
+  errorBack: { background: theme.palette.error.main },
 });
 
 class CustomImageInput extends Component {
@@ -42,28 +42,28 @@ class CustomImageInput extends Component {
 
   state = {
     file: undefined,
-    imagePreviewUrl: undefined
+    imagePreviewUrl: undefined,
   };
 
   showFileUpload() {
     if (this.fileUpload) {
-      this.fileUpload.current.click();
+      this.fileUpload.current.click()
     }
   }
 
   handleImageChange(e) {
     e.preventDefault();
-    let reader = new FileReader();
-    let file = e.target.files[0];
+    const reader = new FileReader();
+    const file = e.target.files[0];
     if (file) {
       reader.onloadend = () => {
         this.setState({
           file: file,
-          imagePreviewUrl: reader.result
-        });
+          imagePreviewUrl: reader.result,
+        })
       };
       reader.readAsDataURL(file);
-      this.props.setFieldValue(this.props.field.name, file);
+      this.props.setFieldValue(this.props.field.name, file)
     }
   }
 
@@ -74,26 +74,22 @@ class CustomImageInput extends Component {
     let comp = null;
 
     if (errorMessage) {
-      comp = <ErrorOutlineIcon style={{ fontSize: 30 }}/>;
+      comp = <ErrorOutlineIcon style={{ fontSize: 30 }} />
     } else if (file) {
-      comp = (
-          <img className={classes.avatarThumb} src={imagePreviewUrl} alt="avatar" />
-      );
+      comp = <img className={classes.avatarThumb} src={imagePreviewUrl} alt="avatar" />
     } else {
-      comp = <PhotoCameraIcon style={{ fontSize: 30 }}/>;
+      comp = <PhotoCameraIcon style={{ fontSize: 30 }} />
     }
-    return comp;
+    return comp
   }
 
   render() {
     const { errorMessage, classes } = this.props;
     const { name } = this.props.field;
 
-    const avatarStyle = classNames(
-      classes.bigAvatar,
-      this.state.file ? [classes.whiteBack] : [classes.primaryBack],
-      { [classes.errorBack]: errorMessage }
-    );
+    const avatarStyle = classNames(classes.bigAvatar, this.state.file ? [classes.whiteBack] : [classes.primaryBack], {
+      [classes.errorBack]: errorMessage,
+    });
 
     return (
       <>
@@ -116,8 +112,8 @@ class CustomImageInput extends Component {
           </Typography>
         ) : null}
       </>
-    );
+    )
   }
 }
 
-export default withStyles(customImageInputStyle)(CustomImageInput);
+export default withStyles(customImageInputStyle)(CustomImageInput)

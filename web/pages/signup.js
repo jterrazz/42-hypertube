@@ -17,12 +17,11 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import PersonalVideoIcon from '@material-ui/icons/PersonalVideo'
 import { withFormik, Field } from 'formik'
 import * as Yup from 'yup'
-import CustomImageInput from "../src/CustomImageInput";
-import Recaptcha from "react-recaptcha";
-import axios from "axios";
-import API from "../src/API";
+import CustomImageInput from '../src/CustomImageInput'
+import Recaptcha from 'react-recaptcha'
+import axios from 'axios'
+import API from '../src/API'
 import Link from '../src/Link'
-
 
 function Copyright() {
   return (
@@ -74,20 +73,11 @@ const useStyles = makeStyles(theme => ({
     width: 50,
     height: 50,
   },
-}));
+}))
 
 const signUpSide = props => {
-  const {
-    values,
-    touched,
-    errors,
-    isSubmitting,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-  } = props;
-  const classes = useStyles();
+  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit, setFieldValue } = props
+  const classes = useStyles()
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -144,9 +134,9 @@ const signUpSide = props => {
                   component={CustomImageInput}
                   title="Select a file"
                   setFieldValue={setFieldValue}
-                  errorMessage={errors["file"] ? errors["file"] : undefined}
-                  touched={touched["file"]}
-                  style={{ display: "flex" }}
+                  errorMessage={errors['file'] ? errors['file'] : undefined}
+                  touched={touched['file']}
+                  style={{ display: 'flex' }}
                   onBlur={handleBlur}
                 />
               </Grid>
@@ -262,13 +252,14 @@ const signUpSide = props => {
                     name="recaptcha"
                     sitekey="6Lfdu7wUAAAAAMj_bppkQZ8kSLrcd_6Vv1P-xHgF"
                     render="explicit"
-                    verifyCallback={(response) => { setFieldValue("recaptcha", response); }}
+                    verifyCallback={response => {
+                      setFieldValue('recaptcha', response)
+                    }}
                   />
-                  {errors.recaptcha
-                  && touched.recaptcha && (
-                      <Typography variant="caption" color="error">
-                        {errors.recaptcha}
-                      </Typography>
+                  {errors.recaptcha && touched.recaptcha && (
+                    <Typography variant="caption" color="error">
+                      {errors.recaptcha}
+                    </Typography>
                   )}
                 </div>
               </Grid>
@@ -303,14 +294,10 @@ const signUpSide = props => {
       </Grid>
     </Grid>
   )
-};
+}
 
-const FILE_SIZE = 1600 * 1024;
-const SUPPORTED_FORMATS = [
-  "image/jpg",
-  "image/jpeg",
-  "image/png"
-];
+const FILE_SIZE = 1600 * 1024
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png']
 
 const SignUpSide = withFormik({
   mapPropsToValues: ({ firstName, lastName, userName, email, password, confirmPassword, file, recaptcha }) => {
@@ -330,9 +317,9 @@ const SignUpSide = withFormik({
     firstName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
     userName: Yup.string()
-        .required('Required')
-        .strict()
-        .trim('Spaces not allowed in UserName'),
+      .required('Required')
+      .strict()
+      .trim('Spaces not allowed in UserName'),
     email: Yup.string()
       .email('Enter a valid email')
       .required('Email is required'),
@@ -358,37 +345,36 @@ const SignUpSide = withFormik({
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const user = {
-      name:{
+      name: {
         first: values.firstName,
         last: values.lastName,
       },
       username: values.userName,
       password: values.password,
       email: values.email,
-    };
+    }
 
     const transport = axios.create({
-      withCredentials: true
-    });
+      withCredentials: true,
+    })
 
-
-    transport.post(API.signup, user)
-      .then(
-        response => {
-          if (response.data.message === 'Authentication successful') {
-            window.location = "/home";
-          }
-        })
+    transport
+      .post(API.signup, user)
+      .then(response => {
+        if (response.data.message === 'Authentication successful') {
+          window.location = '/home'
+        }
+      })
       .catch(error => {
         // if (error.response.status === 401){
         //   setSubmitting(false);
         // }
-        console.log(error);
+        console.log(error)
       })
   },
-})(signUpSide);
+})(signUpSide)
 
-export default SignUpSide;
+export default SignUpSide

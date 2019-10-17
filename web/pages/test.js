@@ -1,17 +1,28 @@
-import React from 'react'
-import fetch from 'isomorphic-unfetch'
+import React, { Component } from 'react'
+import axios from 'axios'
 
-function Page({ stars }) {
-  return <div>Next stars: {stars}</div>
-}
+axios.defaults.withCredentials= true;
 
-Page.getInitialProps = async () => {
-  const res = await fetch('https://api.github.com/repos/zeit/next.js');
-  const data = await res.json();
+class Page extends Component {
+  state = {
+    stars: []
+  };
 
-  return {
-    stars: data.node_id
+  async componentDidMount() {
+    const response = await axios.get('http://localhost:3000/movies/hot');
+
+    console.log(response.data.rankedMovies);
+
+    const res = response.data.rankedMovies.popcorn;
+
+    this.setState({ stars: res })
   }
-};
-
+  render () {
+    return (
+      <div>
+        {this.state.stars.map((item, index) => <div key={index}>{item.title}</div>)}
+      </div>
+    )
+  }
+}
 export default Page

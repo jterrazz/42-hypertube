@@ -1,12 +1,12 @@
-import React from 'react';
-import deburr from 'lodash/deburr';
-import AutoSuggest from 'react-autosuggest';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react'
+import deburr from 'lodash/deburr'
+import AutoSuggest from 'react-autosuggest'
+import match from 'autosuggest-highlight/match'
+import parse from 'autosuggest-highlight/parse'
+import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
+import MenuItem from '@material-ui/core/MenuItem'
+import { makeStyles } from '@material-ui/core/styles'
 
 const suggestions = [
   { label: 'Avangers' },
@@ -15,18 +15,18 @@ const suggestions = [
   { label: 'Dumbo' },
   { label: 'HellBoy' },
   { label: 'Joker' },
-];
+]
 
 function renderInputComponent(inputProps) {
-  const { classes, inputRef = () => {}, ref, ...other } = inputProps;
+  const { classes, inputRef = () => {}, ref, ...other } = inputProps
 
   return (
     <TextField
       fullWidth
       InputProps={{
         inputRef: node => {
-          ref(node);
-          inputRef(node);
+          ref(node)
+          inputRef(node)
         },
         classes: {
           input: classes.input,
@@ -34,47 +34,46 @@ function renderInputComponent(inputProps) {
       }}
       {...other}
     />
-  );
+  )
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.label, query);
-  const parts = parse(suggestion.label, matches);
+  const matches = match(suggestion.label, query)
+  const parts = parse(suggestion.label, matches)
 
   return (
     <MenuItem selected={isHighlighted} component="div">
       <div>
         {parts.map(part => (
-            <span key={part.text} style={{ fontWeight: part.highlight ? 500 : 400 }}>
-          {part.text}
-        </span>
+          <span key={part.text} style={{ fontWeight: part.highlight ? 500 : 400 }}>
+            {part.text}
+          </span>
         ))}
       </div>
     </MenuItem>
-  );
+  )
 }
 
 function getSuggestions(value) {
-  const inputValue = deburr(value.trim()).toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
+  const inputValue = deburr(value.trim()).toLowerCase()
+  const inputLength = inputValue.length
+  let count = 0
 
   return inputLength === 0
     ? []
     : suggestions.filter(suggestion => {
-      const keep =
-          count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
+        const keep = count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue
 
-      if (keep) {
-        count += 1;
-      }
+        if (keep) {
+          count += 1
+        }
 
-      return keep;
-    });
+        return keep
+      })
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.label;
+  return suggestion.label
 }
 
 const useStyles = makeStyles(theme => ({
@@ -104,33 +103,33 @@ const useStyles = makeStyles(theme => ({
     height: theme.spacing(2),
   },
   input: {
-    fontSize: 36
-  }
-}));
+    fontSize: 36,
+  },
+}))
 
 export default function IntegrationAutosuggest() {
-  const classes = useStyles();
+  const classes = useStyles()
   const [state, setState] = React.useState({
     single: '',
     popper: '',
-  });
+  })
 
-  const [stateSuggestions, setSuggestions] = React.useState([]);
+  const [stateSuggestions, setSuggestions] = React.useState([])
 
   const handleSuggestionsFetchRequested = ({ value }) => {
-    setSuggestions(getSuggestions(value));
-  };
+    setSuggestions(getSuggestions(value))
+  }
 
   const handleSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
+    setSuggestions([])
+  }
 
   const handleChange = name => (event, { newValue }) => {
     setState({
       ...state,
       [name]: newValue,
-    });
-  };
+    })
+  }
 
   const autosuggestProps = {
     renderInputComponent,
@@ -139,7 +138,7 @@ export default function IntegrationAutosuggest() {
     onSuggestionsClearRequested: handleSuggestionsClearRequested,
     getSuggestionValue,
     renderSuggestion,
-  };
+  }
 
   return (
     <div className={classes.root}>
@@ -160,12 +159,12 @@ export default function IntegrationAutosuggest() {
           suggestion: classes.suggestion,
         }}
         renderSuggestionsContainer={options => (
-            <Paper {...options.containerProps} square>
-              {options.children}
-            </Paper>
+          <Paper {...options.containerProps} square>
+            {options.children}
+          </Paper>
         )}
       />
       <div className={classes.divider} />
     </div>
-  );
+  )
 }

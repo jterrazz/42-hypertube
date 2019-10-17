@@ -1,26 +1,26 @@
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
-import Avatar from "@material-ui/core/Avatar/Avatar";
-import Button from "@material-ui/core/Button/Button";
-import Divider from "@material-ui/core/Divider/Divider";
-import List from "@material-ui/core/List/List";
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import SearchIcon from '@material-ui/icons/Search';
-import PersonIcon from '@material-ui/icons/Person';
-import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import React from "react";
-import {makeStyles, useTheme} from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar/AppBar";
-import Toolbar from "@material-ui/core/Toolbar/Toolbar";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import Hidden from "@material-ui/core/Hidden/Hidden";
-import Drawer from "@material-ui/core/Drawer/Drawer";
-import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid/Grid'
+import Typography from '@material-ui/core/Typography/Typography'
+import Avatar from '@material-ui/core/Avatar/Avatar'
+import Button from '@material-ui/core/Button/Button'
+import Divider from '@material-ui/core/Divider/Divider'
+import List from '@material-ui/core/List/List'
+import ListItem from '@material-ui/core/ListItem/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon'
+import SearchIcon from '@material-ui/icons/Search'
+import PersonIcon from '@material-ui/icons/Person'
+import MenuIcon from '@material-ui/icons/Menu'
+import HomeIcon from '@material-ui/icons/Home'
+import ListItemText from '@material-ui/core/ListItemText/ListItemText'
+import React from 'react'
+import { makeStyles, useTheme } from '@material-ui/core'
+import AppBar from '@material-ui/core/AppBar/AppBar'
+import Toolbar from '@material-ui/core/Toolbar/Toolbar'
+import IconButton from '@material-ui/core/IconButton/IconButton'
+import Hidden from '@material-ui/core/Hidden/Hidden'
+import Drawer from '@material-ui/core/Drawer/Drawer'
+import PropTypes from 'prop-types'
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    background: "#F2F5F9"
+    background: '#F2F5F9',
   },
   content: {
     flexGrow: 1,
@@ -55,58 +55,42 @@ const useStyles = makeStyles(theme => ({
     width: 80,
     height: 80,
     marginTop: 40,
-    marginBottom: 40
+    marginBottom: 40,
   },
   NavBar: {
     marginTop: 40,
-    marginBottom: 40
+    marginBottom: 40,
   },
   listItem: {
     marginTop: 20,
-    marginLeft: 20
-  }
-}));
+    marginLeft: 20,
+  },
+}))
 
-const ResponsiveDrawer = (props) => {
-  const { container } = props;
-  const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+const ResponsiveDrawer = props => {
+  const { container } = props
+  const classes = useStyles()
+  const theme = useTheme()
+  const [mobileOpen, setMobileOpen] = React.useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
 
   const drawer = (
     <>
-      <Grid
-        className={classes.NavBar}
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-      >
+      <Grid className={classes.NavBar} container direction="column" justify="center" alignItems="center">
         <Typography variant="h4" gutterBottom>
           HyperTube
         </Typography>
-        <Avatar
-          alt="jterr"
-          src="/static/avatar_example.jpeg"
-          className={classes.BigAvatar}
-        />
+        <Avatar alt="jterr" src="/static/avatar_example.jpeg" className={classes.BigAvatar} />
         <Typography variant="subtitle2" gutterBottom>
-          Terrazzoni
-          Jean-Baptiste
+          Terrazzoni Jean-Baptiste
         </Typography>
-        <Button color="primary">
-          logout
-        </Button>
+        <Button color="primary">logout</Button>
       </Grid>
       <Divider />
-      <List
-        component="nav" aria-label="main mailbox folders"
-        className={classes.listItem}
-      >
+      <List component="nav" aria-label="main mailbox folders" className={classes.listItem}>
         <ListItem button>
           <ListItemIcon>
             <HomeIcon />
@@ -127,16 +111,11 @@ const ResponsiveDrawer = (props) => {
         </ListItem>
       </List>
     </>
-  );
+  )
 
-  return(
+  return (
     <>
-      <AppBar
-        position="fixed"
-        className={classes.appBar}
-        color={"default"}
-        elevation={0}
-      >
+      <AppBar position="fixed" className={classes.appBar} color={'default'} elevation={0}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -182,7 +161,7 @@ const ResponsiveDrawer = (props) => {
       </nav>
     </>
   )
-};
+}
 
 ResponsiveDrawer.propTypes = {
   /**
@@ -190,6 +169,6 @@ ResponsiveDrawer.propTypes = {
    * You won't need it on your project.
    */
   container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
-};
+}
 
-export default ResponsiveDrawer;
+export default ResponsiveDrawer

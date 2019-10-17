@@ -1,23 +1,21 @@
-import React from "react";
-import ReactPlayer from "react-player";
-import {makeStyles} from "@material-ui/core";
+import React from 'react'
+import ReactPlayer from 'react-player'
+import { makeStyles } from '@material-ui/core'
 
 const useStyle = makeStyles(() => ({
   playerWrapper: {
     position: 'relative',
-    paddingTop: '56.25%' /* 720 / 1280 = 0.5625 */
+    paddingTop: '56.25%' /* 720 / 1280 = 0.5625 */,
   },
   reactPlayer: {
     position: 'absolute',
     top: 0,
     left: 0,
-  }
-}));
-
+  },
+}))
 
 const Player = () => {
-
-  const classes = useStyle();
+  const classes = useStyle()
 
   return (
     <div className={classes.playerWrapper}>
@@ -31,6 +29,6 @@ const Player = () => {
       />
     </div>
   )
-};
+}
 
-export default Player;
+export default Player
