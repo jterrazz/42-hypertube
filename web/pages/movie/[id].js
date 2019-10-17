@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar'
 import Container from '@material-ui/core/Container'
@@ -24,6 +24,9 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
+import { withRouter } from 'next/router'
+import axios from "axios";
+import API from "../../src/API";
 
 const drawerWidth = 240;
 
@@ -106,7 +109,7 @@ const data_torrent = [
   },
 ];
 
-function ResponsiveDrawer(props) {
+const MovieComponent = (props, {movie = null}) => {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -205,7 +208,7 @@ function ResponsiveDrawer(props) {
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
               <Typography variant="h2" gutterBottom>
-                Avengers: Endgame
+                {props.movie ? props.movie.title : ''}
               </Typography>
               <Typography variant="h4" gutterBottom color="textSecondary">
                 24 avril 2019
@@ -219,11 +222,12 @@ function ResponsiveDrawer(props) {
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <CardMedia
-                className={classes.media}
-                image="https://media.melty.fr/article-3996373-head-f5/avengers-endgame-avengers.jpg"
-                title="avangers"
-              />
+              {props.movie && props.movie.fanart_image ?
+                <CardMedia
+                  className={classes.media}
+                  image={props.movie.fanart_image}
+                  title="avangers"
+                /> : ''}
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h4">Torrents</Typography>
@@ -291,9 +295,9 @@ function ResponsiveDrawer(props) {
       </main>
     </div>
   )
-}
+};
 
-ResponsiveDrawer.propTypes = {
+MovieComponent.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -301,4 +305,36 @@ ResponsiveDrawer.propTypes = {
   container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
 };
 
-export default ResponsiveDrawer
+axios.defaults.withCredentials = true;
+
+class Movie extends Component {
+  state = {
+    movie: []
+  };
+
+  static async getInitialProps({req, query: { id }}) {
+    return {
+      movieId: id
+    }
+  }
+
+  async componentDidMount() {
+    console.log(this.props.movieId);
+
+    const response = await axios.get(`${API.movie}/${this.props.movieId}`);
+
+    const res = response.data;
+
+    console.log(res.movie.title);
+
+    this.setState({ movie: res })
+  }
+
+  render () {
+    return (
+      <MovieComponent movie={this.state.movie}/>
+    )
+  }
+}
+
+export default withRouter(Movie);

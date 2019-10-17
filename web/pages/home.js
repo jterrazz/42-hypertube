@@ -30,6 +30,9 @@ import MenuIcon from '@material-ui/icons/Menu'
 import HomeIcon from '@material-ui/icons/Home'
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 import API from '../src/API'
+import Link from '../src/Link'
+import PropTypes from "prop-types";
+import ResponsiveDrawer from "./film";
 
 const drawerWidth = 240;
 
@@ -119,12 +122,12 @@ const HomeComponent = (props, {movie = null}) => {
       </Grid>
       <Divider />
       <List className={classes.listItem}>
-        {/*<ListItem button>*/}
-          {/*<ListItemIcon>*/}
-            {/*<HomeIcon />*/}
-          {/*</ListItemIcon>*/}
-          {/*<ListItemText primary="Home" />*/}
-        {/*</ListItem>*/}
+        <ListItem button>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
         {/*<ListItem button>*/}
           {/*<ListItemIcon>*/}
             {/*<SearchIcon />*/}
@@ -198,29 +201,29 @@ const HomeComponent = (props, {movie = null}) => {
             {props.movie && props.movie.popcorn ? props.movie.popcorn.slice(0, 2).map((item, index) => (
               <Grid key={index} item xs={12} md={6}>
                 <Card elevation={0}>
-                  <CardActionArea>
+                  <Link href={`/movie/${item.imdb_id}`}>
                     <CardMedia title={item.title} image={item.fanart_image} className={classes.Bigimg} />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {item.title}
+                  </Link>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {item.title}
+                    </Typography>
+                    <Box mb={1}>
+                      <Typography variant="body2" color="textSecondary">
+                        {item.release_date}
                       </Typography>
-                      <Box mb={1}>
-                        <Typography variant="body2" color="textSecondary">
-                          {item.release_date}
-                        </Typography>
-                      </Box>
-                      <Rating
-                        style={{ fontSize: 13 }}
-                        name="customized-empty"
-                        value={1}
-                        max={1}
-                        emptyIcon={<StarBorderIcon />}
-                      />
-                      <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
-                        {`${item.rating} (${item.runtime} min)`}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                    </Box>
+                    <Rating
+                      style={{ fontSize: 13 }}
+                      name="customized-empty"
+                      value={1}
+                      max={1}
+                      emptyIcon={<StarBorderIcon />}
+                    />
+                    <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
+                      {`${item.rating} (${item.runtime} min)`}
+                    </Typography>
+                  </CardContent>
                 </Card>
               </Grid>
             )) : 'loading' }
@@ -234,29 +237,29 @@ const HomeComponent = (props, {movie = null}) => {
             {props.movie && props.movie.yts ? props.movie.yts.slice(0, 6).map((item, index) => (
               <Grid item xs={4} md={2} key={index}>
                 <Card elevation={0} className={classes.card}>
-                  <CardActionArea>
+                  <Link href={`/movie/${item.imdb_id}`}>
                     <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
-                    <CardContent>
-                      <Typography gutterBottom variant="subtitle2" component="h5">
-                        {item.title}
+                  </Link>
+                  <CardContent>
+                    <Typography gutterBottom variant="subtitle2" component="h5">
+                      {item.title}
+                    </Typography>
+                    <Box mb={1}>
+                      <Typography variant="caption" color="textSecondary">
+                        {item.release_date}
                       </Typography>
-                      <Box mb={1}>
-                        <Typography variant="caption" color="textSecondary">
-                          {item.release_date}
-                        </Typography>
-                      </Box>
-                      <Rating
-                        style={{ fontSize: 13 }}
-                        name="customized-empty"
-                        value={1}
-                        max={1}
-                        emptyIcon={<StarBorderIcon />}
-                      />
-                      <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
-                        {`${item.rating} (${item.runtime} min)`}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                    </Box>
+                    <Rating
+                      style={{ fontSize: 13 }}
+                      name="customized-empty"
+                      value={1}
+                      max={1}
+                      emptyIcon={<StarBorderIcon />}
+                    />
+                    <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
+                      {`${item.rating} (${item.runtime} min)`}
+                    </Typography>
+                  </CardContent>
                 </Card>
               </Grid>
             )) : 'loading'}
@@ -270,29 +273,29 @@ const HomeComponent = (props, {movie = null}) => {
             {props.movie && props.movie.popcorn ? props.movie.popcorn.slice(0, 6).map((item, index) => (
               <Grid item xs={4} md={2} key={index}>
                 <Card elevation={0} className={classes.card}>
-                  <CardActionArea>
+                  <Link href={`/movie/${item.imdb_id}`}>
                     <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
-                    <CardContent>
-                      <Typography gutterBottom variant="subtitle2" component="h5">
-                        {item.title}
+                  </Link>
+                  <CardContent>
+                    <Typography gutterBottom variant="subtitle2" component="h5">
+                      {item.title}
+                    </Typography>
+                    <Box mb={1}>
+                      <Typography variant="caption" color="textSecondary">
+                        {item.release_date}
                       </Typography>
-                      <Box mb={1}>
-                        <Typography variant="caption" color="textSecondary">
-                          {item.release_date}
-                        </Typography>
-                      </Box>
-                      <Rating
-                        style={{ fontSize: 13 }}
-                        name="customized-empty"
-                        value={1}
-                        max={1}
-                        emptyIcon={<StarBorderIcon />}
-                      />
-                      <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
-                        {`${item.rating} (${item.runtime} min)`}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                    </Box>
+                    <Rating
+                      style={{ fontSize: 13 }}
+                      name="customized-empty"
+                      value={1}
+                      max={1}
+                      emptyIcon={<StarBorderIcon />}
+                    />
+                    <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
+                      {`${item.rating} (${item.runtime} min)`}
+                    </Typography>
+                  </CardContent>
                 </Card>
               </Grid>
             )) : 'loading'}
@@ -301,6 +304,14 @@ const HomeComponent = (props, {movie = null}) => {
       </main>
     </div>
   )
+};
+
+HomeComponent.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
 };
 
 axios.defaults.withCredentials= true;
@@ -320,7 +331,7 @@ class Home extends Component {
 
   render () {
     return (
-      this.state.movie !== null ? <HomeComponent movie={this.state.movie}/> : null
+      <HomeComponent movie={this.state.movie}/>
     )
   }
 }
