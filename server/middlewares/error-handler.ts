@@ -4,9 +4,16 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    // TODO Send only know errors else could leak data else 500 code internal error
-    ctx.status = err.statusCode || 400
-    ctx.message = err.message
-    ctx.app.emit('error', err, ctx)
+    if (err.isJoi) {
+      ctx.status = 422
+      ctx.message = err.message
+    } else if (err.isPassable || err.statusCode) {
+      ctx.status = err.statusCode
+      ctx.message = err.message
+    } else {
+      ctx.status = 500
+      ctx.message = 'Internal server error'
+      ctx.app.emit('error', err, ctx)
+    }
   }
 }

@@ -1,12 +1,21 @@
 import { Middleware } from 'koa'
-import * as _ from 'lodash'
 
-export enum Roles {
-  User = 'user',
-  Anonymous = 'anonymous',
+/*
+ * Use these middleware methods to limit the access of a route based on the authentication state.
+ */
+
+export const isUser: Middleware = async (ctx, next) => {
+  ctx.assert(ctx.state.user, 403, 'This action requires user authentication')
+  await next()
 }
 
-export const isUser: Middleware = ctx => {
-  const role = _.get(ctx, 'state.user.role')
-  ctx.assert(role === Roles.User, 403, 'This action requires user authentication')
-}
+// TODO Remove if not used
+// Document the behaviour of authComplete
+// export const checkProfileCompleted: Middleware = async (ctx, next) => {
+//   const user = ctx.state.user
+//
+//   if (user && (!user.firstName || !user.lastName || !user.email)) {
+//     return ctx.throw(412, 'The user need to complete profile information')
+//   }
+//   await next()
+// }

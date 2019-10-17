@@ -7,31 +7,29 @@ export interface UserModelInterface extends Document {
   authenticate(password: string): boolean
 }
 
-/*
- ** Email and username indexes are defined during database init in the mongo-init.js file
- */
-
 const UserSchema = new Schema({
   username: { type: String, required: true },
-  name: {
-    first: { type: String, required: true },
-    last: { type: String, required: true },
-  },
+  firstName: String,
+  lastName: String,
   email: { type: String, required: true },
-  language: { type: String, enum: ['en', 'fr'], default: 'en' },
-  hashedPassword: { type: String, required: true },
-  google2FA: { type: String },
-  school2FA: { type: String },
+  profileImageName: String,
+  language: String,
+  hashedPassword: String,
+  googleAuthId: String,
+  facebookAuthId: String,
+  intraAuthId: String,
+  githubAuthId: String,
+  plays: [{ imdbId: String, createdAt: Date }],
 })
 
 UserSchema.methods = {
-  savePassword: async function(password) {
+  savePassword: async function(password): Promise<void> {
     const hashedPassword = await bcrypt.hash(password, config.BCRYPT_COST)
     this.set('hashedPassword', hashedPassword)
   },
-  authenticate: async function(password) {
+  verifyPassword: async function(password): Promise<boolean> {
     return await bcrypt.compare(password, this.hashedPassword)
   },
 }
 
-export const User: Model<UserModelInterface> = model('users', UserSchema)
+export const User: Model<UserModelInterface, any> = model('users', UserSchema)

@@ -1,7 +1,7 @@
-version: "3.7"
+version: "3.3"
 services:
   mongo:
-    image: mongo:bionic
+    build: ./mongo
     restart: always
     ports:
       - "27017:27017"
@@ -9,5 +9,12 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: dev_password
       MONGO_INITDB_DATABASE: hypertube
-    volumes:
-      - ./server/config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  server:
+    build: ./server
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://mongo/hypertube
+    ports:
+      - "3000:3000"
+    command: "yarn start"
