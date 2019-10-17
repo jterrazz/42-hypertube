@@ -1,39 +1,37 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import AppBar from '@material-ui/core/AppBar'
-import Container from '@material-ui/core/Container'
-import Divider from '@material-ui/core/Divider'
-import Drawer from '@material-ui/core/Drawer'
-import Hidden from '@material-ui/core/Hidden'
-import IconButton from '@material-ui/core/IconButton'
-import List from '@material-ui/core/List'
-import MenuIcon from '@material-ui/icons/Menu'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import Avatar from '@material-ui/core/Avatar/Avatar'
-import ListItem from '@material-ui/core/ListItem'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import HomeIcon from '@material-ui/icons/Home'
+import React, { Component } from 'react'
+import axios from 'axios'
+import Grid from "@material-ui/core/Grid/Grid";
+import Typography from "@material-ui/core/Typography/Typography";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import Button from "@material-ui/core/Button/Button";
+import Divider from "@material-ui/core/Divider/Divider";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AppBar from "@material-ui/core/AppBar/AppBar";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import Hidden from "@material-ui/core/Hidden/Hidden";
+import Drawer from "@material-ui/core/Drawer/Drawer";
+import Container from "@material-ui/core/Container/Container";
+import Card from "@material-ui/core/Card/Card";
+import CardActionArea from "@material-ui/core/CardActionArea/CardActionArea";
+import CardMedia from "@material-ui/core/CardMedia/CardMedia";
+import CardContent from "@material-ui/core/CardContent/CardContent";
+import Box from "@material-ui/core/Box/Box";
+import Rating from "@material-ui/lab/Rating/Rating";
+import Tabs from "@material-ui/core/Tabs/Tabs";
+import Tab from "@material-ui/core/Tab/Tab";
+import {makeStyles, useTheme} from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search'
 import PersonIcon from '@material-ui/icons/Person'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Rating from '@material-ui/lab/Rating'
+import MenuIcon from '@material-ui/icons/Menu'
+import HomeIcon from '@material-ui/icons/Home'
 import StarBorderIcon from '@material-ui/icons/StarBorder'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import fetch from 'isomorphic-unfetch'
 import API from '../src/API'
-import axios from 'axios'
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -97,93 +95,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ResponsiveDrawer(props) {
+const HomeComponent = (props, {movie = null}) => {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  };
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   };
-
-  const data = [
-    {
-      src: 'https://themightyblog.fr/wp-content/uploads/2019/03/shazam-review-1024x576.jpg',
-      title: 'Shazam!',
-      type: ['Action', 'Fantasy'],
-      views: '396,457',
-      createdAt: '2019',
-      review: '8.5',
-    },
-    {
-      src:
-        'https://www.ecranlarge.com/media/cache/1600x1200/uploads/articles/000/000/000/alita-battle-angel-affiche-chinoise-1068754-large.jpg',
-      title: 'Alita: Battle Angel',
-      type: ['Adventure', 'Comedy'],
-      views: '12,568',
-      createdAt: '2018',
-      review: '6.5',
-    },
-  ];
-
-  const data_cover = [
-    {
-      src: 'https://blog.francetvinfo.fr/popup/files/2018/04/AVENGERS_INFINITY_120_PAYOFF_RVB-600x817.jpg',
-      title: 'Avangers',
-      type: ['Action', 'Fantasy'],
-      views: '396,458',
-      createdAt: '2017',
-      review: '7.5',
-    },
-    {
-      src:
-        'https://m.media-amazon.com/images/M/MV5BMjQ2ODIyMjY4MF5BMl5BanBnXkFtZTgwNzY4ODI2NzM@._V1_UY1200_CR90,0,630,1200_AL_.jpg',
-      title: 'Aladdin',
-      type: ['Adventure', 'Comedy'],
-      views: '12,568',
-      createdAt: '2019',
-      review: '6.5',
-    },
-    {
-      src: 'http://fr.web.img3.acsta.net/c_215_290/pictures/18/12/03/08/53/5968896.jpg',
-      title: 'Captain Marvel',
-      type: ['Adventure', 'Comedy'],
-      views: '49,568',
-      createdAt: '2016',
-      review: '5.5',
-    },
-    {
-      src: 'http://fr.web.img2.acsta.net/c_215_290/pictures/18/11/15/09/12/3593965.jpg',
-      title: 'Dumbo',
-      type: ['Adventure', 'Comedy'],
-      views: '4568',
-      createdAt: '2019',
-      review: '9.5',
-    },
-    {
-      src: 'http://img.over-blog-kiwi.com/0/55/12/65/20190413/ob_52a0b0_hellboy-poster-bifff2019-717x1024.jpg',
-      title: 'HellBoy',
-      type: ['Adventure', 'Comedy'],
-      views: '14,568',
-      createdAt: '2018',
-      review: '6.5',
-    },
-    {
-      src: 'http://fr.web.img4.acsta.net/pictures/19/09/26/09/20/3002764.jpg',
-      title: 'Joker',
-      type: ['Adventure', 'Comedy'],
-      views: '984,568',
-      createdAt: '2019',
-      review: '9.5',
-    },
-  ];
 
   const drawer = (
     <div>
@@ -198,25 +118,25 @@ function ResponsiveDrawer(props) {
         <Button color="primary">logout</Button>
       </Grid>
       <Divider />
-      <List component="nav" aria-label="main mailbox folders" className={classes.listItem}>
-        <ListItem button>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <SearchIcon />
-          </ListItemIcon>
-          <ListItemText primary="Search" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText primary="My profile" />
-        </ListItem>
+      <List className={classes.listItem}>
+        {/*<ListItem button>*/}
+          {/*<ListItemIcon>*/}
+            {/*<HomeIcon />*/}
+          {/*</ListItemIcon>*/}
+          {/*<ListItemText primary="Home" />*/}
+        {/*</ListItem>*/}
+        {/*<ListItem button>*/}
+          {/*<ListItemIcon>*/}
+            {/*<SearchIcon />*/}
+          {/*</ListItemIcon>*/}
+          {/*<ListItemText primary="Search" />*/}
+        {/*</ListItem>*/}
+        {/*<ListItem button>*/}
+          {/*<ListItemIcon>*/}
+            {/*<PersonIcon />*/}
+          {/*</ListItemIcon>*/}
+          {/*<ListItemText primary="My profile" />*/}
+        {/*</ListItem>*/}
       </List>
     </div>
   );
@@ -275,18 +195,18 @@ function ResponsiveDrawer(props) {
             Discover our best picks
           </Typography>
           <Grid container spacing={5} style={{ marginTop: 15 }}>
-            {data.map((item, index) => (
-              <Grid key={index} item xs={12} sm={6}>
+            {props.movie && props.movie.popcorn ? props.movie.popcorn.slice(0, 2).map((item, index) => (
+              <Grid key={index} item xs={12} md={6}>
                 <Card elevation={0}>
                   <CardActionArea>
-                    <CardMedia title={item.title} image={item.src} className={classes.Bigimg} />
+                    <CardMedia title={item.title} image={item.fanart_image} className={classes.Bigimg} />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
                         {item.title}
                       </Typography>
                       <Box mb={1}>
                         <Typography variant="body2" color="textSecondary">
-                          {`${item.createdAt} • ${item.type[0]} | ${item.type[1]}`}
+                          {item.release_date}
                         </Typography>
                       </Box>
                       <Rating
@@ -297,44 +217,32 @@ function ResponsiveDrawer(props) {
                         emptyIcon={<StarBorderIcon />}
                       />
                       <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
-                        {`${item.review} (${item.views})`}
+                        {`${item.rating} (${item.runtime} min)`}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
                 </Card>
               </Grid>
-            ))}
+            )) : 'loading' }
           </Grid>
           <Box mt={2}>
-            <Typography variant="h6">Browse by category</Typography>
+            <Typography variant="h6">
+              Browse by category
+            </Typography>
           </Box>
-          <Grid container>
-            <Tabs
-              value={value}
-              indicatorColor="primary"
-              textColor="primary"
-              onChange={handleChange}
-              aria-label="disabled tabs example"
-            >
-              <Tab label="Action" className={classes.tab} />
-              <Tab label="Adventure" className={classes.tab} />
-              <Tab label="Fantasy" className={classes.tab} />
-              <Tab label="Romance" className={classes.tab} />
-            </Tabs>
-          </Grid>
           <Grid container spacing={4} style={{ marginTop: 15 }}>
-            {data_cover.map((item, index) => (
-              <Grid item xs={3} sm={2} key={index}>
+            {props.movie && props.movie.popcorn && props.movie.yts ? [...props.movie.popcorn.slice(0, 3), ...props.movie.yts.slice(0, 3)].map((item, index) => (
+              <Grid item xs={4} md={2} key={index}>
                 <Card elevation={0} className={classes.card}>
                   <CardActionArea>
-                    <CardMedia title={item.title} image={item.src} className={classes.img} />
+                    <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
                     <CardContent>
                       <Typography gutterBottom variant="subtitle2" component="h5">
                         {item.title}
                       </Typography>
                       <Box mb={1}>
                         <Typography variant="caption" color="textSecondary">
-                          {`${item.createdAt} • ${item.type[0]} | ${item.type[1]}`}
+                          {item.release_date}
                         </Typography>
                       </Box>
                       <Rating
@@ -345,38 +253,39 @@ function ResponsiveDrawer(props) {
                         emptyIcon={<StarBorderIcon />}
                       />
                       <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
-                        {`${item.review} (${item.views})`}
+                        {`${item.rating} (${item.runtime} min)`}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
                 </Card>
               </Grid>
-            ))}
+            )) : 'loading'}
           </Grid>
         </Container>
       </main>
     </div>
   )
-}
+};
 
-ResponsiveDrawer.getInitialProps = async ({ req }) => {
-  const res = await fetch('http://localhost:3000/movies/hot')
-  // const data = await res.json();
+axios.defaults.withCredentials= true;
 
-  console.log(`Show data fetched. Count: ${res}`)
+class Home extends Component {
+  state = {
+    movie: []
+  };
 
-  return {
-    // shows: data.map(entry => entry.show)
-    shows: res,
+  async componentDidMount() {
+    const response = await axios.get(API.movie_hot);
+
+    const res = response.data.rankedMovies;
+
+    this.setState({ movie: res })
+  }
+
+  render () {
+    return (
+      this.state.movie !== null ? <HomeComponent movie={this.state.movie}/> : null
+    )
   }
 }
-
-ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
-}
-
-export default ResponsiveDrawer
+export default Home
