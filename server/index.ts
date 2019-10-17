@@ -43,7 +43,7 @@ app.use(router.routes()).use(router.allowedMethods())
 app.use(mount('/subtitles', serve('./public/subtitles')))
 
 mongoose
-  .connect(config.MONGO_URL, { useNewUrlParser: true, user: config.MONGO_USER, pass: config.MONGO_PWD })
+  .connect(config.MONGO_URL, { useNewUrlParser: true, user: config.MONGO_USER, pass: config.MONGO_PWD, useUnifiedTopology: true })
   .then(() => {
     app
       .listen(config.SERVER_PORT, () => {

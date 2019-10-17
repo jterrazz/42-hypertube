@@ -10,7 +10,7 @@ authRouter
   .post('/signup', passport.authenticate('signup'), successfulAuthController)
   .post('/signin', passport.authenticate('signin'), successfulAuthController)
   .post('/reset-password', resetPasswordController)
-  .get('/logout', ctx => {
+  .get('/logout', (ctx: any) => {
     ctx.logout()
     ctx.status = 200
   })

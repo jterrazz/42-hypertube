@@ -1,31 +1,19 @@
-import * as nodemailer from 'nodemailer'
+import config from '../config'
 
-let mailerAccout = null
-let transporter = null
-
-export const configMailer = async () => {
-  if (!transporter) {
-    mailerAccout = await nodemailer.createTestAccount()
-
-    transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: mailerAccout.user, // generated ethereal user
-        pass: mailerAccout.pass, // generated ethereal password
-      },
-    })
-  }
-}
+const mailgun = require('mailgun-js')({
+  apiKey: config.API_NODE_MAILER_KEY,
+  domain: config.API_NODE_MAILER_DOMAIN,
+})
 
 export const sendResetPasswordEmail = async to => {
-  await configMailer()
-  await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>',
+  const data = {
+    from: 'hypertube@' + config.API_NODE_MAILER_DOMAIN,
     to,
-    subject: 'Hello ✔',
-    text: 'Hello world?',
-    html: '<b>Hello world?</b>',
+    subject: 'Reinit password',
+    text: 'To reainitialize your mail go here: ',
+    html: '<b>To reainitialize your mail go here: </b>',
+  }
+  return await mailgun.messages().send(data, function (error, body) {
+    console.log(body)
   })
 }

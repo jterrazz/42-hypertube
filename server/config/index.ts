@@ -24,6 +24,8 @@ const envSchema = Joi.object()
     BCRYPT_COST: Joi.number().default(10),
 
     // External services
+    API_NODE_MAILER_KEY: Joi.string().required(),
+    API_NODE_MAILER_DOMAIN: Joi.string().default('sandbox01ad73b07ab849a38fc81edc7337e55b.mailgun.org'),
     API_YTS_KEY: Joi.string().required(),
     API_GOOGLE_CONSUMER_KEY: Joi.string().required(),
     API_GOOGLE_CONSUMER_SECRET: Joi.string().required(),
