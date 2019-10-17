@@ -15,7 +15,7 @@ const UserSchema = new Schema({
   profilePicture: {
     url: String,
   },
-  language: { type: String, enum: ['en', 'fr'], default: 'en' },
+  language: String,
   hashedPassword: String,
   googleAuthId: String,
   facebookAuthId: String,

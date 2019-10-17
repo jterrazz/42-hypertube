@@ -8,6 +8,7 @@ import * as srt2vtt from 'srt2vtt'
 
 import * as ytsApi from '../services/ytsAPI'
 import * as popcornAPI from '../services/popcornAPI'
+import * as tmdbAPI from '../services/tmdbAPI'
 import { Movie, User } from '../models'
 
 const OpenSubtitles = new OS({
@@ -22,7 +23,7 @@ const OpenSubtitles = new OS({
  */
 
 const addPlayToMovie = user => movie => {
-  if (user && user.plays) {
+  if (movie && user && user.plays) {
     movie.played = user.plays.find(x => x.videoId == movie.imdb_id)
   }
   return movie
@@ -98,9 +99,10 @@ export const hotMoviesController: Middleware = async ctx => {
   }
 }
 
+// TODO Convert to have the same keys + add url paths
 export const getMovieController: Middleware = async ctx => {
   const movie =
-    (await popcornAPI.getMovieDetails(ctx.params.imdbId)) || (await ytsApi.getMovieDetails(ctx.params.imdbId))
+    (await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language) || await popcornAPI.getMovieDetails(ctx.params.imdbId)) || (await ytsApi.getMovieDetails(ctx.params.imdbId))
   ctx.body = {
     movie: addPlayToMovie(ctx.state.user)(movie),
   }
@@ -191,7 +193,6 @@ export const getMovieSubtitleController: Middleware = ctx => {
   })
 }
 
-// TODO Add maximum for each field
 export const addMovieCommentController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId
   const textSchema = Joi.string().max(500)

@@ -27,6 +27,7 @@ const envSchema = Joi.object()
     API_NODE_MAILER_KEY: Joi.string().required(),
     API_NODE_MAILER_DOMAIN: Joi.string().default('sandbox01ad73b07ab849a38fc81edc7337e55b.mailgun.org'),
     API_YTS_KEY: Joi.string().required(),
+    API_THE_MOVIE_DB_KEY: Joi.string().required(),
     API_GOOGLE_CONSUMER_KEY: Joi.string().required(),
     API_GOOGLE_CONSUMER_SECRET: Joi.string().required(),
     API_FACEBOOK_APP_ID: Joi.string().required(),

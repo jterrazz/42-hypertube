@@ -7,7 +7,7 @@ import config from '../config'
 
 import { PRIVATE_USER_PROPS } from './user'
 import { sendResetPasswordEmail } from '../services/mail'
-import { User } from "../models";
+import { User } from '../models'
 import { ClientError } from "../services/auth";
 
 export const successfulAuthController: Middleware = async ctx => {

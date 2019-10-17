@@ -29,7 +29,7 @@ export const updateMeController: Middleware = async ctx => {
       password: Joi.string().min(8),
       firstName: Joi.string().max(42),
       lastName: Joi.string().max(42),
-      language: Joi.string().valid('fr', 'en'),
+      language: Joi.string().valid('fr-FR', 'en-US'),
     })
     .required()
 

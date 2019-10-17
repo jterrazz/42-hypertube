@@ -13,7 +13,10 @@ const YTS_BASE_URL = 'https://yts.lt/api/v2'
 const ytsClient = axios.create({ baseURL: YTS_BASE_URL })
 
 ytsClient.interceptors.request.use(request => {
-  request.params.api_key = config.API_YTS_KEY
+  if (request.params)
+    request.params.api_key = config.API_YTS_KEY
+  else
+    request.params = { api_key: config.API_YTS_KEY }
   return request
 })
 
