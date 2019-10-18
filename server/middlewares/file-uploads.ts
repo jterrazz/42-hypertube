@@ -14,8 +14,8 @@ export const cacheFileMiddleware = koaBody({ multipart: true, formidable: formid
 export const saveProfileImageMiddleware = async (ctx, next) => {
   try {
     const profileImage = ctx.request.files['profile-image']
-    console.log(profileImage)
-    if (profileImage) {
+
+    if (profileImage && ctx.state.user) {
       const profileImageName = await transfertImage(profileImage)
       await User.updateOne({ _id: ctx.state.user._id }, { profileImageName })
       ctx.state.user.profileImageName = profileImageName
