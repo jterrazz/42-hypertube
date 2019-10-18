@@ -208,17 +208,14 @@ const MovieComponent = (props, {movie = null}) => {
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
               <Typography variant="h2" gutterBottom>
-                {props.movie ? props.movie.title : ''}
+                {props.movie && props.movie.title ? props.movie.title : 'Loading'}
               </Typography>
               <Typography variant="h4" gutterBottom color="textSecondary">
-                24 avril 2019
+                {/*24 avril 2019*/}
+                {props.movie && props.movie.release_date ? props.movie.release_date : 'Loading'}
               </Typography>
               <Typography variant="body2" gutterBottom color="textPrimary">
-                Le Titan Thanos, ayant réussi à s'approprier les six Pierres d'Infinité et à les réunir sur le Gantelet
-                doré, a pu réaliser son objectif de pulvériser la moitié de la population de l'Univers. Cinq ans plus
-                tard, Scott Lang, alias Ant-Man, parvient à s'échapper de la dimension subatomique où il était coincé.
-                Il propose aux Avengers une solution pour faire revenir à la vie tous les êtres disparus, dont leurs
-                alliés et coéquipiers : récupérer les Pierres d'Infinité dans le passé.
+                {props.movie && props.movie.overview ? props.movie.overview : 'Loading'}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -227,7 +224,7 @@ const MovieComponent = (props, {movie = null}) => {
                   className={classes.media}
                   image={props.movie.fanart_image}
                   title="avangers"
-                /> : ''}
+                /> : 'Loading'}
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h4">Torrents</Typography>
@@ -319,13 +316,14 @@ class Movie extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.movieId);
 
-    const response = await axios.get(`${API.movie}/${this.props.movieId}`);
+    const { router } = this.props;
+    const response_description = await axios.get(`${API.movies}/${router.query.id}`);
+    const response_torrent = await axios.get(`${API.movies}/${this.props.router.query.id}/torrents`);
 
-    const res = response.data;
+    const res = response_description.data;
 
-    console.log(res.movie.title);
+    console.log(res);
 
     this.setState({ movie: res })
   }
