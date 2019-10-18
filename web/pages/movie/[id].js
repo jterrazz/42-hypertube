@@ -27,6 +27,11 @@ import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
 import { withRouter } from 'next/router'
 import axios from "axios";
 import API from "../../src/API";
+import Card from "@material-ui/core/Card/Card";
+import Link from "../../src/Link";
+import CardContent from "@material-ui/core/CardContent/CardContent";
+import Rating from "@material-ui/lab/Rating/Rating";
+import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 const drawerWidth = 240;
 
@@ -73,7 +78,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 40,
   },
   media: {
-    // borderRadius : 10,
+    borderRadius : 5,
     height: 300,
   },
   state: {
@@ -92,24 +97,19 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 'auto',
     marginRight: -12,
   },
+  img: {
+    borderRadius: 5,
+    height: 250,
+  },
+  tab: {
+    textTransform: 'none',
+  },
+  card: {
+    maxWidth: 300,
+  },
 }));
 
-const data_torrent = [
-  {
-    title: 'The Avangers Cam Version, but the best of these still.',
-    seeder: '396',
-    leecher: '201',
-    size: '8.5',
-  },
-  {
-    title: 'The Avangers (2012) CAM NL subs DutchReleaseTeam',
-    seeder: '6',
-    leecher: '2',
-    size: '6.5',
-  },
-];
-
-const MovieComponent = (props, {movie = null}) => {
+const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -155,6 +155,37 @@ const MovieComponent = (props, {movie = null}) => {
       </List>
     </div>
   );
+
+  const TorrentComponent = (props, {sourceTorrent = null, titleMovie = null}) => {
+    return (
+      <>
+      {props.sourceTorrent ? props.sourceTorrent.map((item, index) => (
+        <Paper key={index} className={classes.Paper} elevation={0}>
+          <Toolbar>
+            <Box mr={2}>
+              <Typography variant="h6">{`${item.size}`}</Typography>
+            </Box>
+            <Typography variant="subtitle1">
+              <div>
+                <Typography variant="subtitle1">{props.titleMovie} - Torrent {index + 1}</Typography>
+              </div>
+              <div>
+                <Typography component="p" className={classes.state}>
+                  {`${item.seeds} seeds - ${item.peers} peers`}
+                </Typography>
+              </div>
+            </Typography>
+            <span className={classes.toolbarButtons}>
+              <IconButton color="inherit" aria-label="More Options">
+                <PlayCircleFilledWhiteIcon className={classes.play}/>
+              </IconButton>
+            </span>
+          </Toolbar>
+        </Paper>
+      )) : ''}
+      </>
+    )
+  };
 
   return (
     <div className={classes.root}>
@@ -202,94 +233,84 @@ const MovieComponent = (props, {movie = null}) => {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Container fixed>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h2" gutterBottom>
-                {props.movie && props.movie.title ? props.movie.title : 'Loading'}
-              </Typography>
-              <Typography variant="h4" gutterBottom color="textSecondary">
-                {/*24 avril 2019*/}
-                {props.movie && props.movie.release_date ? props.movie.release_date : 'Loading'}
-              </Typography>
-              <Typography variant="body2" gutterBottom color="textPrimary">
-                {props.movie && props.movie.overview ? props.movie.overview : 'Loading'}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              {props.movie && props.movie.fanart_image ?
-                <CardMedia
-                  className={classes.media}
-                  image={props.movie.fanart_image}
-                  title="avangers"
-                /> : 'Loading'}
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h4">Torrents</Typography>
-              <Box mt={3} mb={2}>
-                <Typography variant="body1" color="textSecondary">
-                  ThePirateBay
+      {props.movie.title ?
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Container fixed>
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h2" gutterBottom>
+                  {props.movie && props.movie.title ? props.movie.title : ''}
                 </Typography>
-              </Box>
-              {data_torrent.map((item, index) => (
-                <Paper key={index} className={classes.Paper} elevation={0}>
-                  <Toolbar>
-                    <Box mr={2}>
-                      <Typography variant="h6">{`${item.size}go`}</Typography>
-                    </Box>
-                    <Typography variant="subtitle1">
-                      <div>
-                        <Typography variant="subtitle1">{item.title}</Typography>
-                      </div>
-                      <div>
-                        <Typography component="p" className={classes.state}>
-                          {`${item.seeder} seeder - {${item.leecher} leecher`}
-                        </Typography>
-                      </div>
-                    </Typography>
-                    <span className={classes.toolbarButtons}>
-                      <IconButton color="inherit" aria-label="More Options">
-                        <PlayCircleFilledWhiteIcon className={classes.play} />
-                      </IconButton>
-                    </span>
-                  </Toolbar>
-                </Paper>
-              ))}
-              <Box mt={3} mb={2}>
-                <Typography variant="body1" color="textSecondary">
-                  KickassTorrente
+                <Typography variant="h4" gutterBottom color="textSecondary">
+                  {/*24 avril 2019*/}
+                  {props.movie && props.movie.release_date ? props.movie.release_date : ''}
                 </Typography>
-              </Box>
-              {data_torrent.map((item, index) => (
-                <Paper key={index} className={classes.Paper} elevation={0}>
-                  <Toolbar>
-                    <Box mr={2}>
-                      <Typography variant="h6">{`${item.size}go`}</Typography>
+                <Typography variant="body2" gutterBottom color="textPrimary">
+                  {props.movie && props.movie.overview ? props.movie.overview : ''}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                {props.movie && props.movie.fanart_image ?
+                  <CardMedia
+                    className={classes.media}
+                    image={props.movie.fanart_image}
+                    title={props.movie.title}
+                  /> : ''}
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <Typography variant="h4">Similar</Typography>
+                <Grid container spacing={4} style={{ marginTop: 15 }}>
+                  {props.movie && props.movie.similar ? props.movie.similar.slice(0, 4).map((item, index) => (
+                    <Grid item xs={4} md={3} key={index}>
+                      <Card elevation={0} className={classes.card}>
+                        <Link href={`/movie/${item.imdb_id}`}>
+                          <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
+                        </Link>
+                        <CardContent>
+                          <Typography gutterBottom variant="subtitle2" component="h5">
+                            {item.title}
+                          </Typography>
+                          <Box mb={1}>
+                            <Typography variant="caption" color="textSecondary">
+                              {item.release_date}
+                            </Typography>
+                          </Box>
+                          <Rating
+                            style={{ fontSize: 13 }}
+                            name="customized-empty"
+                            value={1}
+                            max={1}
+                            emptyIcon={<StarBorderIcon />}
+                          />
+                          <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
+                            {`${item.rating} (${item.runtime} min)`}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  )) : ''}
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <Typography variant="h4">Torrents</Typography>
+                {props.movieTorrent ? Object.keys(props.movieTorrent).map((item) => (
+                  <div key={item}>
+                    <Box mt={3} mb={2}>
+                      <Typography variant="subtitle2" color="textSecondary" style={{ textTransform: 'capitalize' }}>
+                        {item}
+                      </Typography>
                     </Box>
-                    <Typography variant="subtitle1">
-                      <div>
-                        <Typography variant="subtitle1">{item.title}</Typography>
-                      </div>
-                      <div>
-                        <Typography component="p" className={classes.state}>
-                          {`${item.seeder} seeder - {${item.leecher} leecher`}
-                        </Typography>
-                      </div>
-                    </Typography>
-                    <span className={classes.toolbarButtons}>
-                      <IconButton color="inherit" aria-label="More Options">
-                        <PlayCircleFilledWhiteIcon className={classes.play} />
-                      </IconButton>
-                    </span>
-                  </Toolbar>
-                </Paper>
-              ))}
+                    <TorrentComponent sourceTorrent={props.movieTorrent[item]} titleMovie={props.movie && props.movie.title? props.movie.title : ''}/>
+                  </div>
+                )) : ''}
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </main>
+          </Container>
+        </main>
+      : ''}
     </div>
   )
 };
@@ -306,7 +327,8 @@ axios.defaults.withCredentials = true;
 
 class Movie extends Component {
   state = {
-    movie: []
+    movie: [],
+    movieTorrent: []
   };
 
   static async getInitialProps({req, query: { id }}) {
@@ -317,20 +339,19 @@ class Movie extends Component {
 
   async componentDidMount() {
 
-    const { router } = this.props;
-    const response_description = await axios.get(`${API.movies}/${router.query.id}`);
-    const response_torrent = await axios.get(`${API.movies}/${this.props.router.query.id}/torrents`);
+    const responseDescription = await axios.get(`${API.movies}/${this.props.movieId}`);
+    const responseTorrent = await axios.get(`${API.movies}/${this.props.movieId}/torrents`);
 
-    const res = response_description.data;
-
+    const res = responseDescription.data;
+    const resTorrent = responseTorrent.data;
     console.log(res);
 
-    this.setState({ movie: res })
+    this.setState({ movie: res.movie , movieTorrent: resTorrent})
   }
 
   render () {
     return (
-      <MovieComponent movie={this.state.movie}/>
+      <MovieComponent movie={this.state.movie} movieTorrent={this.state.movieTorrent}/>
     )
   }
 }

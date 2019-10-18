@@ -226,7 +226,7 @@ const HomeComponent = (props, {movie = null}) => {
                   </CardContent>
                 </Card>
               </Grid>
-            )) : 'loading' }
+            )) : '' }
           </Grid>
           <Box mt={2}>
             <Typography variant="h6">
@@ -262,7 +262,7 @@ const HomeComponent = (props, {movie = null}) => {
                   </CardContent>
                 </Card>
               </Grid>
-            )) : 'loading'}
+            )) : ''}
           </Grid>
           <Box mt={2}>
             <Typography variant="h6">
@@ -298,7 +298,7 @@ const HomeComponent = (props, {movie = null}) => {
                   </CardContent>
                 </Card>
               </Grid>
-            )) : 'loading'}
+            )) : ''}
           </Grid>
         </Container>
       </main>
@@ -324,9 +324,9 @@ class Home extends Component {
   async componentDidMount() {
     const response = await axios.get(API.movie_hot);
 
-    const res = response.data.rankedMovies;
+    const responseData = response.data.rankedMovies;
 
-    this.setState({ movie: res })
+    this.setState({ movie: responseData })
   }
 
   render () {
