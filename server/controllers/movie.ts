@@ -11,6 +11,9 @@ import * as popcornAPI from '../services/popcorn-api'
 import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
 
+const NodeCache = require( "node-cache" );
+const movieCache = new NodeCache({ stdTTL: 60 * 60 })
+
 const OpenSubtitles = new OS({
   useragent: 'NodeJS',
   ssl: true,
@@ -84,22 +87,39 @@ export const searchMoviesController: Middleware = async ctx => {
   }
 }
 
-export const hotMoviesController: Middleware = async ctx => {
-  const genre = await Joi.string()
-    .valid(...MOVIE_GENRES)
-    .validateAsync(ctx.query.genre)
+export const hotMoviesController: Middleware = async ctx =>
+  new Promise(async (resolve, reject) => {
+    Joi.string()
+      .valid(...MOVIE_GENRES)
+      .validateAsync(ctx.query.genre)
+      .catch(reject)
+      .then(genre => {
+        const movieCacheKey = `hot-videos:${genre}`
+        movieCache.get(movieCacheKey, async (err, results) => {
+          try {
+            if (err)
+              return reject(err)
 
-  const results = await Promise.all([ytsApi.getMostDownloadedMovies(genre), popcornAPI.getTrendingMovies(genre)])
+            if (results == undefined) {
+              results = await Promise.all([ytsApi.getMostDownloadedMovies(genre), popcornAPI.getTrendingMovies(genre)])
+              movieCache.set(movieCacheKey, results, (_, __) => {})
+            }
 
-  ctx.body = {
-    rankedMovies: {
-      yts: results[0].map(addPlayToMovie(ctx.state.user)),
-      popcorn: results[1].map(addPlayToMovie(ctx.state.user)),
-    },
-  }
-}
+            ctx.body = {
+              rankedMovies: {
+                yts: results[0].map(addPlayToMovie(ctx.state.user)),
+                popcorn: results[1].map(addPlayToMovie(ctx.state.user)),
+              },
+            }
 
-// TODO Convert to have the same keys + add url paths
+            resolve()
+          } catch (err) {
+            reject(err)
+          }
+        })
+      })
+  })
+
 export const getMovieController: Middleware = async ctx => {
   const movie =
     await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language) || await popcornAPI.getMovieDetails(ctx.params.imdbId) || await ytsApi.getMovieDetails(ctx.params.imdbId)

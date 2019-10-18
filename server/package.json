@@ -25,6 +25,7 @@
     "lodash": "^4.17.15",
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.6.12",
+    "node-cache": "^4.2.1",
     "nodemon": "^1.19.1",
     "opensubtitles-api": "^5.0.1",
     "passport-42": "^1.2.6",
