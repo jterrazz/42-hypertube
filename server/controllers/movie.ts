@@ -87,42 +87,50 @@ export const searchMoviesController: Middleware = async ctx => {
   }
 }
 
-export const hotMoviesController: Middleware = async ctx =>
-  new Promise(async (resolve, reject) => {
-    Joi.string()
-      .valid(...MOVIE_GENRES)
-      .validateAsync(ctx.query.genre)
-      .catch(reject)
-      .then(genre => {
-        const movieCacheKey = `hot-videos:${genre}`
-        movieCache.get(movieCacheKey, async (err, results) => {
-          try {
-            if (err)
-              return reject(err)
+// TODO Explain this one in detail as an example (can call await on a return promise or an async ft) + why ?
+const getCachedData = (cacheKey, setter) =>
+  new Promise((resolve, reject) => {
+    movieCache.get(cacheKey, async (err, results) => {
+      if (err)
+        return reject(err)
 
-            if (results == undefined) {
-              results = await Promise.all([ytsApi.getMostDownloadedMovies(genre), popcornAPI.getTrendingMovies(genre)])
-              movieCache.set(movieCacheKey, results, (_, __) => {})
-            }
-
-            ctx.body = {
-              rankedMovies: {
-                yts: results[0].map(addPlayToMovie(ctx.state.user)),
-                popcorn: results[1].map(addPlayToMovie(ctx.state.user)),
-              },
-            }
-
-            resolve()
-          } catch (err) {
-            reject(err)
-          }
-        })
-      })
+      if (results == undefined) {
+        setter()
+          .then(results => {
+            resolve(results)
+            movieCache.set(cacheKey, results)
+          })
+          .catch(reject)
+      } else {
+        resolve(results)
+      }
+    })
   })
 
+export const hotMoviesController: Middleware = async ctx => {
+  const genre = await Joi.string()
+    .valid(...MOVIE_GENRES)
+    .validateAsync(ctx.query.genre)
+  const movieCacheKey = `hot-videos:${genre}`
+
+  const results = await getCachedData(movieCacheKey, async () => {
+    return Promise.all([ytsApi.getMostDownloadedMovies(genre), popcornAPI.getTrendingMovies(genre)])
+  })
+  ctx.body = {
+    rankedMovies: {
+      yts: results[0].map(addPlayToMovie(ctx.state.user)),
+      popcorn: results[1].map(addPlayToMovie(ctx.state.user)),
+    },
+  }
+}
+
+// TODO Convert to have the same keys
 export const getMovieController: Middleware = async ctx => {
-  const movie =
-    await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language) || await popcornAPI.getMovieDetails(ctx.params.imdbId) || await ytsApi.getMovieDetails(ctx.params.imdbId)
+  const cacheKey = `movies:${ctx.params.imdbId}`
+  const movie = await getCachedData(cacheKey, async () => {
+    return await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language) || await popcornAPI.getMovieDetails(ctx.params.imdbId) || await ytsApi.getMovieDetails(ctx.params.imdbId)
+  })
+
   ctx.body = {
     movie: addPlayToMovie(ctx.state.user)(movie),
   }
