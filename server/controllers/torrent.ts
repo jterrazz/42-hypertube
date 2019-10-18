@@ -1,6 +1,7 @@
 import { Middleware } from 'koa'
 import * as torrentStream from 'torrent-stream'
 import * as fs from 'fs'
+import * as ffmpeg from 'fluent-ffmpeg'
 
 import { Torrent } from '../models'
 
@@ -21,6 +22,9 @@ const TRACKERS = [
  * A torrent magnet link is composed only by two important fields: a hash of the files and a list of trackers that handles sharing of of ip addresses.
  * We only need to store the hashes to identify and connect to peers.
  */
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+ffmpeg.setFfmpegPath(ffmpegPath);
+const Stream = require('stream');
 
 export const getTorrentStreamController: Middleware = ctx => {
   const hash = ctx.params.hash
@@ -63,7 +67,42 @@ export const getTorrentStreamController: Middleware = ctx => {
 
             if (filesize > 30 * 1024 * 1024) {
               clearInterval(intervalId)
-              ctx.body = movieFileStream
+
+              console.log("heelo")
+              const stream = new Stream()
+              stream.writable = true
+              stream.readable = true
+              ctx.body = ffmpeg()
+                .addOptions([
+                  '-f hls',
+                  '-deadline realtime',
+                  '-preset ultrafast',
+                  '-start_number 0',     // start the first .ts segment at index 0
+                  '-hls_time 2',        // 10 second segment duration
+                  '-hls_list_size 0',
+                ])
+                .input(movieFileStream)
+                .outputOptions('-movflags frag_keyframe+empty_moov')
+                .outputFormat('mp4')
+                .pipe()
+                .on('error', function(err, stdout, stderr) {
+                  console.log("EEEEERRRR", err)
+                  console.log(stdout)
+                  console.log(stderr)
+                  reject(err)
+                })
+                .on('start', function() {
+                 console.log("start")
+
+                })
+                .on('end', function() {
+                  // resolve()
+                })
+                .on('progress', function () {
+                  console.log("progress")
+                })
+              // ctx.body = stream
+
               resolve()
             }
           })

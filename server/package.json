@@ -7,6 +7,7 @@
     "reset": "rm -rf public/images/* cache/* public/torrents/* public/subtitles/*"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@hapi/joi": "^16.1.5",
     "@koa/cors": "2",
     "@types/lodash": "^4.14.138",
@@ -14,6 +15,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.1.0",
     "find-remove": "^2.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.1",
     "koa-body": "^4.1.1",
