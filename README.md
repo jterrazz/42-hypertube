@@ -65,22 +65,9 @@ The client is served using server side rendering with the `NextJS` framework (`R
 
 ## Resources
 
-Read more about this project reading the [wiki](https://github.com/jterrazz/42-hypertube/wiki).
+Learn more about this project reading the [wiki](https://github.com/jterrazz/42-hypertube/wiki).
 
-### Fundamentals
-
-- Javascript: [The fundamentals](https://medium.com/nybles/javacript-fundamentals-52cfafda60a2) & [Features of ES6](https://medium.com/beginners-guide-to-mobile-web-development/introduction-to-es6-c4422d3c5664)
-- [The fundamentals of ReactJS](https://www.taniarascia.com/getting-started-with-react/)
-- [NPM/Yarn package.json cheatsheet](https://medium.com/@Nasita_Haque/package-json-cheat-sheet-4fe1b8baa102)
-- [Get started with MongoDB](https://www.freecodecamp.org/news/learn-mongodb-a4ce205e7739/)
-- [Mastering Koa Middleware](https://medium.com/netscape/mastering-koa-middleware-f0af6d327a69)
-- [Joi validation](https://medium.com/@panayiotisgeorgiou/joi-validation-tutorial-90d163a78bc)
-
-### Go further
-
-- [Atomic design for front-end components](https://medium.muz.li/building-design-systems-with-atomic-design-93a13286f676)
-- [Master ReactJS](https://medium.mybridge.co/learn-react-js-from-top-50-articles-for-the-past-year-v-2019-baaacfc521c)
-- [Linting with ESLint and Prettier](https://medium.com/javascript-scene/streamline-code-reviews-with-eslint-prettier-6fb817a6b51d)
+# 
 
 ## Credits 👩‍💻
 
