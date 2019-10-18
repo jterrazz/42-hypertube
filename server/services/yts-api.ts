@@ -9,7 +9,7 @@ import { SearchParamsEnum } from '../controllers'
  * https://yts.lt/api
  */
 
-const YTS_BASE_URL = 'https://yts.lt/api/v2'
+const YTS_BASE_URL = 'https://yts.ag/api/v2'
 const ytsClient = axios.create({ baseURL: YTS_BASE_URL })
 
 ytsClient.interceptors.request.use(request => {
