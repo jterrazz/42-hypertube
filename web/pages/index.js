@@ -15,20 +15,8 @@ import * as Yup from 'yup'
 import axios from 'axios'
 import API from '../src/API'
 import Link from '../src/Link'
-import MuiLink from '@material-ui/core/Link'
+import Copyright from '../src/Copyright'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <MuiLink color="inherit" href="https://intra.42.fr/">
-        HyperTube
-      </MuiLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
 
 const useStyles = makeStyles(theme => ({
   root: {

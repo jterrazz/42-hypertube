@@ -2,7 +2,6 @@ import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import MuiLink from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
@@ -22,19 +21,7 @@ import Recaptcha from 'react-recaptcha'
 import axios from 'axios'
 import API from '../src/API'
 import Link from '../src/Link'
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <MuiLink color="inherit" href="https://intra.42.fr/">
-        HyperTube
-      </MuiLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
+import Copyright from '../src/Copyright'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -73,11 +60,11 @@ const useStyles = makeStyles(theme => ({
     width: 50,
     height: 50,
   },
-}))
+}));
 
 const signUpSide = props => {
-  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit, setFieldValue } = props
-  const classes = useStyles()
+  const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit, setFieldValue } = props;
+  const classes = useStyles();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -294,7 +281,7 @@ const signUpSide = props => {
       </Grid>
     </Grid>
   )
-}
+};
 
 const FILE_SIZE = 1600 * 1024
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png']
@@ -345,7 +332,7 @@ const SignUpSide = withFormik({
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const user = {
       name: {
@@ -355,11 +342,11 @@ const SignUpSide = withFormik({
       username: values.userName,
       password: values.password,
       email: values.email,
-    }
+    };
 
     const transport = axios.create({
       withCredentials: true,
-    })
+    });
 
     transport
       .post(API.signup, user)
@@ -375,6 +362,6 @@ const SignUpSide = withFormik({
         console.log(error)
       })
   },
-})(signUpSide)
+})(signUpSide);
 
 export default SignUpSide
