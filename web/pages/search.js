@@ -99,7 +99,7 @@ const SearchHome = (props, {movie = null}) => {
   )
 };
 
-axios.defaults.withCredentials= true;
+axios.defaults.withCredentials = true;
 
 class Search extends Component {
   state = {
