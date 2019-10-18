@@ -51,6 +51,8 @@ yarn reset # Clear all temporary files
 
 ## Implementation
 
+To learn more about this project, read the [wiki](https://github.com/jterrazz/42-hypertube/wiki).
+
 ### Server
 
 The **hypertube API** handles all the data needs of the web website. The API provides searches, movie lists, account and stream endpoints. The user must authenticated to use most of our services.
@@ -62,12 +64,6 @@ We use `NodeJS` with the framework `koa` and `typescript`. The data is persisted
 ### Frontend
 
 The client is served using server side rendering with the `NextJS` framework (`ReactJS`).
-
-## Resources
-
-Learn more about this project reading the [wiki](https://github.com/jterrazz/42-hypertube/wiki).
-
-# 
 
 ## Credits 👩‍💻
 
