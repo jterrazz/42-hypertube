@@ -5,38 +5,17 @@ import * as OS from 'opensubtitles-api'
 import axios from 'axios'
 import * as fs from 'fs'
 import * as srt2vtt from 'srt2vtt'
+import * as NodeCache from 'node-cache'
 
 import * as ytsApi from '../services/yts-api'
 import * as popcornAPI from '../services/popcorn-api'
 import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
 
-const NodeCache = require( "node-cache" );
 const movieCache = new NodeCache({ stdTTL: 60 * 60 })
+const OpenSubtitlesClient = new OS({ useragent: 'NodeJS', ssl: true })
 
-const OpenSubtitles = new OS({
-  useragent: 'NodeJS',
-  ssl: true,
-})
-
-/*
- * All the search params are centralized here.
- * Build example: const param = SORT_TITLE | SORT_REVERSE
- * Test example: if (param & SORT_TITLE)
- */
-
-const addPlayToMovie = user => movie => {
-  if (movie && user && user.plays) {
-    movie.played = user.plays.find(x => x.videoId == movie.imdb_id)
-  }
-  return movie
-}
-
-/*
- * Controllers
- */
-
-const MOVIE_GENRES = [
+const GENRE_VALUES = [
   'comedy',
   'sci-fi',
   'horror',
@@ -54,7 +33,7 @@ const MOVIE_GENRES = [
   'superhero',
 ]
 
-export const SearchParamsEnum = {
+export const SORT_VALUES_ENUM = {
   SORT_TITLE: 'title',
   SORT_ADDED: 'date_added',
   SORT_TRENDING: 'trending',
@@ -62,12 +41,41 @@ export const SearchParamsEnum = {
   SORT_YEAR: 'year',
 }
 
+const addPlayToMovie = user => movie => {
+  if (movie && user && user.plays) {
+    movie.played = user.plays.find(x => x.videoId == movie.imdb_id)
+  }
+  return movie
+}
+
+const getCachedData = (cacheKey, setter) =>
+  new Promise((resolve, reject) => {
+    movieCache.get(cacheKey, async (err, results) => {
+      if (err) return reject(err)
+
+      if (results == undefined) {
+        setter()
+          .then(results => {
+            resolve(results)
+            movieCache.set(cacheKey, results)
+          })
+          .catch(reject)
+      } else {
+        resolve(results)
+      }
+    })
+  })
+
+/*
+ * Controllers
+ */
+
 export const searchMoviesController: Middleware = async ctx => {
   const querySchema = Joi.object().keys({
     query: Joi.string().required(),
     page: Joi.number().positive(),
-    sort: Joi.string().valid(...Object.values(SearchParamsEnum)),
-    genre: Joi.string().valid(...MOVIE_GENRES),
+    sort: Joi.string().valid(...Object.values(SORT_VALUES_ENUM)),
+    genre: Joi.string().valid(...GENRE_VALUES),
     reverse: Joi.string().valid('true', 'false'),
     source: Joi.string().valid('yts', 'popcorn'),
   })
@@ -87,29 +95,9 @@ export const searchMoviesController: Middleware = async ctx => {
   }
 }
 
-// TODO Explain this one in detail as an example (can call await on a return promise or an async ft) + why ?
-const getCachedData = (cacheKey, setter) =>
-  new Promise((resolve, reject) => {
-    movieCache.get(cacheKey, async (err, results) => {
-      if (err)
-        return reject(err)
-
-      if (results == undefined) {
-        setter()
-          .then(results => {
-            resolve(results)
-            movieCache.set(cacheKey, results)
-          })
-          .catch(reject)
-      } else {
-        resolve(results)
-      }
-    })
-  })
-
 export const hotMoviesController: Middleware = async ctx => {
   const genre = await Joi.string()
-    .valid(...MOVIE_GENRES)
+    .valid(...GENRE_VALUES)
     .validateAsync(ctx.query.genre)
   const movieCacheKey = `hot-videos:${genre}`
 
@@ -124,11 +112,14 @@ export const hotMoviesController: Middleware = async ctx => {
   }
 }
 
-// TODO Convert to have the same keys
 export const getMovieController: Middleware = async ctx => {
   const cacheKey = `movies:${ctx.params.imdbId}`
   const movie = await getCachedData(cacheKey, async () => {
-    return await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language) || await popcornAPI.getMovieDetails(ctx.params.imdbId) || await ytsApi.getMovieDetails(ctx.params.imdbId)
+    return (
+      (await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language)) ||
+      (await popcornAPI.getMovieDetails(ctx.params.imdbId)) ||
+      (await ytsApi.getMovieDetails(ctx.params.imdbId))
+    )
   })
 
   ctx.body = {
@@ -146,7 +137,7 @@ export const getMovieTorrentsController: Middleware = async ctx => {
   }
 }
 
-const publicCommentProperties = [
+const PUBLIC_COMMENT_PROPERTIES = [
   '_id',
   'text',
   'date',
@@ -161,17 +152,14 @@ export const getMovieCommentsController: Middleware = async ctx => {
 
   const movie = await Movie.findOne({ imdbId }).populate('comments.user')
   ctx.body = {
-    comments: movie ? movie.comments.map(el => _.pick(el, publicCommentProperties)) : [],
+    comments: movie ? movie.comments.map(el => _.pick(el, PUBLIC_COMMENT_PROPERTIES)) : [],
   }
 }
 
-/*
- * Parameters: String imdbID, String lang
- */
 export const getMovieSubtitlesController: Middleware = async ctx => {
   const imbdId = ctx.params.imdbId
 
-  const subtitles = await OpenSubtitles.search({ imdbid: imbdId })
+  const subtitles = await OpenSubtitlesClient.search({ imdbid: imbdId })
   ctx.body = { subtitles }
 }
 
@@ -194,7 +182,7 @@ export const getMovieSubtitleController: Middleware = ctx => {
           if (err == null) {
             return resolve()
           } else if (err.code === 'ENOENT') {
-            const subtitles = await OpenSubtitles.search({ imdbid: imdbId })
+            const subtitles = await OpenSubtitlesClient.search({ imdbid: imdbId })
             ctx.assert(subtitles[lang], 404, "This subtitle doesn't exist")
 
             const { data: srtSubtitle } = await axios.get(subtitles[lang].url)
@@ -236,11 +224,11 @@ export const addMovieCommentController: Middleware = async ctx => {
     await newTorrent.save()
   }
   ctx.body = {
-    comment: _.pick(newComment, publicCommentProperties),
+    comment: _.pick(newComment, PUBLIC_COMMENT_PROPERTIES),
   }
 }
 
-export const addTorrentPlaytimeController: Middleware = async ctx => {
+export const addMoviePlayController: Middleware = async ctx => {
   const play = {
     createdAt: new Date(),
     imdbId: ctx.params.imdbId,

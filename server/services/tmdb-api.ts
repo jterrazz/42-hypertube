@@ -12,10 +12,8 @@ const BASE_URL = 'https://api.themoviedb.org/3'
 const tmdbClient = axios.create({ baseURL: BASE_URL })
 
 tmdbClient.interceptors.request.use(request => {
-  if (request.params)
-    request.params.api_key = config.API_THE_MOVIE_DB_KEY
-  else
-    request.params = { api_key: config.API_THE_MOVIE_DB_KEY }
+  if (request.params) request.params.api_key = config.API_THE_MOVIE_DB_KEY
+  else request.params = { api_key: config.API_THE_MOVIE_DB_KEY }
   return request
 })
 
@@ -27,7 +25,7 @@ const ROOT_URL = 'https://image.tmdb.org/t/p/original'
 class TmdbSerializer {
   static movie = original => {
     if (typeof original != 'object') return null
-console.log(original.similar)
+    console.log(original.similar)
     const youtubeTailer = original.videos ? original.videos.results.filter(el => el.type == 'Trailer')[0] : null
     return {
       title: original.title,
@@ -51,15 +49,17 @@ console.log(original.similar)
 }
 
 /*
- * We need search because no imdbid
+ * We need search because we don't have the tmdbId only the imdbid
  * https://developers.themoviedb.org/3/getting-started/append-to-response
  */
 
 export const getMovieDetails = async (imdbID, language) => {
-  const { data } = await tmdbClient.get(`/find/${imdbID}`, { params: { external_source: 'imdb_id' }})
+  const { data } = await tmdbClient.get(`/find/${imdbID}`, { params: { external_source: 'imdb_id' } })
   const movieId = _.get(data, 'movie_results[0].id')
   if (!movieId) return null
 
-  const { data: movie } = await tmdbClient.get(`/movie/${movieId}`, { params: { language: language, append_to_response: 'videos,credits,images,similar,reviews' } })
+  const { data: movie } = await tmdbClient.get(`/movie/${movieId}`, {
+    params: { language: language, append_to_response: 'videos,credits,images,similar,reviews' },
+  })
   return TmdbSerializer.movie(movie)
 }

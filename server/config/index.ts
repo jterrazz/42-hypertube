@@ -1,6 +1,5 @@
 import * as Joi from '@hapi/joi'
 import * as dotenv from 'dotenv'
-
 import logs from '../utils/logger'
 
 dotenv.config()

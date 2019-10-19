@@ -12,9 +12,9 @@ export const sendResetPasswordEmail = (to, token) =>
     const mailData = {
       from: 'hypertube@' + config.API_NODE_MAILER_DOMAIN,
       to,
-      subject: 'Reinit password',
-      text: `To reainitialize your mail go here: ${resetLink}`,
-      html: `<b>To change your password click <a href="${resetLink}">here</a></b>`,
+      subject: 'Hypertube: Reset your password 👀',
+      text: `To reset your password, follow the instructions on this website : ${resetLink}`,
+      html: `<p>\`To reset your password, follow the instructions on this website : <a href="${resetLink}">Reset password</a></p>`,
     }
 
     mailgun.messages().send(mailData, (err, body) => {

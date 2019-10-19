@@ -19,15 +19,16 @@ export class ClientError extends Error {
 }
 
 /*
- * Serialize: When a client login, we send him a secure token tied to the user._id
- * Deserialize: When the client makes a request, he attach this secure token to its request. From the id,
- * we then get retrieve the full user object. We can access this information with ctx.state.user
+ * When a client login, he receives an immutable (with a secure signature) token containing the user._id
  */
-
 passport.serializeUser((user, done) => {
   done(null, user._id)
 })
 
+/*
+ * When the client makes a request, he attach the secure token. From the id,
+ * we retrieve the full user object and passport place it in ctx.state.user
+ */
 passport.deserializeUser(async (id, done) => {
   try {
     const currentUser = await User.findOne({ _id: id })
@@ -42,7 +43,6 @@ passport.deserializeUser(async (id, done) => {
  * STRATEGY: Username/password
  */
 
-// TODO Add maximum for each field
 passport.use(
   'signup',
   new LocalStrategy({ passReqToCallback: true }, async (req, username, password, done) => {
@@ -121,8 +121,7 @@ passport.use(
         lastName: _.get(profile, ['name', 'familyName']),
       }
       if (!profile.emails) {
-        // TODO better
-        return cb(new Error('Google auth: no email found')) // TODO Pass error to web using HTML code failed auth
+        return cb(new Error('Google auth: no email found'))
       }
       googleData.email = profile.emails[0].value
       if (profile.photos) {

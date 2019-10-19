@@ -40,10 +40,8 @@ const checkOriginMiddleware = ctx => {
 // Streams are not passed  to ... but are automatiacally  added with onerror. When the user disconnect a streamed response, overrid the default koa comportment for handling the error. In our case, a client disconnecting is not an error and will happens as soon as he closes his browser.
 const oldOnError = app.context.onerror
 app.context.onerror = (error: any) => {
-  if (error.errno === 'EPIPE' || error.errno === 'ECONNRESET')
-    return
-  else
-    oldOnError(error)
+  if (error && (error.errno === 'EPIPE' || error.errno === 'ECONNRESET')) return
+  else oldOnError(error)
 }
 app.use(cors({ credentials: true, origin: checkOriginMiddleware }))
 app.use(errorMiddleware)

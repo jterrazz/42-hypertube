@@ -4,13 +4,29 @@ import * as _ from 'lodash'
 import * as fs from 'fs'
 
 import { User } from '../models'
-import {ClientError} from "../services/auth";
-import * as crypto from "crypto";
+import { ClientError } from '../services/auth'
+import * as crypto from 'crypto'
 
 export const PUBLIC_USER_PROPS = ['profileImageName', 'language', 'firstName', 'lastName', 'username']
-
 export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', ...PUBLIC_USER_PROPS]
 const IMAGE_FOLDER = __dirname + '/../public/images/'
+
+export const cacheToImageFolder = file =>
+  new Promise((resolve, reject) => {
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const newName = crypto.randomBytes(20).toString('hex')
+      fs.rename(file.path, IMAGE_FOLDER + newName, err => {
+        if (err) return reject(err)
+        resolve(newName)
+      })
+    } else {
+      reject(new ClientError(422, 'Supported images format: png and jpeg'))
+    }
+  })
+
+/*
+ * Controllers
+ */
 
 export const getMeController: Middleware = async ctx => {
   ctx.body = _.pick(ctx.state.user, PRIVATE_USER_PROPS)
@@ -24,24 +40,6 @@ export const getUsernameController: Middleware = async ctx => {
   ctx.assert(user, 404, 'User not found')
   ctx.body = _.pick(user, PUBLIC_USER_PROPS)
 }
-
-/*
- * Requires Image available bc multer middleware
- * TODO Utils folder ?
- */
-
-export const transfertImage = file =>
-  new Promise((resolve, reject) => {
-    if (file.type === 'image/jpeg' || file.type === 'image/png') {
-      const newName = crypto.randomBytes(20).toString('hex')
-      fs.rename(file.path, IMAGE_FOLDER + newName, err => {
-        if (err) return reject(err)
-        resolve(newName)
-      })
-    } else {
-      reject(new ClientError(422, 'Supported images format: png and jpeg'))
-    }
-  })
 
 export const updateMeController: Middleware = async ctx => {
   const userSchema = Joi.object()
@@ -58,7 +56,7 @@ export const updateMeController: Middleware = async ctx => {
   const userInput = await userSchema.validateAsync(ctx.request.body)
   const profileImage = ctx.request.files['profile-image']
 
-  let user = await User.findOne({ _id: ctx.state.user._id })
+  const user = await User.findOne({ _id: ctx.state.user._id })
   ctx.assert(user, 404, "User doesn't exist")
 
   _.merge(user, userInput)
@@ -67,7 +65,7 @@ export const updateMeController: Middleware = async ctx => {
   }
   if (profileImage) {
     const oldImage = user.profileImageName
-    user.profileImageName = await transfertImage(profileImage)
+    user.profileImageName = await cacheToImageFolder(profileImage)
     if (oldImage) {
       fs.unlink(IMAGE_FOLDER + oldImage, err => {})
     }

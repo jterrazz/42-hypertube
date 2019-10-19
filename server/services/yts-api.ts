@@ -2,7 +2,7 @@ import axios from 'axios'
 import * as _ from 'lodash'
 
 import config from '../config'
-import { SearchParamsEnum } from '../controllers'
+import { SORT_VALUES_ENUM } from '../controllers'
 
 /*
  * Documentation
@@ -13,10 +13,8 @@ const YTS_BASE_URL = 'https://yts.ag/api/v2'
 const ytsClient = axios.create({ baseURL: YTS_BASE_URL })
 
 ytsClient.interceptors.request.use(request => {
-  if (request.params)
-    request.params.api_key = config.API_YTS_KEY
-  else
-    request.params = { api_key: config.API_YTS_KEY }
+  if (request.params) request.params.api_key = config.API_YTS_KEY
+  else request.params = { api_key: config.API_YTS_KEY }
   return request
 })
 
@@ -56,9 +54,7 @@ class YtsSerializer {
 }
 
 /*
- * YTS API calls
- * Options: { }
- * Match to https://yts.lt/api#list_movies
+ * API Calls
  */
 
 export const searchMovies = async (query, page, options) => {
@@ -74,16 +70,16 @@ export const searchMovies = async (query, page, options) => {
   }
 
   switch (options.sort) {
-    case SearchParamsEnum.SORT_ADDED:
+    case SORT_VALUES_ENUM.SORT_ADDED:
       params.sort_by = 'trending'
       break
-    case SearchParamsEnum.SORT_TRENDING:
+    case SORT_VALUES_ENUM.SORT_TRENDING:
       params.sort_by = 'download_count'
       break
-    case SearchParamsEnum.SORT_RATING:
+    case SORT_VALUES_ENUM.SORT_RATING:
       params.sort_by = 'rating'
       break
-    case SearchParamsEnum.SORT_YEAR:
+    case SORT_VALUES_ENUM.SORT_YEAR:
       params.sort_by = 'year'
       break
     default:
@@ -98,7 +94,7 @@ export const searchMovies = async (query, page, options) => {
 }
 
 export const getMostDownloadedMovies = async genre =>
-  searchMovies(null, 1, { genre, sort: SearchParamsEnum.SORT_TRENDING }) // Trending is download_count for yts
+  searchMovies(null, 1, { genre, sort: SORT_VALUES_ENUM.SORT_TRENDING }) // Trending is download_count for yts
 
 export const getMovieDetails = async imdbID => {
   const movies = await searchMovies(imdbID, 1, {})

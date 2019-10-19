@@ -1,7 +1,8 @@
 /*
- * Controllers handles all the logic for routes.
- * The method usually access the request data inside the ctx object.
- * It then sends the data back to the client using the ctx.body or ctx.status.
+ * A controller handles the final logic for a route.
+ * The method usually access the ctx.body or the ctx.request object, carrying the data coming from the client.
+ * To send data back, we usually set the ctx.body with json. If we simply need to send a confirmation,
+ * we set the http response code with the ctx.status property.
  */
 
 export * from './user'

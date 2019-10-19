@@ -6,7 +6,7 @@ import torrentRouter from './torrent'
 import movieRouter from './movie'
 
 /*
- * The use of sub-routers allows to better separate the logic of same type routes.
+ * Divides the routes in multiple router for a better code structure.
  */
 
 const router = new Router()

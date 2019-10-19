@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as _ from 'lodash'
-import { SearchParamsEnum } from '../controllers'
+import { SORT_VALUES_ENUM } from '../controllers'
 
 /*
  * Documentation
@@ -51,8 +51,6 @@ class PopcornSerializer {
 
 /*
  * Popcorn-time API calls
- * option:
- * Match: https://popcornofficial.docs.apiary.io/#reference/movie/get-pages/page
  */
 
 export const searchMovies = async (query, page, options) => {
@@ -66,16 +64,16 @@ export const searchMovies = async (query, page, options) => {
   }
 
   switch (options.sort) {
-    case SearchParamsEnum.SORT_ADDED:
+    case SORT_VALUES_ENUM.SORT_ADDED:
       params.sort = 'updated'
       break
-    case SearchParamsEnum.SORT_TRENDING:
+    case SORT_VALUES_ENUM.SORT_TRENDING:
       params.sort = 'trending'
       break
-    case SearchParamsEnum.SORT_RATING:
+    case SORT_VALUES_ENUM.SORT_RATING:
       params.sort = 'rating'
       break
-    case SearchParamsEnum.SORT_YEAR:
+    case SORT_VALUES_ENUM.SORT_YEAR:
       params.sort = 'SORT_YEAR'
       break
     default:
@@ -87,7 +85,7 @@ export const searchMovies = async (query, page, options) => {
   return _.get(res, 'data', []).map(PopcornSerializer.movie)
 }
 
-export const getTrendingMovies = async genre => searchMovies(null, 1, { genre, sort: SearchParamsEnum.SORT_TRENDING })
+export const getTrendingMovies = async genre => searchMovies(null, 1, { genre, sort: SORT_VALUES_ENUM.SORT_TRENDING })
 
 export const getMovieDetails = async imdbID => {
   const res = await popcornClient.get(`/movie/${imdbID}`)

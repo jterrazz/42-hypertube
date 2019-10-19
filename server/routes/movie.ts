@@ -8,7 +8,7 @@ import {
   getMovieTorrentsController,
   getMovieCommentsController,
   addMovieCommentController,
-  addTorrentPlaytimeController,
+  addMoviePlayController,
   getMovieSubtitlesController,
   getMovieSubtitleController,
 } from '../controllers'
@@ -25,6 +25,6 @@ movieRouter
   .get('/:imdbId/subtitles/:lang', getMovieSubtitleController)
   .get('/:imdbId/comments', getMovieCommentsController)
   .post('/:imdbId/comments', addMovieCommentController)
-  .post('/:imdbId/play', addTorrentPlaytimeController)
+  .post('/:imdbId/play', addMoviePlayController)
 
 export default movieRouter

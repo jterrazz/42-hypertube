@@ -6,8 +6,12 @@ import * as fs from 'fs'
 const MAX_CACHE_AGE = 60 * 30
 const CLEAR_CACHE_LOOP_TIME = 1000 * 60 * 10
 
-const MAX_MOVIE_AGE = (24 * 60 * 60 * 1000) * 31
+const MAX_MOVIE_AGE = 24 * 60 * 60 * 1000 * 31
 const CLEAR_OLD_MOVIES_LOOP_DELAY = 1000 * 60 * 5
+
+/*
+ * Cron jobs
+ */
 
 export const clearCacheJob = () =>
   setInterval(() => {

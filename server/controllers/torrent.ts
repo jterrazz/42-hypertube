@@ -1,16 +1,19 @@
-import { Middleware } from 'koa'
-import * as torrentStream from 'torrent-stream'
-import * as fs from 'fs'
-import * as ffmpeg from 'fluent-ffmpeg'
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const PassThrough = require('stream').PassThrough
+import { Middleware } from 'koa'
+import * as torrentStream from 'torrent-stream'
+import * as ffmpeg from 'fluent-ffmpeg'
+import * as fs from 'fs'
 
 import { Torrent } from '../models'
 import logger from '../utils/logger'
 
 ffmpeg.setFfmpegPath(ffmpegPath)
 
-// They both use a static list of trackers
+/*
+ * The list of trackers is consistent whatever the torrent
+ */
+
 const TRACKERS = [
   'glotorrents.pw:6969/announce',
   'tracker.opentrackr.org:1337/announce',
@@ -23,7 +26,9 @@ const TRACKERS = [
   'open.demonii.com:1337/announce',
 ]
 
-
+/*
+ * Creates a web compatible video stream from any video stream
+ */
 
 const getConvertedStream = (inputStream, fileExtension) => {
   const pass = PassThrough()
@@ -42,18 +47,18 @@ const getConvertedStream = (inputStream, fileExtension) => {
         '-g 52',
       ])
       .outputFormat('mp4')
-      .on('error', err => {
-        pass.end()
-      })
+      .on('error', err => pass.end())
       .pipe(pass)
   } else {
     inputStream.pipe(pass)
   }
+  return pass
 }
 
 /*
- * A torrent magnet link is composed only by two important fields: a hash of the files and a list of trackers that handles sharing of of ip addresses.
- * We only need to store the hashes to identify and connect to peers.
+ * A torrent magnet link is composed by two important fields:
+ * - the hash of the files
+ * - a list of trackers that gives us the peers/seeders ips.
  */
 
 export const getTorrentStreamController: Middleware = ctx => {
@@ -69,13 +74,9 @@ export const getTorrentStreamController: Middleware = ctx => {
       .on('error', err => logger.error)
       .on('ready', async () => {
         try {
-          if (!engine.files.length)
-            return reject()
+          if (!engine.files.length) return reject()
 
-          const files = engine.files.sort((a, b) => {
-            return a.length > b.length ? -1 : 1
-          })
-
+          const files = engine.files.sort((a, b) => (a.length > b.length ? -1 : 1))
           const originalMovieStream = files[0].createReadStream()
 
           const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
