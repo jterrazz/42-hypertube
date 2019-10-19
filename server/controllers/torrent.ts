@@ -2,8 +2,13 @@ import { Middleware } from 'koa'
 import * as torrentStream from 'torrent-stream'
 import * as fs from 'fs'
 import * as ffmpeg from 'fluent-ffmpeg'
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
+const PassThrough = require('stream').PassThrough
 
 import { Torrent } from '../models'
+import logger from '../utils/logger'
+
+ffmpeg.setFfmpegPath(ffmpegPath)
 
 // They both use a static list of trackers
 const TRACKERS = [
@@ -18,13 +23,38 @@ const TRACKERS = [
   'open.demonii.com:1337/announce',
 ]
 
+
+
+const getConvertedStream = (inputStream, fileExtension) => {
+  const pass = PassThrough()
+
+  if (fileExtension != 'mp4' && fileExtension != 'webm') {
+    ffmpeg()
+      .input(inputStream)
+      .outputOptions([
+        '-f hls',
+        '-deadline realtime',
+        '-preset ultrafast',
+        '-start_number 0',
+        '-hls_time 2',
+        '-hls_list_size 0',
+        '-movflags frag_keyframe+empty_moov',
+        '-g 52',
+      ])
+      .outputFormat('mp4')
+      .on('error', err => {
+        pass.end()
+      })
+      .pipe(pass)
+  } else {
+    inputStream.pipe(pass)
+  }
+}
+
 /*
  * A torrent magnet link is composed only by two important fields: a hash of the files and a list of trackers that handles sharing of of ip addresses.
  * We only need to store the hashes to identify and connect to peers.
  */
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-ffmpeg.setFfmpegPath(ffmpegPath);
-const PassThrough = require('stream').PassThrough;
 
 export const getTorrentStreamController: Middleware = ctx => {
   const hash = ctx.params.hash
@@ -36,22 +66,17 @@ export const getTorrentStreamController: Middleware = ctx => {
 
   return new Promise((resolve, reject) => {
     engine
-      .on('error', err => console.log("YO"))
+      .on('error', err => logger.error)
       .on('ready', async () => {
         try {
-          if (!engine.files.length) {
+          if (!engine.files.length)
             return reject()
-          }
 
-          const files = engine.files.sort((first, second) => {
-            if (first.length > second.length) {
-              return -1
-            }
-            return 1
+          const files = engine.files.sort((a, b) => {
+            return a.length > b.length ? -1 : 1
           })
 
-          const movieFileStream = files[0]
-            .createReadStream()
+          const originalMovieStream = files[0].createReadStream()
 
           const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
           if (!torrent) {
@@ -60,56 +85,23 @@ export const getTorrentStreamController: Middleware = ctx => {
           }
 
           const moviePath = folderPath + '/' + files[0].path
+          const fileExtension = moviePath.split('.').pop()
+          let tries = 0
 
           const intervalId = setInterval(() => {
             fs.stat(moviePath, (_, stats) => {
-              if (!stats)
-                return
+              if (!stats) return
 
-              const stream = fs.createReadStream(moviePath)
-                .on('error', (a) => {
-                })
-                .on('data', (a) => {})
-                .on('end', (a) => {})
               const filesize = stats.size
-              const fileExtension = moviePath.split('.').pop()
 
-              if (filesize > 30 * 1024 * 1024) {
+              if (tries > 100) {
                 clearInterval(intervalId)
-
-                // movieFileStream.on('error', (a, b, c) => {})
-
-                // process.on('uncaughtException', function(err) {
-                //   console.log(err)
-                //   console.log("ok");
-                // });
-
-                // ctx.onerror((err, message) => {
-                //   return;
-                // })
-
-                const pass = PassThrough()
-                ffmpeg()
-                  .input(stream)
-                  .outputOptions([
-                    '-f hls',
-                    '-deadline realtime',
-                    '-preset ultrafast',
-                    '-start_number 0',     // start the first .ts segment at index 0
-                    '-hls_time 2',        // 10 second segment duration
-                    '-hls_list_size 0',
-                    '-movflags frag_keyframe+empty_moov',
-                    '-g 52',
-                  ])
-                  .outputFormat('mp4')
-                  .on('error', (err) => {
-                    pass.end()
-                  })
-                  .pipe(pass)
-
-                ctx.body = pass
-                resolve()
+              } else if (filesize > files[0].length / 100) {
+                clearInterval(intervalId)
+                ctx.body = getConvertedStream(originalMovieStream, fileExtension)
+                return resolve()
               }
+              tries++
             })
           }, 2000)
         } catch (e) {
