@@ -24,7 +24,7 @@ const TRACKERS = [
  */
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 ffmpeg.setFfmpegPath(ffmpegPath);
-const Stream = require('stream');
+const PassThrough = require('stream').PassThrough;
 
 export const getTorrentStreamController: Middleware = ctx => {
   const hash = ctx.params.hash
@@ -35,81 +35,86 @@ export const getTorrentStreamController: Middleware = ctx => {
   const engine = torrentStream(magnet, { path: folderPath })
 
   return new Promise((resolve, reject) => {
-    engine.on('ready', async () => {
-      try {
-        if (!engine.files.length) {
-          return reject()
-        }
-
-        const files = engine.files.sort((first, second) => {
-          if (first.length > second.length) {
-            return -1
+    engine
+      .on('error', err => console.log("YO"))
+      .on('ready', async () => {
+        try {
+          if (!engine.files.length) {
+            return reject()
           }
-          return 1
-        })
 
-        const movieFileStream = files[0].createReadStream()
-
-        const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
-        if (!torrent) {
-          const newTorrent = new Torrent({ hash, lastRead: new Date() })
-          await newTorrent.save()
-        }
-
-        const moviePath = folderPath + '/' + files[0].path
-
-        const intervalId = setInterval(() => {
-          fs.stat(moviePath, (_, stats) => {
-            if (!stats)
-              return
-
-            const filesize = stats.size
-
-            if (filesize > 30 * 1024 * 1024) {
-              clearInterval(intervalId)
-
-              console.log("heelo")
-              const stream = new Stream()
-              stream.writable = true
-              stream.readable = true
-              ctx.body = ffmpeg()
-                .addOptions([
-                  '-f hls',
-                  '-deadline realtime',
-                  '-preset ultrafast',
-                  '-start_number 0',     // start the first .ts segment at index 0
-                  '-hls_time 2',        // 10 second segment duration
-                  '-hls_list_size 0',
-                ])
-                .input(movieFileStream)
-                .outputOptions('-movflags frag_keyframe+empty_moov')
-                .outputFormat('mp4')
-                .pipe()
-                .on('error', function(err, stdout, stderr) {
-                  console.log("EEEEERRRR", err)
-                  console.log(stdout)
-                  console.log(stderr)
-                  reject(err)
-                })
-                .on('start', function() {
-                 console.log("start")
-
-                })
-                .on('end', function() {
-                  // resolve()
-                })
-                .on('progress', function () {
-                  console.log("progress")
-                })
-              // ctx.body = stream
-
-              resolve()
+          const files = engine.files.sort((first, second) => {
+            if (first.length > second.length) {
+              return -1
             }
+            return 1
           })
-        }, 2000)
-      } catch (e) {
-        return reject(e)
-      }
-    })
+
+          const movieFileStream = files[0]
+            .createReadStream()
+
+          const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
+          if (!torrent) {
+            const newTorrent = new Torrent({ hash, lastRead: new Date() })
+            await newTorrent.save()
+          }
+
+          const moviePath = folderPath + '/' + files[0].path
+
+          const intervalId = setInterval(() => {
+            fs.stat(moviePath, (_, stats) => {
+              if (!stats)
+                return
+
+              const stream = fs.createReadStream(moviePath)
+                .on('error', (a) => {
+                })
+                .on('data', (a) => {})
+                .on('end', (a) => {})
+              const filesize = stats.size
+              const fileExtension = moviePath.split('.').pop()
+
+              if (filesize > 30 * 1024 * 1024) {
+                clearInterval(intervalId)
+
+                // movieFileStream.on('error', (a, b, c) => {})
+
+                // process.on('uncaughtException', function(err) {
+                //   console.log(err)
+                //   console.log("ok");
+                // });
+
+                // ctx.onerror((err, message) => {
+                //   return;
+                // })
+
+                const pass = PassThrough()
+                ffmpeg()
+                  .input(stream)
+                  .outputOptions([
+                    '-f hls',
+                    '-deadline realtime',
+                    '-preset ultrafast',
+                    '-start_number 0',     // start the first .ts segment at index 0
+                    '-hls_time 2',        // 10 second segment duration
+                    '-hls_list_size 0',
+                    '-movflags frag_keyframe+empty_moov',
+                    '-g 52',
+                  ])
+                  .outputFormat('mp4')
+                  .on('error', (err) => {
+                    pass.end()
+                  })
+                  .pipe(pass)
+
+                ctx.body = pass
+                resolve()
+              }
+            })
+          }, 2000)
+        } catch (e) {
+          return reject(e)
+        }
+      })
   })
 }

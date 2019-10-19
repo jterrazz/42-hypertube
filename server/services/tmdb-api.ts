@@ -27,7 +27,7 @@ const ROOT_URL = 'https://image.tmdb.org/t/p/original'
 class TmdbSerializer {
   static movie = original => {
     if (typeof original != 'object') return null
-
+console.log(original.similar)
     const youtubeTailer = original.videos ? original.videos.results.filter(el => el.type == 'Trailer')[0] : null
     return {
       title: original.title,
