@@ -4,7 +4,7 @@ A web based application to explore and search torrent providers. Videos are down
 
 *Disclaimer: This application was made for learning purposes at the 42 Paris School. For legal reasons, this shouldn't be used in the real world.*
 
-Learn more about this project usinging the [wiki](https://github.com/jterrazz/42-hypertube/wiki).
+Learn more about this project using the [wiki](https://github.com/jterrazz/42-hypertube/wiki).
 
 ## Starting guide
 
