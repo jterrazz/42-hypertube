@@ -13,6 +13,7 @@ import StarBorderIcon from '@material-ui/icons/StarBorder'
 import API from '../src/API'
 import Link from '../src/Link'
 import NavBar from "../src/NavBar";
+import { withAuthSync } from '../utils/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -181,4 +182,4 @@ class Home extends Component {
     )
   }
 }
-export default Home
+export default withAuthSync(Home);

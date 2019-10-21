@@ -18,6 +18,7 @@ import CardContent from "@material-ui/core/CardContent/CardContent";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import NavBar from "../../src/NavBar";
+import { withAuthSync } from '../../utils/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -206,4 +207,4 @@ class Movie extends Component {
   }
 }
 
-export default withRouter(Movie);
+export default withRouter(withAuthSync(Movie));

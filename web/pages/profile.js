@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import axios from "axios";
 import NavBar from "../src/NavBar";
+import { withAuthSync } from '../utils/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -81,4 +82,5 @@ class Profile extends Component {
     )
   }
 }
-export default Profile
+
+export default withAuthSync(Profile);

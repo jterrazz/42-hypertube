@@ -15,6 +15,7 @@ import Box from "@material-ui/core/Box/Box";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import {withRouter} from "next/router";
+import { withAuthSync } from '../../utils/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -145,4 +146,4 @@ class Search extends Component {
   }
 }
 
-export default withRouter(Search);
+export default withRouter(withAuthSync(Search));

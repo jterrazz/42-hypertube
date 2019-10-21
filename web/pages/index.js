@@ -16,7 +16,7 @@ import axios from 'axios'
 import API from '../src/API'
 import Link from '../src/Link'
 import Copyright from '../src/Copyright'
-
+import { login, withAuthSync } from '../utils/auth'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -161,7 +161,8 @@ const SignInSide = withFormik({
       .then(
         response => {
           if (response.data.message === 'Authentication successful') {
-            window.location = "/home"
+            const { token } = response.data;
+            login ({ token });
           }
         })
         .catch(error => {
@@ -173,4 +174,4 @@ const SignInSide = withFormik({
   },
 })(signInSide);
 
-export default SignInSide
+export default withAuthSync(SignInSide);
