@@ -114,9 +114,24 @@ class Search extends Component {
   };
 
   async getSimilarTitleMovie(movieTitle) {
-    const response = await axios.get(`${API.movies_search}query=${movieTitle}`);
+    let responseData = [];
 
-    const responseData = response.data.movies;
+    if (movieTitle) {
+      const response = await axios.get(`${API.movies_search}query=${movieTitle}`);
+      responseData = response.data.movies;
+    }
+    else {
+      const response = await axios.get(API.movie_hot);
+      responseData = [...response.data.rankedMovies.popcorn, ...response.data.rankedMovies.yts];
+    }
+
+    this.setState({ movie: responseData })
+  }
+
+  async componentDidMount() {
+    const response = await axios.get(API.movie_hot);
+
+    const responseData = [...response.data.rankedMovies.popcorn, ...response.data.rankedMovies.yts];
 
     this.setState({ movie: responseData })
   }
