@@ -125,7 +125,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
                   {props.movie && props.movie.similar ? props.movie.similar.slice(0, 4).map((item, index) => (
                     <Grid item xs={4} md={3} key={index}>
                       <Card elevation={0} className={classes.card}>
-                        <Link href={`/movie/${item.imdb_id}`}>
+                        <Link href={`/search/${item.title}`}>
                           <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
                         </Link>
                         <CardContent>
