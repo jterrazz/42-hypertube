@@ -51,7 +51,7 @@ export const resetPasswordController: Middleware = async ctx => {
       .max(100)
       .required(),
   })
-  const { token, password } = await querySchema.validateAsync(ctx.query)
+  const { token, password } = await querySchema.validateAsync(ctx.request.body)
 
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.JWT_SECRET, async (err, decoded) => {
