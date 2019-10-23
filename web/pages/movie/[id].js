@@ -19,6 +19,7 @@ import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import NavBar from "../../src/NavBar";
 import { withAuthSync } from '../../utils/auth'
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -120,6 +121,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
                   /> : ''}
               </Grid>
 
+              {props.movie && props.movie.similar.length > 0 ?
               <Grid item xs={12} md={6}>
                 <Typography variant="h4">Similar</Typography>
                 <Grid container spacing={4} style={{ marginTop: 15 }}>
@@ -146,7 +148,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
                             emptyIcon={<StarBorderIcon />}
                           />
                           <Typography variant="caption" color="textSecondary" style={{ margin: theme.spacing(0.5) }}>
-                            {`${item.rating} (${item.runtime} min)`}
+                            {`${item.rating}`}
                           </Typography>
                         </CardContent>
                       </Card>
@@ -154,6 +156,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
                   )) : ''}
                 </Grid>
               </Grid>
+              : '' }
 
               <Grid item xs={12} md={6}>
                 <Typography variant="h4">Torrents</Typography>
@@ -171,7 +174,19 @@ const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
             </Grid>
           </Container>
         </main>
-        : ''}
+        :
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Grid
+                container
+                justify="center"
+            >
+              <Grid item>
+                <CircularProgress/>
+              </Grid>
+            </Grid>
+          </main>
+      }
     </div>
   )
 };

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -11,20 +11,10 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
-import MuiLink from '@material-ui/core/Link'
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <MuiLink color="inherit" href="https://intra.42.fr/">
-        HyperTube
-      </MuiLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
+import axios from "axios"
+import Copyright from '../src/Copyright'
+import API from "../src/API";
+import {login} from "../utils/auth";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -77,15 +67,15 @@ const forgotPassword = props => {
               margin="normal"
               required
               fullWidth
-              value={values.email}
+              id="userName"
+              label="UserName"
+              name="userName"
+              autoComplete="uname"
+              value={values.userName}
               onChange={handleChange}
               onBlur={handleBlur}
-              helperText={touched.email ? errors.email : ''}
-              error={touched.email && Boolean(errors.email)}
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              helperText={touched.userName ? errors.userName : ''}
+              error={touched.userName && Boolean(errors.userName)}
             />
             <Button
               type="submit"
@@ -115,25 +105,50 @@ const forgotPassword = props => {
 };
 
 const ForgotPassword = withFormik({
-  mapPropsToValues: ({ email }) => {
+  mapPropsToValues: ({ userName }) => {
     return {
-      email: email || '',
+      userName: userName || '',
     }
   },
 
   validationSchema: Yup.object().shape({
-    email: Yup.string()
-      .email('Enter a valid email')
-      .required('Email is required'),
+    userName: Yup.string()
+      .required('Required')
+      .strict()
+      .trim('Spaces not allowed in UserName'),
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      // submit to the server
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false)
-    }, 1000)
+    const transport = axios.create({
+      withCredentials: true
+    });
+
+    transport.post(`${API.forgot}?username=${values.userName}`)
+      .then(
+        response => {
+          if (response.data === 'OK') {
+            window.location = "/"
+          }
+        })
+      .catch(error => {
+        console.log(error);
+        setSubmitting(false);
+      })
   },
 })(forgotPassword);
 
-export default ForgotPassword;
+axios.defaults.withCredentials = true;
+
+class Forgot extends Component {
+
+  state = {
+  };
+
+  render() {
+    return (
+      <ForgotPassword />
+    )
+  }
+}
+
+export default Forgot;

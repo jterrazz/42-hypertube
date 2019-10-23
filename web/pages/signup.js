@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -283,8 +283,8 @@ const signUpSide = props => {
   )
 };
 
-const FILE_SIZE = 1600 * 1024
-const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png']
+const FILE_SIZE = 1600 * 1024;
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const SignUpSide = withFormik({
   mapPropsToValues: ({ firstName, lastName, userName, email, password, confirmPassword, file, recaptcha }) => {
@@ -311,37 +311,36 @@ const SignUpSide = withFormik({
       .email('Enter a valid email')
       .required('Email is required'),
     password: Yup.string()
-      .min(3, 'Password must contain at least 8 characters')
+      .min(8, 'Password must contain at least 8 characters')
       .required('Enter your password'),
     confirmPassword: Yup.string()
       .required('Confirm your password')
       .oneOf([Yup.ref('password')], 'Password does not match'),
-    // file: Yup.mixed()
-    //   .required("A file is required")
-    //   .test(
-    //     "fileFormat",
-    //     "Unsupported Format",
-    //     value => value && SUPPORTED_FORMATS.includes(value.type)
-    //   )
-    //   .test(
-    //     "fileSize",
-    //     "File too large",
-    //     value => value && value.size <= FILE_SIZE
-    //   ),
-    // recaptcha: Yup.string().required('Required'),
+    file: Yup.mixed()
+      .required("A file is required")
+      .test(
+        "fileFormat",
+        "Unsupported Format",
+        value => value && SUPPORTED_FORMATS.includes(value.type)
+      )
+      .test(
+        "fileSize",
+        "File too large",
+        value => value && value.size <= FILE_SIZE
+      ),
+    recaptcha: Yup.string().required('Required'),
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
     event.preventDefault();
 
     const user = {
-      name: {
-        first: values.firstName,
-        last: values.lastName,
-      },
+      firstName: values.firstName,
+      lastName: values.lastName,
       username: values.userName,
       password: values.password,
       email: values.email,
+      // profileimage: values.file,
     };
 
     const transport = axios.create({
@@ -356,12 +355,25 @@ const SignUpSide = withFormik({
         }
       })
       .catch(error => {
-        // if (error.response.status === 401){
-        //   setSubmitting(false);
-        // }
+        if (error.response.status === 401){
+          setSubmitting(false);
+        }
         console.log(error)
       })
   },
 })(signUpSide);
 
-export default SignUpSide
+axios.defaults.withCredentials= true;
+
+class SignUp extends Component {
+  state = {
+  };
+
+  render () {
+    return (
+        <SignUpSide />
+    )
+  }
+}
+
+export default SignUp

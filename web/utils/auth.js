@@ -10,7 +10,6 @@ export const login = ({ token }) => {
 
 export const auth = ctx => {
   const { token } = nextCookie(ctx);
-  console.log(ctx.pathname);
   /*
    * If `ctx.req` is available it means we are on the server.
    * Additionally if there's no token it means the user is not logged in.
@@ -24,6 +23,10 @@ export const auth = ctx => {
   if (!token) {
     Router.push('/index')
   }
+
+  // if (token && ctx.pathname === '/') {
+  //   Router.push('/home');
+  // }
 
   return token
 };

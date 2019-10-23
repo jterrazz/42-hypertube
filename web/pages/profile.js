@@ -70,7 +70,7 @@ const ProfileComponent = () => {
   )
 };
 
-axios.defaults.withCredentials= true;
+axios.defaults.withCredentials = true;
 
 class Profile extends Component {
   state = {

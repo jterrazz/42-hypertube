@@ -174,4 +174,4 @@ const SignInSide = withFormik({
   },
 })(signInSide);
 
-export default withAuthSync(SignInSide);
+export default (SignInSide);

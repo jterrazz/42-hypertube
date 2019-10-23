@@ -19,6 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
+import { logout } from '../utils/auth';
 
 const drawerWidth = 240;
 
@@ -89,7 +90,10 @@ function NavBar(props) {
           Terrazzoni
           Jean-Baptiste
         </Typography>
-        <Button color="primary">
+        <Button
+            onClick={logout}
+            color="primary"
+          >
           logout
         </Button>
       </Grid>

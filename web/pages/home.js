@@ -13,7 +13,8 @@ import StarBorderIcon from '@material-ui/icons/StarBorder'
 import API from '../src/API'
 import Link from '../src/Link'
 import NavBar from "../src/NavBar";
-import { withAuthSync } from '../utils/auth'
+import { withAuthSync } from '../utils/auth';
+import CircularProgress from '../src/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,6 +46,7 @@ const HomeComponent = (props, {movie = null}) => {
   return (
     <div className={classes.root}>
       <NavBar />
+      {props.movie && props.movie.popcorn && props.movie.yts ?
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Container fixed>
@@ -157,6 +159,12 @@ const HomeComponent = (props, {movie = null}) => {
           </Grid>
         </Container>
       </main>
+      :
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <CircularProgress />
+        </main>
+      }
     </div>
   )
 };

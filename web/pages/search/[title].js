@@ -16,6 +16,7 @@ import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import {withRouter} from "next/router";
 import { withAuthSync } from '../../utils/auth'
+import CircularProgress from "../../src/CircularProgress";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -65,6 +66,7 @@ const SearchHome = (props, {movie = null, title = null}) => {
               shrink: true,
             }}
           />
+          {props.movie.length > 0 ?
           <Grid container spacing={4} style={{ marginTop: 15 }}>
             {props.movie ? props.movie.map((item, index) => (
               <Grid item xs={5} md={2} key={index}>
@@ -96,6 +98,9 @@ const SearchHome = (props, {movie = null, title = null}) => {
               </Grid>
             )) : ''}
           </Grid>
+              :
+            <CircularProgress />
+          }
         </Container>
       </main>
     </div>
