@@ -20,7 +20,7 @@ const Player = () => {
   return (
     <div className={classes.playerWrapper}>
       <ReactPlayer
-        url="https://www.youtube.com/watch?v=-X4ikwUwxoE"
+        url="http://localhost:3000/torrents/e6a8421a36f2cbc3035d52216fb660b9903bd207/stream"
         className={classes.reactPlayer}
         playing={false}
         width="100%"

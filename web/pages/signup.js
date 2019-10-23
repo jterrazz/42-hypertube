@@ -80,7 +80,7 @@ const signUpSide = props => {
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container justify="center">
               <Grid item xs>
-                <Button variant="contained" color="primary" className={classes.button} startIcon={<FacebookIcon />}>
+                <Button variant="contained" color="primary" className={classes.button} startIcon={<FacebookIcon />} href="http://localhost:3000/auth/facebook">
                   Facebook
                 </Button>
               </Grid>
@@ -91,13 +91,13 @@ const signUpSide = props => {
               </Grid>
 
               <Grid item xs>
-                <Button variant="contained" color="primary" className={classes.button} startIcon={<LinkedInIcon />}>
+                <Button variant="contained" color="primary" className={classes.button} startIcon={<LinkedInIcon />} href="http://localhost:3000/auth/linkedin">
                   LinkedIn
                 </Button>
               </Grid>
 
               <Grid item xs>
-                <Button variant="contained" color="primary" className={classes.button} startIcon={<AccountBoxIcon />}>
+                <Button variant="contained" color="primary" className={classes.button} startIcon={<AccountBoxIcon />} href="http://localhost:3000/auth/google">
                   Google
                 </Button>
               </Grid>
@@ -108,6 +108,7 @@ const signUpSide = props => {
                   color="primary"
                   className={classes.button}
                   startIcon={<PersonalVideoIcon />}
+                  href="http://localhost:3000/auth/42"
                 >
                   Intra_42
                 </Button>

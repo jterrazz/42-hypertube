@@ -1,4 +1,5 @@
 const API = {
+  me: 'http://localhost:3000/me',
   signin: 'http://localhost:3000/auth/signin',
   signup: 'http://localhost:3000/auth/signup',
   forgot: 'http://localhost:3000/auth/send-reset-email',
