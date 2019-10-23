@@ -1,7 +1,12 @@
 import * as passport from 'koa-passport'
 import * as Router from 'koa-router'
 
-import { sendResetEmailController, successfulAuthController, resetPasswordController } from '../controllers'
+import {
+  sendResetEmailController,
+  successfulAuthController,
+  resetPasswordController,
+  successfulAuthRedirectController
+} from '../controllers'
 import { cacheFileMiddleware, saveProfileImageMiddleware } from '../middlewares/file-uploads'
 
 const authRouter = new Router()
@@ -30,12 +35,12 @@ authRouter
       scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email'],
     }),
   )
-  .get('/google/callback', passport.authenticate('google'), successfulAuthController)
+  .get('/google/callback', passport.authenticate('google'), successfulAuthRedirectController)
   .get('/facebook', passport.authenticate('facebook', { scope: ['email'] }))
-  .get('/facebook/callback', passport.authenticate('facebook'), successfulAuthController)
+  .get('/facebook/callback', passport.authenticate('facebook'), successfulAuthRedirectController)
   .get('/42', passport.authenticate('42'))
-  .get('/42/callback', passport.authenticate('42'), successfulAuthController)
+  .get('/42/callback', passport.authenticate('42'), successfulAuthRedirectController)
   .get('/github', passport.authenticate('github'))
-  .get('/github/callback', passport.authenticate('github'), successfulAuthController)
+  .get('/github/callback', passport.authenticate('github'), successfulAuthRedirectController)
 
 export default authRouter

@@ -16,6 +16,10 @@ export const successfulAuthController: Middleware = async ctx => {
   }
 }
 
+export const successfulAuthRedirectController: Middleware = async ctx => {
+  ctx.redirect(`${config.CLIENT_URL}/`)
+}
+
 export const sendResetEmailController: Middleware = async ctx =>  {
   const querySchema = Joi.object().keys({
     username: Joi.string().required(),

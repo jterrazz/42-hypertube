@@ -112,7 +112,7 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: config.API_GOOGLE_CONSUMER_KEY,
-      clientSecret: config.GOOGLE_CONSUMER_SECRET,
+      clientSecret: config.API_GOOGLE_CONSUMER_SECRET,
       callbackURL: '/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, cb) => {
