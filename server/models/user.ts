@@ -13,7 +13,7 @@ const UserSchema = new Schema({
   lastName: String,
   email: { type: String, required: true },
   profileImageName: String,
-  language: String,
+  language: { type: String, default: 'en-US' },
   hashedPassword: String,
   googleAuthId: String,
   facebookAuthId: String,

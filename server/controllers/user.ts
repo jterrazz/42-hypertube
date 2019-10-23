@@ -6,6 +6,7 @@ import * as fs from 'fs'
 import { User } from '../models'
 import { ClientError } from '../services/auth'
 import * as crypto from 'crypto'
+import config from '../config'
 
 export const PUBLIC_USER_PROPS = ['profileImageName', 'language', 'firstName', 'lastName', 'username']
 export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', ...PUBLIC_USER_PROPS]
@@ -24,12 +25,18 @@ export const cacheToImageFolder = file =>
     }
   })
 
+export const serializeUser = original => ({
+  ...original,
+  profileImageUrl: original.profileImageName ? `${config.API_URL}/images/${original.profileImageName}` : null,
+})
+
 /*
  * Controllers
  */
 
 export const getMeController: Middleware = async ctx => {
-  ctx.body = _.pick(ctx.state.user, PRIVATE_USER_PROPS)
+  console.log(ctx.state.user)
+  ctx.body = serializeUser(_.pick(ctx.state.user, PRIVATE_USER_PROPS))
 }
 
 export const getUsernameController: Middleware = async ctx => {
@@ -49,7 +56,9 @@ export const updateMeController: Middleware = async ctx => {
       password: Joi.string().min(8),
       firstName: Joi.string().max(42),
       lastName: Joi.string().max(42),
-      language: Joi.string().valid('fr-FR', 'en-US'),
+      language: Joi.string()
+        .valid('fr-FR', 'en-US')
+        .default('en-US'),
     })
     .required()
 

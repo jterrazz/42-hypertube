@@ -64,7 +64,9 @@ passport.use(
         lastName: Joi.string()
           .max(42)
           .required(),
-        language: Joi.string().valid('fr-FR', 'en-US'),
+        language: Joi.string()
+          .valid('fr-FR', 'en-US')
+          .default('en-US'),
       })
       .required()
 

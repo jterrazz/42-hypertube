@@ -5,14 +5,14 @@ import * as jwt from 'jsonwebtoken'
 
 import config from '../config'
 import { User } from '../models'
-import { PRIVATE_USER_PROPS } from './user'
+import {PRIVATE_USER_PROPS, serializeUser} from './user'
 import { sendResetPasswordEmail } from '../services/mail'
 import { ClientError } from '../services/auth'
 
 export const successfulAuthController: Middleware = async ctx => {
   ctx.body = {
     message: 'Authentication successful',
-    user: _.pick(ctx.state.user, PRIVATE_USER_PROPS),
+    user: serializeUser(_.pick(ctx.state.user, PRIVATE_USER_PROPS)),
   }
 }
 

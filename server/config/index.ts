@@ -11,6 +11,7 @@ const envSchema = Joi.object()
       .default('development'),
     SERVER_PORT: Joi.number().default(3000),
     CLIENT_URL: Joi.string().required(),
+    API_URL: Joi.string().default("http://localhost:3000"),
 
     // MongoDB
     MONGO_URL: Joi.string().default('mongodb://localhost/hypertube'),
