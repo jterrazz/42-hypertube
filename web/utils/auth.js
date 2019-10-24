@@ -3,24 +3,24 @@ import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
 
-export const login = ({ token }) => {
-  cookie.set('token', token, { expires: 1 });
+export const login = ({ koa }) => {
+  // cookie.set('token', token, { expires: 1 });
   Router.push('/home')
 };
 
 export const auth = ctx => {
-  const { token } = nextCookie(ctx);
+  const { koa } = nextCookie(ctx);
   /*
    * If `ctx.req` is available it means we are on the server.
    * Additionally if there's no token it means the user is not logged in.
    */
-  if (ctx.req && !token) {
+  if (ctx.req && !koa) {
     ctx.res.writeHead(302, { Location: '/index' });
     ctx.res.end()
   }
 
   // We already checked for server. This should only happen on client.
-  if (!token) {
+  if (!koa) {
     Router.push('/index')
   }
 
@@ -28,11 +28,11 @@ export const auth = ctx => {
   //   Router.push('/home');
   // }
 
-  return token
+  return koa
 };
 
 export const logout = () => {
-  cookie.remove('token');
+  cookie.remove('koa');
   // to support logging out from all windows
   window.localStorage.setItem('logout', Date.now());
   Router.push('/index')
@@ -60,13 +60,13 @@ export const withAuthSync = WrappedComponent => {
   };
 
   Wrapper.getInitialProps = async ctx => {
-    const token = auth(ctx);
+    const koa = auth(ctx);
 
     const componentProps =
       WrappedComponent.getInitialProps &&
       (await WrappedComponent.getInitialProps(ctx));
 
-    return { ...componentProps, token }
+    return { ...componentProps, koa }
   };
 
   return Wrapper

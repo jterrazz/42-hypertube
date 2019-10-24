@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     background: "#F2F5F9"
   },
-  BigAvatar: {
+  Avatar: {
     width: 80,
     height: 80,
     marginTop: 40,
@@ -89,7 +89,7 @@ function NavBar(props, {me = null}) {
         </Typography>
         {props.me ?
           <>
-          <Avatar alt="jterr" src={props.me.profileImageUrl} className={classes.BigAvatar} />
+          <Avatar alt="jterr" src={props.me.profileImageUrl} className={classes.Avatar} />
           <Typography variant="subtitle2" gutterBottom>
             {props.me.firstName} {props.me.lastName}
           </Typography>

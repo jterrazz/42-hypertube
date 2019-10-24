@@ -82,7 +82,7 @@ const Form = props => {
         <Field
           name="profileImageUrl"
           component={CustomImageInput}
-          src={profileImageUrl}
+          fileUpload={profileImageUrl}
           title="Select a file"
           setFieldValue={setFieldValue}
           errorMessage={errors['profileImageUrl'] ? errors['profileImageUrl'] : undefined}
