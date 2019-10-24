@@ -38,6 +38,9 @@ const styles = theme => ({
   },
 });
 
+const FILE_SIZE = 1600 * 1024;
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
+
 const validationSchemaPassword = Yup.object({
   password: Yup.string("")
     .min(8, "Password must contain atleast 8 characters")
@@ -53,7 +56,7 @@ const validationSchemaInfos = Yup.object({
     email: Yup.string()
       .email('Enter a valid email')
       .required('Email is required'),
-    file: Yup.mixed().notRequired()
+    profileImageUrl: Yup.mixed().notRequired()
       .test(
         "fileFormat",
         "Unsupported Format",
@@ -83,8 +86,47 @@ class Profile extends Component {
   }
 
   SubmitInfos = (data) => {
+    const userData = new FormData();
+    userData.append('firstName', data.firstName);
+    userData.append('lastName', data.lastName);
+    userData.append('email', data.email);
+    userData.append('profileImageUrl', data.profileImageUrl);
+    userData.append('language', data.language);
+    axios.patch(API.me, userData)
+      .then(response => {
+        console.log(response);
+        if (response.data === 'OK') {
+          window.location = '/profile'
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        if (error.response.status === 401){
+          setSubmitting(false);
+        }
+      });
+
     event.preventDefault();
-    console.log(data);
+  };
+
+  SubmitPassword = (data) => {
+    const userData = new FormData();
+    userData.append('password', data.password);
+    axios.patch(API.me, userData)
+      .then(response => {
+        console.log(response);
+        if (response.data === 'OK') {
+          window.location = '/profile'
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        if (error.response.status === 401){
+          setSubmitting(false);
+        }
+      });
+
+    event.preventDefault();
   };
 
   render () {

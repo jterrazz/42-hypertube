@@ -48,12 +48,13 @@ const useStyles = makeStyles(theme => ({
 
 const Form = props => {
   const {
-    values: { firstName, lastName, email, language },
+    values: { firstName, lastName, email, language, profileImageUrl },
     errors,
     touched,
     handleSubmit,
     handleChange,
     handleBlur,
+    setFieldValue,
     isValid,
   } = props;
 
@@ -62,8 +63,9 @@ const Form = props => {
   const [lang, setLanguage] = React.useState(language);
   const [open, setOpen] = React.useState(false);
 
-  const handleChangeSelect = event => {
+  const handleChangeSelect = (event) => {
     setLanguage(event.target.value);
+    props.values.language = event.target.value;
   };
 
   const handleClose = () => {
@@ -78,12 +80,13 @@ const Form = props => {
     <form className={classes.form} onSubmit={handleSubmit}>
       <Grid container direction="column" justify="center" alignItems="center" style={{ marginTop: 20 }}>
         <Field
-          name="file"
+          name="profileImageUrl"
           component={CustomImageInput}
+          src={profileImageUrl}
           title="Select a file"
-          // setFieldValue={setFieldValue}
-          errorMessage={errors['file'] ? errors['file'] : undefined}
-          touched={touched['file']}
+          setFieldValue={setFieldValue}
+          errorMessage={errors['profileImageUrl'] ? errors['profileImageUrl'] : undefined}
+          touched={touched['profileImageUrl']}
           style={{ display: 'flex' }}
           onBlur={handleBlur}
         />

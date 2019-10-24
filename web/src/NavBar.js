@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
@@ -20,6 +20,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
 import { logout } from '../utils/auth';
+import axios from "axios";
+import API from "./API";
 
 const drawerWidth = 240;
 
@@ -63,7 +65,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavBar(props) {
+function NavBar(props, {me = null}) {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -85,11 +87,14 @@ function NavBar(props) {
         <Typography variant="h4" gutterBottom>
           HyperTube
         </Typography>
-        <Avatar alt="jterr" src="/static/avatar_example.jpeg" className={classes.BigAvatar} />
-        <Typography variant="subtitle2" gutterBottom>
-          Terrazzoni
-          Jean-Baptiste
-        </Typography>
+        {props.me ?
+          <>
+          <Avatar alt="jterr" src={props.me.profileImageUrl} className={classes.BigAvatar} />
+          <Typography variant="subtitle2" gutterBottom>
+            {props.me.firstName} {props.me.lastName}
+          </Typography>
+          </>
+        : ''}
         <Button
             onClick={logout}
             color="primary"
@@ -187,4 +192,27 @@ NavBar.propTypes = {
   container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
 };
 
-export default NavBar;
+axios.defaults.withCredentials = true;
+
+class Bar extends Component {
+
+  state = {
+    me: null,
+  };
+
+  async componentDidMount() {
+    const response = await axios.get(API.me);
+
+    const responseData = await response.data;
+
+    this.setState({ me: responseData })
+  }
+
+  render() {
+    return (
+      <NavBar me={this.state.me}/>
+    )
+  }
+}
+
+export default Bar;
