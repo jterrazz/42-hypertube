@@ -118,6 +118,7 @@ function PlayerMovie(props, {movie = null, hashMovie = null, comment = null}) {
                     margin="normal"
                     fullWidth
                     multiline
+                    value={props.commentaire}
                     onChange={props.Change}
                     rowsMax="4"
                     placeholder="Ajouter un commentaire public..."
@@ -182,7 +183,7 @@ class Play extends React.Component {
   state = {
     movie: null,
     comments: null,
-    commentaire: null,
+    commentaire: '',
   };
 
   static async getInitialProps({ query }) {
@@ -193,9 +194,7 @@ class Play extends React.Component {
   }
 
   handleChange = (e) => {
-    if (e.target.value) {
-      this.setState({ commentaire: e.target.value});
-    }
+    this.setState({ commentaire: e.target.value});
   };
 
   handleClick = () => {
@@ -207,8 +206,8 @@ class Play extends React.Component {
         .then(
           async response => {
             const responseComment = await axios.get(`${API.movies}/${this.props.movieId}/comments`);
-            const responseCommentData = await responseComment.data.comments;
-            this.setState({ comments: responseCommentData});
+            const responseCommentData = await responseComment.data.comments.reverse();
+            this.setState({ comments: responseCommentData, commentaire: ''});
           })
         .catch(error => {
           console.log(error);
@@ -222,14 +221,21 @@ class Play extends React.Component {
     const responseComment = await axios.get(`${API.movies}/${this.props.movieId}/comments`);
 
     const responseData = await response.data.movie;
-    const responseCommentData = await responseComment.data.comments;
+    const responseCommentData = await responseComment.data.comments.reverse();
 
     this.setState({ movie: responseData, comments: responseCommentData});
   }
 
   render() {
     return (
-      <PlayerMovie movie={this.state.movie} hashMovie={this.props.hash} comment={this.state.comments} Click={this.handleClick} Change={this.handleChange}/>
+      <PlayerMovie
+        movie={this.state.movie}
+        hashMovie={this.props.hash}
+        comment={this.state.comments}
+        Click={this.handleClick}
+        Change={this.handleChange}
+        commentaire={this.state.commentaire}
+      />
     )
   }
 
