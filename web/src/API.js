@@ -7,6 +7,7 @@ const API = {
   movie_hot: 'http://localhost:3000/movies/hot',
   movies: 'http://localhost:3000/movies',
   movies_search: 'http://localhost:3000/movies/search?',
+  movies_stream: 'http://localhost:3000/torrents/',
 };
 
 export default API

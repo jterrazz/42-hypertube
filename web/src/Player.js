@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
 import { makeStyles } from '@material-ui/core'
+import API from './API'
 
 const useStyle = makeStyles(() => ({
   playerWrapper: {
@@ -12,23 +13,24 @@ const useStyle = makeStyles(() => ({
     top: 0,
     left: 0,
   },
-}))
+}));
 
-const Player = () => {
-  const classes = useStyle()
+const Player = (props, {hash_movie = null, thumbnail = null}) => {
+  const classes = useStyle();
 
   return (
     <div className={classes.playerWrapper}>
       <ReactPlayer
-        url="http://localhost:3000/torrents/e6a8421a36f2cbc3035d52216fb660b9903bd207/stream"
+        url={`${API.movies_stream}${props.hash_movie}/stream`}
         className={classes.reactPlayer}
         playing={false}
         width="100%"
         height="100%"
         controls={true}
+        light={props.thumbnail}
       />
     </div>
   )
-}
+};
 
-export default Player
+export default Player;

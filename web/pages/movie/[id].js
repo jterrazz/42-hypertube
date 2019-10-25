@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
+const MovieComponent = (props, {movie = null, movieTorrent = null, movieId = null}) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -82,7 +82,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
                 </div>
               </Typography>
               <span className={classes.toolbarButtons}>
-              <IconButton color="inherit" aria-label="More Options">
+              <IconButton color="inherit" aria-label="More Options" href={`/play?hash=${item.hash}&id=${props.movieId}`}>
                 <PlayCircleFilledWhiteIcon className={classes.play}/>
               </IconButton>
             </span>
@@ -167,7 +167,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null}) => {
                         {item}
                       </Typography>
                     </Box>
-                    <TorrentComponent sourceTorrent={props.movieTorrent[item]} titleMovie={props.movie && props.movie.title? props.movie.title : ''}/>
+                    <TorrentComponent sourceTorrent={props.movieTorrent[item]} titleMovie={props.movie && props.movie.title? props.movie.title : ''} movieId={props.movie.imdb_id}/>
                   </div>
                 )) : ''}
               </Grid>

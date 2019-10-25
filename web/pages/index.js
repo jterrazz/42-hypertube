@@ -28,7 +28,6 @@ class Login extends Component {
     axios.post(API.signin, user)
       .then(
         response => {
-          console.log(response);
           if (response.data.message === 'Authentication successful') {
             const { token } = response.data;
             login ({ token });
