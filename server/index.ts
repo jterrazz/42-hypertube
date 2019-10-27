@@ -58,7 +58,6 @@ app.use(session({}, app))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(router.routes()).use(router.allowedMethods())
-app.use(mount('/subtitles', serve('./public/subtitles')))
 app.use(mount('/images', serve('./public/images')))
 
 const mongoOptions = {

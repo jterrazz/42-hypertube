@@ -11,6 +11,7 @@ import * as ytsApi from '../services/yts-api'
 import * as popcornAPI from '../services/popcorn-api'
 import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
+import config from '../config'
 
 const movieCache = new NodeCache({ stdTTL: 60 * 60 })
 const OpenSubtitlesClient = new OS({ useragent: 'NodeJS', ssl: true })
@@ -160,53 +161,33 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
   const imbdId = ctx.params.imdbId
 
   const subtitles = await OpenSubtitlesClient.search({ imdbid: imbdId })
-  ctx.body = { subtitles }
-}
 
-export const getMovieSubtitleController: Middleware = ctx => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const imdbId = ctx.params.imdbId
-      const lang = await Joi.string()
-        .valid('en', 'fr')
-        .required()
-        .validateAsync(ctx.params.lang)
+  ctx.body = {
+    subtitles: Object.entries(subtitles)
+      .filter((el: any) => el[1] && el[1].vtt)
+      .map((entries: any) => {
+        const subtitle = entries[1]
 
-      const filename = imdbId + '-' + lang + '.vtt'
-      const filepath = `${__dirname}/../public/subtitles/${filename}`
-
-      ctx.body = { url: `/public/subtitles/${filename}` }
-
-      fs.stat(filepath, async (err, _) => {
-        try {
-          if (err == null) {
-            return resolve()
-          } else if (err.code === 'ENOENT') {
-            const subtitles = await OpenSubtitlesClient.search({ imdbid: imdbId })
-            ctx.assert(subtitles[lang], 404, "This subtitle doesn't exist")
-
-            const { data: srtSubtitle } = await axios.get(subtitles[lang].url)
-
-            srt2vtt(srtSubtitle, (err, vttSubtitle) => {
-              if (err) return reject(err)
-
-              fs.writeFile(filepath, vttSubtitle, err => {
-                if (err) return reject(err)
-
-                return resolve()
-              })
-            })
-          } else {
-            return reject(err)
-          }
-        } catch (err) {
-          return reject(err)
+        const ret: any = {
+          kind: 'subtitles',
+          src: subtitle.vtt,
         }
+
+        switch (subtitle.langcode) {
+          case 'en':
+            ret.lang = 'en-US'
+            break
+          case 'fr':
+            ret.lang = 'fr-FR'
+            break
+          default:
+            return null
+        }
+
+        return ret
       })
-    } catch (err) {
-      reject(err)
-    }
-  })
+      .filter(el => el),
+  }
 }
 
 export const addMovieCommentController: Middleware = async ctx => {
