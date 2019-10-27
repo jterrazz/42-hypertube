@@ -12,6 +12,7 @@ import * as popcornAPI from '../services/popcorn-api'
 import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
 import config from '../config'
+import {serializeUser} from "./user";
 
 const movieCache = new NodeCache({ stdTTL: 60 * 60 })
 const OpenSubtitlesClient = new OS({ useragent: 'NodeJS', ssl: true })
@@ -145,17 +146,9 @@ const PUBLIC_COMMENT_PROPERTIES = [
   'user.username',
   'user.firstName',
   'user.lastName',
-  'user.profilePicture',
+  'user.profileImageName',
+  'user.profileImageUrl',
 ]
-
-export const getMovieCommentsController: Middleware = async ctx => {
-  const imdbId = ctx.params.imdbId
-
-  const movie = await Movie.findOne({ imdbId }).populate('comments.user')
-  ctx.body = {
-    comments: movie ? movie.comments.map(el => _.pick(el, PUBLIC_COMMENT_PROPERTIES)) : [],
-  }
-}
 
 export const getMovieSubtitlesController: Middleware = async ctx => {
   const imbdId = ctx.params.imdbId
@@ -190,6 +183,24 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
   }
 }
 
+export const getMovieCommentsController: Middleware = async ctx => {
+  const imdbId = ctx.params.imdbId
+
+  const movie = await Movie.findOne({ imdbId }).populate('comments.user')
+  ctx.body = {
+    comments: movie
+      ? movie.comments.map((el: any) => {
+          const serializedUser = serializeUser(el.user._doc)
+          const data = _.pick(el, PUBLIC_COMMENT_PROPERTIES)
+
+          const ret = { ...data }
+          ret.user.profileImageUrl = serializedUser.profileImageUrl
+          return ret
+        })
+      : [],
+  }
+}
+
 export const addMovieCommentController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId
   const textSchema = Joi.string().max(500)
@@ -204,6 +215,7 @@ export const addMovieCommentController: Middleware = async ctx => {
     const newTorrent = new Movie({ imdbId, comments: [newComment] })
     await newTorrent.save()
   }
+  newComment.user = serializeUser(ctx.state.user._doc)
   ctx.body = {
     comment: _.pick(newComment, PUBLIC_COMMENT_PROPERTIES),
   }

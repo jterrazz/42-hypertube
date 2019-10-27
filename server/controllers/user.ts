@@ -35,7 +35,6 @@ export const serializeUser = original => ({
  */
 
 export const getMeController: Middleware = async ctx => {
-  console.log(ctx.state.user)
   ctx.body = serializeUser(_.pick(ctx.state.user, PRIVATE_USER_PROPS))
 }
 
