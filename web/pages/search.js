@@ -20,6 +20,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import LazyLoad from 'react-lazyload';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -142,33 +143,35 @@ const SearchHome = (props, {movie = null}) => {
               </Grid>
               : ''}
             {props.movie ? props.movie.map((item, index) => (
-              <Grid item xs={4} md={2} key={index}>
-                <Card elevation={0} className={classes.card}>
-                  <Link href={`/movie/${item.imdb_id}`}>
-                    <CardMedia title={item.title} image={item.poster_image ? item.poster_image : ''} className={classes.img} />
-                  </Link>
-                  <CardContent>
-                    <Typography gutterBottom variant="subtitle2" component="h5">
-                      {item.title}
-                    </Typography>
-                    <Box mb={1}>
-                      <Typography variant="caption" color="textSecondary">
-                        {item.release_date}
+              <LazyLoad key={index} height={250}>
+                <Grid item xs={4} md={2} key={index}>
+                  <Card elevation={0} className={classes.card}>
+                    <Link href={`/movie/${item.imdb_id}`}>
+                      <CardMedia title={item.title} image={item.poster_image ? item.poster_image : ''} className={classes.img} />
+                    </Link>
+                    <CardContent>
+                      <Typography gutterBottom variant="subtitle2" component="h5">
+                        {item.title}
                       </Typography>
-                    </Box>
-                    <Rating
-                      style={{ fontSize: 13 }}
-                      name="rating"
-                      value={1}
-                      max={1}
-                      emptyIcon={<StarBorderIcon />}
-                    />
-                    <Typography variant="caption" color="textSecondary" className={classes.subtitle}>
-                      {`${item.rating} (${item.runtime} min)`}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+                      <Box mb={1}>
+                        <Typography variant="caption" color="textSecondary">
+                          {item.release_date}
+                        </Typography>
+                      </Box>
+                      <Rating
+                        style={{ fontSize: 13 }}
+                        name="rating"
+                        value={1}
+                        max={1}
+                        emptyIcon={<StarBorderIcon />}
+                      />
+                      <Typography variant="caption" color="textSecondary" className={classes.subtitle}>
+                        {`${item.rating} (${item.runtime} min)`}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </LazyLoad>
             )) : ''}
           </Grid>
             :
