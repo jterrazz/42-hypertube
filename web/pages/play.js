@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PlayerMovie(props, {movie = null, hashMovie = null, comment = null}) {
+function PlayerMovie(props, {movie = null, hashMovie = null, comment = null, subtitles = null}) {
   const classes = useStyles();
 
   return (
@@ -56,9 +56,13 @@ function PlayerMovie(props, {movie = null, hashMovie = null, comment = null}) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Container fixed>
-          {props.movie ?
+          {props.movie && props.subtitles ?
             <Grid>
-              <Player hash_movie={props.hashMovie} thumbnail={props.movie.fanart_image}/>
+              <Player
+                hash_movie={props.hashMovie}
+                thumbnail={props.movie.fanart_image}
+                subtitles={props.subtitles}
+              />
             </Grid>
           : '' }
           {props.movie ?
@@ -183,6 +187,7 @@ class Play extends React.Component {
   state = {
     movie: null,
     comments: null,
+    subtitles: null,
     commentaire: '',
   };
 
@@ -205,9 +210,8 @@ class Play extends React.Component {
       axios.post(`${API.movies}/${this.props.movieId}/comments`, comment)
         .then(
           async response => {
-            const responseComment = await axios.get(`${API.movies}/${this.props.movieId}/comments`);
-            const responseCommentData = await responseComment.data.comments.reverse();
-            this.setState({ comments: responseCommentData, commentaire: ''});
+            this.state.comments.unshift(response.data.comment);
+            this.setState({ comments: this.state.comments, commentaire: ''});
           })
         .catch(error => {
           console.log(error);
@@ -219,11 +223,13 @@ class Play extends React.Component {
   async componentDidMount() {
     const response = await axios.get(`${API.movies}/${this.props.movieId}`);
     const responseComment = await axios.get(`${API.movies}/${this.props.movieId}/comments`);
+    const responsesSubtitle = await axios.get(`${API.movies}/${this.props.movieId}/subtitles`);
 
     const responseData = await response.data.movie;
     const responseCommentData = await responseComment.data.comments.reverse();
+    const responsesSubtitleData = await responsesSubtitle.data.subtitles;
 
-    this.setState({ movie: responseData, comments: responseCommentData});
+    this.setState({ movie: responseData, comments: responseCommentData, subtitles: responsesSubtitleData});
   }
 
   render() {
@@ -235,6 +241,7 @@ class Play extends React.Component {
         Click={this.handleClick}
         Change={this.handleChange}
         commentaire={this.state.commentaire}
+        subtitles={this.state.subtitles}
       />
     )
   }
