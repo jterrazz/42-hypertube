@@ -13,7 +13,7 @@ export const cacheFileMiddleware = koaBody({ multipart: true, formidable: formid
 
 export const saveProfileImageMiddleware = async (ctx, next) => {
   try {
-    const profileImage = ctx.request.files['profile-image']
+    const profileImage = ctx.request.files['profileImage']
 
     if (profileImage && ctx.state.user) {
       const profileImageName = await cacheToImageFolder(profileImage)

@@ -62,7 +62,7 @@ export const updateMeController: Middleware = async ctx => {
     .required()
 
   const userInput = await userSchema.validateAsync(ctx.request.body)
-  const profileImage = ctx.request.files['profile-image']
+  const profileImage = ctx.request.files['profileImage']
 
   const user = await User.findOne({ _id: ctx.state.user._id })
   ctx.assert(user, 404, "User doesn't exist")

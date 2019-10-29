@@ -168,10 +168,10 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
 
         switch (subtitle.langcode) {
           case 'en':
-            ret.lang = 'en-US'
+            ret.srcLang = 'en-US'
             break
           case 'fr':
-            ret.lang = 'fr-FR'
+            ret.srcLang = 'fr-FR'
             break
           default:
             return null
@@ -187,6 +187,7 @@ export const getMovieCommentsController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId
 
   const movie = await Movie.findOne({ imdbId }).populate('comments.user')
+
   ctx.body = {
     comments: movie
       ? movie.comments.map((el: any) => {
