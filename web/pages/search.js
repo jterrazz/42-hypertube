@@ -16,6 +16,10 @@ import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import { withAuthSync } from '../utils/auth';
 import CircularProgress from '../src/CircularProgress';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,12 +40,25 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 300,
   },
   subtitle: {
-  margin: theme.spacing(0.5),
-}
+    margin: theme.spacing(0.5),
+  },
+  RadioGroup: {
+    flexDirection: "row",
+  }
 }));
 
 const SearchHome = (props, {movie = null}) => {
   const classes = useStyles();
+  const [value, setValue] = React.useState('title');
+
+  const handleChangeReset = () => {
+    setValue('title');
+  };
+
+  const handleChange = (ev) => {
+    setValue(ev.target.value);
+  };
+
   return (
     <div className={classes.root}>
       <NavBar />
@@ -66,11 +83,69 @@ const SearchHome = (props, {movie = null}) => {
           />
           {props.movie.length > 0 ?
           <Grid container spacing={4} style={{ marginTop: 15 }}>
+            {props.titleMovie ?
+              <Grid container spacing={4}>
+                <Grid item md={6}>
+                  <FormControl component="fieldset">
+                    <RadioGroup defaultValue="popcorn" className="RadioGroup" aria-label="gender" name="customized-radios" row onChange={e => {props.HandleChangeSource(e); handleChangeReset()}}>
+                      <FormControlLabel
+                        value="popcorn"
+                        control={<Radio color="primary" />}
+                        label="Popcorn"
+                        labelPlacement="start"
+                      />
+                      <FormControlLabel
+                        value="yts"
+                        control={<Radio color="primary" />}
+                        label="Yts"
+                        labelPlacement="start"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item md={6}>
+                  <FormControl component="fieldset">
+                    <RadioGroup value={value} aria-label="gender" className="RadioGroup" row onChange={e => {props.HandleChangeSort(e); handleChange(e)}}>
+                      <FormControlLabel
+                        value="title"
+                        control={<Radio color="primary" />}
+                        label="Title"
+                        labelPlacement="start"
+                      />
+                      <FormControlLabel
+                        value="year"
+                        control={<Radio color="primary" />}
+                        label="Year"
+                        labelPlacement="start"
+                      />
+                      <FormControlLabel
+                        value="date_added"
+                        control={<Radio color="primary" />}
+                        label="Date Added"
+                        labelPlacement="start"
+                      />
+                      <FormControlLabel
+                        value="rating"
+                        control={<Radio color="primary" />}
+                        label="Rating"
+                        labelPlacement="start"
+                      />
+                      <FormControlLabel
+                        value="trending"
+                        control={<Radio color="primary" />}
+                        label="Trending"
+                        labelPlacement="start"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              : ''}
             {props.movie ? props.movie.map((item, index) => (
-              <Grid item xs={5} md={2} key={index}>
+              <Grid item xs={4} md={2} key={index}>
                 <Card elevation={0} className={classes.card}>
                   <Link href={`/movie/${item.imdb_id}`}>
-                    <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
+                    <CardMedia title={item.title} image={item.poster_image ? item.poster_image : ''} className={classes.img} />
                   </Link>
                   <CardContent>
                     <Typography gutterBottom variant="subtitle2" component="h5">
@@ -109,21 +184,31 @@ axios.defaults.withCredentials = true;
 
 class Search extends Component {
   state = {
-    movie: []
+    movie: [],
+    titleMovie: ''
   };
 
   keyPressEnterSearch = (ev) => {
     if (ev.key === 'Enter') {
-      this.getSimilarTitleMovie(ev.target.value);
+      this.state.titleMovie = ev.target.value;
+      this.getSimilarTitleMovie({movieTitle: ev.target.value});
       ev.preventDefault();
     }
   };
 
-  async getSimilarTitleMovie(movieTitle) {
+  HandleChangeSource = (ev) => {
+    this.getSimilarTitleMovie({source: ev.target.value});
+  };
+
+  HandleChangeSort = (ev) => {
+    this.getSimilarTitleMovie({sort: ev.target.value});
+  };
+
+  async getSimilarTitleMovie({movieTitle = this.state.titleMovie, source = 'popcorn', sort = 'title'}={}) {
     let responseData = [];
 
     if (movieTitle) {
-      const response = await axios.get(`${API.movies_search}query=${movieTitle}`);
+      const response = await axios.get(`${API.movies_search}query=${movieTitle}&source=${source}&sort=${sort}`);
       responseData = response.data.movies;
     }
     else {
@@ -144,7 +229,13 @@ class Search extends Component {
 
   render () {
     return (
-      <SearchHome keyPressEnterSearch={this.keyPressEnterSearch} movie={this.state.movie}/>
+      <SearchHome
+        keyPressEnterSearch={this.keyPressEnterSearch}
+        movie={this.state.movie}
+        HandleChangeSource={this.HandleChangeSource}
+        HandleChangeSort={this.HandleChangeSort}
+        titleMovie={this.state.titleMovie}
+      />
     )
   }
 }

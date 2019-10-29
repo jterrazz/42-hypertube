@@ -89,7 +89,7 @@ function NavBar(props, {me = null}) {
         </Typography>
         {props.me ?
           <>
-          <Avatar alt="jterr" src={props.me.profileImageUrl} className={classes.Avatar} />
+          <Avatar alt={props.me.username} src={props.me.profileImageUrl} className={classes.Avatar} />
           <Typography variant="subtitle2" gutterBottom>
             {props.me.firstName} {props.me.lastName}
           </Typography>
