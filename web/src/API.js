@@ -10,4 +10,4 @@ const API = {
   movies_stream: 'http://localhost:3000/torrents/',
 };
 
-export default API
+export default API;

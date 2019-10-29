@@ -56,17 +56,22 @@ const validationSchemaInfos = Yup.object({
     email: Yup.string()
       .email('Enter a valid email')
       .required('Email is required'),
-    profileImageUrl: Yup.mixed().notRequired()
-      .test(
-        "fileFormat",
-        "Unsupported Format",
-        value => value && SUPPORTED_FORMATS.includes(value.type)
-      )
-      .test(
-        "fileSize",
-        "File too large",
-        value => value && value.size <= FILE_SIZE
-      )
+    profileImageUrl: Yup.lazy(value => {
+      if (value !== undefined) {
+        return Yup.mixed()
+          .test(
+            "fileFormat",
+            "Unsupported Format",
+            value => value && SUPPORTED_FORMATS.includes(value.type)
+          )
+          .test(
+            "fileSize",
+            "File too large",
+            value => value && value.size <= FILE_SIZE
+          )
+      }
+      return Yup.mixed().notRequired()
+    })
   });
 
 axios.defaults.withCredentials = true;
@@ -90,13 +95,15 @@ class Profile extends Component {
     userData.append('firstName', data.firstName);
     userData.append('lastName', data.lastName);
     userData.append('email', data.email);
-    userData.append('profileImageUrl', data.profileImageUrl);
+    console.log(data.profileImageUrl);
+    userData.append('profileImage', data.profileImageUrl);
+    console.log(data.profileImageUrl);
     userData.append('language', data.language);
     axios.patch(API.me, userData)
       .then(response => {
         console.log(response);
         if (response.data === 'OK') {
-          window.location = '/profile'
+          // window.location = '/profile'
         }
       })
       .catch(error => {

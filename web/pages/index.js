@@ -3,7 +3,7 @@ import {Formik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import API from '../src/API'
-import { login, withAuthSync } from '../utils/auth'
+import { login } from '../utils/auth'
 import { Form } from "../src/FormLogin";
 
 const validationSchema = Yup.object().shape({

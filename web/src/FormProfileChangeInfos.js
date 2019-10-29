@@ -14,12 +14,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
   },
-  image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
@@ -55,9 +49,7 @@ const Form = props => {
     handleChange,
     handleBlur,
     setFieldValue,
-    isValid,
   } = props;
-
 
   const classes = useStyles();
   const [lang, setLanguage] = React.useState(language);
@@ -160,7 +152,6 @@ const Form = props => {
         fullWidth
         variant="contained"
         color="primary"
-        // disabled={!isValid}
         className={classes.submit}
       >
         SAVE
