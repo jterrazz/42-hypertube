@@ -21,6 +21,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import LazyLoad from 'react-lazyload';
+import URL_Images from "../src/BasicImage";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -147,7 +148,7 @@ const SearchHome = (props, {movie = null}) => {
                 <Grid item xs={4} md={2} key={index}>
                   <Card elevation={0} className={classes.card}>
                     <Link href={`/movie/${item.imdb_id}`}>
-                      <CardMedia title={item.title} image={item.poster_image ? item.poster_image : ''} className={classes.img} />
+                      <CardMedia title={item.title} image={item.poster_image ? item.poster_image : URL_Images.poster} className={classes.img} />
                     </Link>
                     <CardContent>
                       <Typography gutterBottom variant="subtitle2" component="h5">

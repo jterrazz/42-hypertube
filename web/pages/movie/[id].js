@@ -20,6 +20,7 @@ import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import NavBar from "../../src/NavBar";
 import { withAuthSync } from '../../utils/auth'
 import CircularProgress from "@material-ui/core/CircularProgress";
+import URL_Images from "../../src/BasicImage";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -116,9 +117,10 @@ const MovieComponent = (props, {movie = null, movieTorrent = null, movieId = nul
                 {props.movie && props.movie.fanart_image ?
                   <CardMedia
                     className={classes.media}
-                    image={props.movie.fanart_image}
+                    image={props.movie.fanart_image !== 'https://image.tmdb.org/t/p/originalnull' ? props.movie.fanart_image : URL_Images.fanart}
                     title={props.movie.title}
-                  /> : ''}
+                  />
+                  : ''}
               </Grid>
 
               {props.movie && props.movie.similar.length > 0 ?

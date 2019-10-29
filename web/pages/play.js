@@ -18,6 +18,7 @@ import CardContent from "@material-ui/core/CardContent/CardContent";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Moment from 'moment';
+import URL_Images from "../src/BasicImage";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,7 +61,7 @@ function PlayerMovie(props, {movie = null, hashMovie = null, comment = null, sub
             <Grid>
               <Player
                 hash_movie={props.hashMovie}
-                thumbnail={props.movie.fanart_image}
+                thumbnail={props.movie.fanart_image !== 'https://image.tmdb.org/t/p/originalnull' ? props.movie.fanart_image : URL_Images.fanart}
                 subtitles={props.subtitles}
               />
             </Grid>
@@ -92,28 +93,31 @@ function PlayerMovie(props, {movie = null, hashMovie = null, comment = null, sub
               </Grid>
 
               <Grid item xs={12} md={8}>
-                <Typography variant="h4">Casting</Typography>
-                <Grid container spacing={4} style={{ marginTop: 15 }}>
-                  {props.movie && props.movie.cast ? props.movie.cast.slice(0, 4).map((item, index) => (
-                    <Grid item xs={4} md={3} key={index}>
-                      <Card elevation={0} className={classes.card}>
-                        <CardMedia title={item.character} image={item.profile_path} className={classes.img} />
-                        <CardContent>
-                          <Typography gutterBottom variant="subtitle2" component="h5">
-                            {item.character}
-                          </Typography>
-                          <Box mb={1}>
-                            <Typography variant="caption" color="textSecondary">
-                              {item.name}
-                            </Typography>
-                          </Box>
-                        </CardContent>
-                      </Card>
+                {props.movie && props.movie.cast.length ?
+                  <>
+                    <Typography variant="h4">Casting</Typography>
+                    <Grid container spacing={4} style={{ marginTop: 15 }}>
+                      {props.movie.cast.slice(0, 4).map((item, index) => (
+                        <Grid item xs={4} md={3} key={index}>
+                          <Card elevation={0} className={classes.card}>
+                            <CardMedia title={item.character} image={item.profile_path} className={classes.img} />
+                            <CardContent>
+                              <Typography gutterBottom variant="subtitle2" component="h5">
+                                {item.character}
+                              </Typography>
+                              <Box mb={1}>
+                                <Typography variant="caption" color="textSecondary">
+                                  {item.name}
+                                </Typography>
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
                     </Grid>
-                  )) : ''}
-                </Grid>
+                  </>
+                  : ''}
               </Grid>
-
               <Grid item xs={12} md={4}>
                 <Paper className={classes.paper} elevation={0}>
                   <TextField
