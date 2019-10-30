@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from "@material-ui/core/Grid/Grid";
 import {Field} from "formik";
 import CustomImageInput from "./CustomImageInput";
+import {BoxError} from "./ErrorMessage";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const Form = props => {
+const Form = (props, error) => {
   const {
     values: { firstName, lastName, email, language, profileImageUrl },
     errors,
@@ -83,6 +84,7 @@ const Form = props => {
           onBlur={handleBlur}
         />
       </Grid>
+      {props.error ? <BoxError text={props.error}/> : ''}
       <TextField
         autoComplete="fname"
         margin="normal"
@@ -123,10 +125,10 @@ const Form = props => {
         name="email"
         autoComplete="email"
         value={email}
-        onChange={handleChange}
+        onChange={e => {handleChange(e); props.onChange()}}
         onBlur={handleBlur}
         helperText={touched.email ? errors.email : ''}
-        error={touched.email && Boolean(errors.email)}
+        error={touched.email && Boolean(errors.email) || Boolean(props.error)}
       />
 
       <FormControl variant="outlined" className={classes.formControl}>

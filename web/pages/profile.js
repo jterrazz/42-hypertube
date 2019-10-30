@@ -80,6 +80,7 @@ class Profile extends Component {
 
   state = {
     me: null,
+    ErrorMail: ''
   };
 
   async componentDidMount() {
@@ -90,27 +91,27 @@ class Profile extends Component {
     this.setState({ me: responseData })
   }
 
+  onChange = () => {
+    this.setState({ ErrorMail: ""});
+  };
+
   SubmitInfos = (data) => {
     const userData = new FormData();
     userData.append('firstName', data.firstName);
     userData.append('lastName', data.lastName);
     userData.append('email', data.email);
-    console.log(data.profileImageUrl);
     userData.append('profileImage', data.profileImageUrl);
-    console.log(data.profileImageUrl);
     userData.append('language', data.language);
     axios.patch(API.me, userData)
       .then(response => {
-        console.log(response);
         if (response.data === 'OK') {
-          // window.location = '/profile'
+          window.location = '/profile'
         }
       })
       .catch(error => {
-        console.log(error);
-        if (error.response.status === 401){
-          setSubmitting(false);
-        }
+        return error.response && error.response.status === 409
+          ? this.setState({ ErrorMail: "This email is already in use"})
+          : this.setState({ ErrorMail: "Unknown error. Please try again"});
       });
 
     event.preventDefault();
@@ -121,16 +122,13 @@ class Profile extends Component {
     userData.append('password', data.password);
     axios.patch(API.me, userData)
       .then(response => {
-        console.log(response);
         if (response.data === 'OK') {
           window.location = '/profile'
         }
       })
       .catch(error => {
-        console.log(error);
-        if (error.response.status === 401){
-          setSubmitting(false);
-        }
+        return error.response && error.response.status === 404
+          ? this.setState({ ErrorUserName: "Unknown error. Please try again"}) : '';
       });
 
     event.preventDefault();
@@ -176,7 +174,7 @@ class Profile extends Component {
               {this.state.me ?
               <Grid item md={4}>
                 <Formik
-                  render={props => <FormInfos {...props} />}
+                  render={props => <FormInfos error={this.state.ErrorMail} onChange={this.onChange} {...props} />}
                   initialValues={this.state.me}
                   validationSchema={validationSchemaInfos}
                   onSubmit={this.SubmitInfos}
