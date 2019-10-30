@@ -10,6 +10,8 @@ import Typography from "@material-ui/core/Typography/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox/Checkbox";
 import Link from "./Link";
+import { BoxError } from "../src/ErrorMessage";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Form = props => {
+export const Form = (props, error = null, onChange) => {
   const {
     values: { password, username },
     errors,
@@ -64,6 +66,7 @@ export const Form = props => {
             Sign in
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
+            {props.error ? <BoxError text={props.error}/> : ''}
             <TextField
               variant="outlined"
               margin="normal"
@@ -74,10 +77,10 @@ export const Form = props => {
               name="username"
               autoComplete="username"
               value={username}
-              onChange={handleChange}
+              onChange={e => {handleChange(e); props.onChange()}}
               onBlur={handleBlur}
               helperText={touched.username ? errors.username : ''}
-              error={touched.username && Boolean(errors.username)}
+              error={touched.username && Boolean(errors.username) || Boolean(props.error)}
             />
             <TextField
               variant="outlined"
@@ -90,10 +93,10 @@ export const Form = props => {
               id="password"
               autoComplete="current-password"
               value={password}
-              onChange={handleChange}
+              onChange={e => {handleChange(e); props.onChange()}}
               onBlur={handleBlur}
               helperText={touched.password ? errors.password : ''}
-              error={touched.password && Boolean(errors.password)}
+              error={touched.password && Boolean(errors.password) || Boolean(props.error)}
             />
             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
             <Button

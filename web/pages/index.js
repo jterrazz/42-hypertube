@@ -18,8 +18,15 @@ axios.defaults.withCredentials = true;
 
 class Login extends Component {
 
-  handleSubmit = (data) => {
+  state = {
+    ErrorAuth: '',
+  };
 
+  onChange = () => {
+    this.setState({ ErrorAuth: ""});
+  };
+
+  handleSubmit = (data) => {
     const user = {
       username: data.username,
       password: data.password
@@ -34,9 +41,9 @@ class Login extends Component {
           }
         })
       .catch(error => {
-        return error.response && error.response.status === 404
-          ? "Wrong email/password"
-          : "Unknown error. Please try again";
+        return error.response && error.response.status === 401
+          ? this.setState({ ErrorAuth: "Wrong email/password"})
+          : this.setState({ ErrorAuth: "Unknown error. Please try again"});
         });
     event.preventDefault();
   };
@@ -46,7 +53,7 @@ class Login extends Component {
 
     return (
       <Formik
-        render={props => <Form {...props} />}
+        render={props => <Form {...props} error={this.state.ErrorAuth} onChange={this.onChange}/>}
         initialValues={values}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}
