@@ -7,7 +7,7 @@ import NavBar from "../../src/NavBar";
 import API from "../../src/API";
 import Grid from "@material-ui/core/Grid/Grid";
 import Card from "@material-ui/core/Card/Card";
-import Link from "../../src/Link";
+import Link from '@material-ui/core/Link'
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";

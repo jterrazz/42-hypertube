@@ -13,7 +13,7 @@ import { withRouter } from 'next/router'
 import axios from "axios";
 import API from "../../src/API";
 import Card from "@material-ui/core/Card/Card";
-import Link from "../../src/Link";
+import Link from '@material-ui/core/Link'
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";

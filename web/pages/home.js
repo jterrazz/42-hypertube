@@ -11,7 +11,7 @@ import Rating from "@material-ui/lab/Rating/Rating";
 import {makeStyles, useTheme} from "@material-ui/core";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 import API from '../src/API'
-import Link from '../src/Link'
+import Link from '@material-ui/core/Link'
 import NavBar from "../src/NavBar";
 import { withAuthSync } from '../utils/auth';
 import CircularProgress from '../src/CircularProgress';
