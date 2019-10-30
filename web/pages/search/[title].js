@@ -14,9 +14,10 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import {withRouter} from "next/router";
+import { withRouter } from "next/router";
 import { withAuthSync } from '../../utils/auth'
 import CircularProgress from "../../src/CircularProgress";
+import { NotResult } from "../../src/NotResult"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +53,7 @@ const SearchHome = (props, {movie = null, title = null}) => {
           <TextField
             id="search"
             label="Search"
-            value={props.title ? props.title : ''}
+            value={props.title}
             placeholder="Find Movies, TV Shows, ..."
             fullWidth
             onKeyPress={props.keyPressEnterSearch}
@@ -98,8 +99,10 @@ const SearchHome = (props, {movie = null, title = null}) => {
               </Grid>
             )) : ''}
           </Grid>
+            : props.title && props.movie.length === 0 ?
+                <NotResult title={props.title}/>
               :
-            <CircularProgress />
+                <CircularProgress />
           }
         </Container>
       </main>

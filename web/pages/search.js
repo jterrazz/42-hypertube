@@ -22,6 +22,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import LazyLoad from 'react-lazyload';
 import URL_Images from "../src/BasicImage";
+import { NotResult } from "../src/NotResult";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -175,8 +176,7 @@ const SearchHome = (props, {movie = null}) => {
               </LazyLoad>
             )) : ''}
           </Grid>
-            :
-              <CircularProgress />
+            : props.titleMovie && props.movie.length === 0 ? <NotResult title={props.titleMovie}/> : <CircularProgress />
           }
         </Container>
       </main>
