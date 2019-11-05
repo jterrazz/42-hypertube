@@ -56,22 +56,17 @@ const validationSchemaInfos = Yup.object({
     email: Yup.string()
       .email('Enter a valid email')
       .required('Email is required'),
-    profileImageUrl: Yup.lazy(value => {
-      if (value !== undefined) {
-        return Yup.mixed()
-          .test(
-            "fileFormat",
-            "Unsupported Format",
-            value => value && SUPPORTED_FORMATS.includes(value.type)
-          )
-          .test(
-            "fileSize",
-            "File too large",
-            value => value && value.size <= FILE_SIZE
-          )
-      }
-      return Yup.mixed().notRequired()
-    })
+    profileImageUrl: Yup.mixed().notRequired()
+      // .test(
+      //   "fileFormat",
+      //   "Unsupported Format",
+      //   value => value && SUPPORTED_FORMATS.includes(value.type)
+      // )
+      // .test(
+      //   "fileSize",
+      //   "File too large",
+      //   value => value && value.size <= FILE_SIZE
+      // )
   });
 
 axios.defaults.withCredentials = true;

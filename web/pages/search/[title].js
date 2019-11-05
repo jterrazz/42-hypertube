@@ -140,8 +140,8 @@ class Search extends Component {
   }
 
   async componentDidMount() {
-    const responsePopcorn = await axios.get(`${API.movies_search}query=${this.props.movieTitle}`);
-    const responseYts = await axios.get(`${API.movies_search}query=${this.props.movieTitle}&source=yts`);
+    const responsePopcorn = await axios.get(`${API.movies_search}query=${encodeURIComponent(this.props.movieTitle)}`);
+    const responseYts = await axios.get(`${API.movies_search}query=${encodeURIComponent(this.props.movieTitle)}&source=yts`);
 
     const responseData = [...responsePopcorn.data.movies, ...responseYts.data.movies];
 
