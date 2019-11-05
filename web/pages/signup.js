@@ -36,20 +36,21 @@ const validationSchema = Yup.object().shape({
       "File too large",
       value => value && value.size <= FILE_SIZE
     ),
-  // reCaptcha: Yup.string().required('Required'),
+  reCaptcha: Yup.string().required('Required'),
 });
 
 axios.defaults.withCredentials = true;
 
 class SignUp extends Component {
   state = {
+    Error: '',
   };
 
   handleSubmit = (data) => {
     const userData = new FormData();
     userData.append('firstName', data.firstName);
     userData.append('lastName', data.lastName);
-    userData.append('userName', data.userName);
+    userData.append('username', data.userName);
     userData.append('password', data.password);
     userData.append('email', data.email);
     userData.append('profileImage', data.file);
@@ -58,13 +59,17 @@ class SignUp extends Component {
       .then(response => {
         console.log(response);
         if (response.data.message === 'Authentication successful') {
-          // window.location = '/home'
+          window.location = '/home'
         }
       })
       .catch(error => {
-        console.log(error);
-        if (error.response.status === 401){
-          setSubmitting(false);
+        if (error.response){
+          if (error.response.status === 422){
+            this.setState({ Error: error.response.data });
+          }
+          if (error.response.status === 409){
+            this.setState({ Error: error.response.data });
+          }
         }
       });
     event.preventDefault();
@@ -74,7 +79,7 @@ class SignUp extends Component {
     const values = { userName: "", password: "", confirmPassword: "", firstName: "", lastName: "", email: "", file: "", reCaptcha: ""};
     return (
       <Formik
-        render={props => <Form {...props} />}
+        render={props => <Form {...props} error={this.state.Error} />}
         initialValues={values}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}

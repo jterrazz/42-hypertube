@@ -126,7 +126,7 @@ class Search extends Component {
   };
 
   async getSimilarTitleMovie(movieTitle) {
-    const response = await axios.get(`${API.movies_search}query=${movieTitle}`);
+    const response = await axios.get(`${API.movies_search}query=${encodeURIComponent(movieTitle)}`);
 
     const responseData = response.data.movies;
 

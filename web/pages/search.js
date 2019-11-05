@@ -212,7 +212,7 @@ class Search extends Component {
     let responseData = [];
 
     if (movieTitle) {
-      const response = await axios.get(`${API.movies_search}query=${movieTitle}&source=${source}&sort=${sort}`);
+      const response = await axios.get(`${API.movies_search}query=${encodeURIComponent(movieTitle)}&source=${source}&sort=${sort}`);
       responseData = response.data.movies;
     }
     else {

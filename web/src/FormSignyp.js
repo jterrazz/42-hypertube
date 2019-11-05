@@ -18,6 +18,7 @@ import CustomImageInput from '../src/CustomImageInput'
 import Recaptcha from 'react-recaptcha'
 import Link from '../src/Link'
 import Copyright from '../src/Copyright'
+import {BoxError} from "./ErrorMessage";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,12 +59,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Form = props => {
+export const Form = (props, {error = null}) => {
   const {
     values,
     touched,
     errors,
-    isSubmitting,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -115,6 +115,7 @@ export const Form = props => {
               </Grid>
             </Grid>
             <Divider variant="middle" className={classes.divider} />
+            {props.error ? <BoxError text={props.error}/> : ''}
             <Grid container justify="center" spacing={2}>
               <Grid container direction="column" justify="center" alignItems="center" item xs={6} sm={2}>
                 <Field
@@ -177,7 +178,7 @@ export const Form = props => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 helperText={touched.userName ? errors.userName : ''}
-                error={touched.userName && Boolean(errors.userName)}
+                error={touched.userName && Boolean(errors.userName) || Boolean(props.error === 'This username is already in use' ? props.error : '')}
               />
             </Grid>
             <Grid>
@@ -194,7 +195,7 @@ export const Form = props => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 helperText={touched.email ? errors.email : ''}
-                error={touched.email && Boolean(errors.email)}
+                error={touched.email && Boolean(errors.email) || Boolean(props.error === 'This email is already in use' || props.error === "\"email\" must be a valid email" ? props.error : '')}
               />
             </Grid>
             <Grid>
@@ -258,7 +259,7 @@ export const Form = props => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              disabled={isSubmitting}
+              // disabled={isSubmitting}
             >
               Sign Up
             </Button>
