@@ -84,6 +84,8 @@ class Profile extends Component {
 
     const responseData = await response.data;
 
+    this.props.i18n.changeLanguage('fr');
+
     this.setState({ me: responseData })
   }
 

@@ -9,7 +9,7 @@ i18n.use(LanguageDetector).init({
         Home: "Home",
         Search: "Search",
         "My profile": "My profile",
-        logout: "logout",
+        "logout": "logout",
         "Sign in": "Sign in",
         "UserName": "UserName",
         "Password": "Password",
@@ -47,7 +47,7 @@ i18n.use(LanguageDetector).init({
         Home: "Accueil",
         Search: "Recherche",
         "My profile": "Mon profile",
-        logout: "se déconnecter",
+        "logout": "Se déconnecter",
         "Sign in": "Se Connecter",
         "UserName": "Nom d'utilisateur",
         "Password": "Mot de Passe",
@@ -81,20 +81,18 @@ i18n.use(LanguageDetector).init({
       }
     }
   },
+  lng: "en",
+  fallbackLng: "en",
 
-  lng: 'en',
-  // fallbackLng: "en",
-  // debug: true,
-  //
   // // have a common namespace used around the full app
   ns: ["translations"],
   defaultNS: "translations",
   //
-  // keySeparator: false, // we use content as keys
+  keySeparator: false, // we use content as keys
   //
-  // react: {
-  //   wait: true
-  // }
+  react: {
+    wait: true
+  }
 
 });
 

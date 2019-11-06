@@ -23,7 +23,7 @@ import FormControl from '@material-ui/core/FormControl';
 import LazyLoad from 'react-lazyload';
 import URL_Images from "../src/BasicImage";
 import { NotResult } from "../src/NotResult";
-import {useTranslation} from "react-i18next";
+import {useTranslation, withTranslation, WithTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -191,6 +191,7 @@ const SearchHome = (props, {movie = null}) => {
 
 axios.defaults.withCredentials = true;
 
+
 class Search extends Component {
   state = {
     movie: [],
@@ -199,7 +200,7 @@ class Search extends Component {
 
   static async getInitialProps({ query }) {
     return {
-      titleMovie: query.title,
+      title: query.title,
     }
   }
 
@@ -235,7 +236,9 @@ class Search extends Component {
   }
 
   async componentDidMount() {
-    this.getSimilarTitleMovie({movieTitle: this.props.titleMovie});
+    console.log(this.props.title);
+    this.getSimilarTitleMovie({movieTitle: this.props.title});
+    // this.props.i18n.changeLanguage('fr');
   }
 
   render () {
@@ -250,4 +253,5 @@ class Search extends Component {
     )
   }
 }
-export default withAuthSync(Search);
+
+export default withTranslation()(withAuthSync(Search));

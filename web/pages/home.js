@@ -16,6 +16,7 @@ import NavBar from "../src/NavBar";
 import { withAuthSync } from '../utils/auth';
 import CircularProgress from '../src/CircularProgress';
 import { useTranslation } from 'react-i18next';
+import {withTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -183,6 +184,8 @@ class Home extends Component {
 
     const responseData = response.data.rankedMovies;
 
+    this.props.i18n.changeLanguage('fr');
+
     this.setState({ movie: responseData })
   }
 
@@ -192,4 +195,4 @@ class Home extends Component {
     )
   }
 }
-export default withAuthSync(Home);
+export default withTranslation()(withAuthSync(Home));

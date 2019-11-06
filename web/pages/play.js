@@ -19,7 +19,7 @@ import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Moment from 'moment';
 import URL_Images from "../src/BasicImage";
-import {useTranslation} from "react-i18next";
+import {useTranslation, withTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
