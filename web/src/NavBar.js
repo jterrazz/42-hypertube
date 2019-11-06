@@ -22,6 +22,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import { logout } from '../utils/auth';
 import axios from "axios";
 import API from "./API";
+import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;
 
@@ -70,6 +71,7 @@ function NavBar(props, {me = null}) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [t, i18n] = useTranslation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -99,7 +101,7 @@ function NavBar(props, {me = null}) {
             onClick={logout}
             color="primary"
           >
-          logout
+          {t("logout")}
         </Button>
       </Grid>
       <Divider />
@@ -111,19 +113,19 @@ function NavBar(props, {me = null}) {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText primary={t("Home")} />
         </ListItem>
         <ListItem button component="a" href="/search">
           <ListItemIcon>
             <SearchIcon />
           </ListItemIcon>
-          <ListItemText primary="Search" />
+          <ListItemText primary={t("Search")} />
         </ListItem>
         <ListItem button component="a" href="/profile">
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>
-          <ListItemText primary="My profile" />
+          <ListItemText primary={t("My profile")} />
         </ListItem>
       </List>
     </div>

@@ -15,6 +15,7 @@ import Link from '@material-ui/core/Link'
 import NavBar from "../src/NavBar";
 import { withAuthSync } from '../utils/auth';
 import CircularProgress from '../src/CircularProgress';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 const HomeComponent = (props, {movie = null}) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [t, i18n] = useTranslation();
   return (
     <div className={classes.root}>
       <NavBar />
@@ -50,9 +52,9 @@ const HomeComponent = (props, {movie = null}) => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Container fixed>
-          <Typography variant="h6">Featured</Typography>
+          <Typography variant="h6">{t("Featured")}</Typography>
           <Typography variant="body2" color="textSecondary">
-            Discover our best picks
+            {t("Discover our best picks")}
           </Typography>
           <Grid container spacing={5} style={{ marginTop: 15 }}>
             {props.movie && props.movie.popcorn ? props.movie.popcorn.slice(0, 2).map((item, index) => (

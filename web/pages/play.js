@@ -19,6 +19,7 @@ import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Moment from 'moment';
 import URL_Images from "../src/BasicImage";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 function PlayerMovie(props, {movie = null, hashMovie = null, comment = null, subtitles = null}) {
   const classes = useStyles();
+  const [t, i18n] = useTranslation();
 
   return (
     <div className={classes.root}>
@@ -129,7 +131,7 @@ function PlayerMovie(props, {movie = null, hashMovie = null, comment = null, sub
                     value={props.commentaire}
                     onChange={props.Change}
                     rowsMax="4"
-                    placeholder="Ajouter un commentaire public..."
+                    placeholder={t("Add a public comment ...")}
                   />
                   <Grid container justify="flex-end">
                     <Grid item xs={9} md={9}>
@@ -140,7 +142,7 @@ function PlayerMovie(props, {movie = null, hashMovie = null, comment = null, sub
                         size="small"
                         onClick={props.Click}
                       >
-                        Ajouter un commentaire
+                        {t("Add comment")}
                       </Button>
                     </Grid>
                   </Grid>

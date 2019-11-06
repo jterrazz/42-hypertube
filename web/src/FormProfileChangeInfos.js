@@ -10,6 +10,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import {Field} from "formik";
 import CustomImageInput from "./CustomImageInput";
 import {BoxError} from "./ErrorMessage";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,6 +57,8 @@ const Form = (props, error) => {
   const [lang, setLanguage] = React.useState(language);
   const [open, setOpen] = React.useState(false);
 
+  const [t, i18n] = useTranslation();
+
   const handleChangeSelect = (event) => {
     setLanguage(event.target.value);
     props.values.language = event.target.value;
@@ -93,7 +96,7 @@ const Form = (props, error) => {
         required
         fullWidth
         id="firstName"
-        label="First Name"
+        label={t("First Name")}
         value={firstName}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -106,7 +109,7 @@ const Form = (props, error) => {
         required
         fullWidth
         id="lastName"
-        label="Last Name"
+        label={t("Last Name")}
         name="lastName"
         autoComplete="lname"
         value={lastName}
@@ -121,7 +124,7 @@ const Form = (props, error) => {
         required
         fullWidth
         id="email"
-        label="Email Address"
+        label={t("Email Address")}
         name="email"
         autoComplete="email"
         value={email}
@@ -156,7 +159,7 @@ const Form = (props, error) => {
         color="primary"
         className={classes.submit}
       >
-        SAVE
+        {t("save")}
       </Button>
     </form>
   );

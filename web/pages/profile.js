@@ -13,6 +13,7 @@ import FormPassword from "../src/FormProfileChangePassword";
 import FormInfos from "../src/FormProfileChangeInfos";
 import * as Yup from "yup";
 import API from "../src/API";
+import {withTranslation} from "react-i18next";
 
 const styles = theme => ({
   root: {
@@ -132,6 +133,7 @@ class Profile extends Component {
   render () {
     const { classes } = this.props;
     const value = { confirmPassword: "", password: ""};
+    const { t, i18n } = this.props;
 
     return (
       <div className={classes.root}>
@@ -140,14 +142,16 @@ class Profile extends Component {
           <div className={classes.toolbar} />
           <Container fixed>
             <Typography variant="h5">
-              dashboard
+              {t("Dashboard")}
             </Typography>
             <Paper className={classes.paper} elevation={0}>
               <Grid container spacing={4}>
                 <Grid item xs={12} md={6}>
+                  {this.state.me ?
                   <Typography variant="h6" component="h3" className={classes.welcome}>
-                    Welcome back abbensid!
+                    Welcome back {this.state.me.username}!
                   </Typography>
+                    : ""}
                   <Typography component="h4">
                     <div>Paper can be used to build surface</div>
                     <div>Or other elements for your application.</div>
@@ -163,7 +167,7 @@ class Profile extends Component {
               </Grid>
             </Paper>
             <Typography variant="h5" style={{ marginTop: 40 }}>
-              Settings Profile
+              {t("Settings Profile")}
             </Typography>
             <Grid container spacing={5}>
               {this.state.me ?
@@ -192,4 +196,4 @@ class Profile extends Component {
   }
 }
 
-export default withAuthSync(withStyles(styles)(Profile));
+export default withTranslation()(withAuthSync(withStyles(styles)(Profile)));

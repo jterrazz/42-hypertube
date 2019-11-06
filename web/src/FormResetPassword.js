@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
 import Copyright from "./Copyright";
 import {makeStyles} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,6 +52,7 @@ export const Form = props => {
   } = props;
 
   const classes = useStyles();
+  const [t, i18n] = useTranslation();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -61,7 +63,7 @@ export const Form = props => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            RESET PASSWORD
+            {t("Reset password")}
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
@@ -70,7 +72,7 @@ export const Form = props => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={t("Password")}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -87,7 +89,7 @@ export const Form = props => {
               fullWidth
               name="confirmPassword"
               type="password"
-              label="Confirm Password"
+              label={t("Confirm Password")}
               id="confirmPassword"
               autoComplete="confirm-password"
               value={confirmPassword}
@@ -104,7 +106,7 @@ export const Form = props => {
               disabled={!isValid}
               className={classes.submit}
             >
-              RESET PASSWORD
+              {t("reset")}
             </Button>
             <Box mt={5}>
               <Copyright />

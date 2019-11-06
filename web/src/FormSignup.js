@@ -19,6 +19,7 @@ import Recaptcha from 'react-recaptcha'
 import Link from '../src/Link'
 import Copyright from '../src/Copyright'
 import {BoxError} from "./ErrorMessage";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -70,6 +71,7 @@ export const Form = (props, {error = null}) => {
     setFieldValue } = props;
 
   const classes = useStyles();
+  const [t, i18n] = useTranslation();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -80,7 +82,7 @@ export const Form = (props, {error = null}) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            {t("Sign up")}
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container justify="center">
@@ -138,7 +140,7 @@ export const Form = (props, {error = null}) => {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label={t("First Name")}
                   value={values.firstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -153,7 +155,7 @@ export const Form = (props, {error = null}) => {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label={t("Last Name")}
                   name="lastName"
                   autoComplete="lname"
                   value={values.lastName}
@@ -171,7 +173,7 @@ export const Form = (props, {error = null}) => {
                 required
                 fullWidth
                 id="userName"
-                label="UserName"
+                label={t("UserName")}
                 name="userName"
                 autoComplete="uname"
                 value={values.userName}
@@ -188,7 +190,7 @@ export const Form = (props, {error = null}) => {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label={t("Email Address")}
                 name="email"
                 autoComplete="email"
                 value={values.email}
@@ -205,7 +207,7 @@ export const Form = (props, {error = null}) => {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label={t("Password")}
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -224,7 +226,7 @@ export const Form = (props, {error = null}) => {
                 fullWidth
                 name="confirmPassword"
                 type="password"
-                label="Confirm Password"
+                label={t("Confirm Password")}
                 id="confirmPassword"
                 autoComplete="confirm-password"
                 value={values.confirmPassword}
@@ -261,17 +263,17 @@ export const Form = (props, {error = null}) => {
               className={classes.submit}
               // disabled={isSubmitting}
             >
-              Sign Up
+              {t("Sign up")}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="/forgot" variant="body2">
-                  {'Forgot password?'}
+                  {t('Forgot password?')}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/" variant="body2">
-                  {'Already have an account? Sign in'}
+                  {t('Already have an account? Sign in')}
                 </Link>
               </Grid>
             </Grid>

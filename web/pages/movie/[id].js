@@ -21,6 +21,7 @@ import NavBar from "../../src/NavBar";
 import { withAuthSync } from '../../utils/auth'
 import CircularProgress from "@material-ui/core/CircularProgress";
 import URL_Images from "../../src/BasicImage";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 const MovieComponent = (props, {movie = null, movieTorrent = null, movieId = null}) => {
   const classes = useStyles();
   const theme = useTheme();
-
+  const [t, i18n] = useTranslation();
   const TorrentComponent = (props, {sourceTorrent = null, titleMovie = null}) => {
     return (
       <>
@@ -125,12 +126,12 @@ const MovieComponent = (props, {movie = null, movieTorrent = null, movieId = nul
 
               {props.movie && props.movie.similar.length > 0 ?
               <Grid item xs={12} md={6}>
-                <Typography variant="h4">Similar</Typography>
+                <Typography variant="h4">{t("Similar")}</Typography>
                 <Grid container spacing={4} style={{ marginTop: 15 }}>
                   {props.movie && props.movie.similar ? props.movie.similar.slice(0, 4).map((item, index) => (
                     <Grid item xs={4} md={3} key={index}>
                       <Card elevation={0} className={classes.card}>
-                        <Link href={`/search/${item.title}`}>
+                        <Link href={`/search?title=${item.title}`}>
                           <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
                         </Link>
                         <CardContent>

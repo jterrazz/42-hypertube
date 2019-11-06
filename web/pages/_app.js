@@ -4,6 +4,8 @@ import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../src/theme'
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../src/i18n';
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -31,7 +33,9 @@ export default class MyApp extends App {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <I18nextProvider i18n={i18n}>
+            <Component {...pageProps} />
+          </I18nextProvider>
         </ThemeProvider>
       </React.Fragment>
     )

@@ -11,7 +11,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabe
 import Checkbox from "@material-ui/core/Checkbox/Checkbox";
 import Link from "./Link";
 import { BoxError } from "../src/ErrorMessage";
-
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,6 +53,7 @@ export const Form = (props, error = null, onChange) => {
   } = props;
 
   const classes = useStyles();
+  const [t, i18n] = useTranslation();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -63,7 +64,7 @@ export const Form = (props, error = null, onChange) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {t("Sign in")}
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             {props.error ? <BoxError text={props.error}/> : ''}
@@ -73,7 +74,7 @@ export const Form = (props, error = null, onChange) => {
               required
               fullWidth
               id="username"
-              label="UserName"
+              label={t("UserName")}
               name="username"
               autoComplete="username"
               value={username}
@@ -88,7 +89,7 @@ export const Form = (props, error = null, onChange) => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={t("Password")}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -106,17 +107,17 @@ export const Form = (props, error = null, onChange) => {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              {t("Sign in")}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="/forgot" variant="body2">
-                  {'Forgot password?'}
+                  {t('Forgot password?')}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {t("Don't have an account? Sign Up")}
                 </Link>
               </Grid>
             </Grid>

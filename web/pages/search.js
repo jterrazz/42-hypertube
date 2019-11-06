@@ -23,6 +23,7 @@ import FormControl from '@material-ui/core/FormControl';
 import LazyLoad from 'react-lazyload';
 import URL_Images from "../src/BasicImage";
 import { NotResult } from "../src/NotResult";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,6 +63,8 @@ const SearchHome = (props, {movie = null}) => {
     setValue(ev.target.value);
   };
 
+  const [t, i18n] = useTranslation();
+
   return (
     <div className={classes.root}>
       <NavBar />
@@ -70,8 +73,8 @@ const SearchHome = (props, {movie = null}) => {
         <Container fixed>
           <TextField
             id="search"
-            label="Search"
-            placeholder="Find Movies, TV Shows, ..."
+            label={t("Search")}
+            placeholder={t("Find Movies, TV Shows, ...")}
             fullWidth
             onKeyPress={props.keyPressEnterSearch}
             margin="normal"
@@ -84,100 +87,102 @@ const SearchHome = (props, {movie = null}) => {
               shrink: true,
             }}
           />
-          {props.movie.length > 0 ?
-          <Grid container spacing={4} style={{ marginTop: 15 }}>
-            {props.titleMovie ?
-              <Grid container spacing={4}>
-                <Grid item md={6}>
-                  <FormControl component="fieldset">
-                    <RadioGroup defaultValue="popcorn" className="RadioGroup" aria-label="gender" name="customized-radios" row onChange={e => {props.HandleChangeSource(e); handleChangeReset()}}>
-                      <FormControlLabel
-                        value="popcorn"
-                        control={<Radio color="primary" />}
-                        label="Popcorn"
-                        labelPlacement="start"
-                      />
-                      <FormControlLabel
-                        value="yts"
-                        control={<Radio color="primary" />}
-                        label="Yts"
-                        labelPlacement="start"
-                      />
-                    </RadioGroup>
-                  </FormControl>
+            <Grid container spacing={4} style={{ marginTop: 15 }}>
+              {props.titleMovie ?
+                <Grid container spacing={4}>
+                  <Grid item md={6}>
+                    <FormControl component="fieldset">
+                      <RadioGroup defaultValue="popcorn" className="RadioGroup" aria-label="gender" name="customized-radios" row onChange={e => {props.HandleChangeSource(e); handleChangeReset()}}>
+                        <FormControlLabel
+                          value="popcorn"
+                          control={<Radio color="primary" />}
+                          label="Popcorn"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="yts"
+                          control={<Radio color="primary" />}
+                          label="Yts"
+                          labelPlacement="start"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                  <Grid item md={6}>
+                    <FormControl component="fieldset">
+                      <RadioGroup value={value} aria-label="gender" className="RadioGroup" row onChange={e => {props.HandleChangeSort(e); handleChange(e)}}>
+                        <FormControlLabel
+                          value="title"
+                          control={<Radio color="primary" />}
+                          label={t("Title")}
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="year"
+                          control={<Radio color="primary" />}
+                          label={t("Year")}
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="date_added"
+                          control={<Radio color="primary" />}
+                          label={t("Date Added")}
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="rating"
+                          control={<Radio color="primary" />}
+                          label={t("Rating")}
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="trending"
+                          control={<Radio color="primary" />}
+                          label={t("Trending")}
+                          labelPlacement="start"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item md={6}>
-                  <FormControl component="fieldset">
-                    <RadioGroup value={value} aria-label="gender" className="RadioGroup" row onChange={e => {props.HandleChangeSort(e); handleChange(e)}}>
-                      <FormControlLabel
-                        value="title"
-                        control={<Radio color="primary" />}
-                        label="Title"
-                        labelPlacement="start"
-                      />
-                      <FormControlLabel
-                        value="year"
-                        control={<Radio color="primary" />}
-                        label="Year"
-                        labelPlacement="start"
-                      />
-                      <FormControlLabel
-                        value="date_added"
-                        control={<Radio color="primary" />}
-                        label="Date Added"
-                        labelPlacement="start"
-                      />
-                      <FormControlLabel
-                        value="rating"
-                        control={<Radio color="primary" />}
-                        label="Rating"
-                        labelPlacement="start"
-                      />
-                      <FormControlLabel
-                        value="trending"
-                        control={<Radio color="primary" />}
-                        label="Trending"
-                        labelPlacement="start"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
-              </Grid>
-              : ''}
-            {props.movie ? props.movie.map((item, index) => (
-              <LazyLoad key={index} height={250}>
-                <Grid item xs={4} md={2} key={index}>
-                  <Card elevation={0} className={classes.card}>
-                    <Link href={`/movie/${item.imdb_id}`}>
-                      <CardMedia title={item.title} image={item.poster_image ? item.poster_image : URL_Images.poster} className={classes.img} />
-                    </Link>
-                    <CardContent>
-                      <Typography gutterBottom variant="subtitle2" component="h5">
-                        {item.title}
-                      </Typography>
-                      <Box mb={1}>
-                        <Typography variant="caption" color="textSecondary">
-                          {item.release_date}
-                        </Typography>
-                      </Box>
-                      <Rating
-                        style={{ fontSize: 13 }}
-                        name="rating"
-                        value={1}
-                        max={1}
-                        emptyIcon={<StarBorderIcon />}
-                      />
-                      <Typography variant="caption" color="textSecondary" className={classes.subtitle}>
-                        {`${item.rating} (${item.runtime} min)`}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </LazyLoad>
-            )) : ''}
-          </Grid>
-            : props.titleMovie && props.movie.length === 0 ? <NotResult title={props.titleMovie}/> : <CircularProgress />
-          }
+                : ''}
+              {props.movie.length > 0 ?
+                <>
+                  {props.movie ? props.movie.map((item, index) => (
+                    <LazyLoad key={index} height={250}>
+                      <Grid item xs={4} md={2} key={index}>
+                        <Card elevation={0} className={classes.card}>
+                          <Link href={`/movie/${item.imdb_id}`}>
+                            <CardMedia title={item.title} image={item.poster_image ? item.poster_image : URL_Images.poster} className={classes.img} />
+                          </Link>
+                          <CardContent>
+                            <Typography gutterBottom variant="subtitle2" component="h5">
+                              {item.title}
+                            </Typography>
+                            <Box mb={1}>
+                              <Typography variant="caption" color="textSecondary">
+                                {item.release_date}
+                              </Typography>
+                            </Box>
+                            <Rating
+                              style={{ fontSize: 13 }}
+                              name="rating"
+                              value={1}
+                              max={1}
+                              emptyIcon={<StarBorderIcon />}
+                            />
+                            <Typography variant="caption" color="textSecondary" className={classes.subtitle}>
+                              {`${item.rating} (${item.runtime} min)`}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    </LazyLoad>
+                  )) : ''}
+                </>
+                : props.titleMovie && props.movie.length === 0 ? <NotResult title={props.titleMovie}/> : <CircularProgress />
+              }
+            </Grid>
         </Container>
       </main>
     </div>
@@ -191,6 +196,12 @@ class Search extends Component {
     movie: [],
     titleMovie: ''
   };
+
+  static async getInitialProps({ query }) {
+    return {
+      titleMovie: query.title,
+    }
+  }
 
   keyPressEnterSearch = (ev) => {
     if (ev.key === 'Enter') {
@@ -220,15 +231,11 @@ class Search extends Component {
       responseData = [...response.data.rankedMovies.popcorn, ...response.data.rankedMovies.yts];
     }
 
-    this.setState({ movie: responseData })
+    this.setState({ movie: responseData, titleMovie: movieTitle})
   }
 
   async componentDidMount() {
-    const response = await axios.get(API.movie_hot);
-
-    const responseData = [...response.data.rankedMovies.popcorn, ...response.data.rankedMovies.yts];
-
-    this.setState({ movie: responseData })
+    this.getSimilarTitleMovie({movieTitle: this.props.titleMovie});
   }
 
   render () {

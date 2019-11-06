@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import {makeStyles} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,6 +46,8 @@ const Form = props => {
 
   const classes = useStyles();
 
+  const [t, i18n] = useTranslation();
+
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <TextField
@@ -53,7 +56,7 @@ const Form = props => {
         required
         fullWidth
         name="password"
-        label="Password"
+        label={t("Password")}
         type="password"
         id="password"
         autoComplete="current-password"
@@ -70,7 +73,7 @@ const Form = props => {
         fullWidth
         name="confirmPassword"
         type="password"
-        label="Confirm Password"
+        label={t("Confirm Password")}
         id="confirmPassword"
         autoComplete="confirm-password"
         value={confirmPassword}
@@ -87,7 +90,7 @@ const Form = props => {
         disabled={!isValid}
         className={classes.submit}
       >
-        CHANGE PASSWORD
+        {t("Change password")}
       </Button>
     </form>
   );

@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Copyright from '../src/Copyright'
 import {BoxError} from "./ErrorMessage";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,6 +47,8 @@ export const Form = (props, {error = null, onChange}) => {
 
   const classes = useStyles();
 
+  const [t, i18n] = useTranslation();
+
   return (
     <Grid container component="main" className={classes.root}>
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -55,7 +58,7 @@ export const Form = (props, {error = null, onChange}) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Forgot Your Password
+            {t("Forgot Your Password")}
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             {props.error ? <BoxError text={props.error}/> : ''}
@@ -65,7 +68,7 @@ export const Form = (props, {error = null, onChange}) => {
               required
               fullWidth
               id="userName"
-              label="UserName"
+              label={t("UserName")}
               name="userName"
               autoComplete="uname"
               value={values.userName}
@@ -81,12 +84,12 @@ export const Form = (props, {error = null, onChange}) => {
               color="primary"
               className={classes.submit}
             >
-              Reset
+              {t("reset")}
             </Button>
             <Grid container>
               <Grid item>
                 <Link href="/" variant="body2">
-                  {'Already have an account? Sign in'}
+                  {t('Already have an account? Sign in')}
                 </Link>
               </Grid>
             </Grid>
