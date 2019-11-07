@@ -184,8 +184,6 @@ class Home extends Component {
 
     const responseData = response.data.rankedMovies;
 
-    this.props.i18n.changeLanguage('fr');
-
     this.setState({ movie: responseData })
   }
 

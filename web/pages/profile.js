@@ -84,8 +84,6 @@ class Profile extends Component {
 
     const responseData = await response.data;
 
-    this.props.i18n.changeLanguage('fr');
-
     this.setState({ me: responseData })
   }
 
@@ -98,7 +96,7 @@ class Profile extends Component {
     userData.append('firstName', data.firstName);
     userData.append('lastName', data.lastName);
     userData.append('email', data.email);
-    userData.append('profileImage', data.profileImageUrl);
+    // userData.append('profileImage', data.profileImageUrl);
     userData.append('language', data.language);
     axios.patch(API.me, userData)
       .then(response => {

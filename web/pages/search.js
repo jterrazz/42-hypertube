@@ -23,7 +23,7 @@ import FormControl from '@material-ui/core/FormControl';
 import LazyLoad from 'react-lazyload';
 import URL_Images from "../src/BasicImage";
 import { NotResult } from "../src/NotResult";
-import {useTranslation, withTranslation, WithTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -236,9 +236,7 @@ class Search extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.title);
     this.getSimilarTitleMovie({movieTitle: this.props.title});
-    // this.props.i18n.changeLanguage('fr');
   }
 
   render () {
@@ -254,4 +252,4 @@ class Search extends Component {
   }
 }
 
-export default withTranslation()(withAuthSync(Search));
+export default withAuthSync(Search);

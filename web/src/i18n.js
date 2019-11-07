@@ -81,19 +81,12 @@ i18n.use(LanguageDetector).init({
       }
     }
   },
-  lng: "en",
-  fallbackLng: "en",
+  lng: "fr",
+  fallbackLng: ["en-US", "fr-FR"],
 
   // // have a common namespace used around the full app
   ns: ["translations"],
   defaultNS: "translations",
-  //
-  keySeparator: false, // we use content as keys
-  //
-  react: {
-    wait: true
-  }
-
 });
 
 export default i18n;

@@ -23,6 +23,7 @@ import { logout } from '../utils/auth';
 import axios from "axios";
 import API from "./API";
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 const drawerWidth = 240;
 
@@ -203,9 +204,12 @@ class Bar extends Component {
   };
 
   async componentDidMount() {
+
     const response = await axios.get(API.me);
 
     const responseData = await response.data;
+
+    i18next.changeLanguage(responseData.language);
 
     this.setState({ me: responseData })
   }
