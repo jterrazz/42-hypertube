@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
-import Typography from '@material-ui/core/Typography'
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera'
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
-import Avatar from '@material-ui/core/Avatar'
+import React, { Component } from 'react';
+import Typography from '@material-ui/core/Typography';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import Avatar from '@material-ui/core/Avatar';
+import withStyles from '@material-ui/core/styles/withStyles';
+import classNames from 'classnames';
 
-import withStyles from '@material-ui/core/styles/withStyles'
-import classNames from 'classnames'
-
-const customImageInputStyle = theme => ({
+const style = theme => ({
   hidden: { display: 'none' },
   bigAvatar: {
     margin: 'auto',
@@ -116,4 +115,4 @@ class CustomImageInput extends Component {
   }
 }
 
-export default withStyles(customImageInputStyle)(CustomImageInput)
+export default withStyles(style)(CustomImageInput);

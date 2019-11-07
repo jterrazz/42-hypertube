@@ -40,6 +40,7 @@ i18n.use(LanguageDetector).init({
         "Settings Profile": "Settings Profile",
         "Dashboard": "Dashboard",
         "Change password": "Change password",
+        "save image": "save image",
       }
     },
     fr: {
@@ -78,6 +79,7 @@ i18n.use(LanguageDetector).init({
         "Settings Profile": "Paramètres de Profile",
         "Dashboard": "Tableau de bord",
         "Change password": "Change le mot de passe",
+        "save image": "enregistrer l'image",
       }
     }
   },

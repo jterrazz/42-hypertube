@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 const Form = (props, error) => {
   const {
-    values: { firstName, lastName, email, language, profileImageUrl },
+    values: { firstName, lastName, email, language },
     errors,
     touched,
     handleSubmit,
@@ -74,19 +74,6 @@ const Form = (props, error) => {
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      <Grid container direction="column" justify="center" alignItems="center" style={{ marginTop: 20 }}>
-        <Field
-          name="profileImageUrl"
-          component={CustomImageInput}
-          fileUpload={profileImageUrl}
-          title="Select a file"
-          setFieldValue={setFieldValue}
-          errorMessage={errors['profileImageUrl'] ? errors['profileImageUrl'] : undefined}
-          touched={touched['profileImageUrl']}
-          style={{ display: 'flex' }}
-          onBlur={handleBlur}
-        />
-      </Grid>
       {props.error ? <BoxError text={props.error}/> : ''}
       <TextField
         autoComplete="fname"

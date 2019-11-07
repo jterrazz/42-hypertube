@@ -11,6 +11,7 @@ import { withAuthSync } from '../utils/auth'
 import {Formik} from "formik";
 import FormPassword from "../src/FormProfileChangePassword";
 import FormInfos from "../src/FormProfileChangeInfos";
+import FormUpdateImage from "../src/FormUpdateImageProfile";
 import * as Yup from "yup";
 import API from "../src/API";
 import {withTranslation} from "react-i18next";
@@ -37,6 +38,9 @@ const styles = theme => ({
   main_profile: {
     backgroundColor: "#F6F4FC",
   },
+  paper_card: {
+    padding: 10,
+  }
 });
 
 const FILE_SIZE = 1600 * 1024;
@@ -56,19 +60,22 @@ const validationSchemaInfos = Yup.object({
     lastName: Yup.string().required('Required'),
     email: Yup.string()
       .email('Enter a valid email')
-      .required('Email is required'),
-    profileImageUrl: Yup.mixed().notRequired()
-      // .test(
-      //   "fileFormat",
-      //   "Unsupported Format",
-      //   value => value && SUPPORTED_FORMATS.includes(value.type)
-      // )
-      // .test(
-      //   "fileSize",
-      //   "File too large",
-      //   value => value && value.size <= FILE_SIZE
-      // )
+      .required('Email is required')
   });
+
+const validationSchemaImage = Yup.object({
+  profileImageUrl: Yup.mixed().notRequired()
+    .test(
+      "fileFormat",
+      "Unsupported Format",
+      value => value && SUPPORTED_FORMATS.includes(value.type)
+    )
+    .test(
+      "fileSize",
+      "File too large",
+      value => value && value.size <= FILE_SIZE
+    )
+});
 
 axios.defaults.withCredentials = true;
 
@@ -76,7 +83,8 @@ class Profile extends Component {
 
   state = {
     me: null,
-    ErrorMail: ''
+    ErrorMail: '',
+    Error: ''
   };
 
   async componentDidMount() {
@@ -91,12 +99,27 @@ class Profile extends Component {
     this.setState({ ErrorMail: ""});
   };
 
+  SubmitImage = (data) => {
+    const userData = new FormData();
+    userData.append('profileImage', data.profileImageUrl);
+    axios.patch(API.me, userData)
+      .then(response => {
+        if (response.data === 'OK') {
+          window.location = '/profile'
+        }
+      })
+      .catch(error => {
+        return this.setState({ Error: "Unknown error. Please try again"});
+      });
+
+    event.preventDefault();
+  };
+
   SubmitInfos = (data) => {
     const userData = new FormData();
     userData.append('firstName', data.firstName);
     userData.append('lastName', data.lastName);
     userData.append('email', data.email);
-    // userData.append('profileImage', data.profileImageUrl);
     userData.append('language', data.language);
     axios.patch(API.me, userData)
       .then(response => {
@@ -133,6 +156,7 @@ class Profile extends Component {
   render () {
     const { classes } = this.props;
     const value = { confirmPassword: "", password: ""};
+    const valueImage = { profileImageUrl: ""};
     const { t, i18n } = this.props;
 
     return (
@@ -169,24 +193,38 @@ class Profile extends Component {
             <Typography variant="h5" style={{ marginTop: 40 }}>
               {t("Settings Profile")}
             </Typography>
-            <Grid container spacing={5}>
-              {this.state.me ?
+            <Grid container spacing={5} style={{ marginTop: 10 }}>
               <Grid item md={4}>
-                <Formik
-                  render={props => <FormInfos error={this.state.ErrorMail} onChange={this.onChange} {...props} />}
-                  initialValues={this.state.me}
-                  validationSchema={validationSchemaInfos}
-                  onSubmit={this.SubmitInfos}
-                />
+                <Paper className={classes.paper_card}>
+                  {/*<Formik*/}
+                    {/*render={props => <FormUpdateImage error={this.state.Error} {...props} />}*/}
+                    {/*initialValues={valueImage}*/}
+                    {/*validationSchema={validationSchemaImage}*/}
+                    {/*onSubmit={this.SubmitImage}*/}
+                  {/*/>*/}
+                </Paper>
               </Grid>
+              {this.state.me ?
+                <Grid item md={4}>
+                  <Paper className={classes.paper_card}>
+                    <Formik
+                      render={props => <FormInfos error={this.state.ErrorMail} onChange={this.onChange} {...props} />}
+                      initialValues={this.state.me}
+                      validationSchema={validationSchemaInfos}
+                      onSubmit={this.SubmitInfos}
+                    />
+                  </Paper>
+                </Grid>
                 : ''}
               <Grid item md={4}>
-                <Formik
-                  render={props => <FormPassword {...props} />}
-                  initialValues={value}
-                  validationSchema={validationSchemaPassword}
-                  onSubmit={this.SubmitPassword}
-                />
+                <Paper className={classes.paper_card}>
+                  <Formik
+                    render={props => <FormPassword {...props} />}
+                    initialValues={value}
+                    validationSchema={validationSchemaPassword}
+                    onSubmit={this.SubmitPassword}
+                  />
+                </Paper>
               </Grid>
             </Grid>
           </Container>
