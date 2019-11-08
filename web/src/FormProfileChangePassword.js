@@ -31,6 +31,9 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  input: {
+    background: "white",
+}
 }));
 
 const Form = props => {
@@ -51,6 +54,7 @@ const Form = props => {
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <TextField
+        className={classes.input}
         variant="outlined"
         margin="normal"
         required
@@ -67,6 +71,7 @@ const Form = props => {
         error={touched.password && Boolean(errors.password)}
       />
       <TextField
+        className={classes.input}
         variant="outlined"
         margin="normal"
         required

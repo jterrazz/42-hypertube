@@ -11,7 +11,6 @@ import { withAuthSync } from '../utils/auth'
 import {Formik} from "formik";
 import FormPassword from "../src/FormProfileChangePassword";
 import FormInfos from "../src/FormProfileChangeInfos";
-// import FormUpdateImage from "../src/FormUpdateImageProfile";
 import * as Yup from "yup";
 import API from "../src/API";
 import {withTranslation} from "react-i18next";
@@ -43,6 +42,7 @@ const styles = theme => ({
   },
   paper_card: {
     padding: 10,
+    background: "#F2F5F9"
   }
 });
 

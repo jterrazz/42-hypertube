@@ -38,6 +38,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     margin: theme.spacing(1, 0, 1),
   },
+  input: {
+    background: "white",
+  }
 }));
 
 
@@ -76,6 +79,7 @@ const Form = (props, error) => {
     <form className={classes.form} onSubmit={handleSubmit}>
       {props.error ? <BoxError text={props.error}/> : ''}
       <TextField
+        className={classes.input}
         autoComplete="fname"
         margin="normal"
         name="firstName"
@@ -91,6 +95,7 @@ const Form = (props, error) => {
         error={touched.firstName && Boolean(errors.firstName)}
       />
       <TextField
+        className={classes.input}
         variant="outlined"
         margin="normal"
         required
@@ -106,6 +111,7 @@ const Form = (props, error) => {
         error={touched.lastName && Boolean(errors.lastName)}
         />
       <TextField
+        className={classes.input}
         variant="outlined"
         margin="normal"
         required
@@ -124,6 +130,7 @@ const Form = (props, error) => {
       <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel htmlFor="controlled-open-select">Language</InputLabel>
         <Select
+          className={classes.input}
           open={open}
           onClose={handleClose}
           onOpen={handleOpen}

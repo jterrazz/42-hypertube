@@ -4,7 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 i18n.use(LanguageDetector).init({
   // we init with resources
   resources: {
-    en: {
+    "en-US": {
       translations: {
         "Home": "Home",
         "Search": "Search",
@@ -43,7 +43,7 @@ i18n.use(LanguageDetector).init({
         "save image": "save image",
       }
     },
-    fr: {
+    "fr-FR": {
       translations: {
         "Home": "Accueil",
         "Search": "Recherche",
@@ -83,8 +83,8 @@ i18n.use(LanguageDetector).init({
       }
     }
   },
-  // lng: "fr",
-  fallbackLng: ["en-US", "fr-FR"],
+  // lng: "fr-FR",
+  fallbackLng: ["fr-FR", "en-US"],
 
   // // have a common namespace used around the full app
   ns: ["translations"],
