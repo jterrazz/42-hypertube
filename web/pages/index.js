@@ -5,6 +5,7 @@ import axios from 'axios'
 import API from '../src/API'
 import { login } from '../utils/auth'
 import { Form } from "../src/FormLogin";
+import i18next from "i18next";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -37,6 +38,7 @@ class Login extends Component {
         response => {
           if (response.data.message === 'Authentication successful') {
             const { token } = response.data;
+            i18next.changeLanguage(response.data.user.language);
             login ({ token });
           }
         })

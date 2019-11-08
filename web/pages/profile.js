@@ -15,6 +15,7 @@ import FormUpdateImage from "../src/FormUpdateImageProfile";
 import * as Yup from "yup";
 import API from "../src/API";
 import {withTranslation} from "react-i18next";
+import i18next from "i18next";
 
 const styles = theme => ({
   root: {
@@ -116,6 +117,7 @@ class Profile extends Component {
   };
 
   SubmitInfos = (data) => {
+    i18next.changeLanguage(data.language);
     const userData = new FormData();
     userData.append('firstName', data.firstName);
     userData.append('lastName', data.lastName);

@@ -83,7 +83,7 @@ i18n.use(LanguageDetector).init({
       }
     }
   },
-  lng: "fr",
+  // lng: "fr",
   fallbackLng: ["en-US", "fr-FR"],
 
   // // have a common namespace used around the full app
