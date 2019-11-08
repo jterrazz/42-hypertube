@@ -6,8 +6,8 @@ i18n.use(LanguageDetector).init({
   resources: {
     en: {
       translations: {
-        Home: "Home",
-        Search: "Search",
+        "Home": "Home",
+        "Search": "Search",
         "My profile": "My profile",
         "logout": "logout",
         "Sign in": "Sign in",
@@ -45,8 +45,8 @@ i18n.use(LanguageDetector).init({
     },
     fr: {
       translations: {
-        Home: "Accueil",
-        Search: "Recherche",
+        "Home": "Accueil",
+        "Search": "Recherche",
         "My profile": "Mon profile",
         "logout": "Se déconnecter",
         "Sign in": "Se Connecter",

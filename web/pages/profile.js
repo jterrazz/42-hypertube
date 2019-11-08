@@ -11,11 +11,13 @@ import { withAuthSync } from '../utils/auth'
 import {Formik} from "formik";
 import FormPassword from "../src/FormProfileChangePassword";
 import FormInfos from "../src/FormProfileChangeInfos";
-import FormUpdateImage from "../src/FormUpdateImageProfile";
+// import FormUpdateImage from "../src/FormUpdateImageProfile";
 import * as Yup from "yup";
 import API from "../src/API";
 import {withTranslation} from "react-i18next";
 import i18next from "i18next";
+import dynamic from "next/dynamic";
+
 
 const styles = theme => ({
   root: {
@@ -161,6 +163,9 @@ class Profile extends Component {
     const valueImage = { profileImageUrl: ""};
     const { t, i18n } = this.props;
 
+
+    const FormUpdateImage = dynamic(() => import("../src/FormUpdateImageProfile"));
+
     return (
       <div className={classes.root}>
         <NavBar />
@@ -198,12 +203,12 @@ class Profile extends Component {
             <Grid container spacing={5} style={{ marginTop: 10 }}>
               <Grid item md={4}>
                 <Paper className={classes.paper_card}>
-                  {/*<Formik*/}
-                    {/*render={props => <FormUpdateImage error={this.state.Error} {...props} />}*/}
-                    {/*initialValues={valueImage}*/}
-                    {/*validationSchema={validationSchemaImage}*/}
-                    {/*onSubmit={this.SubmitImage}*/}
-                  {/*/>*/}
+                  <Formik
+                    render={props => <FormUpdateImage error={this.state.Error} {...props} />}
+                    initialValues={valueImage}
+                    validationSchema={validationSchemaImage}
+                    onSubmit={this.SubmitImage}
+                  />
                 </Paper>
               </Grid>
               {this.state.me ?
