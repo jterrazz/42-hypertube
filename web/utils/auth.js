@@ -5,7 +5,7 @@ import cookie from 'js-cookie'
 
 export const login = ({ token }) => {
   cookie.set('token', token, { expires: 1 });
-  Router.push('/home')
+  Router.push('/')
 };
 
 export const auth = ctx => {
@@ -15,18 +15,18 @@ export const auth = ctx => {
    * Additionally if there's no token it means the user is not logged in.
    */
   if (ctx.req && !token) {
-    ctx.res.writeHead(302, { Location: '/index' });
+    ctx.res.writeHead(302, { Location: '/login' });
     ctx.res.end()
   }
 
   // We already checked for server. This should only happen on client.
   if (!token) {
-    Router.push('/index')
+    Router.push('/login')
   }
 
-  // if (token && ctx.pathname === '/') {
-  //   Router.push('/home');
-  // }
+  if (token && ctx.pathname === '/login') {
+    Router.push('/');
+  }
 
   return token
 };
@@ -35,7 +35,7 @@ export const logout = () => {
   cookie.remove('token');
   // to support logging out from all windows
   window.localStorage.setItem('logout', Date.now());
-  Router.push('/index')
+  Router.push('/login')
 };
 
 export const withAuthSync = WrappedComponent => {
@@ -43,7 +43,7 @@ export const withAuthSync = WrappedComponent => {
     const syncLogout = event => {
       if (event.key === 'logout') {
         console.log('logged out from storage!');
-        Router.push('/index')
+        Router.push('/login')
       }
     };
 

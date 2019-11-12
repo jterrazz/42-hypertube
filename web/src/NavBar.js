@@ -109,7 +109,7 @@ function NavBar(props, {me = null}) {
         component="nav" aria-label="main mailbox folders"
         className={classes.listItem}
       >
-        <ListItem button component="a" href="/home">
+        <ListItem button component="a" href="/">
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
