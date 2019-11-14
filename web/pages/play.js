@@ -8,17 +8,17 @@ import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import Player from '../src/Player'
-import NavBar from "../src/NavBar";
+import Player from '../src/components/organisms/Player'
+import NavBar from "../src/components/organisms/NavBar";
 import axios from "axios";
-import API from "../src/API";
+import API from "../utils/API";
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import Card from "@material-ui/core/Card/Card";
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Moment from 'moment';
-import URL_Images from "../src/BasicImage";
+import URL_Images from "../utils/BasicImage";
 import {useTranslation, withTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({

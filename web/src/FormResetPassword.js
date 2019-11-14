@@ -7,7 +7,7 @@ import Avatar from "@material-ui/core/Avatar/Avatar";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from "@material-ui/core/Typography/Typography";
 import Box from "@material-ui/core/Box/Box";
-import Copyright from "./Copyright";
+import Copyright from "./components/atoms/Copyright";
 import {makeStyles} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 

@@ -9,8 +9,8 @@ import Grid from '@material-ui/core/Grid'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import Copyright from '../src/Copyright'
-import {BoxError} from "./ErrorMessage";
+import Copyright from './components/atoms/Copyright'
+import {BoxError} from "./components/molecules/ErrorMessage";
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({

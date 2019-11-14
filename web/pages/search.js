@@ -3,8 +3,8 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
-import NavBar from "../src/NavBar";
-import API from "../src/API";
+import NavBar from "../src/components/organisms/NavBar";
+import API from "../utils/API";
 import Grid from "@material-ui/core/Grid/Grid";
 import Card from "@material-ui/core/Card/Card";
 import Link from '@material-ui/core/Link'
@@ -15,14 +15,14 @@ import Box from "@material-ui/core/Box/Box";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import { withAuthSync } from '../utils/auth';
-import CircularProgress from '../src/CircularProgress';
+import CircularProgress from '../src/components/atoms/CircularProgress';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import LazyLoad from 'react-lazyload';
-import URL_Images from "../src/BasicImage";
-import { NotResult } from "../src/NotResult";
+import URL_Images from "../utils/BasicImage";
+import { NotResult } from "../src/components/molecules/NotResult";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(theme => ({

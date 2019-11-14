@@ -19,9 +19,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
-import { logout } from '../utils/auth';
+import { logout } from '../../../utils/auth';
 import axios from "axios";
-import API from "./API";
+import API from "../../../utils/API";
 import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;

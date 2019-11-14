@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import API from '../src/API'
+import API from '../utils/API'
 import { Form } from "../src/FormSignup";
 
 const FILE_SIZE = 1600 * 1024;

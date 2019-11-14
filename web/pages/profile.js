@@ -6,13 +6,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid'
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import axios from "axios";
-import NavBar from "../src/NavBar";
+import NavBar from "../src/components/organisms/NavBar";
 import { withAuthSync } from '../utils/auth'
 import {Formik} from "formik";
 import FormPassword from "../src/FormProfileChangePassword";
 import FormInfos from "../src/FormProfileChangeInfos";
 import * as Yup from "yup";
-import API from "../src/API";
+import API from "../utils/API";
 import {withTranslation} from "react-i18next";
 import i18next from "i18next";
 import dynamic from "next/dynamic";
@@ -164,7 +164,7 @@ class Profile extends Component {
     const { t, i18n } = this.props;
 
 
-    const FormUpdateImage = dynamic(() => import("../src/FormUpdateImageProfile"));
+    const FormUpdateImage = dynamic(() => import("../src/components/molecules/FormUpdateImageProfile"));
 
     return (
       <div className={classes.root}>

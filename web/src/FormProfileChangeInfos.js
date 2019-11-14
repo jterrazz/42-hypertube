@@ -8,8 +8,8 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from "@material-ui/core/Grid/Grid";
 import {Field} from "formik";
-import CustomImageInput from "./CustomImageInput";
-import {BoxError} from "./ErrorMessage";
+import CustomImageInput from "./components/molecules/CustomImageInput";
+import {BoxError} from "./components/molecules/ErrorMessage";
 import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({

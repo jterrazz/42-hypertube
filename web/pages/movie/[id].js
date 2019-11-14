@@ -11,16 +11,16 @@ import Paper from '@material-ui/core/Paper'
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
 import { withRouter } from 'next/router'
 import axios from "axios";
-import API from "../../src/API";
+import API from "../../utils/API";
 import Card from "@material-ui/core/Card/Card";
 import Link from '@material-ui/core/Link'
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Rating from "@material-ui/lab/Rating/Rating";
 import StarBorderIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import NavBar from "../../src/NavBar";
+import NavBar from "../../src/components/organisms/NavBar";
 import { withAuthSync } from '../../utils/auth'
 import CircularProgress from "@material-ui/core/CircularProgress";
-import URL_Images from "../../src/BasicImage";
+import URL_Images from "../../utils/BasicImage";
 import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({

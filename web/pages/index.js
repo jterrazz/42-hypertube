@@ -10,11 +10,11 @@ import Box from "@material-ui/core/Box/Box";
 import Rating from "@material-ui/lab/Rating/Rating";
 import {makeStyles, useTheme} from "@material-ui/core";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
-import API from '../src/API'
+import API from '../utils/API'
 import Link from '@material-ui/core/Link'
-import NavBar from "../src/NavBar";
+import NavBar from "../src/components/organisms/NavBar";
 import { withAuthSync } from '../utils/auth';
-import CircularProgress from '../src/CircularProgress';
+import CircularProgress from '../src/components/atoms/CircularProgress';
 import { useTranslation } from 'react-i18next';
 import {withTranslation} from "react-i18next";
 

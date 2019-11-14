@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../src/theme'
 import { I18nextProvider } from 'react-i18next';
-import i18n from '../src/i18n';
+import i18n from '../utils/i18n';
 
 export default class MyApp extends App {
   componentDidMount() {
