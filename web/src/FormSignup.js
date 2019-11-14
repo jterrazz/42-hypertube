@@ -17,8 +17,8 @@ import { InputLastName } from "./components/atoms/InputLastName";
 import { InputImage } from "./components/atoms/InputImage";
 import { InputUserNameSigUp } from "./components/atoms/InputUserNameSigUp";
 import { InputMail } from "./components/atoms/InputMail";
-import {InputPasswordSigUp} from "./components/atoms/InputPasswordSigUp";
-import {InputConfirmPasswordSigUp} from "./components/atoms/InputConfirmPasswordSigUp";
+import { InputPasswordSigUp } from "./components/atoms/InputPasswordSigUp";
+import { InputConfirmPasswordSigUp } from "./components/atoms/InputConfirmPasswordSigUp";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,13 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Form = (props, {error = null}) => {
-  const {
-    values,
-    touched,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit } = props;
+  const { handleSubmit } = props;
 
   const classes = useStyles();
   const [t] = useTranslation();
@@ -65,32 +59,15 @@ export const Form = (props, {error = null}) => {
             <Divider variant="middle" className={classes.divider} />
             {props.error ? <BoxError text={props.error}/> : ''}
             <Grid container justify="center" spacing={2}>
+              <Grid container direction="column" justify="center" alignItems="center" item xs={6} sm={2}><InputImage {...props}/></Grid>
+              <Grid item xs={12} sm={5}><InputFirstName {...props} /></Grid>
+              <Grid item xs={12} sm={5}><InputLastName {...props}/></Grid>
+            </Grid>
 
-              <Grid container direction="column" justify="center" alignItems="center" item xs={6} sm={2}>
-                <InputImage {...props}/>
-              </Grid>
-
-              <Grid item xs={12} sm={5}>
-                <InputFirstName {...props} />
-              </Grid>
-
-              <Grid item xs={12} sm={5}>
-                <InputLastName {...props}/>
-              </Grid>
-
-            </Grid>
-            <Grid>
-              <InputUserNameSigUp {...props} error={props.error}/>
-            </Grid>
-            <Grid>
-              <InputMail {...props} error={props.error}/>
-            </Grid>
-            <Grid>
-              <InputPasswordSigUp {...props}/>
-            </Grid>
-            <Grid>
-              <InputConfirmPasswordSigUp {...props} />
-            </Grid>
+            <InputUserNameSigUp {...props} error={props.error}/>
+            <InputMail {...props} error={props.error}/>
+            <InputPasswordSigUp {...props}/>
+            <InputConfirmPasswordSigUp {...props} />
             <BoxReCaptcha {...props}/>
             <ButtonSubmit text="Sign up"/>
             <ButtomSigUpPage />
