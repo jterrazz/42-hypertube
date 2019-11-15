@@ -6,7 +6,7 @@ export const ButtomResetPage = () => {
   return (
     <Grid container>
       <Grid item xs>
-        <LinkCustom text="Already have an account? Sign in" href="/forgot"/>
+        <LinkCustom text="Already have an account? Sign in" href="/login"/>
       </Grid>
     </Grid>
   )

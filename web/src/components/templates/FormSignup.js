@@ -13,7 +13,7 @@ import { BoxReCaptcha } from "../organisms/BoxReCaptcha";
 import { InputLastName } from "../atoms/InputLastName";
 import { InputImage } from "../atoms/InputImage";
 import { InputUserNameSigUp } from "../atoms/InputUserNameSigUp";
-import { InputMail } from "../atoms/InputMail";
+import { InputEmail } from "../atoms/InputEmail";
 import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import {DividerSplit} from "../atoms/DividerSplit";
@@ -53,7 +53,7 @@ export const Form = (props, {error = null}) => {
               <Grid item xs={12} sm={5}><InputLastName {...props}/></Grid>
             </Grid>
             <InputUserNameSigUp {...props} error={props.error}/>
-            <InputMail {...props} error={props.error}/>
+            <InputEmail {...props} error={props.error}/>
             <InputPasswordSigUp {...props}/>
             <InputConfirmPasswordSigUp {...props} />
             <BoxReCaptcha {...props}/>

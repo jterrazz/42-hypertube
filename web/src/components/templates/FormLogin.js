@@ -1,9 +1,8 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid/Grid";
-import Paper from "@material-ui/core/Paper/Paper";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
 import { BoxError } from "../molecules/ErrorMessage";
-import { useTranslation } from 'react-i18next';
 import { HeadLockPage } from "../molecules/HeadLockPage"
 import { ButtomSigInPage } from "../molecules/ButtomSigInPage"
 import { InputUserName } from "../atoms/InputUserName"
@@ -24,6 +23,9 @@ const useStyles = makeStyles(theme => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: 10,
   }
 }));
 
@@ -33,7 +35,6 @@ export const Form = (props, error = null, onChange) => {
   } = props;
 
   const classes = useStyles();
-  const [t] = useTranslation();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -45,7 +46,7 @@ export const Form = (props, error = null, onChange) => {
             {props.error ? <BoxError text={props.error}/> : ''}
             <InputUserName {...props} onChange={props.onChange} error={props.error}/>
             <InputPassword {...props} onChange={props.onChange} error={props.error}/>
-            <ButtonSubmit text="Sign in"/>
+            <ButtonSubmit text="Sign in" className={classes.submit}/>
             <ButtomSigInPage />
           </form>
         </div>

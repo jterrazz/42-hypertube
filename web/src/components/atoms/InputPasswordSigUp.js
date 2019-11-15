@@ -1,6 +1,6 @@
 import TextField from "@material-ui/core/TextField/TextField";
 import React from "react";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 export const InputPasswordSigUp = (props) => {
   const {
@@ -14,6 +14,7 @@ export const InputPasswordSigUp = (props) => {
   const [t] = useTranslation();
   return (
     <TextField
+      style={{ background: "white" }}
       variant="outlined"
       margin="normal"
       required

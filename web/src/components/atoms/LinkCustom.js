@@ -1,4 +1,4 @@
-import Link from "../../Link";
+import Link from "./Link";
 import React from "react";
 import { useTranslation } from 'react-i18next';
 

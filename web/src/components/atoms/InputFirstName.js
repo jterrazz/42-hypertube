@@ -1,4 +1,4 @@
-import TextField from "@material-ui/core/TextField/TextField";
+import TextField from "@material-ui/core/TextField";
 import React from "react";
 import {useTranslation} from "react-i18next";
 
@@ -13,6 +13,7 @@ export const InputFirstName = (props) => {
   const [t] = useTranslation();
   return (
     <TextField
+      style={{ background: "white" }}
       autoComplete="fname"
       margin="normal"
       name="firstName"

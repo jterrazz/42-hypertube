@@ -14,6 +14,7 @@ export const InputConfirmPasswordSigUp = (props) => {
   const [t] = useTranslation();
   return (
     <TextField
+      style={{ background: "white" }}
       variant="outlined"
       margin="normal"
       required

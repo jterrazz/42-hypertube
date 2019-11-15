@@ -1,22 +1,21 @@
 import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid'
-import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import axios from "axios";
 import NavBar from "../src/components/organisms/NavBar";
 import { withAuthSync } from '../utils/auth'
 import {Formik} from "formik";
-import FormPassword from "../src/FormProfileChangePassword";
-import FormInfos from "../src/FormProfileChangeInfos";
+import FormPassword from "../src/components/organisms/FormProfileChangePassword";
+import FormInfos from "../src/components/organisms/FormProfileChangeInfos";
 import * as Yup from "yup";
 import API from "../utils/API";
 import {withTranslation} from "react-i18next";
 import i18next from "i18next";
 import dynamic from "next/dynamic";
-
+import { CardProfile } from "../src/components/molecules/CardProfile";
+import { TypographyTitle } from "../src/components/atoms/TypographyTitle";
 
 const styles = theme => ({
   root: {
@@ -26,16 +25,6 @@ const styles = theme => ({
 
   content: {
     flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(5, 10),
-    backgroundColor: "#F8E5E9",
-    borderRadius: 15,
-    marginTop: 40,
-  },
-  welcome: {
-    color: "#FF808B",
-    marginBottom: 30,
   },
   main_profile: {
     backgroundColor: "#F6F4FC",
@@ -161,8 +150,6 @@ class Profile extends Component {
     const { classes } = this.props;
     const value = { confirmPassword: "", password: ""};
     const valueImage = { profileImageUrl: ""};
-    const { t, i18n } = this.props;
-
 
     const FormUpdateImage = dynamic(() => import("../src/components/molecules/FormUpdateImageProfile"));
 
@@ -172,34 +159,9 @@ class Profile extends Component {
         <main className={classes.content} >
           <div className={classes.toolbar} />
           <Container fixed>
-            <Typography variant="h5">
-              {t("Dashboard")}
-            </Typography>
-            <Paper className={classes.paper} elevation={0}>
-              <Grid container spacing={4}>
-                <Grid item xs={12} md={6}>
-                  {this.state.me ?
-                  <Typography variant="h6" component="h3" className={classes.welcome}>
-                    Welcome back {this.state.me.username}!
-                  </Typography>
-                    : ""}
-                  <Typography component="h4">
-                    <div>Paper can be used to build surface</div>
-                    <div>Or other elements for your application.</div>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <CardMedia
-                    title="Vector"
-                    image="/static/ilustracion-vector.png"
-                    style={{ height: 150}}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-            <Typography variant="h5" style={{ marginTop: 40 }}>
-              {t("Settings Profile")}
-            </Typography>
+            <TypographyTitle text="Dashboard"/>
+            {this.state.me ? <CardProfile username={this.state.me.username}/> : ''}
+            <TypographyTitle text="Settings Profile"/>
             <Grid container spacing={5} style={{ marginTop: 10 }}>
               <Grid item md={4}>
                 <Paper className={classes.paper_card}>
@@ -234,6 +196,7 @@ class Profile extends Component {
                 </Paper>
               </Grid>
             </Grid>
+
           </Container>
         </main>
       </div>

@@ -2,7 +2,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import React from "react";
 import {useTranslation} from "react-i18next";
 
-export const InputMail = (props, error = null) => {
+export const InputEmail = (props, error = null) => {
   const {
     values,
     errors,
