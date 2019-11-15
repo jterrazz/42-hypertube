@@ -9,7 +9,7 @@ export const Captcha = (props) => {
     setFieldValue } = props;
 
   return (
-    <div className="form-group">
+    <div>
       <Recaptcha
         name="reCaptcha"
         sitekey="6Lfdu7wUAAAAAMj_bppkQZ8kSLrcd_6Vv1P-xHgF"
