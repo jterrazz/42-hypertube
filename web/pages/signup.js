@@ -3,7 +3,7 @@ import {Formik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import API from '../utils/API'
-import { Form } from "../src/FormSignup";
+import { Form } from "../src/components/templates/FormSignup";
 
 const FILE_SIZE = 1600 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];

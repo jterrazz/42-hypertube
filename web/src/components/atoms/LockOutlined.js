@@ -1,4 +1,4 @@
-import Avatar from "@material-ui/core/Avatar/Avatar";
+import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
