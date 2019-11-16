@@ -1,6 +1,6 @@
 import Grid from "@material-ui/core/Grid";
 import React from "react";
-import {LinkCustom} from "../atoms/LinkCustom";
+import { LinkCustom } from "../atoms/LinkCustom";
 
 export const ButtomSigInPage = () => {
   return (

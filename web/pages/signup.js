@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import API from '../utils/API'
+import ApiURL from '../utils/ApiURL'
 import { Form } from "../src/components/templates/FormSignup";
 
 const FILE_SIZE = 1600 * 1024;
@@ -55,9 +55,8 @@ class SignUp extends Component {
     userData.append('email', data.email);
     userData.append('profileImage', data.file);
 
-    axios.post(API.signup, userData)
+    axios.post(ApiURL.signup, userData)
       .then(response => {
-        console.log(response);
         if (response.data.message === 'Authentication successful') {
           window.location = '/home'
         }

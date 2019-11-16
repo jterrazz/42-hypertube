@@ -1,3 +1,5 @@
+import React from "react";
+import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Link from "@material-ui/core/Link";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -6,9 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import Grid from "@material-ui/core/Grid";
-import React from "react";
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import URL_Images from "../../../utils/BasicImage";
 
 const useStyles = makeStyles(theme => ({
   img: {
@@ -29,7 +30,7 @@ export const CardPosterFilm = (item) => {
     <Grid item xs={4} md={2}>
       <Card elevation={0} className={classes.card}>
         <Link href={`/movie/${item.imdb_id}`}>
-          <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
+          <CardMedia title={item.title} image={item.poster_image ? item.poster_image : URL_Images.poster} className={classes.img} />
         </Link>
         <CardContent>
           <Typography gutterBottom variant="subtitle2" component="h5">

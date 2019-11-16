@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
 import { makeStyles } from '@material-ui/core'
-import API from '../../../utils/API'
+import ApiURL from '../../../utils/ApiURL'
 
 const useStyle = makeStyles(() => ({
   playerWrapper: {
@@ -21,7 +21,7 @@ const Player = (props, {hash_movie = null, thumbnail = null, subtitles = null}) 
   return (
     <div className={classes.playerWrapper}>
       <ReactPlayer
-        url={`${API.movies_stream}${props.hash_movie}/stream`}
+        url={`${ApiURL.movies_stream}${props.hash_movie}/stream`}
         config={{ file:{
             attributes: {
             },

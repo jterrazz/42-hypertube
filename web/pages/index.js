@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import API from '../utils/API';
+import ApiURL from '../utils/ApiURL';
 import { withAuthSync } from '../utils/auth';
 import { withTranslation } from "react-i18next";
 import { Home } from "../src/components/templates/Home";
@@ -13,7 +13,7 @@ class Index extends Component {
   };
 
   async componentDidMount() {
-    const response = await axios.get(API.movie_hot);
+    const response = await axios.get(ApiURL.movie_hot);
 
     const responseData = response.data.rankedMovies;
 

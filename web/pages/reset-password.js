@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import * as Yup from 'yup';
 import axios from 'axios';
-import API from '../utils/API';
+import ApiURL from '../utils/ApiURL';
 import { withRouter } from "next/router";
 import { Form } from '../src/components/templates/FormResetPassword';
 import { Formik } from "formik";
@@ -36,7 +36,7 @@ class Forgot extends Component {
       password: data.password,
     };
 
-    axios.post(API.reset_password, user)
+    axios.post(ApiURL.reset_password, user)
       .then(
         response => {
           if (response.data === 'OK') {

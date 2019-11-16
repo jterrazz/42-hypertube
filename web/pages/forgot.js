@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import axios from "axios"
 import {Form} from "../src/components/templates/FormForgot";
-import API from "../utils/API";
+import ApiURL from "../utils/ApiURL";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string()
@@ -25,7 +25,7 @@ class Forgot extends Component {
   };
 
   handleSubmit = (data) => {
-    axios.post(`${API.forgot}?username=${data.userName}`)
+    axios.post(`${ApiURL.forgot}?username=${data.userName}`)
       .then(
         response => {
           if (response.data === 'OK') {

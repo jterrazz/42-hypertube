@@ -1,4 +1,4 @@
-import Typography from "@material-ui/core/Typography/Typography";
+import Typography from "@material-ui/core/Typography";
 import React from "react";
 import {useTranslation} from "react-i18next";
 

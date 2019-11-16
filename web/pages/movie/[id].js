@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper'
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
 import { withRouter } from 'next/router'
 import axios from "axios";
-import API from "../../utils/API";
+import ApiURL from "../../utils/ApiURL";
 import Card from "@material-ui/core/Card/Card";
 import Link from '@material-ui/core/Link'
 import CardContent from "@material-ui/core/CardContent/CardContent";
@@ -209,8 +209,8 @@ class Movie extends Component {
   }
 
   async componentDidMount() {
-    const responseDescription = await axios.get(`${API.movies}/${this.props.movieId}`);
-    const responseTorrent = await axios.get(`${API.movies}/${this.props.movieId}/torrents`);
+    const responseDescription = await axios.get(`${ApiURL.movies}/${this.props.movieId}`);
+    const responseTorrent = await axios.get(`${ApiURL.movies}/${this.props.movieId}/torrents`);
 
     const res = responseDescription.data;
     const resTorrent = responseTorrent.data;

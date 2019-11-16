@@ -10,7 +10,7 @@ import {Formik} from "formik";
 import FormPassword from "../src/components/organisms/FormProfileChangePassword";
 import FormInfos from "../src/components/organisms/FormProfileChangeInfos";
 import * as Yup from "yup";
-import API from "../utils/API";
+import ApiURL from "../utils/ApiURL";
 import {withTranslation} from "react-i18next";
 import i18next from "i18next";
 import dynamic from "next/dynamic";
@@ -80,7 +80,7 @@ class Profile extends Component {
   };
 
   async componentDidMount() {
-    const response = await axios.get(API.me);
+    const response = await axios.get(ApiURL.me);
 
     const responseData = await response.data;
 
@@ -94,7 +94,7 @@ class Profile extends Component {
   SubmitImage = (data) => {
     const userData = new FormData();
     userData.append('profileImage', data.profileImageUrl);
-    axios.patch(API.me, userData)
+    axios.patch(ApiURL.me, userData)
       .then(response => {
         if (response.data === 'OK') {
           window.location = '/profile'
@@ -114,7 +114,7 @@ class Profile extends Component {
     userData.append('lastName', data.lastName);
     userData.append('email', data.email);
     userData.append('language', data.language);
-    axios.patch(API.me, userData)
+    axios.patch(ApiURL.me, userData)
       .then(response => {
         if (response.data === 'OK') {
           window.location = '/profile'
@@ -132,7 +132,7 @@ class Profile extends Component {
   SubmitPassword = (data) => {
     const userData = new FormData();
     userData.append('password', data.password);
-    axios.patch(API.me, userData)
+    axios.patch(ApiURL.me, userData)
       .then(response => {
         if (response.data === 'OK') {
           window.location = '/profile'
@@ -167,8 +167,8 @@ class Profile extends Component {
                 <Paper className={classes.paper_card}>
                   <Formik
                     render={props => <FormUpdateImage error={this.state.Error} {...props} />}
-                    initialValues={valueImage}
-                    validationSchema={validationSchemaImage}
+                    initialValues={this.valueImage}
+                    validationSchema={this.validationSchemaImage}
                     onSubmit={this.SubmitImage}
                   />
                 </Paper>
@@ -179,7 +179,7 @@ class Profile extends Component {
                     <Formik
                       render={props => <FormInfos error={this.state.ErrorMail} onChange={this.onChange} {...props} />}
                       initialValues={this.state.me}
-                      validationSchema={validationSchemaInfos}
+                      validationSchema={this.validationSchemaInfos}
                       onSubmit={this.SubmitInfos}
                     />
                   </Paper>
@@ -189,8 +189,8 @@ class Profile extends Component {
                 <Paper className={classes.paper_card}>
                   <Formik
                     render={props => <FormPassword {...props} />}
-                    initialValues={value}
-                    validationSchema={validationSchemaPassword}
+                    initialValues={this.value}
+                    validationSchema={this.validationSchemaPassword}
                     onSubmit={this.SubmitPassword}
                   />
                 </Paper>

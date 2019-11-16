@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import API from '../utils/API'
+import ApiURL from '../utils/ApiURL'
 import { login } from '../utils/auth'
 import { Form } from "../src/components/templates/FormLogin";
 import i18next from "i18next";
@@ -33,7 +33,7 @@ class Login extends Component {
       password: data.password
     };
 
-    axios.post(API.signin, user)
+    axios.post(ApiURL.signin, user)
       .then(
         response => {
           if (response.data.message === 'Authentication successful') {

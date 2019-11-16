@@ -21,7 +21,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
 import { logout } from '../../../utils/auth';
 import axios from "axios";
-import API from "../../../utils/API";
+import ApiURL from "../../../utils/ApiURL";
 import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;
@@ -204,7 +204,7 @@ class Bar extends Component {
 
   async componentDidMount() {
 
-    const response = await axios.get(API.me);
+    const response = await axios.get(ApiURL.me);
 
     const responseData = await response.data;
 

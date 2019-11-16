@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField'
 import Player from '../src/components/organisms/Player'
 import NavBar from "../src/components/organisms/NavBar";
 import axios from "axios";
-import API from "../utils/API";
+import ApiURL from "../utils/ApiURL";
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import Card from "@material-ui/core/Card/Card";
 import CardContent from "@material-ui/core/CardContent/CardContent";
@@ -213,7 +213,7 @@ class Play extends React.Component {
       const comment = {
         text: this.state.commentaire
       };
-      axios.post(`${API.movies}/${this.props.movieId}/comments`, comment)
+      axios.post(`${ApiURL.movies}/${this.props.movieId}/comments`, comment)
         .then(
           async response => {
             this.state.comments.unshift(response.data.comment);
@@ -227,9 +227,9 @@ class Play extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await axios.get(`${API.movies}/${this.props.movieId}`);
-    const responseComment = await axios.get(`${API.movies}/${this.props.movieId}/comments`);
-    const responsesSubtitle = await axios.get(`${API.movies}/${this.props.movieId}/subtitles`);
+    const response = await axios.get(`${ApiURL.movies}/${this.props.movieId}`);
+    const responseComment = await axios.get(`${ApiURL.movies}/${this.props.movieId}/comments`);
+    const responsesSubtitle = await axios.get(`${ApiURL.movies}/${this.props.movieId}/subtitles`);
 
     const responseData = await response.data.movie;
     const responseCommentData = await responseComment.data.comments.reverse();

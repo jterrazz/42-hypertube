@@ -1,4 +1,4 @@
-const API = {
+const ApiURL = {
   me: 'http://localhost:3000/me',
   signin: 'http://localhost:3000/auth/signin',
   signup: 'http://localhost:3000/auth/signup',
@@ -10,4 +10,4 @@ const API = {
   movies_stream: 'http://localhost:3000/torrents/',
 };
 
-export default API;
+export default ApiURL;

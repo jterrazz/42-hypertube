@@ -1,5 +1,5 @@
-import Typography from "@material-ui/core/Typography/Typography";
-import MuiLink from "@material-ui/core/Link/Link";
+import Typography from "@material-ui/core/Typography";
+import MuiLink from "@material-ui/core/Link";
 import React from "react";
 
 function Copyright() {

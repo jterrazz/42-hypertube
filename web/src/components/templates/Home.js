@@ -6,8 +6,8 @@ import { TypographyTitle } from "../atoms/TypographyTitle";
 import { TypographyTextSecondary } from "../atoms/TypographyTextSecondary";
 import { CardFanartFilm } from "../molecules/CardFanartFilm";
 import { GroupFilmHot } from "../molecules/GroupFilmHot";
+import { makeStyles } from "@material-ui/core";
 import CircularProgress from "../atoms/CircularProgress";
-import {makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {

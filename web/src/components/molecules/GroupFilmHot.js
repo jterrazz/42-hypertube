@@ -3,7 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import { TypographyTitle } from "../atoms/TypographyTitle";
 import { CardPosterFilm } from "./CardPosterFilm";
 
-
 export const GroupFilmHot = (props) => {
   return (
     <>
