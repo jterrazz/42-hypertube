@@ -2,16 +2,12 @@ import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 import * as _ from 'lodash'
 import * as OS from 'opensubtitles-api'
-import axios from 'axios'
-import * as fs from 'fs'
-import * as srt2vtt from 'srt2vtt'
 import * as NodeCache from 'node-cache'
 
 import * as ytsApi from '../services/yts-api'
 import * as popcornAPI from '../services/popcorn-api'
 import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
-import config from '../config'
 import {serializeUser} from "./user";
 
 const movieCache = new NodeCache({ stdTTL: 60 * 60 })
@@ -45,7 +41,7 @@ export const SORT_VALUES_ENUM = {
 
 const addPlayToMovie = user => movie => {
   if (movie && user && user.plays) {
-    movie.played = user.plays.find(x => x.videoId == movie.imdb_id)
+    movie.played = !!user.plays.find(x => x.imdbId == movie.imdb_id)
   }
   return movie
 }

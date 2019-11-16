@@ -1,4 +1,5 @@
 import { Middleware } from 'koa'
+import logger from "../utils/logger";
 
 export const errorMiddleware: Middleware = async (ctx, next) => {
   try {
@@ -13,7 +14,7 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
     } else {
       ctx.status = 500
       ctx.message = 'Internal server error'
-      console.error(err)
+      logger.error(err)
     }
   }
 }

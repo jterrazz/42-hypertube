@@ -9,6 +9,10 @@ import {PRIVATE_USER_PROPS, serializeUser} from './user'
 import { sendResetPasswordEmail } from '../services/mail'
 import { ClientError } from '../services/auth'
 
+/*
+ * Authentication controllers
+ */
+
 export const successfulAuthController: Middleware = async ctx => {
   ctx.body = {
     message: 'Authentication successful',
@@ -19,6 +23,15 @@ export const successfulAuthController: Middleware = async ctx => {
 export const successfulAuthRedirectController: Middleware = async ctx => {
   ctx.redirect(`${config.CLIENT_URL}/`)
 }
+
+export const logoutController: Middleware = (ctx: any) => {
+  ctx.logout()
+  ctx.status = 200
+}
+
+/*
+ * Reset controllers
+ */
 
 export const sendResetEmailController: Middleware = async ctx =>  {
   const querySchema = Joi.object().keys({

@@ -6,7 +6,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 import config from '../config'
 import { User } from '../models'
 import * as Joi from '@hapi/joi'
-import { PRIVATE_USER_PROPS } from '../controllers'
+import {cacheToImageFolder, PRIVATE_USER_PROPS} from '../controllers'
 
 export class ClientError extends Error {
   constructor(code, message) {
@@ -72,17 +72,24 @@ passport.use(
 
     try {
       const userInput = await userSchema.validateAsync(req.body)
+      const profileImage = req.files['profileImage']
 
-      const user = new User(userInput)
+      if (!profileImage)
+        done(new ClientError(409, 'A profile image is required'))
+
+      // Setup new user
+      const profileImageName = await cacheToImageFolder(profileImage)
+      const user = new User({...userInput, profileImageName})
       await user.savePassword(userInput.password)
       await user.save()
+
       done(null, _.pick(user, PRIVATE_USER_PROPS))
     } catch (err) {
       if (err.code == 11000 && err.keyPattern) {
         if (err.keyPattern.hasOwnProperty('username')) {
-          done(new ClientError(409, 'This username is already in use'))
+          return done(new ClientError(409, 'This username is already in use'))
         } else if (err.keyPattern.hasOwnProperty('email')) {
-          done(new ClientError(409, 'This email is already in use'))
+          return done(new ClientError(409, 'This email is already in use'))
         }
       }
       done(err)

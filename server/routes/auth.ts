@@ -5,9 +5,9 @@ import {
   sendResetEmailController,
   successfulAuthController,
   resetPasswordController,
-  successfulAuthRedirectController
+  successfulAuthRedirectController, logoutController
 } from '../controllers'
-import { cacheFileMiddleware, saveProfileImageMiddleware } from '../middlewares/file-uploads'
+import { cacheFileMiddleware } from '../middlewares/file-uploads'
 
 const authRouter = new Router()
 
@@ -17,16 +17,12 @@ authRouter
     '/signup',
     cacheFileMiddleware,
     passport.authenticate('signup'),
-    saveProfileImageMiddleware,
     successfulAuthController,
   )
   .post('/signin', passport.authenticate('signin'), successfulAuthController)
   .post('/send-reset-email', sendResetEmailController)
   .post('/reset-password', resetPasswordController)
-  .get('/logout', (ctx: any) => {
-    ctx.logout()
-    ctx.status = 200
-  })
+  .get('/logout', logoutController)
 
   // Third parties
   .get(
