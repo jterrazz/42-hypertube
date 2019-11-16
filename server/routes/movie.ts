@@ -1,6 +1,6 @@
 import * as Router from 'koa-router'
 
-import { isUser } from '../middlewares/auth'
+import { isUser, userInfosCompleted } from '../middlewares/auth'
 import {
   searchMoviesController,
   getMovieController,
@@ -16,6 +16,7 @@ const movieRouter = new Router()
 
 movieRouter
   .use(isUser)
+  .use(userInfosCompleted)
   .get('/search', searchMoviesController)
   .get('/hot', hotMoviesController)
   .get('/:imdbId', getMovieController)
