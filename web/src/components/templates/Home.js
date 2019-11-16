@@ -1,0 +1,53 @@
+import React from "react";
+import NavBar from "../organisms/NavBar";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import { TypographyTitle } from "../atoms/TypographyTitle";
+import { TypographyTextSecondary } from "../atoms/TypographyTextSecondary";
+import { CardFanartFilm } from "../molecules/CardFanartFilm";
+import { GroupFilmHot } from "../molecules/GroupFilmHot";
+import CircularProgress from "../atoms/CircularProgress";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+  }
+}));
+
+export const Home = (props) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <NavBar />
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {props.movie && props.movie.popcorn && props.movie.yts ?
+          <Container fixed>
+            <TypographyTitle text="Featured"/>
+            <TypographyTextSecondary text="Discover our best picks"/>
+
+            <Grid container spacing={5} style={{marginTop: 15}}>
+              {props.movie.popcorn.slice(0, 1).map((item, index) => (
+                <CardFanartFilm key={index} {...item}/>
+              ))}
+              {props.movie.yts.slice(0, 1).map((item, index) => (
+                <CardFanartFilm key={index} {...item}/>
+              ))}
+            </Grid>
+
+            <GroupFilmHot {...props} text="Yts" source="yts"/>
+            <GroupFilmHot {...props} text="Popcorn" source="popcorn"/>
+
+          </Container>
+          :
+          <CircularProgress/>
+        }
+      </main>
+    </div>
+  )
+};
