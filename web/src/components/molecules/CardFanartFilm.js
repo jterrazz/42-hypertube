@@ -20,21 +20,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const CardFanartFilm = (item) => {
+export const CardFanartFilm = (props, film) => {
   const classes = useStyles();
   return (
     <Grid item xs={12} md={6}>
       <Card elevation={0}>
-        <Link href={`/movie/${item.imdb_id}`}>
-          <CardMedia title={item.title} image={item.fanart_image} className={classes.BigImg} />
+        <Link href={`/movie/${props.film.imdb_id}`}>
+          <CardMedia title={props.film.title} image={props.film.fanart_image} className={classes.BigImg} />
         </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {item.title}
+            {props.film.title}
           </Typography>
           <Box mb={1}>
             <Typography variant="body2" color="textSecondary">
-              {item.release_date}
+              {props.film.release_date}
             </Typography>
           </Box>
           <Rating
@@ -45,7 +45,7 @@ export const CardFanartFilm = (item) => {
             emptyIcon={<StarBorderIcon />}
           />
           <Typography variant="caption" color="textSecondary" className={classes.subtitle}>
-            {`${item.rating} (${item.runtime} min)`}
+            {`${props.film.rating} (${props.film.runtime} min)`}
           </Typography>
         </CardContent>
       </Card>

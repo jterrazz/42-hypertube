@@ -17,12 +17,26 @@ class Index extends Component {
 
     const responseData = response.data.rankedMovies;
 
-    this.setState({ movie: responseData })
-  }
+    const FirstHotYts = await axios.get(`${ApiURL.movies}/${responseData.yts[0].imdb_id}`);
+    const FirstHotPopcorn = await axios.get(`${ApiURL.movies}/${responseData.popcorn[0].imdb_id}`);
+
+    const FirstHotPopcornData = FirstHotPopcorn.data.movie;
+    const FirstHotYtsData = FirstHotYts.data.movie;
+
+    this.setState(
+      { movie: responseData,
+        FirstHotYtsData: FirstHotYtsData,
+        FirstHotPopcornData: FirstHotPopcornData,
+      })
+    }
 
   render () {
     return (
-      <Home movie={this.state.movie}/>
+      <Home
+        movie={this.state.movie}
+        firstHotPopcorn={this.state.FirstHotPopcornData}
+        firstHotYts={this.state.FirstHotYtsData}
+      />
     )
   }
 }

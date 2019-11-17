@@ -32,12 +32,8 @@ export const Home = (props) => {
             <TypographyTextSecondary text="Discover our best picks"/>
 
             <Grid container spacing={5} style={{marginTop: 15}}>
-              {props.movie.popcorn.slice(0, 1).map((item, index) => (
-                <CardFanartFilm key={index} {...item}/>
-              ))}
-              {props.movie.yts.slice(0, 1).map((item, index) => (
-                <CardFanartFilm key={index} {...item}/>
-              ))}
+              {props.firstHotPopcorn ? <CardFanartFilm film={props.firstHotPopcorn}/> : "" }
+              {props.firstHotYts ? <CardFanartFilm film={props.firstHotYts}/> : "" }
             </Grid>
 
             <GroupFilmHot {...props} text="Yts" source="yts"/>
