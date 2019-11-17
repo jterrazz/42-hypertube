@@ -12,7 +12,7 @@ export const GroupRadioSource = (props) => {
   };
 
   return (
-    <Grid item md={6}>
+    <Grid item md={4}>
       <FormControl component="fieldset">
         <RadioGroup defaultValue="popcorn" aria-label="gender" name="customized-radios" row onChange={e => {props.HandleChangeSource(e); handleChangeReset()}}>
           <LabelRadio value="popcorn" label="Popcorn"/>

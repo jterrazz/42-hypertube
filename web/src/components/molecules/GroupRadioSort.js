@@ -12,7 +12,7 @@ export const GroupRadioSort = (props) => {
   };
 
   return (
-    <Grid item md={6}>
+    <Grid item md={4}>
       <FormControl component="fieldset">
         <RadioGroup value={value} aria-label="gender" className="RadioGroup" row onChange={e => {props.HandleChangeSort(e); handleChange(e)}}>
           <LabelRadio value="title" label="Title"/>

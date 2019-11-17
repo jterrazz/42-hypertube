@@ -7,9 +7,10 @@ import CircularProgress from "../atoms/CircularProgress";
 import { InputSearch } from "../atoms/InputSearch";
 import { GroupRadioSource } from "../molecules/GroupRadioSource";
 import { GroupRadioSort } from "../molecules/GroupRadioSort";
+import { GroupRadioReverse } from "../molecules/GroupRadioReverse";
 import { CardPosterFilm } from "../molecules/CardPosterFilm";
 import { NotResult } from "../molecules/NotResult";
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,6 +52,7 @@ export const Search = (props) => {
               <Grid container spacing={4}>
                 <GroupRadioSource {...props}/>
                 <GroupRadioSort {...props}/>
+                <GroupRadioReverse {...props}/>
               </Grid>
               : ''}
             {props.movie.length > 0 ?
