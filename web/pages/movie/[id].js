@@ -215,8 +215,6 @@ class Movie extends Component {
     const res = responseDescription.data;
     const resTorrent = responseTorrent.data;
 
-    console.log(res.movie);
-
     this.setState({ movie: res.movie , movieTorrent: resTorrent})
   }
 

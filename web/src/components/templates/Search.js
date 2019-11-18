@@ -11,6 +11,7 @@ import { GroupRadioReverse } from "../molecules/GroupRadioReverse";
 import { CardPosterFilm } from "../molecules/CardPosterFilm";
 import { NotResult } from "../molecules/NotResult";
 import { makeStyles } from "@material-ui/core";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,26 +20,18 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-  },
-  searchInput: {
-    fontSize: 32
-  },
-  img: {
-    borderRadius: 5,
-    height: 250,
-  },
-  card: {
-    maxWidth: 300,
-  },
-  subtitle: {
-    margin: theme.spacing(0.5),
-  },
-  RadioGroup: {
-    flexDirection: "row",
   }
 }));
 
-export const Search = (props) => {
+const style = {
+  height: 30,
+  border: "1px solid green",
+  margin: 6,
+  padding: 8,
+  display: 'flex',
+};
+
+const Search = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -55,6 +48,7 @@ export const Search = (props) => {
                 <GroupRadioReverse {...props}/>
               </Grid>
               : ''}
+
             {props.movie.length > 0 ?
               <>
                 {props.movie ? props.movie.map((item, index) => (
@@ -65,9 +59,28 @@ export const Search = (props) => {
               </>
               : props.titleMovie && props.movie.length === 0 ? <NotResult title={props.titleMovie}/> : <CircularProgress />
             }
+
+            {/*<InfiniteScroll*/}
+              {/*dataLength={props.movies.length}*/}
+              {/*next={props.fetchMoreData}*/}
+              {/*hasMore={props.hasMore}*/}
+              {/*loader={<h4>Loading...</h4>}*/}
+              {/*endMessage={*/}
+                {/*<p style={{ textAlign: "center" }}>*/}
+                  {/*<b>Yay! You have seen it all</b>*/}
+                {/*</p>*/}
+              {/*}*/}
+            {/*>*/}
+              {/*{props.movies.map((item, index) => (*/}
+                {/*<CardPosterFilm {...item} height={250} key={index}/>*/}
+              {/*))}*/}
+            {/*</InfiniteScroll>*/}
+
           </Grid>
         </Container>
       </main>
     </div>
   )
 };
+
+export default Search;

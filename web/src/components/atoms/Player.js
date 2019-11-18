@@ -23,10 +23,7 @@ const Player = (props, {hash_movie = null, thumbnail = null, subtitles = null}) 
       <ReactPlayer
         url={`${ApiURL.movies_stream}${props.hash_movie}/stream`}
         config={{ file:{
-            attributes: {
-            },
-            tracks: props.subtitles }}
-          }
+            tracks: props.subtitles }}}
         className={classes.reactPlayer}
         playing={false}
         width="100%"

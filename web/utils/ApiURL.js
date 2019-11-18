@@ -3,6 +3,7 @@ const ApiURL = {
   signin: 'http://localhost:3000/auth/signin',
   signup: 'http://localhost:3000/auth/signup',
   forgot: 'http://localhost:3000/auth/send-reset-email',
+  logout: 'http://localhost:3000/auth/logout',
   reset_password: 'http://localhost:3000/auth/reset-password',
   movie_hot: 'http://localhost:3000/movies/hot',
   movies: 'http://localhost:3000/movies',

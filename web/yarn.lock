@@ -4941,6 +4941,13 @@ react-i18next@^11.0.1:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"
 
+react-infinite-scroll-component@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-5.0.3.tgz#081881958421a60a2f8320d695cba0c85bb6c693"
+  integrity sha512-lbvQ/Z2lgLZMgvM/ifz13BNb5JaTF3a9gTR4zK7ky1o6ZKlpdLR5fiyXz+bQCMyLVKqShS3ovB6GiU9TBRx/wA==
+  dependencies:
+    throttle-debounce "^2.1.0"
+
 react-is@16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
@@ -4956,10 +4963,10 @@ react-lazyload@^2.6.2:
   resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-2.6.2.tgz#6a1660de6e8653632797539189d19d64e924482c"
   integrity sha512-zbFiwI3H7W0/Qvb6T/ew2NiGe2wj+soYNW7vv5Dte1eZuJDvvyUOHo8GpYfEeWoP5x4Rree2Hwop+lCISalBwg==
 
-react-player@^1.13.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/react-player/-/react-player-1.13.0.tgz#074c19195aadd413eb1243e953f6562c7e04b911"
-  integrity sha512-3Ti5ncYCPZ/Xqtm2KH+FadQtTZXwOguKypjYxYvu2EmYRECCoXutbC/He2Z7uBrb/7tzNEvqoHfZLj/1RPNTKg==
+react-player@lastest:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/react-player/-/react-player-1.14.1.tgz#7fb57239daa7a539bbc1954cd14a537f0bd1244c"
+  integrity sha512-8tZ6P2YMRviEAtsD0E5kF03IXAyc7SlRwu6BUuu0NAkPjIqwEdXcRRh3JWp/m5mOsSsMH3KiGsKSieFraSMgtw==
   dependencies:
     deepmerge "^4.0.0"
     load-script "^1.0.0"
@@ -5653,6 +5660,11 @@ terser@^4.1.2:
     commander "^2.20.0"
     source-map "~0.6.1"
     source-map-support "~0.5.12"
+
+throttle-debounce@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-2.1.0.tgz#257e648f0a56bd9e54fe0f132c4ab8611df4e1d5"
+  integrity sha512-AOvyNahXQuU7NN+VVvOOX+uW6FPaWdAOdRP5HfwYxAfCzXTFKRMoIMk+n+po318+ktcChx+F1Dd91G3YHeMKyg==
 
 through2@^2.0.0:
   version "2.0.5"

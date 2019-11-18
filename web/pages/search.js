@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from "axios";
 import ApiURL from "../utils/ApiURL";
 import { withAuthSync } from '../utils/auth';
-import { Search } from "../src/components/templates/Search";
+import Search from "../src/components/templates/Search";
 
 
 axios.defaults.withCredentials = true;
@@ -10,9 +10,14 @@ axios.defaults.withCredentials = true;
 class SearchPage extends Component {
   state = {
     movie: [],
+    hasMore: true,
     titleMovie: '',
-    sort: '',
-    source: ''
+    sort: 'title',
+    source: 'popcorn',
+    reverse: false,
+    page: 1,
+    movies: [],
+    search: true,
   };
 
   static async getInitialProps({ query }) {
@@ -38,15 +43,30 @@ class SearchPage extends Component {
   };
 
   HandleChangeReverse = (ev) => {
-    this.getSimilarTitleMovie({sort: this.state.sort, source: this.state.source, reverse: ev.target.checked});
+    this.getSimilarTitleMovie({reverse: ev.target.checked});
   };
 
-  async getSimilarTitleMovie({movieTitle = this.state.titleMovie, source = 'popcorn', sort = 'title', reverse = false}={}) {
+  fetchMoreData = () => {
+    this.state.page += 1;
+    this.getSimilarTitleMovie({page: this.state.page});
+
+    if (this.state.movie.length === 0 || this.state.search) {
+      this.setState({ hasMore: false });
+      return;
+    }
+
+    this.setState({
+      movies: this.state.movies.concat(this.state.movie)
+    });
+  };
+
+  async getSimilarTitleMovie({movieTitle = this.state.titleMovie, source = this.state.source, sort = this.state.sort, reverse = this.state.reverse, page = this.state.page}={}) {
     let responseData = [];
 
     if (movieTitle) {
-      const response = await axios.get(`${ApiURL.movies_search}query=${encodeURIComponent(movieTitle)}&source=${source}&sort=${sort}&reverse=${reverse}`);
+      const response = await axios.get(`${ApiURL.movies_search}query=${encodeURIComponent(movieTitle)}&source=${source}&sort=${sort}&reverse=${reverse}&page=${page}`);
       responseData = response.data.movies;
+      this.state.search = false;
     }
     else {
       const response = await axios.get(ApiURL.movie_hot);
@@ -55,12 +75,15 @@ class SearchPage extends Component {
 
     this.state.sort = sort;
     this.state.source = source;
+    this.state.reverse = reverse;
+    this.state.page = page;
+    this.state.movies = this.state.movies.concat(responseData);
 
     this.setState({ movie: responseData, titleMovie: movieTitle})
   }
 
   async componentDidMount() {
-    this.getSimilarTitleMovie({movieTitle: this.props.title});
+    this.getSimilarTitleMovie();
   }
 
   render () {
@@ -68,10 +91,13 @@ class SearchPage extends Component {
       <Search
         keyPressEnterSearch={this.keyPressEnterSearch}
         movie={this.state.movie}
+        movies={this.state.movies}
         HandleChangeSource={this.HandleChangeSource}
         HandleChangeSort={this.HandleChangeSort}
         HandleChangeReverse={this.HandleChangeReverse}
         titleMovie={this.state.titleMovie}
+        fetchMoreData={this.fetchMoreData}
+        hasMore={this.state.hasMore}
       />
     )
   }

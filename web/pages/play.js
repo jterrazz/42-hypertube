@@ -51,6 +51,7 @@ class Player extends React.Component {
     const responseData = await response.data.movie;
     const responseCommentData = await responseComment.data.comments.reverse();
     const responsesSubtitleData = await responsesSubtitle.data.subtitles;
+    console.log(responsesSubtitleData);
 
     this.setState({ movie: responseData, comments: responseCommentData, subtitles: responsesSubtitleData});
   }
