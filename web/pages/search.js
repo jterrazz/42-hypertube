@@ -9,7 +9,6 @@ axios.defaults.withCredentials = true;
 
 class SearchPage extends Component {
   state = {
-    movie: [],
     movies: [],
     hasMore: true,
     titleMovie: '',
@@ -25,31 +24,32 @@ class SearchPage extends Component {
     }
   }
 
+  Reset_Param = () => {
+    this.state.movies = [];
+    this.state.page = 1;
+  };
+
   keyPressEnterSearch = (ev) => {
     if (ev.key === 'Enter') {
       this.state.titleMovie = ev.target.value;
-      this.state.movies = [];
-      this.state.page = 1;
+      this.Reset_Param();
       this.getSimilarTitleMovie({movieTitle: ev.target.value});
       ev.preventDefault();
     }
   };
 
   HandleChangeSource = (ev) => {
-    this.state.movies = [];
-    this.state.page = 1;
+    this.Reset_Param();
     this.getSimilarTitleMovie({source: ev.target.value});
   };
 
   HandleChangeSort = (ev) => {
-    this.state.movies = [];
-    this.state.page = 1;
+    this.Reset_Param();
     this.getSimilarTitleMovie({sort: ev.target.value});
   };
 
   HandleChangeReverse = (ev) => {
-    this.state.movies = [];
-    this.state.page = 1;
+    this.Reset_Param();
     this.getSimilarTitleMovie({reverse: ev.target.checked});
   };
 
@@ -75,20 +75,20 @@ class SearchPage extends Component {
       const response = await axios.get(ApiURL.movie_hot);
       const responseData = [...response.data.rankedMovies.popcorn, ...response.data.rankedMovies.yts];
       this.setState({
-        movie: responseData,
+        movies: [...this.state.movies, ...responseData],
+        hasMore: false,
       })
     }
   }
 
   async componentDidMount() {
-    this.getSimilarTitleMovie();
+    this.getSimilarTitleMovie({movieTitle: this.props.title});
   }
 
   render () {
     return (
       <Search
         keyPressEnterSearch={this.keyPressEnterSearch}
-        movie={this.state.movie}
         HandleChangeSource={this.HandleChangeSource}
         HandleChangeSort={this.HandleChangeSort}
         HandleChangeReverse={this.HandleChangeReverse}
