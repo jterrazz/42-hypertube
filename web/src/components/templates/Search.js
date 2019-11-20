@@ -11,6 +11,8 @@ import { GroupRadioReverse } from "../molecules/GroupRadioReverse";
 import { CardPosterFilm } from "../molecules/CardPosterFilm";
 import { NotResult } from "../molecules/NotResult";
 import { makeStyles } from "@material-ui/core";
+// import InfiniteScroll from "react-infinite-scroll-component";
+import App from "../../infiniteScroll";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const useStyles = makeStyles(theme => ({
@@ -42,40 +44,35 @@ const Search = (props) => {
           <InputSearch {...props}/>
           <Grid container spacing={4} style={{ marginTop: 15 }}>
             {props.titleMovie ?
-              <Grid container spacing={4}>
-                <GroupRadioSource {...props}/>
-                <GroupRadioSort {...props}/>
-                <GroupRadioReverse {...props}/>
-              </Grid>
-              : ''}
-
-            {props.movie.length > 0 ?
               <>
-                {props.movie ? props.movie.map((item, index) => (
-                  <LazyLoad key={index} height={250}>
-                    <CardPosterFilm {...item} />
-                  </LazyLoad>
-                )) : ''}
+                <Grid container spacing={4}>
+                  <GroupRadioSource {...props}/>
+                  <GroupRadioSort {...props}/>
+                  <GroupRadioReverse {...props}/>
+                </Grid>
+                <InfiniteScroll
+                  dataLength={props.movies.length} //This is important field to render the next data
+                  next={props.fetchMoreData}
+                  hasMore={props.hasMore}
+                  loader={<CircularProgress />}
+                >
+                  <Grid container spacing={4}>
+                    {props.movies.map((item, index) => (
+                      <CardPosterFilm {...item} key={index}/>
+                    ))}
+                  </Grid>
+                </InfiniteScroll>
               </>
-              : props.titleMovie && props.movie.length === 0 ? <NotResult title={props.titleMovie}/> : <CircularProgress />
+              :
+              <>
+                {props.movie ?
+                  <>
+                    {props.movie.map((item, index) => <CardPosterFilm {...item} key={index}/>)}
+                  </>
+                  : ''
+                }
+              </>
             }
-
-            {/*<InfiniteScroll*/}
-              {/*dataLength={props.movies.length}*/}
-              {/*next={props.fetchMoreData}*/}
-              {/*hasMore={props.hasMore}*/}
-              {/*loader={<h4>Loading...</h4>}*/}
-              {/*endMessage={*/}
-                {/*<p style={{ textAlign: "center" }}>*/}
-                  {/*<b>Yay! You have seen it all</b>*/}
-                {/*</p>*/}
-              {/*}*/}
-            {/*>*/}
-              {/*{props.movies.map((item, index) => (*/}
-                {/*<CardPosterFilm {...item} height={250} key={index}/>*/}
-              {/*))}*/}
-            {/*</InfiniteScroll>*/}
-
           </Grid>
         </Container>
       </main>
