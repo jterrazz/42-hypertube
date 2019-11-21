@@ -17,6 +17,7 @@ import { InputEmail } from "../atoms/InputEmail";
 import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import {DividerSplit} from "../atoms/DividerSplit";
+import Copyright from "../atoms/Copyright";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,6 +62,7 @@ export const Form = (props, {error = null}) => {
             <ButtomSigUpPage />
           </form>
         </div>
+        <Copyright />
       </Grid>
     </Grid>
   )

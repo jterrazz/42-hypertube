@@ -4,7 +4,7 @@ import React from "react";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" color="textSecondary" align="center" style={{ margin: 15 }}>
       {'Copyright © '}
       <MuiLink color="inherit" href="https://intra.42.fr/">
         HyperTube

@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
-import Router from 'next/router'
-import nextCookie from 'next-cookies'
+import { useEffect } from 'react';
+import Router from 'next/router';
+import nextCookie from 'next-cookies';
 import cookie from 'js-cookie'
 import axios from "axios";
 import ApiURL from "./ApiURL";

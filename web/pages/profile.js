@@ -16,6 +16,7 @@ import i18next from "i18next";
 import dynamic from "next/dynamic";
 import { CardProfile } from "../src/components/molecules/CardProfile";
 import { TypographyTitle } from "../src/components/atoms/TypographyTitle";
+import Copyright from "../src/components/atoms/Copyright";
 
 const styles = theme => ({
   root: {
@@ -198,6 +199,7 @@ class Profile extends Component {
             </Grid>
 
           </Container>
+          <Copyright />
         </main>
       </div>
     )

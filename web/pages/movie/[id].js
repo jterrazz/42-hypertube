@@ -22,6 +22,7 @@ import { withAuthSync } from '../../utils/auth'
 import CircularProgress from "@material-ui/core/CircularProgress";
 import URL_Images from "../../utils/BasicImage";
 import {useTranslation} from "react-i18next";
+import Copyright from "../../src/components/atoms/Copyright";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -176,6 +177,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null, movieId = nul
               </Grid>
             </Grid>
           </Container>
+          <Copyright />
         </main>
         :
           <main className={classes.content}>
@@ -188,6 +190,7 @@ const MovieComponent = (props, {movie = null, movieTorrent = null, movieId = nul
                 <CircularProgress/>
               </Grid>
             </Grid>
+            <Copyright />
           </main>
       }
     </div>

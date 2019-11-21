@@ -6,6 +6,7 @@ import ApiURL from '../utils/ApiURL'
 import { login } from '../utils/auth'
 import { Form } from "../src/components/templates/FormLogin";
 import i18next from "i18next";
+import nextCookie from 'next-cookies';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -21,6 +22,12 @@ class Login extends Component {
 
   state = {
     ErrorAuth: '',
+  };
+
+  static async getInitialProps(ctx) {
+    console.log(nextCookie(ctx)['koa:sess']);
+    console.log(nextCookie(ctx)['koa:sess.sig']);
+    return {}
   };
 
   onChange = () => {

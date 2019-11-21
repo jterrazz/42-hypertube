@@ -9,6 +9,7 @@ import { InputUserName } from "../atoms/InputUserName"
 import { InputPassword } from "../atoms/InputPassword"
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
+import Copyright from "../atoms/Copyright";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,6 +51,7 @@ export const Form = (props, error = null, onChange) => {
             <ButtomSigInPage />
           </form>
         </div>
+        <Copyright />
       </Grid>
     </Grid>
   );

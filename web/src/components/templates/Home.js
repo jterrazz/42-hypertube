@@ -8,6 +8,7 @@ import { CardFanartFilm } from "../molecules/CardFanartFilm";
 import { GroupFilmHot } from "../molecules/GroupFilmHot";
 import { makeStyles } from "@material-ui/core";
 import CircularProgress from "../atoms/CircularProgress";
+import Copyright from "../atoms/Copyright";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,6 +44,7 @@ export const Home = (props) => {
           :
           <CircularProgress/>
         }
+        <Copyright />
       </main>
     </div>
   )
