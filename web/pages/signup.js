@@ -58,7 +58,7 @@ class SignUp extends Component {
     axios.post(ApiURL.signup, userData)
       .then(response => {
         if (response.data.message === 'Authentication successful') {
-          window.location = '/home'
+          window.location = '/'
         }
       })
       .catch(error => {
