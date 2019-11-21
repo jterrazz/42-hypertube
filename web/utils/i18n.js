@@ -1,7 +1,10 @@
 import i18n from "i18next";
+import { initReactI18next } from 'react-i18next';
 import LanguageDetector from "i18next-browser-languagedetector";
 
-i18n.use(LanguageDetector).init({
+i18n.use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
   // we init with resources
   resources: {
     "en-US": {
@@ -85,6 +88,7 @@ i18n.use(LanguageDetector).init({
   },
   // lng: "fr-FR",
   fallbackLng: ["fr-FR", "en-US"],
+  // debug: true,
 
   // // have a common namespace used around the full app
   ns: ["translations"],

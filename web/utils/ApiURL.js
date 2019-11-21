@@ -9,6 +9,7 @@ const ApiURL = {
   movies: 'http://localhost:3000/movies',
   movies_search: 'http://localhost:3000/movies/search?',
   movies_stream: 'http://localhost:3000/torrents/',
+  users: 'http://localhost:3000/users/',
 };
 
 export default ApiURL;

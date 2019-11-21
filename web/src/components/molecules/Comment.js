@@ -7,6 +7,7 @@ import Moment from "moment";
 import React from "react";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/core";
+import {DialogUser} from "../organisms/DialogUser";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -17,6 +18,17 @@ const useStyles = makeStyles(theme => ({
 export const Comment = (props) => {
   const [t] = useTranslation();
   const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Grid item xs={12} md={4}>
       <Paper className={classes.paper} elevation={0}>
@@ -49,14 +61,17 @@ export const Comment = (props) => {
       {props.comment ? props.comment.map((item, index) => (
         <Paper className={classes.paper} elevation={0} key={index}>
           <Typography variant="body2" color="textSecondary">
-            @{item.user.username} - {Moment(item.date).format('YYYY-MM-DD')}.
+            <Button color="primary" value={item.user.username} onClick={ev => {handleClickOpen(); props.getUser(ev)}}>
+              @{item.user.username}
+            </Button>
+             - {Moment(item.date).format('YYYY-MM-DD')}.
           </Typography>
           <Typography variant="body2">
             {item.text}
           </Typography>
         </Paper>
       )) : ''}
-
+      <DialogUser userInfo={props.userInfo} open={open} onClose={handleClose} />
     </Grid>
   )
 };

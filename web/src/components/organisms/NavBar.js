@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Avatar from "@material-ui/core/Avatar/Avatar";
+import Avatar from "@material-ui/core/Avatar";
 import ListItem from '@material-ui/core/ListItem'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
@@ -71,7 +71,7 @@ function NavBar(props, {me = null}) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [t, i18n] = useTranslation();
+  const [t] = useTranslation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
