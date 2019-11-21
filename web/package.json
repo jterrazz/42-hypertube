@@ -28,6 +28,7 @@
     "react-i18next": "^11.0.1",
     "react-infinite-scroll-component": "^5.0.3",
     "react-lazyload": "^2.6.2",
+    "react-noscript": "^1.0.2",
     "react-player": "lastest",
     "react-recaptcha": "^2.3.10",
     "yup": "latest"

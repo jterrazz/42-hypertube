@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../src/theme'
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../utils/i18n';
+import {NonScript} from "../src/components/atoms/NoScript";
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -30,6 +31,7 @@ export default class MyApp extends App {
         <Head>
           <title>HyperTube</title>
           <link rel="icon" href="../static/favicons.png" />
+          <NonScript />
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
