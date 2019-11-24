@@ -1,3 +1,6 @@
+import { Middleware } from 'koa'
+import config from '../config'
+
 /*
  * A controller handles the final logic for a route.
  * The method usually access the ctx.body or the ctx.request object, carrying the data coming from the client.
@@ -9,3 +12,10 @@ export * from './user'
 export * from './movie'
 export * from './auth'
 export * from './torrent'
+
+export const statusController: Middleware = ctx => {
+  ctx.body = {
+    status: 'live',
+    version: config.API_VERSION,
+  }
+}
