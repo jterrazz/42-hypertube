@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import axios from "axios"
 import {Form} from "../components/templates/FormForgot";
-import ApiURL from "../services/ApiURL";
+import matchaAPI from '../services/matcha-api'
+import Router from 'next/router'
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string()
@@ -11,8 +11,6 @@ const validationSchema = Yup.object().shape({
     .strict()
     .trim('Spaces not allowed in UserName'),
 });
-
-axios.defaults.withCredentials = true;
 
 class Forgot extends Component {
   state = {
@@ -24,19 +22,15 @@ class Forgot extends Component {
   };
 
   handleSubmit = (data) => {
-    axios.post(`${ApiURL.forgot}?username=${data.userName}`)
-      .then(
-        response => {
-          if (response.data === 'OK') {
-            window.location = "/"
-          }
-        })
+    matchaAPI.postForgotPassword(username)
+      .then(() => {
+        Router.push('/')
+      })
       .catch(error => {
-        return error.response && error.response.status === 404
+        error.response && error.response.status === 404
           ? this.setState({ ErrorUserName: "Username not found"})
           : this.setState({ ErrorUserName: "Unknown error. Please try again"});
       });
-    event.preventDefault();
   };
 
   render() {

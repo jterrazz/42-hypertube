@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import ApiURL from '../services/ApiURL';
 import { withAuthSync } from '../utils/auth';
 import { withTranslation } from "react-i18next";
 import { Home } from "../components/templates/Home";
+import matchAPI from '../services/matcha-api'
 
-axios.defaults.withCredentials = true;
+// TODO cache some pages for some time
 
 class Index extends Component {
   state = {
@@ -13,20 +12,15 @@ class Index extends Component {
   };
 
   async componentDidMount() {
-    const response = await axios.get(ApiURL.movie_hot);
+    const { rankedMovies } = await matchAPI.getHotMovies()
+    this.setState({ movie: rankedMovies })
 
-    const responseData = response.data.rankedMovies;
-
-    const FirstHotYts = await axios.get(`${ApiURL.movies}/${responseData.yts[0].imdb_id}`);
-    const FirstHotPopcorn = await axios.get(`${ApiURL.movies}/${responseData.popcorn[0].imdb_id}`);
-
-    const FirstHotPopcornData = FirstHotPopcorn.data.movie;
-    const FirstHotYtsData = FirstHotYts.data.movie;
-
+    // TODO Check if response has data
+    const [featuredYTS, featuredPopcorn] = await Promise.all([matchAPI.getMovies(rankedMovies.yts[0].imdb_id), matchAPI.getMovies(rankedMovies.popcorn[0].imdb_id)])
     this.setState(
-      { movie: responseData,
-        FirstHotYtsData: FirstHotYtsData,
-        FirstHotPopcornData: FirstHotPopcornData,
+      {
+        featuredYTS,
+        featuredPopcorn,
       })
     }
 
@@ -34,8 +28,8 @@ class Index extends Component {
     return (
       <Home
         movie={this.state.movie}
-        firstHotPopcorn={this.state.FirstHotPopcornData}
-        firstHotYts={this.state.FirstHotYtsData}
+        firstHotPopcorn={this.state.featuredPopcorn}
+        firstHotYts={this.state.featuredYTS}
       />
     )
   }
