@@ -78,7 +78,8 @@ export const searchMoviesController: Middleware = async ctx => {
     source: Joi.string().valid('yts', 'popcorn'),
   })
 
-  const { query, page, sort, genre, reverse, source } = await querySchema.validateAsync(ctx.query)
+  let { query, page, sort, genre, reverse, source } = await querySchema.validateAsync(ctx.query)
+  reverse = reverse === 'true'
   let movies = null
 
   if (source == 'popcorn') {
