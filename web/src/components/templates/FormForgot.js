@@ -33,7 +33,6 @@ export const Form = (props, {error = null, onChange}) => {
 
   return (
     <Grid container component="main" className={classes.root}>
-      <ImageSplitPage />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <HeadLockPage text="Forgot Your Password"/>
@@ -46,6 +45,7 @@ export const Form = (props, {error = null, onChange}) => {
         </div>
         <Copyright />
       </Grid>
+      <ImageSplitPage />
     </Grid>
   )
 };
