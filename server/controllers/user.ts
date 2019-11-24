@@ -8,7 +8,7 @@ import { ClientError } from '../services/auth'
 import * as crypto from 'crypto'
 import config from '../config'
 
-export const PUBLIC_USER_PROPS = ['profileImageName', 'language', 'firstName', 'lastName', 'username']
+export const PUBLIC_USER_PROPS = ['profileImageName', 'profileImageUrl', 'language', 'firstName', 'lastName', 'username']
 export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', ...PUBLIC_USER_PROPS]
 const IMAGE_FOLDER = __dirname + '/../public/images/'
 
@@ -38,13 +38,21 @@ export const getMeController: Middleware = async ctx => {
   ctx.body = serializeUser(_.pick(ctx.state.user, PRIVATE_USER_PROPS))
 }
 
+export const getUsersController: Middleware = async ctx => {
+  const users = await User.find()
+
+  ctx.body = {
+    users: users.map(u => serializeUser(_.pick(u, PUBLIC_USER_PROPS))),
+  }
+}
+
 export const getUsernameController: Middleware = async ctx => {
   const usernameValidator = Joi.string().required()
   const username = await usernameValidator.validateAsync(ctx.params.username)
 
   const user = await User.findOne({ username })
   ctx.assert(user, 404, 'User not found')
-  ctx.body = _.pick(user, PUBLIC_USER_PROPS)
+  ctx.body = serializeUser(_.pick(user, PUBLIC_USER_PROPS))
 }
 
 export const updateMeController: Middleware = async ctx => {
