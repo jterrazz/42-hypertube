@@ -40,7 +40,7 @@ export const Form = (props, {error = null}) => {
   const classes = useStyles();
   return (
     <Grid container component="main" className={classes.root}>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={1} square>
         <div className={classes.paper}>
           <HeadLockPage text="Sign up"/>
           <form className={classes.form} onSubmit={handleSubmit}>

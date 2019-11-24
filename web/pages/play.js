@@ -49,6 +49,10 @@ class Player extends React.Component {
 
   };
 
+  onStart = () => {
+    axios.post(`${ApiURL.movies}/${this.state.movie.imdb_id}/play`);
+  };
+
   async getUser(ev) {
     const response = await axios.get(`${ApiURL.users}${ev.currentTarget.value}`);
     const responseData = await response.data;
@@ -79,6 +83,7 @@ class Player extends React.Component {
         subtitles={this.state.subtitles}
         getUser={this.getUser}
         userInfo={this.state.userInfo}
+        onStart={this.onStart}
       />
     )
   }

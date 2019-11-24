@@ -15,7 +15,7 @@ const useStyle = makeStyles(() => ({
   },
 }));
 
-const Player = (props, {hash_movie = null, thumbnail = null, subtitles = null}) => {
+const Player = (props, {hash_movie = null, thumbnail = null, subtitles = null, onStart = null}) => {
   const classes = useStyle();
   const url = `${ApiURL.movies_stream}${props.hash_movie}/stream`;
 
@@ -24,20 +24,21 @@ const Player = (props, {hash_movie = null, thumbnail = null, subtitles = null}) 
       <ReactPlayer
         url={url}
         config={{ file:{
-          hlsOptions: {
-            xhrSetup: function(xhr, url) {
-              xhr.withCredentials = true; // do send cookies
-            },
-          },
-          attributes: {
-            crossOrigin: 'true'
-          },
+          // hlsOptions: {
+          //   xhrSetup: function(xhr, url) {
+          //     xhr.withCredentials = true; // do send cookies
+          //   },
+          // },
+          // attributes: {
+          //   crossOrigin: 'true'
+          // },
           tracks: props.subtitles }}}
         className={classes.reactPlayer}
         playing={false}
         width="100%"
         height="100%"
         controls={true}
+        onStart={props.onStart}
         light={props.thumbnail}
       />
     </div>

@@ -10,6 +10,7 @@ export const PlayerFilm = (props) => {
         hash_movie={props.hashMovie}
         thumbnail={props.movie.fanart_image !== 'https://image.tmdb.org/t/p/originalnull' ? props.movie.fanart_image : URL_Images.fanart}
         subtitles={props.subtitles}
+        onStart={props.onStart}
       />
     </Grid>
   )

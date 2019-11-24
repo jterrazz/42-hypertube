@@ -7,7 +7,7 @@ import { PlayerFilm } from "../molecules/PlayerFilm";
 import { Casting } from "../molecules/Casting";
 import { Comment } from "../molecules/Comment";
 import CircularProgress from "../atoms/CircularProgress";
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,11 +16,10 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    // padding: theme.spacing(3),
   }
 }));
 
-export const Play = (props, {movie = null, hashMovie = null, comment = null, subtitles = null}) => {
+export const Play = (props, {movie = null, hashMovie = null, comment = null, subtitles = null, onStart}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -28,7 +27,6 @@ export const Play = (props, {movie = null, hashMovie = null, comment = null, sub
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Container fixed>
-
           {props.movie ?
             <>
               <PlayerFilm {...props}/>
