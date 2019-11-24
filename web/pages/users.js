@@ -18,7 +18,7 @@ class Users extends Component {
     const response = await axios.get(ApiURL.users);
 
     const responseData = await response.data.users;
-
+    
     this.setState({ users: responseData });
   }
 
