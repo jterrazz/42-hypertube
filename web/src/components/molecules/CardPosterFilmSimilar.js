@@ -18,6 +18,7 @@ const useStyles = makeStyles({
   },
   card: {
     maxWidth: 300,
+    position: 'relative',
   },
   visibility: {
     color: 'red',

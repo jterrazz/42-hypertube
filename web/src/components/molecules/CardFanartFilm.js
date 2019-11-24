@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box";
 import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { makeStyles } from "@material-ui/core";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const useStyles = makeStyles(theme => ({
   BigImg: {
@@ -17,6 +18,13 @@ const useStyles = makeStyles(theme => ({
   },
   subtitle: {
     margin: theme.spacing(0.5),
+  },
+  visibility: {
+    color: 'red',
+    position: 'absolute',
+    right: 0,
+    paddingTop: 5,
+    paddingRight: 5
   }
 }));
 
@@ -24,7 +32,8 @@ export const CardFanartFilm = (props, film) => {
   const classes = useStyles();
   return (
     <Grid item xs={12} md={6}>
-      <Card elevation={0}>
+      <Card elevation={0} style={{ position: 'relative' }}>
+        {props.film.played ? <VisibilityIcon className={classes.visibility}/> : ''}
         <Link href={`/movie/${props.film.imdb_id}`}>
           <CardMedia title={props.film.title} image={props.film.fanart_image} className={classes.BigImg} />
         </Link>

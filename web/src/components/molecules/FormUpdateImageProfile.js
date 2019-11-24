@@ -31,7 +31,7 @@ const FormUpdateImgae = (props, error) => {
 
   const classes = useStyles();
 
-  const [t, i18n] = useTranslation();
+  const [t] = useTranslation();
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
