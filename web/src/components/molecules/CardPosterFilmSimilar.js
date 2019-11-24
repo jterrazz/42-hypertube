@@ -9,6 +9,7 @@ import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Grid from "@material-ui/core/Grid";
 import {makeStyles, useTheme} from "@material-ui/core";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const useStyles = makeStyles({
   img: {
@@ -18,6 +19,13 @@ const useStyles = makeStyles({
   card: {
     maxWidth: 300,
   },
+  visibility: {
+    color: 'red',
+    position: 'absolute',
+    right: 0,
+    paddingTop: 5,
+    paddingRight: 5
+  }
 });
 
 export const CardPosterFilmSimilar = (item) => {
@@ -26,6 +34,7 @@ export const CardPosterFilmSimilar = (item) => {
   return (
     <Grid item xs={4} md={3}>
       <Card elevation={0} className={classes.card}>
+        {item.played ? <VisibilityIcon className={classes.visibility}/> : ''}
         <Link href={`/search?title=${encodeURIComponent(item.title)}`}>
           <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
         </Link>
