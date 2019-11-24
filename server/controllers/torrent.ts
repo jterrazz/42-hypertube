@@ -14,7 +14,7 @@ ffmpeg.setFfmpegPath(ffmpegPath)
  * The list of trackers is consistent whatever the torrent
  */
 
-const TRACKERS = [
+const DEFAULT_TRACKERS = [
   'glotorrents.pw:6969/announce',
   'tracker.opentrackr.org:1337/announce',
   'torrent.gresille.org:80/announce',
@@ -55,18 +55,29 @@ const getConvertedStream = (inputStream, fileExtension) => {
   return pass
 }
 
+const buildMagnet = async (hash: string, trackers: Array<string>) => {
+  const tr = DEFAULT_TRACKERS
+
+  if (Array.isArray(trackers)) {
+    tr.concat(trackers)
+  } else if (trackers) {
+    tr.push(trackers)
+  }
+
+  return 'magnet:?xt=urn:btih:' + hash + '&tr=udp://' + tr.join('&tr=udp://')
+}
+
 /*
  * A torrent magnet link is composed by two important fields:
  * - the hash of the files
  * - a list of trackers that gives us the peers/seeders ips.
  */
 
-export const getTorrentStreamController: Middleware = ctx => {
+export const getTorrentStreamController: Middleware = async ctx => {
   const hash = ctx.params.hash
-  ctx.assert(hash.length == 40, 404, 'Badly formatted hash')
-
-  const folderPath = __dirname + `/../public/torrents/${hash}`
-  const magnet = 'magnet:?xt=urn:btih:' + hash + '&tr=udp://' + TRACKERS.join('&tr=udp://')
+  ctx.assert(hash.length == 40, 422, 'Badly formatted hash')
+  const magnet = await buildMagnet(hash, ctx.query.tr)
+  const folderPath = __dirname + `/../public/torrents/${ctx.params.hash}`
   const engine = torrentStream(magnet, { path: folderPath })
 
   return new Promise((resolve, reject) => {
@@ -95,7 +106,7 @@ export const getTorrentStreamController: Middleware = ctx => {
 
               const filesize = stats.size
 
-              if (tries > 100) {
+              if (tries > 420) {
                 clearInterval(intervalId)
               } else if (filesize > files[0].length / 100) {
                 clearInterval(intervalId)
