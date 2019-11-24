@@ -6,7 +6,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 import config from '../config'
 import { User } from '../models'
 import * as Joi from '@hapi/joi'
-import {cacheToImageFolder, PRIVATE_USER_PROPS} from '../controllers'
+import { cacheToImageFolder, PRIVATE_USER_PROPS } from '../controllers'
 
 export class ClientError extends Error {
   constructor(code, message) {
@@ -49,6 +49,8 @@ passport.use(
     const userSchema = Joi.object()
       .keys({
         username: Joi.string()
+          .alphanum()
+          .min(3)
           .max(42)
           .required(),
         email: Joi.string()

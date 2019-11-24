@@ -5,7 +5,7 @@ import * as jwt from 'jsonwebtoken'
 
 import config from '../config'
 import { User } from '../models'
-import {PRIVATE_USER_PROPS, serializeUser} from './user'
+import { PRIVATE_USER_PROPS, serializeUser } from './user'
 import { sendResetPasswordEmail } from '../services/mail'
 import { ClientError } from '../services/auth'
 
@@ -33,7 +33,7 @@ export const logoutController: Middleware = (ctx: any) => {
  * Reset controllers
  */
 
-export const sendResetEmailController: Middleware = async ctx =>  {
+export const sendResetEmailController: Middleware = async ctx => {
   const querySchema = Joi.object().keys({
     username: Joi.string().required(),
   })
