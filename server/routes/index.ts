@@ -19,3 +19,4 @@ router
   .use(userRouter.routes(), userRouter.allowedMethods())
   .use('/status', statusController)
 
+export default router
