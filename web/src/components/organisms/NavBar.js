@@ -19,6 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
+import PeopleIcon from '@material-ui/icons/People';
 import { logout } from '../../../utils/auth';
 import axios from "axios";
 import ApiURL from "../../../utils/ApiURL";
@@ -126,6 +127,12 @@ function NavBar(props, {me = null}) {
             <PersonIcon />
           </ListItemIcon>
           <ListItemText primary={t("My profile")} />
+        </ListItem>
+        <ListItem button component="a" href="/users">
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary={t("Users")} />
         </ListItem>
       </List>
     </div>

@@ -44,6 +44,7 @@ i18n.use(LanguageDetector)
         "Dashboard": "Dashboard",
         "Change password": "Change password",
         "save image": "save image",
+        "Users": "Users",
       }
     },
     "fr-FR": {
@@ -83,6 +84,7 @@ i18n.use(LanguageDetector)
         "Dashboard": "Tableau de bord",
         "Change password": "Change le mot de passe",
         "save image": "enregistrer l'image",
+        "Users": "Utilisateurs",
       }
     }
   },
