@@ -2,15 +2,14 @@ import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 import * as _ from 'lodash'
 import * as OS from 'opensubtitles-api'
-import * as NodeCache from 'node-cache'
 
 import * as ytsApi from '../services/yts-api'
 import * as popcornAPI from '../services/popcorn-api'
 import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
-import {serializeUser} from "./user";
+import { serializeUser } from './user'
+import memoryCache from '../utils/cache'
 
-const movieCache = new NodeCache({ stdTTL: 60 * 60 })
 const OpenSubtitlesClient = new OS({ useragent: 'NodeJS', ssl: true })
 
 const GENRE_VALUES = [
@@ -31,6 +30,17 @@ const GENRE_VALUES = [
   'superhero',
 ]
 
+const PUBLIC_COMMENT_PROPERTIES = [
+  '_id',
+  'text',
+  'date',
+  'user.username',
+  'user.firstName',
+  'user.lastName',
+  'user.profileImageName',
+  'user.profileImageUrl',
+]
+
 export const SORT_VALUES_ENUM = {
   SORT_TITLE: 'title',
   SORT_ADDED: 'date_added',
@@ -46,23 +56,7 @@ const addPlayToMovie = user => movie => {
   return movie
 }
 
-const getCachedData = (cacheKey, setter) =>
-  new Promise((resolve, reject) => {
-    movieCache.get(cacheKey, async (err, results) => {
-      if (err) return reject(err)
 
-      if (results == undefined) {
-        setter()
-          .then(results => {
-            resolve(results)
-            movieCache.set(cacheKey, results)
-          })
-          .catch(reject)
-      } else {
-        resolve(results)
-      }
-    })
-  })
 
 /*
  * Controllers
@@ -98,9 +92,8 @@ export const hotMoviesController: Middleware = async ctx => {
   const genre = await Joi.string()
     .valid(...GENRE_VALUES)
     .validateAsync(ctx.query.genre)
-  const movieCacheKey = `hot-videos:${genre}`
 
-  const results = await getCachedData(movieCacheKey, async () => {
+  const results = await memoryCache.get(memoryCache.KEYS.HOT_MOVIES, genre, async () => {
     return Promise.all([ytsApi.getMostDownloadedMovies(genre), popcornAPI.getTrendingMovies(genre)])
   })
   ctx.body = {
@@ -112,8 +105,7 @@ export const hotMoviesController: Middleware = async ctx => {
 }
 
 export const getMovieController: Middleware = async ctx => {
-  const cacheKey = `movies:${ctx.params.imdbId}`
-  const movie = await getCachedData(cacheKey, async () => {
+  const movie = await memoryCache.get(memoryCache.KEYS.MOVIES, ctx.params.imdbId, async () => {
     return (
       (await tmdbAPI.getMovieDetails(ctx.params.imdbId, ctx.state.user.language)) ||
       (await popcornAPI.getMovieDetails(ctx.params.imdbId)) ||
@@ -135,17 +127,6 @@ export const getMovieTorrentsController: Middleware = async ctx => {
     yts: ytsTorrents,
   }
 }
-
-const PUBLIC_COMMENT_PROPERTIES = [
-  '_id',
-  'text',
-  'date',
-  'user.username',
-  'user.firstName',
-  'user.lastName',
-  'user.profileImageName',
-  'user.profileImageUrl',
-]
 
 export const getMovieSubtitlesController: Middleware = async ctx => {
   const imbdId = ctx.params.imdbId
@@ -226,6 +207,6 @@ export const addMoviePlayController: Middleware = async ctx => {
   }
 
   const me = await User.findOneAndUpdate({ _id: ctx.state.user._id }, { $push: { plays: play } })
-  ctx.assert(me, 500, 'Error adding the torrent play time') // TODO Use real http code
+  ctx.assert(me, 500, 'Error while adding the torrent play')
   ctx.status = 200
 }

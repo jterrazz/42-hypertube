@@ -8,7 +8,14 @@ import { ClientError } from '../services/auth'
 import * as crypto from 'crypto'
 import config from '../config'
 
-export const PUBLIC_USER_PROPS = ['profileImageName', 'profileImageUrl', 'language', 'firstName', 'lastName', 'username']
+export const PUBLIC_USER_PROPS = [
+  'profileImageName',
+  'profileImageUrl',
+  'language',
+  'firstName',
+  'lastName',
+  'username',
+]
 export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', ...PUBLIC_USER_PROPS]
 const IMAGE_FOLDER = __dirname + '/../public/images/'
 
@@ -83,7 +90,7 @@ export const updateMeController: Middleware = async ctx => {
     const oldImage = user.profileImageName
     user.profileImageName = await cacheToImageFolder(profileImage)
     if (oldImage) {
-      fs.unlink(IMAGE_FOLDER + oldImage, err => {})
+      fs.unlink(IMAGE_FOLDER + oldImage, _ => {})
     }
   }
   try {
