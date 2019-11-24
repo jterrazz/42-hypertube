@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { withAuthSync } from '../utils/auth';
 import { withTranslation } from "react-i18next";
-import { User } from "../src/components/templates/Users";
-import ApiURL from "../utils/ApiURL";
+import { User } from "../components/templates/Users";
+import ApiURL from "../services/ApiURL";
 
 
 

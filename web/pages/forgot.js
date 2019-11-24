@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import axios from "axios"
-import {Form} from "../src/components/templates/FormForgot";
-import ApiURL from "../utils/ApiURL";
+import {Form} from "../components/templates/FormForgot";
+import ApiURL from "../services/ApiURL";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string()
@@ -15,7 +15,6 @@ const validationSchema = Yup.object().shape({
 axios.defaults.withCredentials = true;
 
 class Forgot extends Component {
-
   state = {
     ErrorUserName: '',
   };

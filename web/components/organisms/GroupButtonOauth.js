@@ -4,7 +4,7 @@ import FacebookIcon from '@material-ui/icons/Facebook'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import PersonalVideoIcon from '@material-ui/icons/PersonalVideo'
-import { OauthURL } from "../../../utils/OauthURL";
+import { OauthURL } from "../../utils/OauthURL";
 import { BoxButtonOauth } from "../molecules/BoxButtonOauth";
 
 export const GroupButtonOauth = () => {

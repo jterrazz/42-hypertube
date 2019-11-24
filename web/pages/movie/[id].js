@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import { withRouter } from 'next/router'
 import axios from "axios";
-import ApiURL from "../../utils/ApiURL";
+import ApiURL from "../../services/ApiURL";
 import { withAuthSync } from '../../utils/auth'
-import { Movie } from "../../src/components/templates/Movie";
+import { Movie } from "../../components/templates/Movie";
 
 axios.defaults.withCredentials = true;
 
@@ -14,24 +14,22 @@ class MoviePage extends Component {
   };
 
   static async getInitialProps({req, query: { id }}) {
-    return {
-      movieId: id
-    }
-  }
-
-  async componentDidMount() {
-    const responseDescription = await axios.get(`${ApiURL.movies}/${this.props.movieId}`);
-    const responseTorrent = await axios.get(`${ApiURL.movies}/${this.props.movieId}/torrents`);
+    const responseDescription = await axios.get(`${ApiURL.movies}/${id}`);
+    const responseTorrent = await axios.get(`${ApiURL.movies}/${id}/torrents`);
 
     const res = responseDescription.data;
     const resTorrent = responseTorrent.data;
 
-    this.setState({ movie: res.movie , movieTorrent: resTorrent})
+    return {
+      movieId: id,
+      movie: res.movie,
+      movieTorrent: resTorrent
+    }
   }
 
   render () {
     return (
-      <Movie movie={this.state.movie} movieTorrent={this.state.movieTorrent}/>
+      <Movie movie={this.props.movie} movieTorrent={this.propsz.movieTorrent}/>
     )
   }
 }

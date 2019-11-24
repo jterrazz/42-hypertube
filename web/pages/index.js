@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import ApiURL from '../utils/ApiURL';
+import ApiURL from '../services/ApiURL';
 import { withAuthSync } from '../utils/auth';
 import { withTranslation } from "react-i18next";
-import { Home } from "../src/components/templates/Home";
+import { Home } from "../components/templates/Home";
 
 axios.defaults.withCredentials = true;
 

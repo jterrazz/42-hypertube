@@ -31,6 +31,7 @@
     "react-noscript": "^1.0.2",
     "react-player": "lastest",
     "react-recaptcha": "^2.3.10",
+    "redux": "^4.0.4",
     "yup": "latest"
   },
   "scripts": {

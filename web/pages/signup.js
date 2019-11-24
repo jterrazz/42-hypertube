@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import ApiURL from '../utils/ApiURL'
-import { Form } from "../src/components/templates/FormSignup";
+import ApiURL from '../services/ApiURL'
+import { Form } from "../components/templates/FormSignup";
 
 const FILE_SIZE = 1600 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];

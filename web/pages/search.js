@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import ApiURL from "../utils/ApiURL";
+import ApiURL from "../services/ApiURL";
 import { withAuthSync } from '../utils/auth';
-import Search from "../src/components/templates/Search";
+import Search from "../components/templates/Search";
 
 
 axios.defaults.withCredentials = true;

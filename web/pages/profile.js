@@ -4,19 +4,19 @@ import Container from '@material-ui/core/Container';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid'
 import axios from "axios";
-import NavBar from "../src/components/organisms/NavBar";
+import NavBar from "../components/organisms/NavBar";
 import { withAuthSync } from '../utils/auth'
 import {Formik} from "formik";
-import FormPassword from "../src/components/organisms/FormProfileChangePassword";
-import FormInfos from "../src/components/organisms/FormProfileChangeInfos";
+import FormPassword from "../components/organisms/FormProfileChangePassword";
+import FormInfos from "../components/organisms/FormProfileChangeInfos";
 import * as Yup from "yup";
-import ApiURL from "../utils/ApiURL";
+import ApiURL from "../services/ApiURL";
 import {withTranslation} from "react-i18next";
 import i18next from "i18next";
 import dynamic from "next/dynamic";
-import { CardProfile } from "../src/components/molecules/CardProfile";
-import { TypographyTitle } from "../src/components/atoms/TypographyTitle";
-import Copyright from "../src/components/atoms/Copyright";
+import { CardProfile } from "../components/molecules/CardProfile";
+import { TypographyTitle } from "../components/atoms/TypographyTitle";
+import Copyright from "../components/atoms/Copyright";
 
 const styles = theme => ({
   root: {
@@ -152,7 +152,7 @@ class Profile extends Component {
     const value = { confirmPassword: "", password: ""};
     const valueImage = { profileImageUrl: ""};
 
-    const FormUpdateImage = dynamic(() => import("../src/components/molecules/FormUpdateImageProfile"));
+    const FormUpdateImage = dynamic(() => import("../components/molecules/FormUpdateImageProfile"));
 
     return (
       <div className={classes.root}>

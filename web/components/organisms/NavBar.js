@@ -20,9 +20,9 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
 import PeopleIcon from '@material-ui/icons/People';
-import { logout } from '../../../utils/auth';
+import { logout } from '../../utils/auth';
 import axios from "axios";
-import ApiURL from "../../../utils/ApiURL";
+import ApiURL from "../../services/ApiURL";
 import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;

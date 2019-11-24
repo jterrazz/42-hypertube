@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import * as Yup from 'yup';
 import axios from 'axios';
-import ApiURL from '../utils/ApiURL';
+import ApiURL from '../services/ApiURL';
 import { withRouter } from "next/router";
-import { Form } from '../src/components/templates/FormResetPassword';
+import { Form } from '../components/templates/FormResetPassword';
 import { Formik } from "formik";
 
 const validationSchema = Yup.object({

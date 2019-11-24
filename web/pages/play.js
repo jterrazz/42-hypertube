@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios";
-import ApiURL from "../utils/ApiURL";
-import { Play } from "../src/components/templates/Play"
+import ApiURL from "../services/ApiURL";
+import { Play } from "../components/templates/Play"
 
 axios.defaults.withCredentials = true;
 

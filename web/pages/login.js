@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import ApiURL from '../utils/ApiURL'
+import ApiURL from '../services/ApiURL'
 import { login } from '../utils/auth'
-import { Form } from "../src/components/templates/FormLogin";
+import { Form } from "../components/templates/FormLogin";
 import i18next from "i18next";
 import nextCookie from 'next-cookies';
 
@@ -54,7 +54,6 @@ class Login extends Component {
           ? this.setState({ ErrorAuth: "Wrong email/password"})
           : this.setState({ ErrorAuth: "Unknown error. Please try again"});
         });
-    event.preventDefault();
   };
 
   render() {

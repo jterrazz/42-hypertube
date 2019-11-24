@@ -1,6 +1,6 @@
 import React from "react";
 import Player from "../atoms/Player";
-import URL_Images from "../../../utils/BasicImage";
+import URL_Images from "../../utils/BasicImage";
 import Grid from "@material-ui/core/Grid";
 
 export const PlayerFilm = (props) => {
