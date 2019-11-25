@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 // TODO On pages remove all withTranslation(), because getInitialProps is not called
 // TODO Connect back translation
 // TODO Auth middleware from redux
+// TODO Clean imports and condensate them
+// TODO Rename variables + use correct case
 
 class Index extends Component {
   state = {

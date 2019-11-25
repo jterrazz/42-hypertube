@@ -16,15 +16,13 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
+import { Home as HomeIcon, Search as SearchIcon } from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import PeopleIcon from '@material-ui/icons/People';
 import { logout } from '../../utils/auth';
-import axios from "axios";
-import ApiURL from "../../config/ApiURL";
 import { useTranslation } from 'react-i18next';
 import Link from "next/link";
+import {connect} from "react-redux";
 
 const drawerWidth = 240;
 
@@ -112,7 +110,7 @@ function NavBar(props, {me = null}) {
         component="nav" aria-label="main mailbox folders"
         className={classes.listItem}
       >
-        <Link href="/">
+        <Link href="/" passHref>
           <ListItem button component="a">
             <ListItemIcon>
               <HomeIcon />
@@ -132,12 +130,14 @@ function NavBar(props, {me = null}) {
           </ListItemIcon>
           <ListItemText primary={t("My profile")} />
         </ListItem>
-        <ListItem button component="a" href="/users">
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("Users")} />
-        </ListItem>
+        <Link href="/users" passHref>
+          <ListItem button component="a">
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("Users")} />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
@@ -197,45 +197,26 @@ function NavBar(props, {me = null}) {
   );
 }
 
-NavBar.propTypes = {
+// NavBar.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
-  container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
-};
+  // container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
+// };
 
-axios.defaults.withCredentials = true;
-
+// TODO Move the prop to higher components
 class Bar extends Component {
-
-  state = {
-    me: null,
-  };
-
-  static async getInitialProps({Component, ctx, store}) {
-    console.log("Y!!!x")
-    await loginAction()
-    console.log(store.getState())
-
-    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-    return {pageProps};
-  }
-
-  async componentDidMount() {
-    console.log(this.props)
-    const response = await axios.get(ApiURL.me);
-
-    const responseData = await response.data;
-
-    this.setState({ me: responseData })
-  }
 
   render() {
     return (
-      <NavBar me={this.state.me}/>
+      <NavBar me={this.props.me}/>
     )
   }
 }
 
-export default Bar;
+const mapStateToProps = state => ({
+  me: state.auth.user
+})
+
+export default connect(mapStateToProps)(Bar);

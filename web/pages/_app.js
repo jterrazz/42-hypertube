@@ -15,6 +15,19 @@ import { fetchUserIfNeeded  } from '../store/actions/auth'
 import { MatchaAPI } from '../services/matcha-api'
 import nextCookie from 'next-cookies';
 
+function redirectTo(destination, { res, status } = {}) {
+  if (res) {
+    res.writeHead(status || 302, { Location: destination })
+    res.end()
+  } else {
+    if (destination[0] === '/' && destination[1] !== '/') {
+      Router.push(destination)
+    } else {
+      window.location = destination
+    }
+  }
+}
+
 class MyApp extends App {
 
   // TODO Maybe use a wrapper
@@ -40,20 +53,21 @@ class MyApp extends App {
 
   // TODO Try adding this only on the signup page and then delete it
   componentDidMount() {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentNode.removeChild(jssStyles)
-    }
+    // const jssStyles = document.querySelector('#jss-server-side');
+    // if (jssStyles) {
+    //   jssStyles.parentNode.removeChild(jssStyles)
+    // }
 
-    const script = document.createElement("script");
-    script.src =
-        "https://www.google.com/recaptcha/api.js";
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
+    // const script = document.createElement("script");
+    // script.src =
+    //     "https://www.google.com/recaptcha/api.js";
+    // script.async = true;
+    // script.defer = true;
+    // document.body.appendChild(script);
   }
 
   // TODO Maybe put noscript in body
+  // TODO Google in register only
   render() {
     const { Component, pageProps, store } = this.props;
 
@@ -62,6 +76,7 @@ class MyApp extends App {
         <Head>
           <title>HyperTube</title>
           <link rel="icon" href="../static/favicons.png" />
+          <script src="https://www.google.com/recaptcha/api.js" async defer/>
           <NonScript />
         </Head>
         <Provider store={store}>
