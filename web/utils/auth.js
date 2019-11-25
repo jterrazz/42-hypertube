@@ -5,8 +5,8 @@ import cookie from 'js-cookie'
 import axios from "axios";
 import ApiURL from "../services/ApiURL";
 
-export const login = ({ token }) => {
-  cookie.set('token', token, { expires: 1 });
+// TODO Centralise in REDUX
+export const login = () => {
   Router.push('/')
 };
 
@@ -16,19 +16,19 @@ export const auth = ctx => {
    * If `ctx.req` is available it means we are on the server.
    * Additionally if there's no token it means the user is not logged in.
    */
-  if (ctx.req && !token) {
-    ctx.res.writeHead(302, { Location: '/login' });
-    ctx.res.end()
-  }
+  // if (ctx.req && !token) {
+  //   ctx.res.writeHead(302, { Location: '/login' });
+  //   ctx.res.end()
+  // }
 
-  // We already checked for server. This should only happen on client.
-  if (!token) {
-    Router.push('/login')
-  }
-
-  if (token && ctx.pathname === '/login') {
-    Router.push('/');
-  }
+  // TODO We already checked for server. This should only happen on client.
+  // if (!token) {
+  //   Router.push('/login')
+  // }
+  //
+  // if (token && ctx.pathname === '/login') {
+  //   Router.push('/');
+  // }
 
   return token
 };
@@ -40,6 +40,7 @@ export const logout = () => {
   Router.push('/login')
 };
 
+// TODO Use in the global app
 export const withAuthSync = WrappedComponent => {
   const Wrapper = props => {
     const syncLogout = event => {

@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
-import axios from 'axios'
-import ApiURL from '../services/ApiURL'
 import { Form } from "../components/templates/FormSignup";
+import matchaAPI from '../services/matcha-api'
+import {Router} from "next/router";
 
 const FILE_SIZE = 1600 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -36,43 +36,22 @@ const validationSchema = Yup.object().shape({
       "File too large",
       value => value && value.size <= FILE_SIZE
     ),
-  reCaptcha: Yup.string().required('Required'),
+  // reCaptcha: Yup.string().required('Required'), // TODO Put back
 });
-
-axios.defaults.withCredentials = true;
 
 class SignUp extends Component {
   state = {
     Error: '',
   };
 
-  handleSubmit = (data) => {
-    const userData = new FormData();
-    userData.append('firstName', data.firstName);
-    userData.append('lastName', data.lastName);
-    userData.append('username', data.userName);
-    userData.append('password', data.password);
-    userData.append('email', data.email);
-    userData.append('profileImage', data.file);
-
-    axios.post(ApiURL.signup, userData)
-      .then(response => {
-        if (response.data.message === 'Authentication successful') {
-          window.location = '/'
+  handleSubmit = (userData) =>
+    matchaAPI.signup(userData)
+      .then(() => Router.push('/'))
+      .catch(error => {
+        if (error.response && (error.response.status === 422 || error.response.status === 409)) {
+          this.setState({ Error: error.response.data });
         }
       })
-      .catch(error => {
-        if (error.response){
-          if (error.response.status === 422){
-            this.setState({ Error: error.response.data });
-          }
-          if (error.response.status === 409){
-            this.setState({ Error: error.response.data });
-          }
-        }
-      });
-    event.preventDefault();
-  };
 
   render () {
     const values = { userName: "", password: "", confirmPassword: "", firstName: "", lastName: "", email: "", file: "", reCaptcha: ""};

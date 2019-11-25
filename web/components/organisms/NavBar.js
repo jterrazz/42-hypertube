@@ -24,6 +24,9 @@ import { logout } from '../../utils/auth';
 import axios from "axios";
 import ApiURL from "../../services/ApiURL";
 import { useTranslation } from 'react-i18next';
+import Link from "next/link";
+import {connect} from "react-redux";
+import {login as loginAction} from "../../store/actions/auth"; // TODO DEL
 
 const drawerWidth = 240;
 
@@ -67,6 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// TODO Replace all by <Link>
 function NavBar(props, {me = null}) {
   const { container } = props;
   const classes = useStyles();
@@ -110,12 +114,14 @@ function NavBar(props, {me = null}) {
         component="nav" aria-label="main mailbox folders"
         className={classes.listItem}
       >
-        <ListItem button component="a" href="/">
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary={t("Home")} />
-        </ListItem>
+        <Link href="/">
+          <ListItem button component="a">
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("Home")} />
+          </ListItem>
+        </Link>
         <ListItem button component="a" href="/search">
           <ListItemIcon>
             <SearchIcon />
@@ -209,8 +215,17 @@ class Bar extends Component {
     me: null,
   };
 
-  async componentDidMount() {
+  static async getInitialProps({Component, ctx, store}) {
+    console.log("Y!!!x")
+    await loginAction()
+    console.log(store.getState())
 
+    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+    return {pageProps};
+  }
+
+  async componentDidMount() {
+    console.log(this.props)
     const response = await axios.get(ApiURL.me);
 
     const responseData = await response.data;
@@ -225,4 +240,8 @@ class Bar extends Component {
   }
 }
 
-export default Bar;
+const mapStateToProps = state => ({
+  user: state.auth.user
+})
+
+export default connect(mapStateToProps)(Bar);

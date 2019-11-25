@@ -8,7 +8,30 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '../utils/i18n';
 import {NonScript} from "../components/atoms/NoScript";
 
-export default class MyApp extends App {
+import {Provider} from "react-redux";
+import withRedux from "next-redux-wrapper";
+import makeStore from '../store'
+import { login as loginAction } from '../store/actions/auth'
+
+const reducer = (state = {foo: ''}, action) => {
+  switch (action.type) {
+    case 'FOO':
+      return {...state, foo: action.payload};
+    default:
+      return state
+  }
+};
+
+class MyApp extends App {
+
+  static async getInitialProps({Component, ctx}) {
+    await loginAction()
+
+    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+    return {pageProps};
+  }
+
+  // TODO Try adding this only on the signup page and then delete it
   componentDidMount() {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
@@ -23,8 +46,9 @@ export default class MyApp extends App {
     document.body.appendChild(script);
   }
 
+  // TODO Maybe put noscript in body
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, store } = this.props;
 
     return (
       <React.Fragment>
@@ -33,13 +57,17 @@ export default class MyApp extends App {
           <link rel="icon" href="../static/favicons.png" />
           <NonScript />
         </Head>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <I18nextProvider i18n={i18n}>
-            <Component {...pageProps} />
-          </I18nextProvider>
-        </ThemeProvider>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <I18nextProvider i18n={i18n}>
+              <Component {...pageProps} />
+            </I18nextProvider>
+          </ThemeProvider>
+        </Provider>
       </React.Fragment>
     )
   }
 }
+
+export default withRedux(makeStore)(MyApp);

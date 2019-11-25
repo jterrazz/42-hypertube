@@ -1,9 +1,6 @@
 import React from 'react';
-import axios from "axios";
-import ApiURL from "../services/ApiURL";
 import { Play } from "../components/templates/Play"
-
-axios.defaults.withCredentials = true;
+import matchaAPI from '../services/matcha-api'
 
 class Player extends React.Component {
 
@@ -32,43 +29,37 @@ class Player extends React.Component {
   };
 
   handleClick = () => {
-    if (this.state.comment) {
-      const comment = {
-        text: this.state.comment
-      };
-      axios.post(`${ApiURL.movies}/${this.props.movieId}/comments`, comment)
-        .then(
-          async response => {
-            this.state.comments.unshift(response.data.comment);
-            this.setState({ comments: this.state.comments, comment: ''});
-          })
-        .catch(error => {
-          console.log(error);
-        });
-    }
+    if (!this.state.comment)
+      return;
 
+    matchaAPI.postComment(this.props.movieId, this.state.comment)
+      .then(comment => {
+        this.state.comments.unshift(comment);
+        this.setState({ comments: this.state.comments, comment: ''});
+      })
   };
 
   onStart = () => {
-    axios.post(`${ApiURL.movies}/${this.state.movie.imdb_id}/play`);
+    matchaAPI.postMoviePlay(this.state.movie.imdb_id).catch(_ => {})
   };
 
-  async getUser(ev) {
-    const response = await axios.get(`${ApiURL.users}${ev.currentTarget.value}`);
-    const responseData = await response.data;
-    this.setState({userInfo: responseData});
+  async getUser(ev) { // TODO Replace by redux // keep if useful
+    // const response = await axios.get(`${ApiURL.users}${ev.currentTarget.value}`);
+    // const responseData = await response.data;
+    // this.setState({userInfo: responseData});
   }
 
   async componentDidMount() {
-    const response = await axios.get(`${ApiURL.movies}/${this.props.movieId}`);
-    const responseComment = await axios.get(`${ApiURL.movies}/${this.props.movieId}/comments`);
-    const responsesSubtitle = await axios.get(`${ApiURL.movies}/${this.props.movieId}/subtitles`);
+    const movieId = this.props.movieId
 
-    const responseData = await response.data.movie;
-    const responseCommentData = await responseComment.data.comments.reverse();
-    const responsesSubtitleData = await responsesSubtitle.data.subtitles;
+    matchaAPI.getMovie(movieId)
+      .then(movie => {
+        this.setState({ movie });
+      })
+      .catch(_ => {})
 
-    this.setState({ movie: responseData, comments: responseCommentData, subtitles: responsesSubtitleData});
+    const [comments, subtitles] = await Promise.all([matchaAPI.getComments(movieId), matchaAPI.getSubtitles(movieId)])
+    this.setState({ comments, subtitles });
   }
 
   render() {
