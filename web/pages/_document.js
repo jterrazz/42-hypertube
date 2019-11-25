@@ -4,8 +4,7 @@ import { ServerStyleSheets } from '@material-ui/styles'
 import theme from '../styles/theme'
 
 class MyDocument extends Document {
-
-  getInitialProps = async ctx => {
+  static async getInitialProps(ctx) {
     const sheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
 

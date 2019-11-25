@@ -26,7 +26,7 @@ import ApiURL from "../../services/ApiURL";
 import { useTranslation } from 'react-i18next';
 import Link from "next/link";
 import {connect} from "react-redux";
-import {login as loginAction} from "../../store/actions/auth"; // TODO DEL
+import { loginAction} from "../../store/actions/auth"; // TODO DEL
 
 const drawerWidth = 240;
 

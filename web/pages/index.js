@@ -3,22 +3,25 @@ import { withAuthSync } from '../utils/auth';
 import { withTranslation } from "react-i18next";
 import { Home } from "../components/templates/Home";
 import matchAPI from '../services/matcha-api'
-import {login as loginAction} from "../store/actions/auth";
+import { loginAction } from "../store/actions/auth";
+
+import { connect } from 'react-redux'
 
 // TODO cache some pages for some time
+// TODO On pages remove all withTranslation(), because getInitialProps is not called
 
 class Index extends Component {
   state = {
     movie: []
   };
 
-  static async getInitialProps({Component, ctx}) {
-    console.log("thisshouldlog")
-    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-    return {pageProps};
+  static async getInitialProps({Component, ctx, store}) {
+    store.dispatch(loginAction)
+    return {};
   }
 
   async componentDidMount() {
+    console.log(this.props)
     const { rankedMovies } = await matchAPI.getHotMovies()
     this.setState({ movie: rankedMovies })
 
@@ -41,4 +44,9 @@ class Index extends Component {
     )
   }
 }
-export default (withAuthSync(withTranslation()(Index)));
+
+const mapStateToProps = state => ({
+  user: state.auth.user
+})
+
+export default connect(mapStateToProps)(Index);

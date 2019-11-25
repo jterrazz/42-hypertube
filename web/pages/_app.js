@@ -11,22 +11,12 @@ import {NonScript} from "../components/atoms/NoScript";
 import {Provider} from "react-redux";
 import withRedux from "next-redux-wrapper";
 import makeStore from '../store'
-import { login as loginAction } from '../store/actions/auth'
-
-const reducer = (state = {foo: ''}, action) => {
-  switch (action.type) {
-    case 'FOO':
-      return {...state, foo: action.payload};
-    default:
-      return state
-  }
-};
+// import { login  } from '../store/actions/auth'
 
 class MyApp extends App {
 
   static async getInitialProps({Component, ctx}) {
-    await loginAction()
-    console.log("SHOULD LOOOOOG")
+    // await login()
 
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
     return {pageProps};

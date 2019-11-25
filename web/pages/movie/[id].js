@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { withRouter } from 'next/router'
+// import { withRouter } from 'next/router'
 import axios from "axios";
 import ApiURL from "../../services/ApiURL";
 import { withAuthSync } from '../../utils/auth'
@@ -426,4 +426,5 @@ class MoviePage extends Component {
   }
 }
 
-export default withRouter(withAuthSync(MoviePage));
+export default withAuthSync(MoviePage);
+// export default withRouter(withAuthSync(MoviePage));
