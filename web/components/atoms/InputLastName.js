@@ -25,7 +25,7 @@ export const InputLastName = (props) => {
       value={values.lastName}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.lastName ? errors.lastName : ''}
+      helperText={touched.lastName ? t(errors.lastName) : ''}
       error={touched.lastName && Boolean(errors.lastName)}
     />
   )

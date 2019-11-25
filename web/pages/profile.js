@@ -43,7 +43,7 @@ const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const validationSchemaPassword = Yup.object({
   password: Yup.string("")
-    .min(8, "Password must contain atleast 8 characters")
+    .min(8, "Password must contain at least 8 characters")
     .required("Enter your password"),
   confirmPassword: Yup.string("Enter your password")
     .required("Confirm your password")

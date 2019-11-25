@@ -27,7 +27,7 @@ export const InputConfirmPasswordSigUp = (props) => {
       value={values.confirmPassword}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.confirmPassword ? errors.confirmPassword : ''}
+      helperText={touched.confirmPassword ? t(errors.confirmPassword) : ''}
       error={touched.confirmPassword && Boolean(errors.confirmPassword)}
     />
   )

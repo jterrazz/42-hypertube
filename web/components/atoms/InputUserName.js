@@ -24,7 +24,7 @@ export const InputUserName = (props, error = null, onChange) => {
       value={username}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
-      helperText={touched.username ? errors.username : ''}
+      helperText={touched.username ? t(errors.username) : ''}
       error={touched.username && Boolean(errors.username) || Boolean(props.error)}
     />
   )

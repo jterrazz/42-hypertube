@@ -25,7 +25,7 @@ export const InputEmail = (props, error = null) => {
       value={values.email}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.email ? errors.email : ''}
+      helperText={touched.email ? t(errors.email) : ''}
       error={touched.email && Boolean(errors.email) || Boolean(props.error === 'This email is already in use' || props.error === "\"email\" must be a valid email" ? props.error : '')}
     />
   )

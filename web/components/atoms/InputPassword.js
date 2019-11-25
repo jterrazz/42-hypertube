@@ -25,7 +25,7 @@ export const InputPassword = (props, error = null, onChange) => {
       value={password}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
-      helperText={touched.password ? errors.password : ''}
+      helperText={touched.password ? t(errors.password) : ''}
       error={touched.password && Boolean(errors.password) || Boolean(props.error)}
     />
   )

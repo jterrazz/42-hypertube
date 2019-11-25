@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     .required('Confirm your password')
     .oneOf([Yup.ref('password')], 'Password does not match'),
   file: Yup.mixed()
-    .required("A file is required")
+    .required("A photo is required")
     .test(
       "fileFormat",
       "Unsupported Format",
@@ -51,7 +51,7 @@ class SignUp extends Component {
         if (error.response && (error.response.status === 422 || error.response.status === 409)) {
           this.setState({ Error: error.response.data });
         }
-      })
+      });
 
   render () {
     const values = { userName: "", password: "", confirmPassword: "", firstName: "", lastName: "", email: "", file: "", reCaptcha: ""};

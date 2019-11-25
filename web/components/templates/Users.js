@@ -59,6 +59,10 @@ export const User = (props) => {
                           <ListItemText secondary="lastName: "/>
                           <ListItemText primary={item.lastName}/>
                         </ListItem>
+                        <ListItem>
+                          <ListItemText secondary="language: "/>
+                          <ListItemText primary={item.language}/>
+                        </ListItem>
                       </List>
                     </Paper>
                   </Grid>

@@ -27,7 +27,7 @@ export const InputPasswordSigUp = (props) => {
       value={values.password}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.password ? errors.password : ''}
+      helperText={touched.password ? t(errors.password) : ''}
       error={touched.password && Boolean(errors.password)}
     />
   )

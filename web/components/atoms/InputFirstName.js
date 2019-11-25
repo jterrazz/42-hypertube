@@ -25,7 +25,7 @@ export const InputFirstName = (props) => {
       value={values.firstName}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.firstName ? errors.firstName : ''}
+      helperText={touched.firstName ? t(errors.firstName) : ''}
       error={touched.firstName && Boolean(errors.firstName)}
     />
   )

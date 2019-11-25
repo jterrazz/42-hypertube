@@ -43,7 +43,7 @@ const FormUpdateImgae = (props, error) => {
           fileUpload={profileImageUrl}
           title="Select a file"
           setFieldValue={setFieldValue}
-          errorMessage={errors['profileImageUrl'] ? errors['profileImageUrl'] : undefined}
+          errorMessage={errors['profileImageUrl'] ? t(errors['profileImageUrl']) : undefined}
           touched={touched['profileImageUrl']}
           style={{ display: 'flex' }}
           onBlur={handleBlur}

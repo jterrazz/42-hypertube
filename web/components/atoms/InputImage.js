@@ -17,7 +17,7 @@ export const InputImage = (props) => {
       component={CustomImageInput}
       title="Select a file"
       setFieldValue={setFieldValue}
-      errorMessage={errors['file'] ? errors['file'] : undefined}
+      errorMessage={errors['file'] ? t(errors['file']) : undefined}
       touched={touched['file']}
       style={{ display: 'flex' }}
       onBlur={handleBlur}

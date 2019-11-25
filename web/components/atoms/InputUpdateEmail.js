@@ -26,7 +26,7 @@ export const InputUpdateEmail = (props, error = null) => {
       value={values.email}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
-      helperText={touched.email ? errors.email : ''}
+      helperText={touched.email ? t(errors.email) : ''}
       error={touched.email && Boolean(errors.email) || Boolean(props.error)}
     />
   )

@@ -10,6 +10,7 @@ import { InputPassword } from "../atoms/InputPassword"
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
 import Copyright from "../atoms/Copyright";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,7 +35,7 @@ export const Form = (props, error = null, onChange) => {
   const {
     handleSubmit,
   } = props;
-
+  const [t] = useTranslation();
   const classes = useStyles();
 
   return (
@@ -43,7 +44,7 @@ export const Form = (props, error = null, onChange) => {
         <div className={classes.paper}>
           <HeadLockPage text="Sign in"/>
           <form className={classes.form} onSubmit={handleSubmit}>
-            {props.error ? <BoxError text={props.error}/> : ''}
+            {props.error ? <BoxError text={t(props.error)}/> : ''}
             <InputUserName {...props} onChange={props.onChange} error={props.error}/>
             <InputPassword {...props} onChange={props.onChange} error={props.error}/>
             <ButtonSubmit text="Sign in" className={classes.submit}/>
