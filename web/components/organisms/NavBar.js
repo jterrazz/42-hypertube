@@ -25,8 +25,6 @@ import axios from "axios";
 import ApiURL from "../../services/ApiURL";
 import { useTranslation } from 'react-i18next';
 import Link from "next/link";
-import {connect} from "react-redux";
-import { loginAction} from "../../store/actions/auth"; // TODO DEL
 
 const drawerWidth = 240;
 
@@ -240,8 +238,4 @@ class Bar extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user
-})
-
-export default connect(mapStateToProps)(Bar);
+export default Bar;

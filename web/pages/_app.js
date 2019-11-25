@@ -11,14 +11,27 @@ import {NonScript} from "../components/atoms/NoScript";
 import {Provider} from "react-redux";
 import withRedux from "next-redux-wrapper";
 import makeStore from '../store'
-// import { login  } from '../store/actions/auth'
+import { fetchUserIfNeeded  } from '../store/actions/auth'
+import { MatchaAPI } from '../services/matcha-api'
+import nextCookie from 'next-cookies';
 
 class MyApp extends App {
 
   static async getInitialProps({Component, ctx}) {
-    // await login()
+    const oldGetter = Component.getInitialProps
 
+    // TODO Set cookies
+    const cookies = nextCookie(ctx);
+    const matchaClient = new MatchaAPI(cookies)
+
+    // Dispatch store actions for the entire app
+    Component.getInitialProps = async (ctx) => {
+      ctx.store.dispatch(fetchUserIfNeeded)
+      ctx.matchaClient = matchaClient
+      return oldGetter(ctx)
+    }
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+
     return {pageProps};
   }
 

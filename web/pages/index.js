@@ -15,13 +15,15 @@ class Index extends Component {
     movie: []
   };
 
-  static async getInitialProps({Component, ctx, store}) {
-    store.dispatch(loginAction)
-    return {};
+  static async getInitialProps({Component, ctx, store, matchaClient}) {
+    const { rankedMovies } = await matchaClient.getHotMovies()
+
+    return {
+      rankedMovies
+    };
   }
 
   async componentDidMount() {
-    console.log(this.props)
     const { rankedMovies } = await matchAPI.getHotMovies()
     this.setState({ movie: rankedMovies })
 
@@ -37,7 +39,7 @@ class Index extends Component {
   render () {
     return (
       <Home
-        movie={this.state.movie}
+        movie={this.props.rankedMovies}
         firstHotPopcorn={this.state.featuredPopcorn}
         firstHotYts={this.state.featuredYTS}
       />

@@ -1,13 +1,20 @@
 import axios from "axios"
 import * as _ from 'lodash'
-import ApiURL from "./ApiURL";
 
-class MatchaAPI {
-    constructor() {
-        this.client = axios.create({
-            baseURL: 'http://localhost:3000',
-            withCredentials: true
-        });
+const cookieReducer = cookies => (accumulator, key) =>
+  accumulator + `${key}=${cookies[key]}; `
+
+export class MatchaAPI {
+    constructor(cookies = null) {
+      const opt = {
+        baseURL: 'http://localhost:3000',
+        withCredentials: true,
+        headers:{
+          Cookie: cookies ? Object.keys(cookies).reduce(cookieReducer(cookies), "") : null
+        }
+      }
+
+      this.client = axios.create(opt);
     }
 
     /*
@@ -64,4 +71,4 @@ class MatchaAPI {
     postMoviePlay = async movieId => await this.client.post(`/movies/${movieId}/play`)
 }
 
-export default new MatchaAPI()
+export default new MatchaAPI() // TODO Export only class

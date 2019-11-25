@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import authReducer from './reducers/auth'
 
 const reducer = combineReducers({
@@ -6,5 +7,5 @@ const reducer = combineReducers({
 });
 
 export default (initialState, options) => {
-    return createStore(reducer, initialState);
+    return createStore(reducer, initialState, applyMiddleware(thunk));
 };
