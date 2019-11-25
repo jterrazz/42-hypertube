@@ -15,14 +15,13 @@ const useStyle = makeStyles(() => ({
   },
 }));
 
-const Player = (props, {hash_movie = null, thumbnail = null, subtitles = null, onStart = null}) => {
+const Player = (props, {hashMovie = null, thumbnail = null, subtitles = null, onStart = null, url = null}) => {
   const classes = useStyle();
-  const url = `${ApiURL.movies_stream}${props.hash_movie}/stream`;
 
   return (
     <div className={classes.playerWrapper}>
       <ReactPlayer
-        url={url}
+        url={props.url}
         config={{ file:{
           // hlsOptions: {
           //   xhrSetup: function(xhr, url) {
