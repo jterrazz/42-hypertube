@@ -17,20 +17,23 @@ import nextCookie from 'next-cookies';
 
 class MyApp extends App {
 
+  // TODO Maybe use a wrapper
   static async getInitialProps({Component, ctx}) {
     const oldGetter = Component.getInitialProps
 
     // TODO Set cookies
     const cookies = nextCookie(ctx);
+    // TODO Need to reload when login happend
     const matchaClient = new MatchaAPI(cookies)
 
     // Dispatch store actions for the entire app
     Component.getInitialProps = async (ctx) => {
-      ctx.store.dispatch(fetchUserIfNeeded)
+      await ctx.store.dispatch(fetchUserIfNeeded(matchaClient))
       ctx.matchaClient = matchaClient
-      return oldGetter(ctx)
+      if (oldGetter)
+        return await oldGetter(ctx)
     }
-    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+    const pageProps = await Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
     return {pageProps};
   }

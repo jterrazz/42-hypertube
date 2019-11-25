@@ -6,7 +6,19 @@ class Player extends React.Component {
 
   constructor(props) {
     super(props);
-    this.getUser = this.getUser.bind(this)
+    this.getUser = this.getUser.bind(this) // TODO Del
+  }
+
+  static async getInitialProps({ query: { hash, id }, matchaClient }) {
+    const [movie, comments, subtitles] = await Promise.all([matchaClient.getMovie(id), matchaClient.getComments(id), matchaClient.getSubtitles(id)])
+
+    return {
+      movie,
+      comments,
+      subtitles,
+      hash,
+      movieId: id
+    }
   }
 
   state = {
@@ -17,30 +29,23 @@ class Player extends React.Component {
     userInfo: {}
   };
 
-  static async getInitialProps({ query }) {
-    return {
-      hash: query.hash,
-      movieId: query.id
-    }
-  }
-
   handleChange = (e) => {
     this.setState({ comment: e.target.value});
   };
 
   handleClick = () => {
-    if (!this.state.comment)
+    if (!this.props.comment)
       return;
 
     matchaAPI.postComment(this.props.movieId, this.state.comment)
       .then(comment => {
-        this.state.comments.unshift(comment);
+        this.props.comments.unshift(comment);
         this.setState({ comments: this.state.comments, comment: ''});
       })
   };
 
   onStart = () => {
-    matchaAPI.postMoviePlay(this.state.movie.imdb_id).catch(_ => {})
+    matchaAPI.postMoviePlay(this.props.movie.imdb_id).catch(_ => {})
   };
 
   async getUser(ev) { // TODO Replace by redux // keep if useful
@@ -49,29 +54,16 @@ class Player extends React.Component {
     // this.setState({userInfo: responseData});
   }
 
-  async componentDidMount() {
-    const movieId = this.props.movieId
-
-    matchaAPI.getMovie(movieId)
-      .then(movie => {
-        this.setState({ movie });
-      })
-      .catch(_ => {})
-
-    const [comments, subtitles] = await Promise.all([matchaAPI.getComments(movieId), matchaAPI.getSubtitles(movieId)])
-    this.setState({ comments, subtitles });
-  }
-
   render() {
     return (
       <Play
-        movie={this.state.movie}
+        movie={this.props.movie}
         hashMovie={this.props.hash}
-        comment={this.state.comments}
+        comment={this.props.comments}
         Click={this.handleClick}
         Change={this.handleChange}
         commentaire={this.state.comment}
-        subtitles={this.state.subtitles}
+        subtitles={this.props.subtitles}
         getUser={this.getUser}
         userInfo={this.state.userInfo}
         onStart={this.onStart}

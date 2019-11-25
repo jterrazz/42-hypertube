@@ -22,7 +22,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import PeopleIcon from '@material-ui/icons/People';
 import { logout } from '../../utils/auth';
 import axios from "axios";
-import ApiURL from "../../services/ApiURL";
+import ApiURL from "../../config/ApiURL";
 import { useTranslation } from 'react-i18next';
 import Link from "next/link";
 

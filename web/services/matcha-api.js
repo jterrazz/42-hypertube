@@ -38,13 +38,24 @@ export class MatchaAPI {
 
     postForgotPassword = username => this.client.post(`/me?username=${username}`)
 
+  getMe = async () => {
+      const me = await this.client.get('/me')
+    return me.data
+  }
+
     /*
      * Other routes
      */
+
     getMovie = async imdbID => {
         const r = await this.client.get(`/movies/${imdbID}`)
         return _.get(r, 'data.movie')
     }
+
+  getMovieTorrents = async imdbID => {
+    const r = await this.client.get(`/movies/${imdbID}/torrents`)
+    return _.get(r, 'data')
+  }
 
     getHotMovies = async () => {
         const r = await this.client.get(`/movies/hot`)
@@ -69,6 +80,11 @@ export class MatchaAPI {
     }
 
     postMoviePlay = async movieId => await this.client.post(`/movies/${movieId}/play`)
+
+  getUsers = async () => {
+    const r = await this.client.get('/users')
+    return _.get(r, 'data.users')
+  }
 }
 
 export default new MatchaAPI() // TODO Export only class

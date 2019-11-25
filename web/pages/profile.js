@@ -10,13 +10,15 @@ import {Formik} from "formik";
 import FormPassword from "../components/organisms/FormProfileChangePassword";
 import FormInfos from "../components/organisms/FormProfileChangeInfos";
 import * as Yup from "yup";
-import ApiURL from "../services/ApiURL";
+import ApiURL from "../config/ApiURL";
 import {withTranslation} from "react-i18next";
 import i18next from "i18next";
 import dynamic from "next/dynamic";
 import { CardProfile } from "../components/molecules/CardProfile";
 import { TypographyTitle } from "../components/atoms/TypographyTitle";
 import Copyright from "../components/atoms/Copyright";
+import {fetchUserIfNeeded} from "../store/actions/auth";
+import {connect} from "react-redux";
 
 const styles = theme => ({
   root: {
@@ -74,19 +76,22 @@ axios.defaults.withCredentials = true;
 
 class Profile extends Component {
 
+  // static async getInitialProps({ query: { hash, id }, matchaClient, store }) {
+    // store.dispatch(fetchUserIfNeeded(matchaClient)) // TODO Force user update
+    // return {}
+  // }
+
   state = {
     me: null,
     ErrorMail: '',
     Error: ''
   };
 
-  async componentDidMount() {
-    const response = await axios.get(ApiURL.me);
-
-    const responseData = await response.data;
-
-    this.setState({ me: responseData })
-  }
+  // async componentDidMount() {
+  //   const response = await axios.get(ApiURL.me);
+  //   const responseData = await response.data;
+  //   this.setState({ me: responseData })
+  // }
 
   onChange = () => {
     this.setState({ ErrorMail: ""});
@@ -161,25 +166,25 @@ class Profile extends Component {
           <div className={classes.toolbar} />
           <Container fixed>
             <TypographyTitle text="Dashboard"/>
-            {this.state.me ? <CardProfile username={this.state.me.username}/> : ''}
+            {this.props.me ? <CardProfile username={this.props.me.username}/> : ''}
             <TypographyTitle text="Settings Profile"/>
             <Grid container spacing={5} style={{ marginTop: 10 }}>
               <Grid item md={4}>
                 <Paper className={classes.paper_card}>
                   <Formik
-                    render={props => <FormUpdateImage error={this.state.Error} {...props} />}
+                    render={props => <FormUpdateImage error={this.props.Error} {...props} />}
                     initialValues={this.valueImage}
                     validationSchema={this.validationSchemaImage}
                     onSubmit={this.SubmitImage}
                   />
                 </Paper>
               </Grid>
-              {this.state.me ?
+              {this.props.me ?
                 <Grid item md={4}>
                   <Paper className={classes.paper_card}>
                     <Formik
-                      render={props => <FormInfos error={this.state.ErrorMail} onChange={this.onChange} {...props} />}
-                      initialValues={this.state.me}
+                      render={props => <FormInfos error={this.props.ErrorMail} onChange={this.onChange} {...props} />}
+                      initialValues={this.props.me}
                       validationSchema={this.validationSchemaInfos}
                       onSubmit={this.SubmitInfos}
                     />
@@ -206,4 +211,9 @@ class Profile extends Component {
   }
 }
 
-export default withTranslation()(withAuthSync(withStyles(styles)(Profile)));
+const mapStateToProps = state => ({
+  me: state.auth.user
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(Profile));
+// export default withTranslation()(withAuthSync(withStyles(styles)(connect(mapStateToProps)(Profile))));

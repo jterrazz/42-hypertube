@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import * as Yup from 'yup';
 import axios from 'axios';
-import ApiURL from '../services/ApiURL';
+import ApiURL from '../config/ApiURL';
 import { withRouter } from "next/router";
 import { Form } from '../components/templates/FormResetPassword';
 import { Formik } from "formik";

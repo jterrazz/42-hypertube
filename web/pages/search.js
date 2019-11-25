@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import ApiURL from "../services/ApiURL";
+import ApiURL from "../config/ApiURL";
 import { withAuthSync } from '../utils/auth';
 import Search from "../components/templates/Search";
 
