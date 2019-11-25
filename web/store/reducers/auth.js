@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
         case types.SET_USER:
             return { ...state, user: action.payload };
         case types.CLEAR_USER:
-            return { user: null };
+            return { ...state, user: null };
         default:
             return state;
     }

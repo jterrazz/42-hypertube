@@ -26,6 +26,7 @@ class MyApp extends App {
 
   static async getInitialProps({Component, ctx}) {
     await loginAction()
+    console.log("SHOULD LOOOOOG")
 
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
     return {pageProps};
