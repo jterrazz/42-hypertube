@@ -1,6 +1,6 @@
 # 42-hypertube
 
-To learn more about this project, use the [wiki](https://github.com/jterrazz/42-hypertube/wiki) 😜
+*To learn more about this project, use the [wiki](https://github.com/jterrazz/42-hypertube/wiki) 😜*
 
 A web based application to explore and search torrent providers. Videos are downloaded on the backend using the BitTorrent protocol and streamed to the browser. The front-end features a beautiful discovery page and social features such as comments.
 
