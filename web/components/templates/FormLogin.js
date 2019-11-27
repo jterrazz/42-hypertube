@@ -11,6 +11,8 @@ import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
 import Copyright from "../atoms/Copyright";
 import {useTranslation} from "react-i18next";
+import {GroupButtonOauth} from "../organisms/GroupButtonOauth";
+import {DividerSplit} from "../atoms/DividerSplit";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,6 +46,8 @@ export const Form = (props, error = null, onChange) => {
         <div className={classes.paper}>
           <HeadLockPage text="Sign in"/>
           <form className={classes.form} onSubmit={handleSubmit}>
+            <GroupButtonOauth />
+            <DividerSplit />
             {props.error ? <BoxError text={t(props.error)}/> : ''}
             <InputUserName {...props} onChange={props.onChange} error={props.error}/>
             <InputPassword {...props} onChange={props.onChange} error={props.error}/>
