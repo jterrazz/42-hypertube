@@ -9,7 +9,7 @@ import CircularProgress from "../atoms/CircularProgress";
 import { makeStyles } from "@material-ui/core";
 import URL_Images from "../../utils/BasicImage";
 import Player from "../atoms/Player";
-import ApiURL from "../../config/ApiURL";
+import { getStreamURL } from '../../services/matcha-api'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export const Play = (props, {movie = null, hashMovie = null, comment = null, subtitles = null, onStart}) => {
   const classes = useStyles();
-  const url = `${ApiURL.movies_stream}${props.hashMovie}/stream`;
+  const url = getStreamURL(props.hashMovie);
 
   return (
     <div className={classes.root}>

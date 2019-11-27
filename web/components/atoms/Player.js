@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
 import { makeStyles } from '@material-ui/core'
-import ApiURL from '../../config/ApiURL'
 
 const useStyle = makeStyles(() => ({
   playerWrapper: {

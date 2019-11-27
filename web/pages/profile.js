@@ -10,7 +10,6 @@ import {Formik} from "formik";
 import FormPassword from "../components/organisms/FormProfileChangePassword";
 import FormInfos from "../components/organisms/FormProfileChangeInfos";
 import * as Yup from "yup";
-import ApiURL from "../config/ApiURL";
 import {withTranslation} from "react-i18next";
 import i18next from "i18next";
 import dynamic from "next/dynamic";
@@ -19,6 +18,7 @@ import { TypographyTitle } from "../components/atoms/TypographyTitle";
 import Copyright from "../components/atoms/Copyright";
 import {fetchUserIfNeeded} from "../store/actions/auth";
 import {connect} from "react-redux";
+import matchaClient from '../services/matcha-api'
 
 const styles = theme => ({
   root: {
@@ -82,7 +82,6 @@ class Profile extends Component {
   // }
 
   state = {
-    me: null,
     ErrorMail: '',
     Error: ''
   };
@@ -98,58 +97,30 @@ class Profile extends Component {
   };
 
   SubmitImage = (data) => {
-    const userData = new FormData();
-    userData.append('profileImage', data.profileImageUrl);
-    axios.patch(ApiURL.me, userData)
-      .then(response => {
-        if (response.data === 'OK') {
-          window.location = '/profile'
-        }
-      })
+    matchaClient.patchMe(data)
+      .then()
       .catch(error => {
-        return this.setState({ Error: "Unknown error. Please try again"});
-      });
-
-    event.preventDefault();
+        this.setState({ Error: "Unknown error. Please try again"});
+      })
   };
 
   SubmitInfos = (data) => {
-    i18next.changeLanguage(data.language);
-    const userData = new FormData();
-    userData.append('firstName', data.firstName);
-    userData.append('lastName', data.lastName);
-    userData.append('email', data.email);
-    userData.append('language', data.language);
-    axios.patch(ApiURL.me, userData)
-      .then(response => {
-        if (response.data === 'OK') {
-          window.location = '/profile'
-        }
-      })
+    // i18next.changeLanguage(data.language); // TODO Replace by vuex
+    matchaClient.patchMe(data)
+      .then()
       .catch(error => {
         return error.response && error.response.status === 409
           ? this.setState({ ErrorMail: "This email is already in use"})
           : this.setState({ ErrorMail: "Unknown error. Please try again"});
-      });
-
-    event.preventDefault();
+      })
   };
 
   SubmitPassword = (data) => {
-    const userData = new FormData();
-    userData.append('password', data.password);
-    axios.patch(ApiURL.me, userData)
-      .then(response => {
-        if (response.data === 'OK') {
-          window.location = '/profile'
-        }
-      })
+    matchaClient.patchMe(data)
+      .then()
       .catch(error => {
-        return error.response && error.response.status === 404
-          ? this.setState({ ErrorUserName: "Unknown error. Please try again"}) : '';
-      });
-
-    event.preventDefault();
+        this.setState({ Error: "Unknown error. Please try again"});
+      })
   };
 
   render () {

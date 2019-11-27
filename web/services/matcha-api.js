@@ -1,5 +1,8 @@
 import axios from "axios"
 import * as _ from 'lodash'
+import config from '../config'
+
+export const getStreamURL = hash => `${config.ROOT_URL}/torrents/${hash}/stream`
 
 const cookieReducer = cookies => (accumulator, key) =>
   accumulator + `${key}=${cookies[key]}; `
@@ -7,10 +10,12 @@ const cookieReducer = cookies => (accumulator, key) =>
 export class MatchaAPI {
     constructor(cookies = null) {
       const opt = {
-        baseURL: 'http://localhost:3000',
-        withCredentials: true,
-        headers:{
-          Cookie: cookies ? Object.keys(cookies).reduce(cookieReducer(cookies), "") : null
+        baseURL: config.ROOT_URL,
+        withCredentials: true
+      }
+      if (cookies) {
+        opt.cookies = {
+          Cookie: Object.keys(cookies).reduce(cookieReducer(cookies), "")
         }
       }
 
@@ -37,10 +42,21 @@ export class MatchaAPI {
     }
 
     postForgotPassword = username => this.client.post(`/me?username=${username}`)
+    postResetPassword = data => this.client.post(`/auth/reset-password`, data)
 
   getMe = async () => {
       const me = await this.client.get('/me')
     return me.data
+  }
+
+  patchMe = async (user) => {
+    const form = new FormData();
+
+    Object.keys(user).forEach(key => {
+      form.append(key, user[key])
+    })
+
+    await this.client.patch('/me', form)
   }
 
     /*
@@ -52,15 +68,20 @@ export class MatchaAPI {
         return _.get(r, 'data.movie')
     }
 
+  searchMovies = async ({ query, source, sort, reverse, page }) => {
+    const r = await this.client.get(`movies/search?query=${encodeURIComponent(query)}&source=${source}&sort=${sort}&reverse=${reverse}&page=${page}`)
+    return _.get(r, 'data.movies')
+  }
+
+  getHotMovies = async () => {
+    const r = await this.client.get(`/movies/hot`)
+    return r.data
+  }
+
   getMovieTorrents = async imdbID => {
     const r = await this.client.get(`/movies/${imdbID}/torrents`)
     return _.get(r, 'data')
   }
-
-    getHotMovies = async () => {
-        const r = await this.client.get(`/movies/hot`)
-        return r.data
-    }
 
     getComments = async imdbID => {
         const r = await this.client.get(`/movies/${imdbID}/comments`)

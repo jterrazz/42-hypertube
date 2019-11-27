@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { withAuthSync } from '../utils/auth';
-import { withTranslation } from "react-i18next";
 import { User } from "../components/templates/Users";
 
 class Users extends Component {
@@ -23,4 +21,3 @@ class Users extends Component {
 }
 
 export default Users;
-// export default (withAuthSync(withTranslation()(Users)));

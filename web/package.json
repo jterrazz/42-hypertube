@@ -40,7 +40,7 @@
   "scripts": {
     "dev": "next -p 4242",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 3001"
   },
   "devDependencies": {
     "eslint": "^6.7.1"

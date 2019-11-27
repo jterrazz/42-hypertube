@@ -10,6 +10,7 @@ export const fetchUserIfNeeded = matchaClient => async (dispatch, getState) => {
         })
       })
       .catch(_ => {
+        // TODO + Router push to login
         return dispatch({
           type: types.CLEAR_USER
         })

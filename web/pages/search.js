@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
-import axios from "axios";
-import ApiURL from "../config/ApiURL";
 import { withAuthSync } from '../utils/auth';
 import Search from "../components/templates/Search";
-
-
-axios.defaults.withCredentials = true;
+import matchaClient from '../services/matcha-api'
 
 class SearchPage extends Component {
   state = {
@@ -20,7 +16,7 @@ class SearchPage extends Component {
 
   static async getInitialProps({ query }) {
     return {
-      title: query.title,
+      title: query.title
     }
   }
 
@@ -59,24 +55,22 @@ class SearchPage extends Component {
 
   async getSimilarTitleMovie({movieTitle = this.state.titleMovie, source = this.state.source, sort = this.state.sort, reverse = this.state.reverse, page = this.state.page}={}) {
     if (movieTitle) {
-      const response = await axios.get(`${ApiURL.movies_search}query=${encodeURIComponent(movieTitle)}&source=${source}&sort=${sort}&reverse=${reverse}&page=${page}`);
-      const responseData = response.data.movies;
+      const movies = await matchaClient.searchMovies({ query: movieTitle, source, sort, reverse, page })
       this.setState({
         titleMovie: movieTitle,
         sort: sort,
         source: source,
         reverse: reverse,
         page: this.state.page + 1,
-        movies: [...this.state.movies, ...responseData],
-        hasMore: responseData.length > 0,
+        movies: [...this.state.movies, ...movies],
+        hasMore: movies.length > 0,
       })
     }
     else {
-      const response = await axios.get(ApiURL.movie_hot);
-      const responseData = [...response.data.rankedMovies.popcorn, ...response.data.rankedMovies.yts];
+      const movies = await matchaClient.getHotMovies()
       this.setState({
-        movies: [...this.state.movies, ...responseData],
-        hasMore: false,
+        movies: [...movies.rankedMovies.popcorn, ...movies.rankedMovies.yts],
+        hasMore: false
       })
     }
   }
