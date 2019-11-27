@@ -213,6 +213,10 @@ class Bar extends Component {
       .catch(_ => {})
   }
 
+  componentDidMount() {
+    console.log(i18n)
+  }
+
   render() {
     return (
       <NavBar me={this.props.me} logout={this.logout} t={this.props.t}/>

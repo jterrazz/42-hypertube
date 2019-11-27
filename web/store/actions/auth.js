@@ -5,10 +5,7 @@ import { i18n } from '../../utils/i18n'
 export const login = ({ username, password }) => async dispatch => {
   const me = await matchaAPI.signin(username, password)
 
-  return dispatch({
-    type: types.SET_USER,
-    payload: me
-  })
+  return dispatch(setUser(me))
 }
 
 export const logout = async dispatch => {
@@ -19,8 +16,7 @@ export const logout = async dispatch => {
 }
 
 export const setUser = user => async dispatch => {
-  await i18n.changeLanguage('fr-FR');
-  // await i18n.changeLanguage(user.language);
+  await i18n.changeLanguage(user.language);
   return dispatch({
     type: types.SET_USER,
     payload: user

@@ -4,8 +4,8 @@ import Head from 'next/head'
 import {ThemeProvider} from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../styles/theme'
-import { I18nextProvider } from 'react-i18next';
-import { i18n } from '../utils/i18n';
+// import { I18nextProvider } from 'react-i18next';
+// import { i18n } from '../utils/i18n';
 import {NonScript} from "../components/atoms/NoScript";
 import {Provider} from "react-redux";
 import withRedux from "next-redux-wrapper";
@@ -48,11 +48,11 @@ class MyApp extends App {
         </Head>
           <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <I18nextProvider i18n={i18n}>
+            {/*<I18nextProvider i18n={i18n}>*/}
               <Provider store={store}>
                <Component {...pageProps} />
               </Provider>
-            </I18nextProvider>
+            {/*</I18nextProvider>*/}
           </ThemeProvider>
       </React.Fragment>
     )
