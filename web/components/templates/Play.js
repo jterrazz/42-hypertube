@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../organisms/NavBar";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { FilmDescription } from "../molecules/FilmDescription";
@@ -12,9 +11,6 @@ import Player from "../atoms/Player";
 import { getStreamURL } from '../../services/matcha-api'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -26,10 +22,10 @@ export const Play = (props, {movie = null, hashMovie = null, comment = null, sub
   const url = getStreamURL(props.hashMovie);
 
   return (
-    <div className={classes.root}>
-      <NavBar />
+    <>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+
         <Container fixed>
           {props.movie ?
             <>
@@ -49,7 +45,8 @@ export const Play = (props, {movie = null, hashMovie = null, comment = null, sub
             <CircularProgress />
           }
         </Container>
+
       </main>
-    </div>
+    </>
   )
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../organisms/NavBar";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "../atoms/CircularProgress";
@@ -14,9 +13,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Copyright from "../atoms/Copyright";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -29,10 +25,10 @@ const useStyles = makeStyles(theme => ({
 const Search = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <NavBar />
+    <>
       <main className={classes.content} >
         <div className={classes.toolbar} />
+
         <Container fixed>
           <InputSearch {...props}/>
           <Grid container spacing={4} style={{ marginTop: 15 }}>
@@ -64,8 +60,9 @@ const Search = (props) => {
 
         </Container>
         <Copyright />
+
       </main>
-    </div>
+    </>
   )
 };
 

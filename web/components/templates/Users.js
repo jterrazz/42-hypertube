@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../organisms/NavBar";
 import { makeStyles } from "@material-ui/core";
 import Copyright from "../atoms/Copyright";
 import Container from "@material-ui/core/Container";
@@ -14,9 +13,6 @@ import CircularProgress from "../atoms/CircularProgress";
 import { withTranslation } from "../../utils/i18n";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -30,8 +26,7 @@ const useStyles = makeStyles(theme => ({
 const User = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <NavBar />
+    <>
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
@@ -77,8 +72,9 @@ const User = (props) => {
         </Container>
 
         <Copyright />
+
       </main>
-    </div>
+    </>
   )
 };
 

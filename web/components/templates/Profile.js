@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../organisms/NavBar";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { TypographyTitle } from "../atoms/TypographyTitle";
@@ -12,9 +11,6 @@ import {makeStyles} from "@material-ui/core";
 import dynamic from "next/dynamic";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
   toolbar: theme.mixins.toolbar,
 
   content: {
@@ -33,10 +29,10 @@ export const Profile = (props) => {
   const FormUpdateImage = dynamic(() => import("../molecules/FormUpdateImageProfile"));
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <NavBar/>
+    <>
       <main className={classes.content}>
         <div className={classes.toolbar}/>
+
         <Container fixed>
           <TypographyTitle text="Dashboard"/>
           {props.me ?
@@ -68,7 +64,8 @@ export const Profile = (props) => {
 
         </Container>
         <Copyright/>
+
       </main>
-    </div>
+    </>
   )
 };

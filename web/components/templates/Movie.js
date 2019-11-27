@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../organisms/NavBar";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -13,9 +12,6 @@ import {makeStyles} from "@material-ui/core";
 import {i18n} from '../../utils/i18n';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-  },
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -29,8 +25,7 @@ const useStyles = makeStyles(theme => ({
 export const Movie = (props) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <NavBar />
+    <>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {props.movie.title ?
@@ -96,6 +91,6 @@ export const Movie = (props) => {
         }
         <Copyright />
       </main>
-    </div>
+    </>
   )
 };

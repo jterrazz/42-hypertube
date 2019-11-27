@@ -11,6 +11,7 @@ import makeStore from '../store'
 import {fetchUserIfNeeded} from '../store/actions/auth'
 import {MatchaAPI} from '../services/matcha-api'
 import nextCookie from 'next-cookies';
+import NavBar from "../components/organisms/NavBar";
 
 class MyApp extends App {
 
@@ -26,14 +27,26 @@ class MyApp extends App {
         return await oldGetInitialProps(ctx);
     }
 
+    let ActiveNavBar = false;
+
+    if (ctx.pathname === '/'
+      || ctx.pathname === '/users'
+      || ctx.pathname === '/search'
+      || ctx.pathname === '/movie/[id]'
+      || ctx.pathname === '/torrent'
+      || ctx.pathname === '/play'
+      || ctx.pathname === '/profile')
+      ActiveNavBar = true;
+
     return {
-      pageProps: await Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
+      pageProps: await Component.getInitialProps ? await Component.getInitialProps(ctx) : {},
+      ActiveNavBar: ActiveNavBar
     };
   }
 
   // TODO Maybe put noscript in body
   render() {
-    const {Component, pageProps, store} = this.props;
+    const {Component, pageProps, store, ActiveNavBar} = this.props;
 
     return (
       <React.Fragment>
@@ -45,7 +58,10 @@ class MyApp extends App {
           <ThemeProvider theme={theme}>
             <CssBaseline/>
             <Provider store={store}>
-             <Component {...pageProps} />
+              <div style={{ display: 'flex', }}>
+                {ActiveNavBar ? <NavBar /> : '' }
+                <Component {...pageProps} />
+              </div>
             </Provider>
           </ThemeProvider>
       </React.Fragment>
