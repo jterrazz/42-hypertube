@@ -19,7 +19,7 @@ import {Home as HomeIcon, Search as SearchIcon} from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import PeopleIcon from '@material-ui/icons/People';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import {withTranslation} from '../../utils/i18n';
+import {withTranslation, i18n} from '../../utils/i18n';
 import {useTranslation} from 'react-i18next';
 import Link from "next/link";
 import {connect} from "react-redux";

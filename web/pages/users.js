@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { User } from "../components/templates/Users";
+import UsersTemplate from "../components/templates/Users";
 import {authentified} from "../wrappers/auth";
 
 class Users extends Component {
@@ -14,7 +14,7 @@ class Users extends Component {
 
   render() {
     return (
-      <User
+      <UsersTemplate
         users={this.props.users}
       />
     )

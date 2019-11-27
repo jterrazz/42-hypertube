@@ -11,6 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "../atoms/CircularProgress";
+import { withTranslation } from "../../utils/i18n";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const User = (props) => {
+const User = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -80,3 +81,5 @@ export const User = (props) => {
     </div>
   )
 };
+
+export default withTranslation('common')(User);

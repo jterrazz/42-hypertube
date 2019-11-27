@@ -19,7 +19,7 @@ export const logout = async dispatch => {
 }
 
 export const setUser = user => async dispatch => {
-  await i18n.changeLanguage('us');
+  await i18n.changeLanguage('fr-FR');
   // await i18n.changeLanguage(user.language);
   return dispatch({
     type: types.SET_USER,
