@@ -7,7 +7,7 @@ import { Casting } from "../molecules/Casting";
 import { Comment } from "../molecules/Comment";
 import CircularProgress from "../atoms/CircularProgress";
 import { makeStyles } from "@material-ui/core";
-import URL_Images from "../../utils/external-assets";
+import URL_Images from "../../services/online-assets";
 import Player from "../atoms/Player";
 import { getStreamURL } from '../../services/matcha-api'
 

@@ -43,6 +43,7 @@
     "start": "next start -p 3001"
   },
   "devDependencies": {
-    "eslint": "^6.7.1"
+    "eslint": "^6.7.1",
+    "eslint-plugin-react": "^7.16.0"
   }
 }

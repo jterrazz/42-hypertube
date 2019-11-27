@@ -1,6 +1,6 @@
 import React from "react";
 import CardMedia from "@material-ui/core/CardMedia";
-import URL_Images from "../../utils/external-assets";
+import URL_Images from "../../services/online-assets";
 import {makeStyles} from "@material-ui/core";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 

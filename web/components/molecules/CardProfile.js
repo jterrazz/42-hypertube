@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// TODO Change text and translate
 export const CardProfile = (props) => {
   const classes = useStyles();
   return (
@@ -37,7 +38,7 @@ export const CardProfile = (props) => {
           <CardMedia
             title="Vector"
             image="/static/ilustracion-vector.png"
-            style={{ height: 150}}
+            style={{height: 150}}
           />
         </Grid>
       </Grid>

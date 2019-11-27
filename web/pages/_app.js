@@ -5,7 +5,7 @@ import {ThemeProvider} from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../styles/theme'
 import {I18nextProvider} from 'react-i18next';
-import i18n from '../utils/i18n';
+import i18next from '../utils/i18n';
 import {NonScript} from "../components/atoms/NoScript";
 import {Provider} from "react-redux";
 import withRedux from "next-redux-wrapper";
@@ -46,14 +46,14 @@ class MyApp extends App {
           <script src="https://www.google.com/recaptcha/api.js" async defer/>
           <NonScript/>
         </Head>
-        <Provider store={store}>
           <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <I18nextProvider i18n={i18n}>
-              <Component {...pageProps} />
+            <I18nextProvider i18n={i18next}>
+              <Provider store={store}>
+               <Component {...pageProps} />
+              </Provider>
             </I18nextProvider>
           </ThemeProvider>
-        </Provider>
       </React.Fragment>
     )
   }

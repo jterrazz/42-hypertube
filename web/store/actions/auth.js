@@ -1,5 +1,6 @@
 import * as types from '../types'
 import matchaAPI from "../../services/matcha-api";
+import i18next from '../../utils/i18n'
 
 export const login = ({ username, password }) => async dispatch => {
   const me = await matchaAPI.signin(username, password)
@@ -17,16 +18,25 @@ export const logout = async dispatch => {
   })
 }
 
-export const setUser = user => dispatch => {
-  // i18next.changeLanguage(response.data.user.language); // TODO
+export const setUser = user => async dispatch => {
+  console.log(user.language)
+  await i18next.changeLanguage(user.language);
   return dispatch({
     type: types.SET_USER,
     payload: user
   })
 }
 
+export const patchUser = user => async dispatch => {
+  await matchaAPI.patchMe(user)
+  return dispatch(setUser(user))// TODO Try with ,user
+}
+
 export const fetchUserIfNeeded = (matchaClient, force = false) => async (dispatch, getState) => {
-  if (!getState().auth.user || force) {
+  if (!getState().auth.requested || force) {
+    dispatch({
+      type: types.SET_REQUESTED
+    })
     return matchaClient.getMe()
       .then(me => dispatch(setUser(me)))
       .catch(error => {

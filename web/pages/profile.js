@@ -9,10 +9,10 @@ import FormPassword from "../components/organisms/FormProfileChangePassword";
 import FormInfos from "../components/organisms/FormProfileChangeInfos";
 import * as Yup from "yup";
 import dynamic from "next/dynamic";
-import { CardProfile } from "../components/molecules/CardProfile";
-import { TypographyTitle } from "../components/atoms/TypographyTitle";
+import {CardProfile} from "../components/molecules/CardProfile";
+import {TypographyTitle} from "../components/atoms/TypographyTitle";
 import Copyright from "../components/atoms/Copyright";
-import {fetchUserIfNeeded} from "../store/actions/auth";
+import {fetchUserIfNeeded, patchUser} from "../store/actions/auth";
 import {connect} from "react-redux";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
@@ -48,12 +48,12 @@ const validationSchemaPassword = Yup.object({
 });
 
 const validationSchemaInfos = Yup.object({
-    firstName: Yup.string().required('Required'),
-    lastName: Yup.string().required('Required'),
-    email: Yup.string()
-      .email('Enter a valid email')
-      .required('Email is required')
-  });
+  firstName: Yup.string().required('Required'),
+  lastName: Yup.string().required('Required'),
+  email: Yup.string()
+    .email('Enter a valid email')
+    .required('Email is required')
+});
 
 const validationSchemaImage = Yup.object({
   profileImageUrl: Yup.mixed().notRequired()
@@ -71,8 +71,10 @@ const validationSchemaImage = Yup.object({
 
 class Profile extends Component {
 
-  static async getInitialProps({ matchaClient, store }) {
-    store.dispatch(fetchUserIfNeeded(matchaClient, true)) // TODO Force user update
+  static async getInitialProps({req, matchaClient, store}) {
+    if (!req) {
+      store.dispatch(fetchUserIfNeeded(matchaClient, true))
+    }
     return {}
   }
 
@@ -82,60 +84,61 @@ class Profile extends Component {
   };
 
   onChange = () => {
-    this.setState({ ErrorMail: ""});
+    this.setState({ErrorMail: ""});
   };
 
-  SubmitImage = (data) => {
+  SubmitImage = (userData) => {
     // TODO Replace by redux
-    matchaClient.patchMe(data)
+    matchaClient.patchMe(_.pick(userData, ['firstName', 'lastName', 'email', 'language'])) // TODO Probably put the pick inside the component
       .then()
       .catch(error => {
-        this.setState({ Error: "Unknown error. Please try again"});
+        this.setState({Error: "Unknown error. Please try again"});
+      })
+  };
+// TODO Rename
+  SubmitInfos = (userData) => {
+    this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language']))) // TODO Probably put the pick inside the component
+      .then()
+      .catch(error => {
+        error.response && error.response.status === 409
+          ? this.setState({ErrorMail: "This email is already in use"})
+          : this.setState({ErrorMail: "Unknown error. Please try again"});
       })
   };
 
-  SubmitInfos = (data) => {
-    // i18next.changeLanguage(data.language); // TODO Replace by redux
-    matchaClient.patchMe(data)
-      .then()
-      .catch(error => {
-        return error.response && error.response.status === 409
-          ? this.setState({ ErrorMail: "This email is already in use"})
-          : this.setState({ ErrorMail: "Unknown error. Please try again"});
-      })
-  };
-
-  SubmitPassword = (data) => {
+  SubmitPassword = (userData) => {
     // TODO + check passwords are the same
     // TODO + error not printing
-    matchaClient.patchMe(data)
+    matchaClient.patchMe(_.pick(userData, ['firstName', 'lastName', 'email', 'language'])) // TODO Probably put the pick inside the component
       .then()
       .catch(error => {
-        this.setState({ Error: "Unknown error. Please try again"});
+        this.setState({Error: "Unknown error. Please try again"});
       })
   };
 
-  render () {
-    const { classes } = this.props;
-    const value = { confirmPassword: "", password: ""};
-    const valueImage = { profileImageUrl: ""};
+  render() {
+    const {classes} = this.props;
+    const value = {confirmPassword: "", password: ""};
+    const valueImage = {profileImageUrl: ""};
 
     const FormUpdateImage = dynamic(() => import("../components/molecules/FormUpdateImageProfile"));
 
     return (
       <div className={classes.root}>
-        <NavBar />
-        <main className={classes.content} >
-          <div className={classes.toolbar} />
+        <NavBar/>
+        <main className={classes.content}>
+          <div className={classes.toolbar}/>
           <Container fixed>
             <TypographyTitle text="Dashboard"/>
-            {this.props.me ? <CardProfile username={this.props.me.username}/> : ''}
+            {this.props.me ?
+              <CardProfile username={this.props.me.username}/> : ''}
             <TypographyTitle text="Settings Profile"/>
-            <Grid container spacing={5} style={{ marginTop: 10 }}>
+            <Grid container spacing={5} style={{marginTop: 10}}>
               <Grid item md={4}>
                 <Paper className={classes.paper_card}>
                   <Formik
-                    render={props => <FormUpdateImage error={this.props.Error} {...props} />}
+                    render={props => <FormUpdateImage
+                      error={this.props.Error} {...props} />}
                     initialValues={this.valueImage}
                     validationSchema={this.validationSchemaImage}
                     onSubmit={this.SubmitImage}
@@ -146,7 +149,8 @@ class Profile extends Component {
                 <Grid item md={4}>
                   <Paper className={classes.paper_card}>
                     <Formik
-                      render={props => <FormInfos error={this.props.ErrorMail} onChange={this.onChange} {...props} />}
+                      render={props => <FormInfos error={this.props.ErrorMail}
+                                                  onChange={this.onChange} {...props} />}
                       initialValues={this.props.me}
                       validationSchema={this.validationSchemaInfos}
                       onSubmit={this.SubmitInfos}
@@ -167,7 +171,7 @@ class Profile extends Component {
             </Grid>
 
           </Container>
-          <Copyright />
+          <Copyright/>
         </main>
       </div>
     )

@@ -210,12 +210,10 @@ class Bar extends Component {
   logout = () => {
     this.props.dispatch(logout)
       .then(() => Router.push('/'))
-      .catch(_ => {
-      })
+      .catch(_ => {})
   }
 
   render() {
-    console.log(this.props.me)
     return (
       <NavBar me={this.props.me} logout={this.logout}/>
     )

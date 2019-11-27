@@ -2,6 +2,12 @@ import i18n from "i18next";
 import {initReactI18next} from 'react-i18next';
 import LanguageDetector from "i18next-browser-languagedetector";
 
+/*
+ * i18next is an internationalization framework
+ * https://www.i18next.com/
+ */
+
+// TODO Translation bugs when the app loads on client (it reinitialise i18next and put the default language)
 i18n.use(LanguageDetector)
   .use(initReactI18next)
   .init({
@@ -131,6 +137,7 @@ i18n.use(LanguageDetector)
     fallbackLng: ["fr-FR", "en-US"],
     ns: ["translations"],
     defaultNS: "translations",
+    debug: true,
   });
 
 export default i18n;

@@ -2,7 +2,8 @@ import * as types from '../types';
 
 const initialState = {
   user: null,
-  needToCompleteProfile: false
+  needToCompleteProfile: false,
+  requested: false
 };
 
 export default (state = initialState, action) => {
@@ -13,6 +14,8 @@ export default (state = initialState, action) => {
       return {...state, needToCompleteProfile: true};
     case types.CLEAR_USER:
       return {...state, user: null, needToCompleteProfile: false};
+    case types.SET_REQUESTED:
+      return {...state, requested: true};
     default:
       return state;
   }
