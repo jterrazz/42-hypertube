@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {withAuthSync} from '../../utils/auth'
 import {Movie} from "../../components/templates/Movie";
+import {authentified} from "../../wrappers/auth";
 
 class MoviePage extends Component {
   state = {
@@ -20,4 +20,4 @@ class MoviePage extends Component {
   }
 }
 
-export default withAuthSync(MoviePage);
+export default authentified(true)(MoviePage);
