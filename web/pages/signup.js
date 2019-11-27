@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   userName: Yup.string()
-    .required('Required')
+    .required('UserName is required')
     .strict()
     .trim('Spaces not allowed in UserName'),
   email: Yup.string()

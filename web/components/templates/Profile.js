@@ -12,7 +12,6 @@ import dynamic from "next/dynamic";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
-
   content: {
     flexGrow: 1,
   },

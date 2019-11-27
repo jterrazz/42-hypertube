@@ -7,15 +7,15 @@ import Router from 'next/router'
 import {authentified} from "../wrappers/auth";
 
 const validationSchema = Yup.object().shape({
-  userName: Yup.string()
-    .required('Required')
+  username: Yup.string()
+    .required('UserName is required')
     .strict()
     .trim('Spaces not allowed in UserName'),
 });
 
 class Forgot extends Component {
   state = {
-    ErrorUserName: '',
+    ErrorUserName: "",
   };
 
   onChange = () => {
@@ -35,12 +35,11 @@ class Forgot extends Component {
   };
 
   render() {
-    const values = {userName: ""};
+    const values = {username: ""};
 
     return (
       <Formik
-        render={props => <Form {...props} error={this.state.ErrorUserName}
-                               onChange={this.onChange}/>}
+        render={props => <Form {...props} error={this.state.ErrorUserName} onChange={this.onChange}/>}
         initialValues={values}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}

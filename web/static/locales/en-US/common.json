@@ -55,5 +55,6 @@
   "This email is already in use": "This email is already in use",
   "\"email\" must be a valid email": "\"email\" must be a valid email",
   "A profile image is required": "A profile image is required",
-  "Welcome back": "Welcome back"
+  "Welcome back": "Welcome back",
+  "UserName is required": "UserName is required"
 }

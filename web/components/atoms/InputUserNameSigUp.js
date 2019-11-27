@@ -24,7 +24,7 @@ export const InputUserNameSigUp = (props, error = null) => {
       value={values.userName}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.userName ? t(errors.userName) : ''}
+      helperText={touched.userName ? i18n.t(errors.userName) : ''}
       error={touched.userName && Boolean(errors.userName) || Boolean(props.error === 'This username is already in use' ? props.error : '')}
     />
   )

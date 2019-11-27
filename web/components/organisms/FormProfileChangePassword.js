@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FormPassword = props => {
+const FormPassword = (props) => {
   const { handleSubmit } = props;
 
   const classes = useStyles();

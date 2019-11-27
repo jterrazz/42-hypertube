@@ -4,7 +4,7 @@ import {i18n} from '../../utils/i18n';
 
 export const InputConfirmPasswordSigUp = (props) => {
   const {
-    values,
+    values: {confirmPassword},
     errors,
     touched,
     handleChange,
@@ -23,10 +23,10 @@ export const InputConfirmPasswordSigUp = (props) => {
       label={i18n.t("Confirm Password")}
       id="confirmPassword"
       autoComplete="confirm-password"
-      value={values.confirmPassword}
+      value={confirmPassword}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.confirmPassword ? t(errors.confirmPassword) : ''}
+      helperText={touched.confirmPassword ? i18n.t(errors.confirmPassword) : ''}
       error={touched.confirmPassword && Boolean(errors.confirmPassword)}
     />
   )

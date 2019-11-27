@@ -4,7 +4,7 @@ import {i18n} from '../../utils/i18n';
 
 export const InputPasswordSigUp = (props) => {
   const {
-    values,
+    values: {password},
     errors,
     touched,
     handleChange,
@@ -23,10 +23,10 @@ export const InputPasswordSigUp = (props) => {
       type="password"
       id="password"
       autoComplete="current-password"
-      value={values.password}
+      value={password}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.password ? t(errors.password) : ''}
+      helperText={touched.password ? i18n.t(errors.password) : ''}
       error={touched.password && Boolean(errors.password)}
     />
   )
