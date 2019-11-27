@@ -4,8 +4,6 @@ import Head from 'next/head'
 import {ThemeProvider} from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../styles/theme'
-// import { I18nextProvider } from 'react-i18next';
-// import { i18n } from '../utils/i18n';
 import {NonScript} from "../components/atoms/NoScript";
 import {Provider} from "react-redux";
 import withRedux from "next-redux-wrapper";
@@ -34,7 +32,6 @@ class MyApp extends App {
   }
 
   // TODO Maybe put noscript in body
-  // TODO Google in register only
   render() {
     const {Component, pageProps, store} = this.props;
 
@@ -43,16 +40,13 @@ class MyApp extends App {
         <Head>
           <title>HyperTube</title>
           <link rel="icon" href="../static/favicons.png"/>
-          <script src="https://www.google.com/recaptcha/api.js" async defer/>
           <NonScript/>
         </Head>
           <ThemeProvider theme={theme}>
             <CssBaseline/>
-            {/*<I18nextProvider i18n={i18n}>*/}
-              <Provider store={store}>
-               <Component {...pageProps} />
-              </Provider>
-            {/*</I18nextProvider>*/}
+            <Provider store={store}>
+             <Component {...pageProps} />
+            </Provider>
           </ThemeProvider>
       </React.Fragment>
     )

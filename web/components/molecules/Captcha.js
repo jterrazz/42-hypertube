@@ -1,8 +1,10 @@
-import Recaptcha from "react-recaptcha";
+import Recaptcha from "react-google-recaptcha";
+
 import { TypographyError } from "../atoms/TypographyError";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+// TODO Put in .env
 export const Captcha = (props) => {
   const {
     touched,
@@ -13,9 +15,8 @@ export const Captcha = (props) => {
     <div>
       <Recaptcha
         name="reCaptcha"
-        sitekey="6Lfdu7wUAAAAAMj_bppkQZ8kSLrcd_6Vv1P-xHgF"
-        render="explicit"
-        verifyCallback={response => {
+        sitekey="6LeSqisUAAAAAJ9byufAwiGKahmH3F67vBwvN3E2"
+        onChange={response => {
           setFieldValue('reCaptcha', response)
         }}
       />
