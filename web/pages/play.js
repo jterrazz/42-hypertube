@@ -1,6 +1,7 @@
 import React from 'react';
 import { Play } from "../components/templates/Play"
 import matchaAPI from '../services/matcha-api'
+import {authentified} from "../wrappers/auth";
 
 class Player extends React.Component {
 
@@ -72,4 +73,4 @@ class Player extends React.Component {
   }
 }
 
-export default Player;
+export default authentified(true)(Player);

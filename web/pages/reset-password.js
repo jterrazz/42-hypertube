@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import * as Yup from 'yup';
-import {Router, withRouter} from "next/router";
+import { Router } from "next/router";
 import { Form } from '../components/templates/FormResetPassword';
 import { Formik } from "formik";
 import matchaClient from '../services/matcha-api'
+import {authentified} from "../wrappers/auth";
 
 const validationSchema = Yup.object({
   password: Yup.string("")
@@ -53,4 +54,4 @@ class Forgot extends Component {
   }
 }
 
-export default withRouter(Forgot);
+export default authentified(false)(Forgot);

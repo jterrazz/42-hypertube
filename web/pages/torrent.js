@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Torrent } from '../components/templates/Torrent';
+import {authentified} from "../wrappers/auth";
 
 class TorrentPlay extends Component {
   render () {
@@ -9,4 +10,4 @@ class TorrentPlay extends Component {
   }
 }
 
-export default TorrentPlay;
+export default authentified(true)(TorrentPlay);

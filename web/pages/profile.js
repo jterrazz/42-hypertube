@@ -19,6 +19,7 @@ import Copyright from "../components/atoms/Copyright";
 import {fetchUserIfNeeded} from "../store/actions/auth";
 import {connect} from "react-redux";
 import matchaClient from '../services/matcha-api'
+import {authentified} from "../wrappers/auth";
 
 const styles = theme => ({
   root: {
@@ -186,5 +187,5 @@ const mapStateToProps = state => ({
   me: state.auth.user
 })
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+export default authentified(true)(connect(mapStateToProps)(withStyles(styles)(Profile)));
 // export default withTranslation()(withAuthSync(withStyles(styles)(connect(mapStateToProps)(Profile))));

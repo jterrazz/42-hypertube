@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { User } from "../components/templates/Users";
+import {authentified} from "../wrappers/auth";
 
 class Users extends Component {
 
@@ -20,4 +21,4 @@ class Users extends Component {
   }
 }
 
-export default Users;
+export default authentified(true)(Users);

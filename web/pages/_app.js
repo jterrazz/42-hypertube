@@ -15,43 +15,25 @@ import { fetchUserIfNeeded  } from '../store/actions/auth'
 import { MatchaAPI } from '../services/matcha-api'
 import nextCookie from 'next-cookies';
 
-function redirectTo(destination, { res, status } = {}) {
-  if (res) {
-    res.writeHead(status || 302, { Location: destination })
-    res.end()
-  } else {
-    if (destination[0] === '/' && destination[1] !== '/') {
-      Router.push(destination)
-    } else {
-      window.location = destination
-    }
-  }
-}
-
 class MyApp extends App {
 
-  // TODO Maybe use a wrapper
   static async getInitialProps({Component, ctx}) {
-    const oldGetter = Component.getInitialProps
+    const oldGetInitialProps = Component.getInitialProps
 
-    // TODO Set cookies
-    const cookies = nextCookie(ctx);
-    // TODO Need to reload when login happend
-    const matchaClient = new MatchaAPI(cookies)
-
-    // Dispatch store actions for the entire app
     Component.getInitialProps = async (ctx) => {
-      await ctx.store.dispatch(fetchUserIfNeeded(matchaClient))
-      ctx.matchaClient = matchaClient
-      if (oldGetter)
-        return await oldGetter(ctx)
-    }
-    const pageProps = await Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+      const matchaClient = new MatchaAPI(nextCookie(ctx))
 
-    return {pageProps};
+      await ctx.store.dispatch(fetchUserIfNeeded(matchaClient, false))
+      ctx.matchaClient = matchaClient
+      if (oldGetInitialProps)
+        return await oldGetInitialProps(ctx);
+    }
+
+    return {
+      pageProps: await Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
+    };
   }
 
-  // TODO Try adding this only on the signup page and then delete it
   componentDidMount() {
     // const jssStyles = document.querySelector('#jss-server-side');
     // if (jssStyles) {

@@ -7,6 +7,7 @@ import i18next from "i18next";
 import nextCookie from 'next-cookies';
 
 import matchaAPI from '../services/matcha-api'
+import {authentified} from "../wrappers/auth";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -57,4 +58,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default authentified(false)(Login);

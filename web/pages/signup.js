@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { Form } from "../components/templates/FormSignup";
 import matchaAPI from '../services/matcha-api'
 import {Router} from "next/router";
+import {authentified} from "../wrappers/auth";
 
 const FILE_SIZE = 1600 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -66,4 +67,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default authentified(false)(SignUp);

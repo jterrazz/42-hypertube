@@ -1,7 +1,7 @@
 import * as types from '../types'
 
-export const fetchUserIfNeeded = matchaClient => async (dispatch, getState) => {
-  if (!getState().auth.user) {
+export const fetchUserIfNeeded = (matchaClient, force = false) => async (dispatch, getState) => {
+  if (!getState().auth.user || force) {
     return matchaClient.getMe()
       .then(me => {
         return dispatch({

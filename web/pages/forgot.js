@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import {Form} from "../components/templates/FormForgot";
 import matchaAPI from '../services/matcha-api'
 import Router from 'next/router'
+import {authentified} from "../wrappers/auth";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string()
@@ -47,4 +48,4 @@ class Forgot extends Component {
   }
 }
 
-export default Forgot;
+export default authentified(false)(Forgot);

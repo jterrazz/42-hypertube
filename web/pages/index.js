@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { withAuthSync } from '../utils/auth';
-import { withTranslation } from "react-i18next";
 import { Home } from "../components/templates/Home";
 import { connect } from 'react-redux'
+import { authentified } from '../wrappers/auth'
 
 // TODO cache some pages for some time
 // TODO On pages remove all withTranslation(), because getInitialProps is not called
@@ -12,13 +11,12 @@ import { connect } from 'react-redux'
 // TODO Rename variables + use correct case
 
 class Index extends Component {
-  state = {
-    movie: []
-  };
 
-  static async getInitialProps({Component, ctx, store, matchaClient}) {
+  static async getInitialProps({ matchaClient }) {
     const { rankedMovies } = await matchaClient.getHotMovies()
-    // TODO Check if response has data
+    if (!rankedMovies)
+      return {}; // TODO Handle error
+
     const [featuredYTS, featuredPopcorn] = await Promise.all([matchaClient.getMovie(rankedMovies.yts[0].imdb_id), matchaClient.getMovie(rankedMovies.popcorn[0].imdb_id)])
 
     return {
@@ -43,4 +41,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps)(Index);
+export default authentified(true)(connect(mapStateToProps)(Index));

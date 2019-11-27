@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { withAuthSync } from '../utils/auth';
 import Search from "../components/templates/Search";
 import matchaClient from '../services/matcha-api'
+import {authentified} from "../wrappers/auth";
 
 class SearchPage extends Component {
   state = {
@@ -95,4 +96,4 @@ class SearchPage extends Component {
   }
 }
 
-export default withAuthSync(SearchPage);
+export default authentified(true)(SearchPage);
