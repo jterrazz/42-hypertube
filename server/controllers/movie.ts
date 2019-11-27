@@ -2,6 +2,9 @@ import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
 import * as _ from 'lodash'
 import * as OS from 'opensubtitles-api'
+import * as fs from 'fs'
+import * as srt2vtt from 'srt2vtt'
+import axios from 'axios'
 
 import * as ytsApi from '../services/yts-api'
 import * as popcornAPI from '../services/popcorn-api'
@@ -132,40 +135,71 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
   const imbdId = ctx.params.imdbId
 
   const subtitles = await OpenSubtitlesClient.search({ imdbid: imbdId })
+  ctx.body = { subtitles }
+}
 
-  ctx.body = {
-    subtitles: Object.entries(subtitles)
-      .filter((el: any) => el[1] && el[1].vtt)
-      .map((entries: any) => {
-        const subtitle = entries[1]
+// switch (subtitle.langcode) {
+//   case 'en':
+//     ret.lang = 'en-US'
+//     break
+//   case 'fr':
+//     ret.lang = 'fr-FR'
+//     break
+//   default:
+//     return null
+// }
 
-        const ret: any = {
-          kind: 'subtitles',
-          src: subtitle.vtt,
+export const getMovieSubtitleController: Middleware = ctx => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const imdbId = ctx.params.imdbId
+      const lang = await Joi.string()
+        .valid('en', 'fr')
+        .required()
+        .validateAsync(ctx.params.lang)
+
+      const filename = imdbId + '-' + lang + '.vtt'
+      const filepath = `${__dirname}/../public/subtitles/${filename}`
+
+      ctx.body = { url: `/public/subtitles/${filename}` }
+
+      fs.stat(filepath, async (err, _) => {
+        try {
+          if (err == null) {
+            return resolve()
+          } else if (err.code === 'ENOENT') {
+            const subtitles = await OpenSubtitlesClient.search({ imdbid: imdbId })
+            ctx.assert(subtitles[lang], 404, "This subtitle doesn't exist")
+
+            const { data: srtSubtitle } = await axios.get(subtitles[lang].url)
+
+            srt2vtt(srtSubtitle, (err, vttSubtitle) => {
+              if (err) return reject(err)
+
+              fs.writeFile(filepath, vttSubtitle, err => {
+                if (err) return reject(err)
+
+                return resolve()
+              })
+            })
+          } else {
+            return reject(err)
+          }
+        } catch (err) {
+          return reject(err)
         }
-
-        switch (subtitle.langcode) {
-          case 'en':
-            ret.srcLang = 'en-US'
-            break
-          case 'fr':
-            ret.srcLang = 'fr-FR'
-            break
-          default:
-            return null
-        }
-
-        return ret
       })
-      .filter(el => el),
-  }
+    } catch (err) {
+      reject(err)
+    }
+  })
 }
 
 export const getMovieCommentsController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId
 
   const movie = await Movie.findOne({ imdbId }).populate('comments.user')
-// TODO Maybe reverse result
+
   ctx.body = {
     comments: movie
       ? movie.comments
@@ -177,7 +211,7 @@ export const getMovieCommentsController: Middleware = async ctx => {
             ret.user.profileImageUrl = serializedUser.profileImageUrl
             return ret
           })
-          //.sort((a, b) => a < b)
+          .sort((a, b) => a._id < b._id)
       : [],
   }
 }

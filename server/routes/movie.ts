@@ -10,6 +10,7 @@ import {
   addMovieCommentController,
   addMoviePlayController,
   getMovieSubtitlesController,
+  getMovieSubtitleController,
 } from '../controllers'
 
 const movieRouter = new Router()
@@ -22,6 +23,7 @@ movieRouter
   .get('/:imdbId', getMovieController)
   .get('/:imdbId/torrents', getMovieTorrentsController)
   .get('/:imdbId/subtitles', getMovieSubtitlesController)
+  .get('/:imdbId/subtitles/:lang', getMovieSubtitleController)
   .get('/:imdbId/comments', getMovieCommentsController)
   .post('/:imdbId/comments', addMovieCommentController)
   .post('/:imdbId/play', addMoviePlayController)
