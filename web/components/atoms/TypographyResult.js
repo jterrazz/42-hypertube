@@ -1,12 +1,12 @@
 import Typography from "@material-ui/core/Typography";
 import React from "react";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 export const TypographyResult = (props, title) => {
-  const [t] = useTranslation();
+
   return (
     <Typography variant="h4">
-      0 {t("result matched")} `{props.title}`
+      0 {i18n.t("result matched")} `{props.title}`
     </Typography>
   )
 };

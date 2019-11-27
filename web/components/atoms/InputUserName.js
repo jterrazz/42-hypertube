@@ -1,6 +1,6 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 export const InputUserName = (props, error = null, onChange) => {
   const {
@@ -10,7 +10,7 @@ export const InputUserName = (props, error = null, onChange) => {
     handleChange,
     handleBlur,
   } = props;
-  const [t] = useTranslation();
+
   return (
     <TextField
       variant="outlined"
@@ -18,13 +18,13 @@ export const InputUserName = (props, error = null, onChange) => {
       required
       fullWidth
       id="username"
-      label={t("UserName")}
+      label={i18n.t("UserName")}
       name="username"
       autoComplete="username"
       value={username}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
-      helperText={touched.username ? t(errors.username) : ''}
+      helperText={touched.username ? i18n.t(errors.username) : ''}
       error={touched.username && Boolean(errors.username) || Boolean(props.error)}
     />
   )

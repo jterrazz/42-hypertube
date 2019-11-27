@@ -1,6 +1,6 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 export const InputUpdateEmail = (props, error = null) => {
   const {
@@ -11,7 +11,6 @@ export const InputUpdateEmail = (props, error = null) => {
     handleBlur,
   } = props;
 
-  const [t] = useTranslation();
   return (
     <TextField
       style={{ background: "white" }}
@@ -20,13 +19,13 @@ export const InputUpdateEmail = (props, error = null) => {
       required
       fullWidth
       id="email"
-      label={t("Email Address")}
+      label={i18n.t("Email Address")}
       name="email"
       autoComplete="email"
       value={values.email}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
-      helperText={touched.email ? t(errors.email) : ''}
+      helperText={touched.email ? i18n.t(errors.email) : ''}
       error={touched.email && Boolean(errors.email) || Boolean(props.error)}
     />
   )

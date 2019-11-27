@@ -1,14 +1,14 @@
 import Recaptcha from "react-recaptcha";
 import { TypographyError } from "../atoms/TypographyError";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 export const Captcha = (props) => {
   const {
     touched,
     errors,
     setFieldValue } = props;
-  const [t] = useTranslation();
+
   return (
     <div>
       <Recaptcha
@@ -20,7 +20,7 @@ export const Captcha = (props) => {
         }}
       />
       {errors.reCaptcha && touched.reCaptcha && (
-        <TypographyError ErrorText={t(errors.reCaptcha)} />
+        <TypographyError ErrorText={i18n.t(errors.reCaptcha)} />
       )}
     </div>
   )

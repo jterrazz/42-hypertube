@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import React from "react";
 import {makeStyles} from "@material-ui/core";
+import {i18n} from '../../utils/i18n';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -27,7 +28,7 @@ export const CardProfile = (props) => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Typography variant="h6" component="h3" className={classes.welcome}>
-            Welcome back {props.username}!
+            {i18n.t("Welcome back")} {props.username}!
           </Typography>
           <Typography component="h4">
             <div>Paper can be used to build surface</div>

@@ -6,7 +6,7 @@ import { InputFirstName } from "../atoms/InputFirstName";
 import { InputLastName } from "../atoms/InputLastName";
 import { InputUpdateEmail } from "../atoms/InputUpdateEmail";
 import { SelectLang } from "../molecules/SelectLang";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -19,10 +19,9 @@ const FormInfos = (props) => {
   const { handleSubmit } = props;
 
   const classes = useStyles();
-  const [t] = useTranslation();
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      {props.error ? <BoxError text={t(props.error)}/> : ''}
+      {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
       <InputFirstName {...props} />
       <InputLastName {...props} />
       <InputUpdateEmail {...props} />

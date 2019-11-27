@@ -10,7 +10,7 @@ import {TorrentItems} from "../molecules/TorrentItems";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Copyright from "../atoms/Copyright";
 import {makeStyles} from "@material-ui/core";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
 
 export const Movie = (props) => {
   const classes = useStyles();
-  const [t] = useTranslation();
   return (
     <div className={classes.root}>
       <NavBar />
@@ -60,7 +59,7 @@ export const Movie = (props) => {
 
               {props.movie && props.movie.similar.length > 0 ?
                 <Grid item xs={12} md={6}>
-                  <Typography variant="h4">{t("Similar")}</Typography>
+                  <Typography variant="h4">{i18n.t("Similar")}</Typography>
                   <Grid container spacing={4} style={{ marginTop: 15 }}>
                     {props.movie && props.movie.similar ? props.movie.similar.slice(0, 4).map((item, index) => (
                       <CardPosterFilmSimilar {...item} key={index}/>

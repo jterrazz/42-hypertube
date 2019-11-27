@@ -1,6 +1,6 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 export const InputPassword = (props, error = null, onChange) => {
   const {
@@ -10,7 +10,7 @@ export const InputPassword = (props, error = null, onChange) => {
     handleChange,
     handleBlur,
   } = props;
-  const [t] = useTranslation();
+
   return (
     <TextField
       variant="outlined"
@@ -18,14 +18,14 @@ export const InputPassword = (props, error = null, onChange) => {
       required
       fullWidth
       name="password"
-      label={t("Password")}
+      label={i18n.t("Password")}
       type="password"
       id="password"
       autoComplete="current-password"
       value={password}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
-      helperText={touched.password ? t(errors.password) : ''}
+      helperText={touched.password ? i18n.t(errors.password) : ''}
       error={touched.password && Boolean(errors.password) || Boolean(props.error)}
     />
   )
