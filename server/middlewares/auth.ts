@@ -34,6 +34,6 @@ export const userInfosCompleted = async (ctx, next) =>
         }
       })
       .catch(err => {
-        ctx.throw(403, 'The user must complete its profile. ' + err.message)
+        ctx.throw(422, 'The user must complete its profile. ' + err.message)
       })
   })
