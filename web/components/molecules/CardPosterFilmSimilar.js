@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
-import Link from "@material-ui/core/Link";
+import Link from "next/link";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -36,7 +36,7 @@ export const CardPosterFilmSimilar = (item) => {
     <Grid item xs={4} md={3}>
       <Card elevation={0} className={classes.card}>
         {item.played ? <VisibilityIcon className={classes.visibility}/> : ''}
-        <Link href={`/search?title=${encodeURIComponent(item.title)}`}>
+        <Link href={`/search?title=${encodeURIComponent(item.title)}`} passHref>
           <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
         </Link>
         <CardContent>

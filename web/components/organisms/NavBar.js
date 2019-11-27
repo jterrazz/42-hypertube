@@ -113,31 +113,41 @@ const NavBar = (props) => {
         className={classes.listItem}
       >
         <Link href="/" passHref>
-          <ListItem button component="a">
+          <ListItem button>
             <ListItemIcon>
               <HomeIcon/>
             </ListItemIcon>
             <ListItemText primary={i18n.t("Home")}/>
           </ListItem>
         </Link>
-        <ListItem button component="a" href="/search">
-          <ListItemIcon>
-            <SearchIcon/>
-          </ListItemIcon>
-          <ListItemText primary={i18n.t("Search")}/>
-        </ListItem>
-        <ListItem button component="a" href="/profile">
-          <ListItemIcon>
-            <PersonIcon/>
-          </ListItemIcon>
-          <ListItemText primary={i18n.t("My profile")}/>
-        </ListItem>
-        <ListItem button component="a" href="/torrent">
-          <ListItemIcon>
-            <SystemUpdateAltIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Torrent"/>
-        </ListItem>
+
+        <Link href="/search" passHref>
+          <ListItem button>
+            <ListItemIcon>
+              <SearchIcon/>
+            </ListItemIcon>
+            <ListItemText primary={i18n.t("Search")}/>
+          </ListItem>
+        </Link>
+
+        <Link href="/profile" passHref>
+          <ListItem button>
+            <ListItemIcon>
+              <PersonIcon/>
+            </ListItemIcon>
+            <ListItemText primary={i18n.t("My profile")}/>
+          </ListItem>
+        </Link>
+
+        <Link href="/torrent" passHref>
+          <ListItem button>
+            <ListItemIcon>
+              <SystemUpdateAltIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Torrent"/>
+          </ListItem>
+        </Link>
+
         <Link href="/users" passHref>
           <ListItem button component="a">
             <ListItemIcon>

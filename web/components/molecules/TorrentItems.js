@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from '@material-ui/core/IconButton'
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
 import {makeStyles} from "@material-ui/core";
+import Link from "next/link";
 
 const useStyles = makeStyles(theme => ({
   state: {
@@ -48,9 +49,11 @@ export const TorrentItems = (props) => {
               </div>
             </Typography>
             <span className={classes.toolbarButtons}>
-              <IconButton color="inherit" aria-label="More Options" href={`/play?hash=${item.hash}&id=${props.movieId}`}>
-                <PlayCircleFilledWhiteIcon className={classes.play}/>
-              </IconButton>
+              <Link href={`/play?hash=${item.hash}&id=${props.movieId}`} passHref>
+                <IconButton color="inherit" aria-label="More Options">
+                  <PlayCircleFilledWhiteIcon className={classes.play}/>
+                </IconButton>
+              </Link>
             </span>
           </Toolbar>
         </Paper>

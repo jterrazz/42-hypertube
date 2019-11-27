@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import Link from "@material-ui/core/Link";
+import Link from "next/link";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -39,7 +39,7 @@ export const CardPosterFilm = (item) => {
     <Grid item xs={4} md={2}>
       <Card elevation={0} className={classes.card}>
         {item.played ? <VisibilityIcon className={classes.visibility}/> : ''}
-        <Link href={`/movie/${item.imdb_id}`}>
+        <Link href={`/movie/${item.imdb_id}`} passHref>
           <CardMedia title={item.title} image={item.poster_image ? item.poster_image : URL_Images.poster} className={classes.img} />
         </Link>
         <CardContent>

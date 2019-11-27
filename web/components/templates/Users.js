@@ -40,7 +40,7 @@ const User = (props) => {
             {props.users ?
               <>
                 {props.users.map((item, index) => (
-                  <Grid item xs={4} md={4} key={index}>
+                  <Grid item xs={12} sm={6} md={3} key={index}>
                     <Paper style={{background: '#F2F5F9'}}>
                       <List>
                         <ListItem style={{display: 'flex', justifyContent: "center"}}>

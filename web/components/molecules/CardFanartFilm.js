@@ -34,7 +34,7 @@ export const CardFanartFilm = (props, film) => {
     <Grid item xs={12} md={6}>
       <Card elevation={0} style={{ position: 'relative' }}>
         {props.film.played ? <VisibilityIcon className={classes.visibility}/> : ''}
-        <Link href={`/movie/${props.film.imdb_id}`}>
+        <Link href={`/movie/${props.film.imdb_id}`} passHref>
           <CardMedia title={props.film.title} image={props.film.fanart_image} className={classes.BigImg} />
         </Link>
         <CardContent>
