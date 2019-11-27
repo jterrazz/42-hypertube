@@ -11,7 +11,7 @@ import logger from '../utils/logger'
 ffmpeg.setFfmpegPath(ffmpegPath)
 
 /*
- * The list of trackers is consistent whatever the torrent
+ * The default list of trackers used by our two sources
  */
 
 const DEFAULT_TRACKERS = [
@@ -47,7 +47,7 @@ const getConvertedStream = (inputStream, fileExtension) => {
         '-g 52',
       ])
       .outputFormat('mp4')
-      .on('error', err => pass.end())
+      .on('error', _ => pass.end())
       .pipe(pass)
   } else {
     inputStream.pipe(pass)
@@ -81,44 +81,43 @@ export const getTorrentStreamController: Middleware = async ctx => {
   const engine = torrentStream(magnet, { path: folderPath })
 
   return new Promise((resolve, reject) => {
-    engine
-      .on('error', err => logger.error)
-      .on('ready', async () => {
-        try {
-          if (!engine.files.length) return reject()
+    engine.on('error', logger.error).on('ready', async () => {
+      try {
+        if (!engine.files.length) return reject()
 
-          const files = engine.files.sort((a, b) => (a.length > b.length ? -1 : 1))
-          const originalMovieStream = files[0].createReadStream()
+        const orderedFiles = engine.files.sort((a, b) => (a.length > b.length ? -1 : 1))
+        const file = orderedFiles[0]
+        const originalMovieStream = file.createReadStream()
 
-          const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
-          if (!torrent) {
-            const newTorrent = new Torrent({ hash, lastRead: new Date() })
-            await newTorrent.save()
-          }
-
-          const moviePath = folderPath + '/' + files[0].path
-          const fileExtension = moviePath.split('.').pop()
-          let tries = 0
-
-          const intervalId = setInterval(() => {
-            fs.stat(moviePath, (_, stats) => {
-              if (!stats) return
-
-              const filesize = stats.size
-
-              if (tries > 420) {
-                clearInterval(intervalId)
-              } else if (filesize > files[0].length / 100) {
-                clearInterval(intervalId)
-                ctx.body = getConvertedStream(originalMovieStream, fileExtension)
-                return resolve()
-              }
-              tries++
-            })
-          }, 2000)
-        } catch (e) {
-          return reject(e)
+        const torrent = await Torrent.findOneAndUpdate({ hash }, { lastRead: new Date() }, { new: true })
+        if (!torrent) {
+          const newTorrent = new Torrent({ hash, lastRead: new Date() })
+          await newTorrent.save()
         }
-      })
+
+        const moviePath = folderPath + '/' + file.path
+        const fileExtension = moviePath.split('.').pop()
+        let tries = 0
+
+        const intervalId = setInterval(() => {
+          fs.stat(moviePath, (_, stats) => {
+            if (!stats) return
+
+            const filesize = stats.size
+
+            if (tries > 420) {
+              clearInterval(intervalId)
+            } else if (filesize > file.length / 100) {
+              clearInterval(intervalId)
+              ctx.body = getConvertedStream(originalMovieStream, fileExtension)
+              return resolve()
+            }
+            tries++
+          })
+        }, 2000)
+      } catch (e) {
+        return reject(e)
+      }
+    })
   })
 }

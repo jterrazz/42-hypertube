@@ -11,8 +11,8 @@ const envSchema = Joi.object()
       .default('development'),
     SERVER_PORT: Joi.number().default(3000),
     CLIENT_URL: Joi.string().required(),
-    API_URL: Joi.string().default("http://localhost:3000"),
-    API_VERSION: Joi.string().default("1.0"),
+    API_URL: Joi.string().default('http://localhost:3000'),
+    API_VERSION: Joi.string().default('1.0'),
 
     // MongoDB
     MONGO_URL: Joi.string().default('mongodb://localhost/hypertube'),
@@ -23,6 +23,7 @@ const envSchema = Joi.object()
     JWT_SECRET: Joi.string().default('test_only_secret'),
     SESSION_SECRET: Joi.string().default('test_only_secret'),
     BCRYPT_COST: Joi.number().default(10),
+    CAPTCHA_KEY: Joi.string(),
 
     // External services
     API_NODE_MAILER_KEY: Joi.string().required(),

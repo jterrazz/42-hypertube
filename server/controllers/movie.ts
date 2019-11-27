@@ -168,14 +168,16 @@ export const getMovieCommentsController: Middleware = async ctx => {
 // TODO Maybe reverse result
   ctx.body = {
     comments: movie
-      ? movie.comments.map((el: any) => {
-          const serializedUser = serializeUser(el.user._doc)
-          const data = _.pick(el, PUBLIC_COMMENT_PROPERTIES)
+      ? movie.comments
+          .map((el: any) => {
+            const serializedUser = serializeUser(el.user._doc)
+            const data = _.pick(el, PUBLIC_COMMENT_PROPERTIES)
 
-          const ret = { ...data }
-          ret.user.profileImageUrl = serializedUser.profileImageUrl
-          return ret
-        })
+            const ret = { ...data }
+            ret.user.profileImageUrl = serializedUser.profileImageUrl
+            return ret
+          })
+          //.sort((a, b) => a < b)
       : [],
   }
 }

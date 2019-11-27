@@ -2,6 +2,7 @@ import * as passport from 'koa-passport'
 import * as _ from 'lodash'
 import * as crypto from 'crypto'
 import { Strategy as LocalStrategy } from 'passport-local'
+import axios from 'axios'
 
 import config from '../config'
 import { User } from '../models'
@@ -68,19 +69,29 @@ passport.use(
         language: Joi.string()
           .valid('fr-FR', 'en-US')
           .default('en-US'),
+        reCaptcha: Joi.string(),
       })
       .required()
 
     try {
       const userInput = await userSchema.validateAsync(req.body)
-      const profileImage = req.files['profileImage']
 
-      if (!profileImage)
-        done(new ClientError(409, 'A profile image is required'))
+      const { data } = await axios.get('https://www.google.com/recaptcha/api/siteverify', {
+        params: { response: userInput.reCaptcha, secret: config.CAPTCHA_KEY },
+      })
+
+      if (!data.success) {
+        return done(new ClientError(409, 'Wrong captcha code'))
+      }
+
+      const profileImage = req.files['profileImage']
+      if (!profileImage) {
+        return done(new ClientError(409, 'A profile image is required'))
+      }
 
       // Setup new user
       const profileImageName = await cacheToImageFolder(profileImage)
-      const user = new User({...userInput, profileImageName})
+      const user = new User({ ...userInput, profileImageName })
       await user.savePassword(userInput.password)
       await user.save()
 
