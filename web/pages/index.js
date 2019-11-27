@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { Home } from "../components/templates/Home";
-import { connect } from 'react-redux'
-import { authentified } from '../wrappers/auth'
+import React, {Component} from 'react'
+import {Home} from "../components/templates/Home";
+import {connect} from 'react-redux'
+import {authentified} from '../wrappers/auth'
 
 // TODO cache some pages for some time
 // TODO On pages remove all withTranslation(), because getInitialProps is not called
@@ -9,11 +9,12 @@ import { authentified } from '../wrappers/auth'
 // TODO Auth middleware from redux
 // TODO Clean imports and condensate them
 // TODO Rename variables + use correct case
+// TODO Could use proptypes
 
 class Index extends Component {
 
-  static async getInitialProps({ matchaClient }) {
-    const { rankedMovies } = await matchaClient.getHotMovies()
+  static async getInitialProps({matchaClient}) {
+    const {rankedMovies} = await matchaClient.getHotMovies()
     if (!rankedMovies)
       return {}; // TODO Handle error
 
@@ -26,7 +27,7 @@ class Index extends Component {
     };
   }
 
-  render () {
+  render() {
     return (
       <Home
         movie={this.props.rankedMovies}

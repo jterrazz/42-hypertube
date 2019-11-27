@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-// import { withRouter } from 'next/router'
-import { withAuthSync } from '../../utils/auth'
-import { Movie } from "../../components/templates/Movie";
+import {withAuthSync} from '../../utils/auth'
+import {Movie} from "../../components/templates/Movie";
 
 class MoviePage extends Component {
   state = {
@@ -9,12 +8,12 @@ class MoviePage extends Component {
     movieTorrent: []
   };
 
-  static async getInitialProps({req, query: { id }, matchaClient }) {
+  static async getInitialProps({query: {id}, matchaClient}) {
     const [movie, movieTorrent] = await Promise.all([matchaClient.getMovie(id), matchaClient.getMovieTorrents(id)])
-    return { movieId: id, movie, movieTorrent }
+    return {movieId: id, movie, movieTorrent}
   }
 
-  render () {
+  render() {
     return (
       <Movie movie={this.props.movie} movieTorrent={this.props.movieTorrent}/>
     )
@@ -22,4 +21,3 @@ class MoviePage extends Component {
 }
 
 export default withAuthSync(MoviePage);
-// export default withRouter(withAuthSync(MoviePage));

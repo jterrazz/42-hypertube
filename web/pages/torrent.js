@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import { Torrent } from '../components/templates/Torrent';
+import {Torrent} from '../components/templates/Torrent';
 import {authentified} from "../wrappers/auth";
 
 class TorrentPlay extends Component {
-  render () {
+  render() {
     return (
-      <Torrent />
+      <Torrent/>
     )
   }
 }

@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import * as Yup from 'yup';
-import { Router } from "next/router";
-import { Form } from '../components/templates/FormResetPassword';
-import { Formik } from "formik";
+import {Router} from "next/router";
+import {Form} from '../components/templates/FormResetPassword';
+import {Formik} from "formik";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
 
@@ -17,11 +17,7 @@ const validationSchema = Yup.object({
 
 class Forgot extends Component {
 
-  state = {
-    password: null
-  };
-
-  static async getInitialProps({ query }) {
+  static async getInitialProps({query}) {
     return {
       token: query.token,
     }
@@ -35,13 +31,11 @@ class Forgot extends Component {
 
     matchaClient.postResetPassword(user)
       .then(() => Router.push('/'))
-      .catch(err => {
-        // TODO Reset form
-      })
+      .catch(_ => {})
   };
 
-  render () {
-    const values = { confirmPassword: "", password: "" };
+  render() {
+    const values = {confirmPassword: "", password: ""};
 
     return (
       <Formik

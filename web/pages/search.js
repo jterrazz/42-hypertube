@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { withAuthSync } from '../utils/auth';
 import Search from "../components/templates/Search";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
@@ -15,7 +14,7 @@ class SearchPage extends Component {
     page: 1,
   };
 
-  static async getInitialProps({ query }) {
+  static async getInitialProps({query}) {
     return {
       title: query.title
     }
@@ -54,9 +53,15 @@ class SearchPage extends Component {
     this.getSimilarTitleMovie();
   };
 
-  async getSimilarTitleMovie({movieTitle = this.state.titleMovie, source = this.state.source, sort = this.state.sort, reverse = this.state.reverse, page = this.state.page}={}) {
+  async getSimilarTitleMovie({movieTitle = this.state.titleMovie, source = this.state.source, sort = this.state.sort, reverse = this.state.reverse, page = this.state.page} = {}) {
     if (movieTitle) {
-      const movies = await matchaClient.searchMovies({ query: movieTitle, source, sort, reverse, page })
+      const movies = await matchaClient.searchMovies({
+        query: movieTitle,
+        source,
+        sort,
+        reverse,
+        page
+      })
       this.setState({
         titleMovie: movieTitle,
         sort: sort,
@@ -66,8 +71,7 @@ class SearchPage extends Component {
         movies: [...this.state.movies, ...movies],
         hasMore: movies.length > 0,
       })
-    }
-    else {
+    } else {
       const movies = await matchaClient.getHotMovies()
       this.setState({
         movies: [...movies.rankedMovies.popcorn, ...movies.rankedMovies.yts],
@@ -80,7 +84,7 @@ class SearchPage extends Component {
     this.getSimilarTitleMovie({movieTitle: this.props.title});
   }
 
-  render () {
+  render() {
     return (
       <Search
         keyPressEnterSearch={this.keyPressEnterSearch}

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -9,21 +8,22 @@ import List from '@material-ui/core/List';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Avatar from "@material-ui/core/Avatar";
 import ListItem from '@material-ui/core/ListItem'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Home as HomeIcon, Search as SearchIcon } from '@material-ui/icons';
+import {Home as HomeIcon, Search as SearchIcon} from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import PeopleIcon from '@material-ui/icons/People';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import { logout } from '../../utils/auth';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import Link from "next/link";
 import {connect} from "react-redux";
+import Router from "next/router";
+import {logout} from '../../store/actions/auth'
 
 const drawerWidth = 240;
 
@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 
 // TODO Replace all by <Link>
 function NavBar(props, {me = null}) {
-  const { container } = props;
+  const {container} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -93,20 +93,21 @@ function NavBar(props, {me = null}) {
         </Typography>
         {props.me ?
           <>
-          <Avatar alt={props.me.username} src={props.me.profileImageUrl} className={classes.Avatar}/>
-          <Typography variant="subtitle2" gutterBottom>
-            {props.me.firstName} {props.me.lastName}
-          </Typography>
+            <Avatar alt={props.me.username} src={props.me.profileImageUrl}
+                    className={classes.Avatar}/>
+            <Typography variant="subtitle2" gutterBottom>
+              {props.me.firstName} {props.me.lastName}
+            </Typography>
           </>
-        : ''}
+          : ''}
         <Button
-            onClick={logout}
-            color="primary"
-          >
+          onClick={props.logout}
+          color="primary"
+        >
           {t("logout")}
         </Button>
       </Grid>
-      <Divider />
+      <Divider/>
       <List
         component="nav" aria-label="main mailbox folders"
         className={classes.listItem}
@@ -114,35 +115,35 @@ function NavBar(props, {me = null}) {
         <Link href="/" passHref>
           <ListItem button component="a">
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon/>
             </ListItemIcon>
-            <ListItemText primary={t("Home")} />
+            <ListItemText primary={t("Home")}/>
           </ListItem>
         </Link>
         <ListItem button component="a" href="/search">
           <ListItemIcon>
-            <SearchIcon />
+            <SearchIcon/>
           </ListItemIcon>
-          <ListItemText primary={t("Search")} />
+          <ListItemText primary={t("Search")}/>
         </ListItem>
         <ListItem button component="a" href="/profile">
           <ListItemIcon>
-            <PersonIcon />
+            <PersonIcon/>
           </ListItemIcon>
-          <ListItemText primary={t("My profile")} />
+          <ListItemText primary={t("My profile")}/>
         </ListItem>
         <ListItem button component="a" href="/torrent">
           <ListItemIcon>
-            <SystemUpdateAltIcon />
+            <SystemUpdateAltIcon/>
           </ListItemIcon>
-          <ListItemText primary="Torrent" />
+          <ListItemText primary="Torrent"/>
         </ListItem>
         <Link href="/users" passHref>
           <ListItem button component="a">
             <ListItemIcon>
-              <PeopleIcon />
+              <PeopleIcon/>
             </ListItemIcon>
-            <ListItemText primary={t("Users")} />
+            <ListItemText primary={t("Users")}/>
           </ListItem>
         </Link>
       </List>
@@ -165,7 +166,7 @@ function NavBar(props, {me = null}) {
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
-            <MenuIcon />
+            <MenuIcon/>
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -204,20 +205,19 @@ function NavBar(props, {me = null}) {
   );
 }
 
-// NavBar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  // container: PropTypes.instanceOf(typeof Element === 'undefined' ? Object : Element),
-// };
-
-// TODO Move the prop to higher components
 class Bar extends Component {
 
+  logout = () => {
+    this.props.dispatch(logout)
+      .then(() => Router.push('/'))
+      .catch(_ => {
+      })
+  }
+
   render() {
+    console.log(this.props.me)
     return (
-      <NavBar me={this.props.me}/>
+      <NavBar me={this.props.me} logout={this.logout}/>
     )
   }
 }

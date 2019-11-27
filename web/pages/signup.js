@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
-import { Form } from "../components/templates/FormSignup";
+import {Form} from "../components/templates/FormSignup";
 import matchaAPI from '../services/matcha-api'
 import {Router} from "next/router";
 import {authentified} from "../wrappers/auth";
@@ -50,15 +50,24 @@ class SignUp extends Component {
       .then(() => Router.push('/'))
       .catch(error => {
         if (error.response && (error.response.status === 422 || error.response.status === 409)) {
-          this.setState({ Error: error.response.data });
+          this.setState({Error: error.response.data});
         }
       });
 
-  render () {
-    const values = { userName: "", password: "", confirmPassword: "", firstName: "", lastName: "", email: "", file: "", reCaptcha: ""};
+  render() {
+    const values = {
+      userName: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      file: "",
+      reCaptcha: ""
+    };
     return (
       <Formik
-        render={props => <Form {...props} error={this.state.Error} />}
+        render={props => <Form {...props} error={this.state.Error}/>}
         initialValues={values}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}

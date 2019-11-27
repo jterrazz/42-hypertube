@@ -36,10 +36,13 @@ export class MatchaAPI {
    * Auth routes
    */
 
-  signin = async (username, password) => await this.client.post('/auth/signin', {
-    username,
-    password
-  })
+  signin = async (username, password) => {
+    const r = await this.client.post('/auth/signin', {
+      username,
+      password
+    })
+    return _.get(r, 'data.user')
+  }
 
   signup = async user => {
     const form = new FormData();
@@ -53,6 +56,8 @@ export class MatchaAPI {
 
     return await this.client.post('/auth/signup', form)
   }
+
+  signout = async () => await this.client.get('/auth/logout')
 
   postForgotPassword = username => this.client.post(`/me?username=${username}`)
   postResetPassword = data => this.client.post(`/auth/reset-password`, data)
