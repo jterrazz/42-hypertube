@@ -19,6 +19,7 @@ import {Home as HomeIcon, Search as SearchIcon} from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import PeopleIcon from '@material-ui/icons/People';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+import {withTranslation} from '../../utils/i18n';
 import {useTranslation} from 'react-i18next';
 import Link from "next/link";
 import {connect} from "react-redux";
@@ -68,12 +69,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // TODO Replace all by <Link>
-function NavBar(props, {me = null}) {
-  const {container} = props;
+const NavBar = (props) => {
+  const {container, t} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [t] = useTranslation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -215,7 +215,7 @@ class Bar extends Component {
 
   render() {
     return (
-      <NavBar me={this.props.me} logout={this.logout}/>
+      <NavBar me={this.props.me} logout={this.logout} t={this.props.t}/>
     )
   }
 }
@@ -224,4 +224,4 @@ const mapStateToProps = state => ({
   me: state.auth.user
 })
 
-export default connect(mapStateToProps)(Bar);
+export default connect(mapStateToProps)(withTranslation('common')(Bar));

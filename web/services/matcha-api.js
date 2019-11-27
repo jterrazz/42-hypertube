@@ -23,7 +23,7 @@ export class MatchaAPI {
       withCredentials: true
     }
 
-    if (cookies) {
+    if (cookies && cookies['koa:sess' && 'koa:sess.sig']) {
       opt.headers = {
         Cookie: Object.keys(cookies).reduce(cookieToStringReducer(cookies), "")
       }
