@@ -9,7 +9,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.SET_USER:
-      return {...state, user: action.payload, needToCompleteProfile: false};
+      const user = {
+        ...state.user,
+        ...action.payload
+      }
+      return {...state, user, needToCompleteProfile: false};
     case types.SET_INCOMPLETE_USER:
       return {...state, needToCompleteProfile: true};
     case types.CLEAR_USER:

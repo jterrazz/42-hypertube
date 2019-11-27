@@ -1,6 +1,6 @@
 import * as types from '../types'
 import matchaAPI from "../../services/matcha-api";
-import i18next from '../../utils/i18n'
+import { i18n } from '../../utils/i18n'
 
 export const login = ({ username, password }) => async dispatch => {
   const me = await matchaAPI.signin(username, password)
@@ -19,8 +19,7 @@ export const logout = async dispatch => {
 }
 
 export const setUser = user => async dispatch => {
-  console.log(user.language)
-  await i18next.changeLanguage(user.language);
+  await i18n.changeLanguage(user.language);
   return dispatch({
     type: types.SET_USER,
     payload: user
