@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 
 // TODO Replace all by <Link>
 const NavBar = (props) => {
-  const {container, t} = props;
+  const {container} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -104,7 +104,7 @@ const NavBar = (props) => {
           onClick={props.logout}
           color="primary"
         >
-          {t("logout")}
+          {i18n.t("logout")}
         </Button>
       </Grid>
       <Divider/>
@@ -117,20 +117,20 @@ const NavBar = (props) => {
             <ListItemIcon>
               <HomeIcon/>
             </ListItemIcon>
-            <ListItemText primary={t("Home")}/>
+            <ListItemText primary={i18n.t("Home")}/>
           </ListItem>
         </Link>
         <ListItem button component="a" href="/search">
           <ListItemIcon>
             <SearchIcon/>
           </ListItemIcon>
-          <ListItemText primary={t("Search")}/>
+          <ListItemText primary={i18n.t("Search")}/>
         </ListItem>
         <ListItem button component="a" href="/profile">
           <ListItemIcon>
             <PersonIcon/>
           </ListItemIcon>
-          <ListItemText primary={t("My profile")}/>
+          <ListItemText primary={i18n.t("My profile")}/>
         </ListItem>
         <ListItem button component="a" href="/torrent">
           <ListItemIcon>
@@ -143,7 +143,7 @@ const NavBar = (props) => {
             <ListItemIcon>
               <PeopleIcon/>
             </ListItemIcon>
-            <ListItemText primary={t("Users")}/>
+            <ListItemText primary={i18n.t("Users")}/>
           </ListItem>
         </Link>
       </List>
@@ -213,13 +213,9 @@ class Bar extends Component {
       .catch(_ => {})
   }
 
-  componentDidMount() {
-    console.log(i18n)
-  }
-
   render() {
     return (
-      <NavBar me={this.props.me} logout={this.logout} t={this.props.t}/>
+      <NavBar me={this.props.me} logout={this.logout}/>
     )
   }
 }
@@ -228,4 +224,4 @@ const mapStateToProps = state => ({
   me: state.auth.user
 })
 
-export default connect(mapStateToProps)(withTranslation('common')(Bar));
+export default connect(mapStateToProps)(Bar);
