@@ -1,12 +1,11 @@
 import Typography from "@material-ui/core/Typography";
 import React from "react";
-import { useTranslation } from 'react-i18next';
+import {i18n} from '../../utils/i18n';
 
 export const TypographyError = (props, ErrorText) => {
-  const [t] = useTranslation();
   return (
     <Typography component="h1" variant="h5">
-      {props.ErrorText}
+      {i18n.t(props.ErrorText)}
     </Typography>
   )
 };

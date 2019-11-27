@@ -1,6 +1,6 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 
 export const InputFirstName = (props) => {
   const {
@@ -10,7 +10,6 @@ export const InputFirstName = (props) => {
     handleChange,
     handleBlur,} = props;
 
-  const [t] = useTranslation();
   return (
     <TextField
       style={{ background: "white" }}
@@ -21,11 +20,11 @@ export const InputFirstName = (props) => {
       required
       fullWidth
       id="firstName"
-      label={t("First Name")}
+      label={i18n.t("First Name")}
       value={values.firstName}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.firstName ? t(errors.firstName) : ''}
+      helperText={touched.firstName ? i18n.t(errors.firstName) : ''}
       error={touched.firstName && Boolean(errors.firstName)}
     />
   )

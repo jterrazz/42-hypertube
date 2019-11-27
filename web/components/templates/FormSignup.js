@@ -18,6 +18,7 @@ import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { DividerSplit } from "../atoms/DividerSplit";
 import Copyright from "../atoms/Copyright";
+import {i18n} from '../../utils/i18n';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,7 +47,7 @@ export const Form = (props, {error = null}) => {
           <form className={classes.form} onSubmit={handleSubmit}>
             <GroupButtonOauth />
             <DividerSplit />
-            {props.error ? <BoxError text={t(props.error)}/> : ''}
+            {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
             <Grid container justify="center" spacing={2}>
               <Grid container direction="column" justify="center" alignItems="center" item xs={6} sm={2}><InputImage {...props}/></Grid>
               <Grid item xs={12} sm={5}><InputFirstName {...props} /></Grid>

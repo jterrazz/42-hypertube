@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid/Grid";
 import {Field} from "formik";
 import CustomImageInput from "./CustomImageInput";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 import {BoxError} from "./ErrorMessage";
 
 const useStyles = makeStyles(theme => ({
@@ -31,8 +31,6 @@ const FormUpdateImgae = (props, error) => {
 
   const classes = useStyles();
 
-  const [t] = useTranslation();
-
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       {props.error ? <BoxError text={props.error}/> : ''}
@@ -43,7 +41,7 @@ const FormUpdateImgae = (props, error) => {
           fileUpload={profileImageUrl}
           title="Select a file"
           setFieldValue={setFieldValue}
-          errorMessage={errors['profileImageUrl'] ? t(errors['profileImageUrl']) : undefined}
+          errorMessage={errors['profileImageUrl'] ? i18n.t(errors['profileImageUrl']) : undefined}
           touched={touched['profileImageUrl']}
           style={{ display: 'flex' }}
           onBlur={handleBlur}
@@ -57,7 +55,7 @@ const FormUpdateImgae = (props, error) => {
         color="primary"
         className={classes.submit}
       >
-        {t("save image")}
+        {i18n.t("save image")}
       </Button>
     </form>
   );

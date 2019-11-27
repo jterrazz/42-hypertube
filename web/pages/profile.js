@@ -1,39 +1,10 @@
 import React, {Component} from 'react';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
-import withStyles from "@material-ui/core/styles/withStyles";
-import Grid from '@material-ui/core/Grid'
-import NavBar from "../components/organisms/NavBar";
-import {Formik} from "formik";
-import FormPassword from "../components/organisms/FormProfileChangePassword";
-import FormInfos from "../components/organisms/FormProfileChangeInfos";
 import * as Yup from "yup";
-import dynamic from "next/dynamic";
-import {CardProfile} from "../components/molecules/CardProfile";
-import {TypographyTitle} from "../components/atoms/TypographyTitle";
-import Copyright from "../components/atoms/Copyright";
 import {fetchUserIfNeeded, patchUser} from "../store/actions/auth";
 import {connect} from "react-redux";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: theme.mixins.toolbar,
-
-  content: {
-    flexGrow: 1,
-  },
-  main_profile: {
-    backgroundColor: "#F6F4FC",
-  },
-  paper_card: {
-    padding: 10,
-    background: "#F2F5F9"
-  }
-});
+import { Profile } from "../components/templates/Profile";
 
 const FILE_SIZE = 1600 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -69,7 +40,7 @@ const validationSchemaImage = Yup.object({
     )
 });
 
-class Profile extends Component {
+class profile extends Component {
 
   static async getInitialProps({req, matchaClient, store}) {
     if (!req) {
@@ -117,69 +88,29 @@ class Profile extends Component {
   };
 
   render() {
-    const {classes} = this.props;
     const value = {confirmPassword: "", password: ""};
     const valueImage = {profileImageUrl: ""};
-
-    const FormUpdateImage = dynamic(() => import("../components/molecules/FormUpdateImageProfile"));
-
     return (
-      <div className={classes.root}>
-        <NavBar/>
-        <main className={classes.content}>
-          <div className={classes.toolbar}/>
-          <Container fixed>
-            <TypographyTitle text="Dashboard"/>
-            {this.props.me ?
-              <CardProfile username={this.props.me.username}/> : ''}
-            <TypographyTitle text="Settings Profile"/>
-            <Grid container spacing={5} style={{marginTop: 10}}>
-              <Grid item md={4}>
-                <Paper className={classes.paper_card}>
-                  <Formik
-                    render={props => <FormUpdateImage
-                      error={this.props.Error} {...props} />}
-                    initialValues={this.valueImage}
-                    validationSchema={this.validationSchemaImage}
-                    onSubmit={this.SubmitImage}
-                  />
-                </Paper>
-              </Grid>
-              {this.props.me ?
-                <Grid item md={4}>
-                  <Paper className={classes.paper_card}>
-                    <Formik
-                      render={props => <FormInfos error={this.props.ErrorMail}
-                                                  onChange={this.onChange} {...props} />}
-                      initialValues={this.props.me}
-                      validationSchema={this.validationSchemaInfos}
-                      onSubmit={this.SubmitInfos}
-                    />
-                  </Paper>
-                </Grid>
-                : ''}
-              <Grid item md={4}>
-                <Paper className={classes.paper_card}>
-                  <Formik
-                    render={props => <FormPassword {...props} />}
-                    initialValues={this.value}
-                    validationSchema={this.validationSchemaPassword}
-                    onSubmit={this.SubmitPassword}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-
-          </Container>
-          <Copyright/>
-        </main>
-      </div>
+      <Profile
+        validationSchemaPassword={this.validationSchemaPassword}
+        validationSchemaInfos={this.validationSchemaInfos}
+        validationSchemaImage={this.validationSchemaImage}
+        onChange={this.onChange}
+        SubmitImage={this.SubmitImage}
+        SubmitInfos={this.SubmitInfos}
+        SubmitPassword={this.SubmitPassword}
+        me={this.props.me}
+        Error={this.state.Error}
+        ErrorMail={this.state.ErrorMail}
+        value={value}
+        valueImage={valueImage}
+      />
     )
   }
 }
 
 const mapStateToProps = state => ({
   me: state.auth.user
-})
+});
 
-export default authentified(true)(connect(mapStateToProps)(withStyles(styles)(Profile)));
+export default authentified(true)(connect(mapStateToProps)(profile));

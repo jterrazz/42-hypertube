@@ -1,4 +1,4 @@
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 import {makeStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
 
 export const ButtonSubmit = (props) => {
   const classes = useStyles();
-  const [t] = useTranslation();
   return (
     <Button
       type="submit"
@@ -19,7 +18,7 @@ export const ButtonSubmit = (props) => {
       color="primary"
       className={classes.submit}
     >
-      {t(props.text)}
+      {i18n.t(props.text)}
     </Button>
   )
 };

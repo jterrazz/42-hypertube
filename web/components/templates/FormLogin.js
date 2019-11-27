@@ -10,7 +10,7 @@ import { InputPassword } from "../atoms/InputPassword"
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
 import Copyright from "../atoms/Copyright";
-import {useTranslation} from "react-i18next";
+import {i18n} from '../../utils/i18n';
 import {GroupButtonOauth} from "../organisms/GroupButtonOauth";
 import {DividerSplit} from "../atoms/DividerSplit";
 
@@ -37,7 +37,6 @@ export const Form = (props, error = null, onChange) => {
   const {
     handleSubmit,
   } = props;
-  const [t] = useTranslation();
   const classes = useStyles();
 
   return (
@@ -48,7 +47,7 @@ export const Form = (props, error = null, onChange) => {
           <form className={classes.form} onSubmit={handleSubmit}>
             <GroupButtonOauth />
             <DividerSplit />
-            {props.error ? <BoxError text={t(props.error)}/> : ''}
+            {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
             <InputUserName {...props} onChange={props.onChange} error={props.error}/>
             <InputPassword {...props} onChange={props.onChange} error={props.error}/>
             <ButtonSubmit text="Sign in" className={classes.submit}/>
