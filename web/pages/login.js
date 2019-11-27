@@ -26,12 +26,9 @@ class Login extends Component {
   };
 
   handleSubmit = (user) => {
-    this.props.dispatch(login(user)) // TODO Import and use dispatch args
-      .then(() => {
-        Router.push('/')
-      })
+    this.props.dispatch(login(user))
+      .then(() => Router.push('/'))
       .catch(error => {
-        console.log(error)
         error.response && error.response.status === 401
           ? this.setState({ErrorAuth: "Wrong email/password"})
           : this.setState({ErrorAuth: "Unknown error. Please try again"});
