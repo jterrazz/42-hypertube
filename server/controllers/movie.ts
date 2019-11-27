@@ -165,7 +165,7 @@ export const getMovieCommentsController: Middleware = async ctx => {
   const imdbId = ctx.params.imdbId
 
   const movie = await Movie.findOne({ imdbId }).populate('comments.user')
-
+// TODO Maybe reverse result
   ctx.body = {
     comments: movie
       ? movie.comments.map((el: any) => {

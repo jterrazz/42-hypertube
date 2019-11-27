@@ -15,7 +15,6 @@ export class ClientError extends Error {
   }
 
   statusCode = 400
-  isPassable = true
 }
 
 /*
