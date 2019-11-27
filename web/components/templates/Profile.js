@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Profile = (props) => {
+export const Profile = (props, onChange) => {
   const FormUpdateImage = dynamic(() => import("../molecules/FormUpdateImageProfile"));
   const classes = useStyles();
   return (
@@ -39,8 +39,7 @@ export const Profile = (props) => {
           <TypographyTitle text="Settings Profile"/>
           <Grid container spacing={5} style={{marginTop: 10}}>
             <BoxFormik
-              render={props => <FormUpdateImage
-                error={props.Error} {...props} />}
+              render={props => <FormUpdateImage error={props.Error} {...props} />}
               initialValues={props.valueImage}
               validationSchema={props.validationSchemaImage}
               onSubmit={props.SubmitImage}

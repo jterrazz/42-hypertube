@@ -2,7 +2,7 @@ import TextField from "@material-ui/core/TextField";
 import React from "react";
 import {i18n} from '../../utils/i18n';
 
-export const InputUpdateEmail = (props, error = null) => {
+export const InputUpdateEmail = (props, error = null, onChange) => {
   const {
     values,
     errors,

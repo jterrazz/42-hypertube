@@ -92,9 +92,9 @@ class profile extends Component {
     const valueImage = {profileImageUrl: ""};
     return (
       <Profile
-        validationSchemaPassword={this.validationSchemaPassword}
-        validationSchemaInfos={this.validationSchemaInfos}
-        validationSchemaImage={this.validationSchemaImage}
+        validationSchemaPassword={validationSchemaPassword}
+        validationSchemaInfos={validationSchemaInfos}
+        validationSchemaImage={validationSchemaImage}
         onChange={this.onChange}
         SubmitImage={this.SubmitImage}
         SubmitInfos={this.SubmitInfos}

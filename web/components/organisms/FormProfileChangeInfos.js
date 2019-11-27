@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FormInfos = (props) => {
+const FormInfos = (props, onChange) => {
   const { handleSubmit } = props;
 
   const classes = useStyles();
@@ -24,7 +24,7 @@ const FormInfos = (props) => {
       {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
       <InputFirstName {...props} />
       <InputLastName {...props} />
-      <InputUpdateEmail {...props} />
+      <InputUpdateEmail {...props} onChange={props.onChange} />
       <SelectLang {...props} />
       <ButtonSubmit text="save"/>
     </form>
