@@ -38,7 +38,7 @@ export const CardProfile = (props) => {
         <Grid item xs={12} md={6}>
           <CardMedia
             title="Vector"
-            image="/static/ilustracion-vector.png"
+            image="/static/images/ilustracion-vector.png"
             style={{height: 150}}
           />
         </Grid>

@@ -42,7 +42,7 @@ class MyApp extends App {
       <React.Fragment>
         <Head>
           <title>HyperTube</title>
-          <link rel="icon" href="../static/favicons.png"/>
+          <link rel="icon" href="../static/images/favicons.png"/>
           <script src="https://www.google.com/recaptcha/api.js" async defer/>
           <NonScript/>
         </Head>

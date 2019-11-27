@@ -18,26 +18,26 @@ export const ImageSplitPage = () => {
     <Grid item xs={false} sm={4} md={7}>
       <Grid container justify="flex-end" spacing={2}>
         <Grid item xs={4} md={3} className={classes.card}>
-          <CardMedia title="hot_1" image="/static/hot_1.jpg" className={classes.img} />
+          <CardMedia title="hot_1" image="/static/images/hot_1.jpg" className={classes.img} />
         </Grid>
       </Grid>
       <Grid container justify="flex-end" spacing={2}>
         <Grid item xs={4} md={3} className={classes.card}>
-          <CardMedia title="hot_2" image="/static/hot_2.jpg" className={classes.img} />
+          <CardMedia title="hot_2" image="/static/images/hot_2.jpg" className={classes.img} />
         </Grid>
         <Grid item xs={4} md={3} className={classes.card}>
-          <CardMedia title="hot_3" image="/static/hot_3.jpg" className={classes.img} />
+          <CardMedia title="hot_3" image="/static/images/hot_3.jpg" className={classes.img} />
         </Grid>
       </Grid>
       <Grid container justify="flex-end" spacing={2}>
         <Grid item xs={3} md={3} className={classes.card}>
-          <CardMedia title="hot_4" image="/static/hot_4.jpg" className={classes.img} />
+          <CardMedia title="hot_4" image="/static/images/hot_4.jpg" className={classes.img} />
         </Grid>
         <Grid item xs={3} md={3} className={classes.card}>
-          <CardMedia title="hot_4" image="/static/hot_5.jpg" className={classes.img} />
+          <CardMedia title="hot_4" image="/static/images/hot_5.jpg" className={classes.img} />
         </Grid>
         <Grid item xs={3} md={3} className={classes.card}>
-          <CardMedia title="hot_4" image="/static/hot_6.jpg" className={classes.img} />
+          <CardMedia title="hot_4" image="/static/images/hot_6.jpg" className={classes.img} />
         </Grid>
       </Grid>
     </Grid>
