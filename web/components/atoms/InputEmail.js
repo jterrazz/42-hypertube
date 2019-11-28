@@ -22,10 +22,10 @@ export const InputEmail = (props, error = null) => {
       name="email"
       autoComplete="email"
       value={values.email}
-      onChange={handleChange}
+      onChange={e => {handleChange(e); props.onChange() }}
       onBlur={handleBlur}
       helperText={touched.email ? i18n.t(errors.email) : ''}
-      error={touched.email && Boolean(errors.email) || Boolean(props.error === 'This email is already in use' || props.error === "\"email\" must be a valid email" ? props.error : '')}
+      error={touched.email && Boolean(errors.email) || Boolean(props.error === 'This email is already in use' || props.error === "\"email\" must be a valid email")}
     />
   )
 };

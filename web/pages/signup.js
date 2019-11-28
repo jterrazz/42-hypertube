@@ -37,7 +37,7 @@ const validationSchema = Yup.object().shape({
       "File too large",
       value => value && value.size <= FILE_SIZE
     ),
-  // reCaptcha: Yup.string().required('Required'), // TODO Put back
+  reCaptcha: Yup.string().required('Required'), // TODO Put back
 });
 
 class SignUp extends Component {
@@ -45,11 +45,15 @@ class SignUp extends Component {
     Error: '',
   };
 
+  onChange = () => {
+    this.setState({Error: ""});
+  };
+
   handleSubmit = (userData) =>
     matchaAPI.signup(userData)
       .then(() => Router.push('/'))
       .catch(error => {
-        if (error.response && error.response.data) {
+        if (error.response && (error.response.status === 422 || error.response.status === 409)) {
           this.setState({Error: error.response.data});
         }
       });
@@ -67,7 +71,7 @@ class SignUp extends Component {
     };
     return (
       <Formik
-        render={props => <Form {...props} error={this.state.Error}/>}
+        render={props => <Form {...props} error={this.state.Error} onChange={this.onChange}/>}
         initialValues={values}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}

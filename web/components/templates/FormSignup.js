@@ -54,7 +54,7 @@ export const Form = (props, {error = null}) => {
               <Grid item xs={12} sm={5}><InputLastName {...props}/></Grid>
             </Grid>
             <InputUserNameSigUp {...props} error={props.error}/>
-            <InputEmail {...props} error={props.error}/>
+            <InputEmail {...props} onChange={props.onChange} error={props.error}/>
             <InputPasswordSigUp {...props}/>
             <InputConfirmPasswordSigUp {...props} />
             <BoxReCaptcha {...props}/>

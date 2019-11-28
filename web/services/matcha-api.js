@@ -46,13 +46,13 @@ export class MatchaAPI {
 
   signup = async user => {
     const form = new FormData();
-
     form.append('firstName', user.firstName);
     form.append('lastName', user.lastName);
     form.append('username', user.userName);
     form.append('password', user.password);
     form.append('email', user.email);
     form.append('profileImage', user.file);
+    form.append('reCaptcha', user.reCaptcha);
 
     return await this.client.post('/auth/signup', form)
   }
