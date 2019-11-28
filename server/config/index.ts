@@ -23,7 +23,7 @@ const envSchema = Joi.object()
     JWT_SECRET: Joi.string().default('test_only_secret'),
     SESSION_SECRET: Joi.string().default('test_only_secret'),
     BCRYPT_COST: Joi.number().default(10),
-    CAPTCHA_KEY: Joi.string(),
+    CAPTCHA_KEY: Joi.string().required(),
 
     // External services
     API_NODE_MAILER_KEY: Joi.string().required(),

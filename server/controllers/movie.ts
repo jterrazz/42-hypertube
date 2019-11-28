@@ -12,8 +12,11 @@ import * as tmdbAPI from '../services/tmdb-api'
 import { Movie, User } from '../models'
 import { serializeUser } from './user'
 import memoryCache from '../utils/cache'
+import config from '../config'
 
 const OpenSubtitlesClient = new OS({ useragent: 'NodeJS', ssl: true })
+
+const SUBTITLE_LANGS = ['fr', 'en']
 
 const GENRE_VALUES = [
   'comedy',
@@ -131,68 +134,55 @@ export const getMovieTorrentsController: Middleware = async ctx => {
   }
 }
 
-export const getMovieSubtitlesController: Middleware = async ctx => {
-  const imbdId = ctx.params.imdbId
+const downloadAndConvertSubtitle = (subtitles, imdbId, lang) =>
+  new Promise((resolve, reject) => {
+    const filename = imdbId + '-' + lang + '.vtt'
+    const filepath = `${__dirname}/../public/subtitles/${filename}`
 
-  const subtitles = await OpenSubtitlesClient.search({ imdbid: imbdId })
-  ctx.body = { subtitles }
-}
+    fs.stat(filepath, async (err, _) => {
+      try {
+        if (err == null) {
+          return resolve(filename)
+        } else if (err.code === 'ENOENT') {
+          const { data: srtSubtitle } = await axios.get(subtitles[lang].url)
 
-// switch (subtitle.langcode) {
-//   case 'en':
-//     ret.lang = 'en-US'
-//     break
-//   case 'fr':
-//     ret.lang = 'fr-FR'
-//     break
-//   default:
-//     return null
-// }
+          srt2vtt(srtSubtitle, (err, vttSubtitle) => {
+            if (err) return reject(err)
 
-export const getMovieSubtitleController: Middleware = ctx => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const imdbId = ctx.params.imdbId
-      const lang = await Joi.string()
-        .valid('en', 'fr')
-        .required()
-        .validateAsync(ctx.params.lang)
-
-      const filename = imdbId + '-' + lang + '.vtt'
-      const filepath = `${__dirname}/../public/subtitles/${filename}`
-
-      ctx.body = { url: `/public/subtitles/${filename}` }
-
-      fs.stat(filepath, async (err, _) => {
-        try {
-          if (err == null) {
-            return resolve()
-          } else if (err.code === 'ENOENT') {
-            const subtitles = await OpenSubtitlesClient.search({ imdbid: imdbId })
-            ctx.assert(subtitles[lang], 404, "This subtitle doesn't exist")
-
-            const { data: srtSubtitle } = await axios.get(subtitles[lang].url)
-
-            srt2vtt(srtSubtitle, (err, vttSubtitle) => {
+            fs.writeFile(filepath, vttSubtitle, err => {
               if (err) return reject(err)
 
-              fs.writeFile(filepath, vttSubtitle, err => {
-                if (err) return reject(err)
-
-                return resolve()
-              })
+              return resolve(filename)
             })
-          } else {
-            return reject(err)
-          }
-        } catch (err) {
+          })
+        } else {
           return reject(err)
         }
+      } catch (err) {
+        return reject(err)
+      }
+    })
+  })
+
+export const getMovieSubtitlesController: Middleware = async ctx => {
+  const imbdId = ctx.params.imdbId
+  const subtitles = await OpenSubtitlesClient.search({ imdbid: imbdId })
+  const toDownload = []
+
+  SUBTITLE_LANGS.forEach(lang => {
+    if (subtitles[lang] && subtitles[lang].url) {
+      const ft = async () => ({
+        kind: 'subtitles',
+        srcLang: lang,
+        src: `${config.API_URL}/subtitles/${await downloadAndConvertSubtitle(subtitles, imbdId, lang)}`,
       })
-    } catch (err) {
-      reject(err)
+      toDownload.push(ft())
     }
   })
+
+  ctx.body = {
+    subtitles: await Promise.all(toDownload),
+  }
 }
 
 export const getMovieCommentsController: Middleware = async ctx => {

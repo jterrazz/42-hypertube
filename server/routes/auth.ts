@@ -5,21 +5,17 @@ import {
   sendResetEmailController,
   successfulAuthController,
   resetPasswordController,
-  successfulAuthRedirectController, logoutController
+  successfulAuthRedirectController,
+  logoutController,
 } from '../controllers'
 import { cacheFileMiddleware } from '../middlewares/file-uploads'
-import { userInfosCompleted } from "../middlewares/auth";
+import { userInfosCompleted } from '../middlewares/auth'
 
 const authRouter = new Router()
 
 authRouter
   // Local
-  .post(
-    '/signup',
-    cacheFileMiddleware,
-    passport.authenticate('signup'),
-    successfulAuthController,
-  )
+  .post('/signup', cacheFileMiddleware, passport.authenticate('signup'), successfulAuthController)
   .post('/signin', passport.authenticate('signin'), successfulAuthController)
   .post('/send-reset-email', sendResetEmailController)
   .post('/reset-password', resetPasswordController)
