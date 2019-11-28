@@ -1439,6 +1439,18 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
+"@ctrl/magnet-link@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@ctrl/magnet-link/-/magnet-link-1.1.4.tgz#0438f56a19cdce9f715198c798abd61a06ff7775"
+  integrity sha512-YnImX4iM/exHK9XEVU5Im1GG7o35tUxT8qD4RCOUE0QZ6b/st40aC9k7GIq/FTzSuios5Hm8D/1z96U8CaWHzg==
+  dependencies:
+    "@ctrl/ts-base32" "^1.1.2"
+
+"@ctrl/ts-base32@^1.1.2":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@ctrl/ts-base32/-/ts-base32-1.1.3.tgz#7b2c9e9024d1a0fdf444fd0143329863f5f19999"
+  integrity sha512-Td6K9eTAu9krQ9Tp52kdRLgPqnwGlhX3Hd48U/h3RNC0BPor00JMri55KzVqKxWUmUiU7g5Bhj3HqNJXGsVGfA==
+
 "@emotion/hash@^0.7.1":
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.7.3.tgz#a166882c81c0c6040975dd30df24fae8549bd96f"
