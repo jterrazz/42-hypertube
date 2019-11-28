@@ -7,6 +7,7 @@ import { User } from '../models'
 import { ClientError } from '../services/auth'
 import * as crypto from 'crypto'
 import config from '../config'
+import {addIncompleteProfile} from "./auth";
 
 export const PUBLIC_USER_PROPS = [
   'profileImageName',
@@ -16,7 +17,7 @@ export const PUBLIC_USER_PROPS = [
   'lastName',
   'username',
 ]
-export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', ...PUBLIC_USER_PROPS]
+export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', 'profileCompleted', ...PUBLIC_USER_PROPS]
 const IMAGE_FOLDER = __dirname + '/../public/images/'
 
 export const cacheToImageFolder = file =>
@@ -42,7 +43,7 @@ export const serializeUser = original => ({
  */
 
 export const getMeController: Middleware = async ctx => {
-  ctx.body = serializeUser(_.pick(ctx.state.user, PRIVATE_USER_PROPS))
+  ctx.body = serializeUser(_.pick(await addIncompleteProfile(ctx.state.user), PRIVATE_USER_PROPS))
 }
 
 export const getUsersController: Middleware = async ctx => {

@@ -1,5 +1,6 @@
 import { Middleware } from 'koa'
 import * as Joi from '@hapi/joi'
+import { ClientError } from '../services/auth'
 
 /*
  * Middleware methods to limit the access of a route based on the authentication state.
@@ -34,6 +35,6 @@ export const userInfosCompleted = async (ctx, next) =>
         }
       })
       .catch(err => {
-        ctx.throw(422, 'The user must complete its profile. ' + err.message)
+        reject(new ClientError(422, 'The user must complete its profile. ' + err.message))
       })
   })

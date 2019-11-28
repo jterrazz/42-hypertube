@@ -9,6 +9,29 @@ import { PRIVATE_USER_PROPS, serializeUser } from './user'
 import { sendResetPasswordEmail } from '../services/mail'
 import { ClientError } from '../services/auth'
 
+// TODO Maybe merge both codes
+export const addIncompleteProfile = async user => {
+  const userSchema = Joi.object()
+    .keys({
+      username: Joi.required(),
+      email: Joi.required(),
+      firstName: Joi.required(),
+      lastName: Joi.required(),
+      profileImageName: Joi.required(),
+    })
+    .unknown()
+    .required()
+
+  try {
+    await userSchema.validateAsync(user)
+    user.profileCompleted = true
+    return user
+  } catch (err) {
+    user.profileCompleted = false
+    return user
+  }
+}
+
 /*
  * Authentication controllers
  */
@@ -16,7 +39,7 @@ import { ClientError } from '../services/auth'
 export const successfulAuthController: Middleware = async ctx => {
   ctx.body = {
     message: 'Authentication successful',
-    user: serializeUser(_.pick(ctx.state.user, PRIVATE_USER_PROPS)),
+    user: serializeUser(_.pick(await addIncompleteProfile(ctx.state.user), PRIVATE_USER_PROPS)),
   }
 }
 

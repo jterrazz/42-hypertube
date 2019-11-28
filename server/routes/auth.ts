@@ -9,7 +9,6 @@ import {
   logoutController,
 } from '../controllers'
 import { cacheFileMiddleware } from '../middlewares/file-uploads'
-import { userInfosCompleted } from '../middlewares/auth'
 
 const authRouter = new Router()
 
@@ -28,12 +27,12 @@ authRouter
       scope: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/userinfo.email'],
     }),
   )
-  .get('/google/callback', passport.authenticate('google'), userInfosCompleted, successfulAuthRedirectController)
+  .get('/google/callback', passport.authenticate('google'), successfulAuthRedirectController)
   .get('/facebook', passport.authenticate('facebook', { scope: ['email'] }))
-  .get('/facebook/callback', passport.authenticate('facebook'), userInfosCompleted, successfulAuthRedirectController)
+  .get('/facebook/callback', passport.authenticate('facebook'), successfulAuthRedirectController)
   .get('/42', passport.authenticate('42'))
-  .get('/42/callback', passport.authenticate('42'), userInfosCompleted, successfulAuthRedirectController)
+  .get('/42/callback', passport.authenticate('42'), successfulAuthRedirectController)
   .get('/github', passport.authenticate('github'))
-  .get('/github/callback', passport.authenticate('github'), userInfosCompleted, successfulAuthRedirectController)
+  .get('/github/callback', passport.authenticate('github'), successfulAuthRedirectController)
 
 export default authRouter

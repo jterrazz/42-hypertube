@@ -21,8 +21,12 @@ export class ClientError extends Error {
 /*
  * When a client login, he receives an immutable (with a secure signature) token containing the user._id
  */
-passport.serializeUser((user, done) => {
-  done(null, user._id)
+passport.serializeUser(async (user, done) => {
+  try {
+    await done(null, user._id)
+  } catch (err) {
+    done(err)
+  }
 })
 
 /*
@@ -33,7 +37,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     const currentUser = await User.findOne({ _id: id })
     if (!currentUser) done(new ClientError(404, 'User not found'))
-    done(null, currentUser)
+    await done(null, currentUser)
   } catch (err) {
     done(err)
   }
@@ -95,7 +99,7 @@ passport.use(
       await user.savePassword(userInput.password)
       await user.save()
 
-      done(null, _.pick(user, PRIVATE_USER_PROPS))
+      await done(null, _.pick(user, PRIVATE_USER_PROPS))
     } catch (err) {
       if (err.code == 11000 && err.keyPattern) {
         if (err.keyPattern.hasOwnProperty('username')) {
@@ -116,7 +120,7 @@ passport.use(
       const user = await User.findOne({ username: username })
       if (!user) return done(null, false)
       if (!(await user.verifyPassword(password))) return done(null, false)
-      done(null, user)
+      await done(null, user)
     } catch (err) {
       done(err)
     }
@@ -151,9 +155,9 @@ passport.use(
 
       try {
         let user = await User.findOne({ googleAuthId: profile.id })
-        if (user) return cb(null, user)
+        if (user) return await cb(null, user)
         user = await User.findOneAndUpdate({ email: googleData.email }, { $set: { googleAuthId: profile.id } })
-        if (user) return cb(null, user)
+        if (user) return await cb(null, user)
         user = new User({
           username: crypto.randomBytes(20).toString('hex'),
           firstName: googleData.firstName,
@@ -162,7 +166,7 @@ passport.use(
           email: googleData.email,
         })
         await user.save()
-        return cb(null, user)
+        return await cb(null, user)
       } catch (err) {
         return cb(err)
       }
@@ -189,25 +193,25 @@ passport.use(
         return cb(new Error('Facebook auth: no email found'))
       }
       User.findOne({ facebookAuthId: profile.id })
-        .then(user => {
+        .then(async user => {
           if (!user) {
             const newUser = new User({
               username: crypto.randomBytes(20).toString('hex'),
               firstName: profile.name.givenName,
               lastName: profile.name.familyName,
               email: profile._json.email,
-              profilePicture: profile.photos ? profile.photos[0].value : null,
+              profilePicture: profile.photos ? profile.photos[0].value : null, // TODO Delete or adapt
               facebookAuthId: profile.id,
             })
             User.findOneAndUpdate({ email: profile._json.email }, { $set: { facebookAuthId: profile.id } })
-              .then(user => {
+              .then(async user => {
                 if (user) {
-                  return cb(null, user)
+                  return await cb(null, user)
                 } else {
                   newUser
                     .save()
-                    .then(user => {
-                      return cb(null, user)
+                    .then(async user => {
+                      return await cb(null, user)
                     })
                     .catch(err => {
                       return cb(err)
@@ -218,7 +222,7 @@ passport.use(
                 return cb(err)
               })
           } else {
-            return cb(null, user)
+            return await cb(null, user)
           }
         })
         .catch(err => {
@@ -253,18 +257,18 @@ passport.use(
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             email: profile.emails[0].value,
-            profilePicture: profile.photos[0].value,
+            profilePicture: profile.photos[0].value, // TODO Delete or adapt
             intraAuthId: profile.id,
           })
           user = await User.findOneAndUpdate({ email: profile.emails[0].value }, { $set: { intraAuthId: profile.id } })
           if (!user) {
             user = await newUser.save()
-            return cb(null, user)
+            return await cb(null, user)
           } else {
-            return cb(null, user)
+            return await cb(null, user)
           }
         } else {
-          return cb(null, user)
+          return await cb(null, user)
         }
       } catch (err) {
         return cb(err)
@@ -298,16 +302,16 @@ passport.use(
             const newUser = new User({
               username: crypto.randomBytes(20).toString('hex'),
               email: profile._json.email,
-              profilePicture: profile._json.avatar_url,
+              profilePicture: profile._json.avatar_url, // TODO Delete or adapt
               githubAuthId: profile.id,
             })
             user = await newUser.save()
-            return cb(null, user)
+            return await cb(null, user)
           } else {
-            return cb(null, user)
+            return await cb(null, user)
           }
         } else {
-          return cb(null, user)
+          return await cb(null, user)
         }
       } catch (err) {
         return cb(err)
