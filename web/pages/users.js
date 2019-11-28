@@ -5,6 +5,7 @@ import {authentified} from "../wrappers/auth";
 class Users extends Component {
   state = {
     users: [],
+    usersFiltered: [],
   };
 
   static async getInitialProps({ matchaClient }) {
@@ -16,18 +17,19 @@ class Users extends Component {
   }
 
   async componentDidMount() {
-    this.setState({users: this.props.users});
+    this.setState({users: this.props.users, usersFiltered: this.props.users});
   }
 
-  onChange = (ev) => {
-    console.log(ev.target.value);
+  getUserName = (ev) => {
+    const tmp = this.state.users.filter(x => x.username.includes(ev.target.value));
+    this.setState({usersFiltered: tmp});
   };
 
   render() {
     return (
       <UsersTemplate
-        users={this.state.users}
-        onchange={this.onChange}
+        users={this.state.usersFiltered}
+        onChange={this.getUserName}
       />
     )
   }

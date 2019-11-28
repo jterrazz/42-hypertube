@@ -11,6 +11,7 @@ const useStyles = makeStyles({
 
 export const InputSearchUser = (props) => {
   const classes = useStyles();
+
   return (
     <TextField
       id="search"
