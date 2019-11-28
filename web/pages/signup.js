@@ -49,7 +49,7 @@ class SignUp extends Component {
     matchaAPI.signup(userData)
       .then(() => Router.push('/'))
       .catch(error => {
-        if (error.response && (error.response.status === 422 || error.response.status === 409)) {
+        if (error.response && error.response.data) {
           this.setState({Error: error.response.data});
         }
       });
