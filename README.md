@@ -65,6 +65,13 @@ We use `NodeJS` with the framework `koa` and `typescript`. The data is persisted
 
 The client is served using server side rendering with the `NextJS` framework (`ReactJS`).
 
+### Bonus
+- Github authentication
+- Custom magnet-link player
+- RESTFUL API
+- NextJS Server side rendering + ReactJS: Fast first html downloading / page rendering, + web app in the browser
+- Captcha for registration
+
 ## Credits 👩‍💻
 
 - @plogan - Front and back
