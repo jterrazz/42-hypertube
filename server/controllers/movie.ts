@@ -5,6 +5,7 @@ import * as OS from 'opensubtitles-api'
 import * as fs from 'fs'
 import * as srt2vtt from 'srt2vtt'
 import axios from 'axios'
+import * as sanatize from 'mongo-sanitize'
 
 import * as ytsApi from '../services/yts-api'
 import * as popcornAPI from '../services/popcorn-api'
@@ -186,7 +187,7 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
 }
 
 export const getMovieCommentsController: Middleware = async ctx => {
-  const imdbId = ctx.params.imdbId
+  const imdbId = sanatize(ctx.params.imdbId)
 
   const movie = await Movie.findOne({ imdbId }).populate('comments.user')
 
@@ -207,7 +208,7 @@ export const getMovieCommentsController: Middleware = async ctx => {
 }
 
 export const addMovieCommentController: Middleware = async ctx => {
-  const imdbId = ctx.params.imdbId
+  const imdbId = sanatize(ctx.params.imdbId)
   const textSchema = Joi.string().max(500)
 
   const text = await textSchema.validateAsync(ctx.request.body.text)

@@ -4,6 +4,7 @@ import { Middleware } from 'koa'
 import * as torrentStream from 'torrent-stream'
 import * as ffmpeg from 'fluent-ffmpeg'
 import * as fs from 'fs'
+import * as sanatize from 'mongo-sanitize'
 
 import { Torrent } from '../models'
 import logger from '../utils/logger'
@@ -74,7 +75,7 @@ const buildMagnet = async (hash: string, trackers: Array<string>) => {
  */
 
 export const getTorrentStreamController: Middleware = async ctx => {
-  const hash = ctx.params.hash
+  const hash = sanatize(ctx.params.hash)
   ctx.assert(hash.length == 40, 422, 'Badly formatted hash')
   const magnet = await buildMagnet(hash, ctx.query.tr)
   const folderPath = __dirname + `/../public/torrents/${ctx.params.hash}`

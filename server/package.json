@@ -26,6 +26,7 @@
     "koa-static": "^5.0.0",
     "lodash": "^4.17.15",
     "mailgun-js": "^0.22.0",
+    "mongo-sanitize": "^1.0.1",
     "mongoose": "^5.6.12",
     "node-cache": "^4.2.1",
     "nodemon": "^1.19.1",
