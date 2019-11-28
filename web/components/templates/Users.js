@@ -11,6 +11,7 @@ import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "../atoms/CircularProgress";
 import { withTranslation } from "../../utils/i18n";
+import { InputSearchUser } from "../atoms/InputSearchUser";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
@@ -31,6 +32,9 @@ const User = (props) => {
         <div className={classes.toolbar} />
 
         <Container fixed>
+          <Grid container spacing={4} style={{ marginTop: 15 }}>
+            <InputSearchUser {...props}/>
+          </Grid>
           <Grid container spacing={4} style={{ marginTop: 15 }}>
             {props.users ?
               <>

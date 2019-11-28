@@ -30,7 +30,7 @@ const Search = (props) => {
         <div className={classes.toolbar} />
 
         <Container fixed>
-          <InputSearch {...props}/>
+          <InputSearch {...props} />
           <Grid container spacing={4} style={{ marginTop: 15 }}>
 
             {props.titleMovie ?

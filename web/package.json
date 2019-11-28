@@ -7,7 +7,7 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/register": "^7.7.4",
     "@material-ui/core": "latest",
-    "@material-ui/icons": "^4.4.3",
+    "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.28",
     "@material-ui/styles": "latest",
     "axios": "^0.19.0",

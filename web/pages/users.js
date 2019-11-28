@@ -3,19 +3,31 @@ import UsersTemplate from "../components/templates/Users";
 import {authentified} from "../wrappers/auth";
 
 class Users extends Component {
+  state = {
+    users: [],
+  };
 
   static async getInitialProps({ matchaClient }) {
-    const users = await matchaClient.getUsers()
+    const users = await matchaClient.getUsers();
 
     return {
-      users
+      users,
     };
   }
+
+  async componentDidMount() {
+    this.setState({users: this.props.users});
+  }
+
+  onChange = (ev) => {
+    console.log(ev.target.value);
+  };
 
   render() {
     return (
       <UsersTemplate
-        users={this.props.users}
+        users={this.state.users}
+        onchange={this.onChange}
       />
     )
   }
