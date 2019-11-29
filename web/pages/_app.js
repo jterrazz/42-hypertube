@@ -12,6 +12,7 @@ import {fetchUserIfNeeded} from '../store/actions/auth'
 import {MatchaAPI} from '../services/matcha-api'
 import nextCookie from 'next-cookies';
 import NavBar from "../components/organisms/NavBar";
+import Copyright from "../components/atoms/Copyright";
 
 class MyApp extends App {
 
@@ -62,6 +63,7 @@ class MyApp extends App {
                 {ActiveNavBar ? <NavBar /> : '' }
                 <Component {...pageProps} />
               </div>
+              <div style={{ marginLeft: 240 }}><Copyright /></div>
             </Provider>
           </ThemeProvider>
       </React.Fragment>

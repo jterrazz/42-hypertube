@@ -9,7 +9,6 @@ import { InputUserName } from "../atoms/InputUserName"
 import { InputPassword } from "../atoms/InputPassword"
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
-import Copyright from "../atoms/Copyright";
 import {i18n} from '../../utils/i18n';
 import {GroupButtonOauth} from "../organisms/GroupButtonOauth";
 import {DividerSplit} from "../atoms/DividerSplit";
@@ -54,7 +53,6 @@ export const Form = (props, error = null, onChange) => {
             <ButtomSigInPage />
           </form>
         </div>
-        <Copyright />
       </Grid>
       <ImageSplitPage />
     </Grid>

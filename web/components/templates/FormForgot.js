@@ -1,7 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Copyright from "../atoms/Copyright";
 import { makeStyles } from '@material-ui/core/styles'
 import { BoxError } from "../molecules/ErrorMessage";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
@@ -43,7 +42,6 @@ export const Form = (props, error = null, onChange) => {
             <ButtomResetPage />
           </form>
         </div>
-        <Copyright />
       </Grid>
       <ImageSplitPage />
     </Grid>

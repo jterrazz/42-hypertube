@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
-import Copyright from "../atoms/Copyright";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import ListItem from "@material-ui/core/ListItem";
@@ -74,8 +73,6 @@ const User = (props) => {
 
           </Grid>
         </Container>
-
-        <Copyright />
 
       </main>
     </>

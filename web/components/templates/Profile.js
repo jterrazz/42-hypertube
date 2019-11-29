@@ -6,7 +6,6 @@ import { CardProfile } from "../molecules/CardProfile";
 import { BoxFormik } from "../molecules/Formik";
 import FormInfos from "../organisms/FormProfileChangeInfos";
 import FormPassword from "../organisms/FormProfileChangePassword";
-import Copyright from "../atoms/Copyright";
 import {makeStyles} from "@material-ui/core";
 import dynamic from "next/dynamic";
 
@@ -61,7 +60,6 @@ export const Profile = (props, onChange) => {
           </Grid>
 
         </Container>
-        <Copyright/>
 
       </main>
     </>

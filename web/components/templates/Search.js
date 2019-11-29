@@ -10,7 +10,6 @@ import { CardPosterFilm } from "../molecules/CardPosterFilm";
 import { NotResult } from "../molecules/NotResult";
 import { makeStyles } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Copyright from "../atoms/Copyright";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
@@ -59,7 +58,6 @@ const Search = (props) => {
           </InfiniteScroll>
 
         </Container>
-        <Copyright />
 
       </main>
     </>

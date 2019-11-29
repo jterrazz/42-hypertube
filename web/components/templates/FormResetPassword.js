@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Copyright from "../atoms/Copyright";
 import { makeStyles } from "@material-ui/core";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
 import { HeadLockPage } from "../molecules/HeadLockPage";
@@ -41,7 +40,6 @@ export const Form = props => {
             <ButtonSubmit text="reset"/>
           </form>
         </div>
-        <Copyright />
       </Grid>
       <ImageSplitPage />
     </Grid>

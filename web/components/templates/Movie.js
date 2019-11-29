@@ -7,7 +7,6 @@ import {CardPosterFilmSimilar} from "../molecules/CardPosterFilmSimilar";
 import Box from "@material-ui/core/Box";
 import {TorrentItems} from "../molecules/TorrentItems";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Copyright from "../atoms/Copyright";
 import {makeStyles} from "@material-ui/core";
 import {i18n} from '../../utils/i18n';
 
@@ -89,7 +88,6 @@ export const Movie = (props) => {
             </Grid>
           </Grid>
         }
-        <Copyright />
       </main>
     </>
   )

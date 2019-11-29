@@ -6,7 +6,6 @@ import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from "@material-ui/core";
 import { LinkTorrent } from "../atoms/LinkTorrent";
 import Player from "../atoms/Player";
-import Copyright from "../atoms/Copyright";
 import {TypographyError} from "../atoms/TypographyError";
 import {TypographyTitle} from "../atoms/TypographyTitle";
 
@@ -52,7 +51,6 @@ export const Torrent = (props) => {
           </Grid>
         </Container>
 
-        <Copyright />
       </main>
     </>
   )
