@@ -12,6 +12,7 @@ import { ImageSplitPage } from "../atoms/ImageSplitPage";
 import {i18n} from '../../utils/i18n';
 import {GroupButtonOauth} from "../organisms/GroupButtonOauth";
 import {DividerSplit} from "../atoms/DividerSplit";
+import Container from "@material-ui/core/Container/Container";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +30,9 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: 10,
+  },
+  content: {
+    flexGrow: 1,
   }
 }));
 
@@ -39,22 +43,28 @@ export const Form = (props, error = null, onChange) => {
   const classes = useStyles();
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={1} square>
-        <div className={classes.paper}>
-          <HeadLockPage text="Sign in"/>
-          <form className={classes.form} onSubmit={handleSubmit}>
-            <GroupButtonOauth />
-            <DividerSplit />
-            {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
-            <InputUserName {...props} onChange={props.onChange} error={props.error}/>
-            <InputPassword {...props} onChange={props.onChange} error={props.error}/>
-            <ButtonSubmit text="Sign in" className={classes.submit}/>
-            <ButtomSigInPage />
-          </form>
-        </div>
-      </Grid>
-      <ImageSplitPage />
-    </Grid>
+    <main className={classes.content}>
+      <Container fixed>
+        <Grid container>
+          <Grid item xs={12} sm={8} md={5} elevation={1}>
+            <div className={classes.paper}>
+              <HeadLockPage text="Sign in"/>
+              <form className={classes.form} onSubmit={handleSubmit}>
+                <GroupButtonOauth />
+                <DividerSplit />
+                {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
+                <InputUserName {...props} onChange={props.onChange} error={props.error}/>
+                <InputPassword {...props} onChange={props.onChange} error={props.error}/>
+                <ButtonSubmit text="Sign in" className={classes.submit}/>
+                <ButtomSigInPage />
+              </form>
+            </div>
+          </Grid>
+
+          <ImageSplitPage />
+
+        </Grid>
+      </Container>
+    </main>
   );
 };
