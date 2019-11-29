@@ -6,7 +6,7 @@ import matchaAPI from '../services/matcha-api'
 import {Router} from "next/router";
 import {authentified} from "../wrappers/auth";
 
-const FILE_SIZE = 1600 * 1024;
+const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const validationSchema = Yup.object().shape({
@@ -23,6 +23,7 @@ const validationSchema = Yup.object().shape({
     .required('Email is required'),
   password: Yup.string()
     .min(8, 'Password must contain at least 8 characters')
+    .max(100, 'Too Long!')
     .required('Enter your password'),
   confirmPassword: Yup.string()
     .required('Confirm your password')

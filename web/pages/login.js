@@ -11,10 +11,13 @@ import {connect} from 'react-redux'
 const validationSchema = Yup.object().shape({
   username: Yup.string()
     .required('UserName is required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!')
     .strict()
     .trim('Spaces not allowed in UserName'),
   password: Yup.string()
     .min(8, 'Password must contain at least 8 characters')
+    .max(100, 'Too Long!')
     .required('Enter your password'),
 });
 

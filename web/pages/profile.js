@@ -6,12 +6,13 @@ import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
 import Profile from "../components/templates/Profile";
 
-const FILE_SIZE = 1600 * 1024;
+const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const validationSchemaPassword = Yup.object({
   password: Yup.string()
     .min(8, "Password must contain at least 8 characters")
+    .max(100, 'Too Long!')
     .required("Enter your password"),
   confirmPassword: Yup.string("Enter your password")
     .required("Confirm your password")

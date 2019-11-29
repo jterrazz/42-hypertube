@@ -9,6 +9,8 @@ import {authentified} from "../wrappers/auth";
 const validationSchema = Yup.object().shape({
   username: Yup.string()
     .required('UserName is required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!')
     .strict()
     .trim('Spaces not allowed in UserName'),
 });
