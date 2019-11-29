@@ -4,7 +4,7 @@ import {fetchUserIfNeeded, patchUser} from "../store/actions/auth";
 import {connect} from "react-redux";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
-import { Profile } from "../components/templates/Profile";
+import Profile from "../components/templates/Profile";
 
 const FILE_SIZE = 1600 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { TypographyTitle } from "../atoms/TypographyTitle";
@@ -6,10 +6,10 @@ import { CardProfile } from "../molecules/CardProfile";
 import { BoxFormik } from "../molecules/Formik";
 import FormInfos from "../organisms/FormProfileChangeInfos";
 import FormPassword from "../organisms/FormProfileChangePassword";
-import {makeStyles} from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import dynamic from "next/dynamic";
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -21,47 +21,59 @@ const useStyles = makeStyles(theme => ({
     padding: 10,
     background: "#F2F5F9"
   }
-}));
+});
 
-export const Profile = (props, onChange) => {
-  const FormUpdateImage = dynamic(() => import("../molecules/FormUpdateImageProfile"));
-  const classes = useStyles();
-  return (
-    <>
-      <main className={classes.content}>
-        <div className={classes.toolbar}/>
+class Profile extends Component {
 
-        <Container fixed>
-          <TypographyTitle text="Dashboard"/>
-          {props.me ?
-            <CardProfile username={props.me.username}/> : ''}
-          <TypographyTitle text="Settings Profile"/>
-          <Grid container spacing={5} style={{marginTop: 10}}>
-            <BoxFormik
-              render={props => <FormUpdateImage error={props.Error} {...props} />}
-              initialValues={props.valueImage}
-              validationSchema={props.validationSchemaImage}
-              onSubmit={props.SubmitImage}
-            />
-            {props.me ?
+  render () {
+
+    const {
+      classes,
+      onChange,
+      ErrorMail,
+      Error
+    } = this.props;
+
+    const FormUpdateImage = dynamic(() => import("../molecules/FormUpdateImageProfile"));
+    return (
+      <>
+        <main className={classes.content}>
+          <div className={classes.toolbar}/>
+
+          <Container fixed>
+            <TypographyTitle text="Dashboard"/>
+            {this.props.me ?
+              <CardProfile username={this.props.me.username}/> : ''}
+            <TypographyTitle text="Settings Profile"/>
+            <Grid container spacing={5} style={{marginTop: 10}}>
               <BoxFormik
-                render={props => <FormInfos error={props.ErrorMail} onChange={props.onChange} {...props} />}
-                initialValues={props.me}
-                validationSchema={props.validationSchemaInfos}
-                onSubmit={props.SubmitInfos}
+                render={(props) => <FormUpdateImage error={Error} {...props} />}
+                initialValues={this.props.valueImage}
+                validationSchema={this.props.validationSchemaImage}
+                onSubmit={this.props.SubmitImage}
               />
-              : ''}
-            <BoxFormik
-              render={props => <FormPassword {...props} />}
-              initialValues={props.value}
-              validationSchema={props.validationSchemaPassword}
-              onSubmit={props.SubmitPassword}
-            />
-          </Grid>
+              {this.props.me ?
+                <BoxFormik
+                  render={props => <FormInfos error={ErrorMail} onChange={onChange} {...props} />}
+                  initialValues={this.props.me}
+                  validationSchema={this.props.validationSchemaInfos}
+                  onSubmit={this.props.SubmitInfos}
+                />
+                : ''}
+              <BoxFormik
+                render={props => <FormPassword {...props} />}
+                initialValues={this.props.value}
+                validationSchema={this.props.validationSchemaPassword}
+                onSubmit={this.props.SubmitPassword}
+              />
+            </Grid>
 
-        </Container>
+          </Container>
 
-      </main>
-    </>
-  )
-};
+        </main>
+      </>
+    )
+  }
+}
+
+export default withStyles(styles)(Profile);

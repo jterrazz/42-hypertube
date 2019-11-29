@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const FormUpdateImgae = (props, error) => {
+const FormUpdateImgae = (props) => {
   const {
     values: { profileImage },
     errors,

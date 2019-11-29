@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FormInfos = (props, onChange) => {
+const FormInfos = (props) => {
   const { handleSubmit } = props;
 
   const classes = useStyles();
