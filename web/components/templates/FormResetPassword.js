@@ -1,19 +1,16 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
 import { HeadLockPage } from "../molecules/HeadLockPage";
 import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100vh',
-  },
   paper: {
-    margin: theme.spacing(8, 4),
+    margin: theme.spacing(20, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -22,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
+  content: {
+    flexGrow: 1,
+  }
 }));
 
 export const Form = props => {
@@ -30,18 +30,22 @@ export const Form = props => {
   const classes = useStyles();
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={1} square>
-        <div className={classes.paper}>
-          <HeadLockPage text="Reset password"/>
-          <form className={classes.form} onSubmit={handleSubmit}>
-            <InputPasswordSigUp {...props} />
-            <InputConfirmPasswordSigUp {...props} />
-            <ButtonSubmit text="reset"/>
-          </form>
-        </div>
-      </Grid>
-      <ImageSplitPage />
-    </Grid>
+    <main className={classes.content}>
+      <Container fixed>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6} elevation={1}>
+            <div className={classes.paper}>
+              <HeadLockPage text="Reset password"/>
+              <form className={classes.form} onSubmit={handleSubmit}>
+                <InputPasswordSigUp {...props} />
+                <InputConfirmPasswordSigUp {...props} />
+                <ButtonSubmit text="reset"/>
+              </form>
+            </div>
+          </Grid>
+          <ImageSplitPage />
+        </Grid>
+      </Container>
+    </main>
   );
 };

@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    margin: theme.spacing(20, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -45,7 +45,7 @@ export const Form = (props, error = null, onChange) => {
     <main className={classes.content}>
       <Container fixed>
         <Grid container>
-          <Grid item xs={12} sm={8} md={5} elevation={1}>
+          <Grid item xs={12} sm={12} md={6} elevation={1}>
             <div className={classes.paper}>
               <HeadLockPage text="Sign in"/>
               <form className={classes.form} onSubmit={handleSubmit}>
