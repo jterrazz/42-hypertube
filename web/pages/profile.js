@@ -27,7 +27,7 @@ const validationSchemaInfos = Yup.object({
 });
 
 const validationSchemaImage = Yup.object({
-  profileImageUrl: Yup.mixed().notRequired()
+  profileImage: Yup.mixed().notRequired()
     .test(
       "fileFormat",
       "Unsupported Format",
@@ -60,7 +60,7 @@ class profile extends Component {
 
   SubmitImage = (userData) => {
     // TODO Replace by redux
-    matchaClient.patchMe(_.pick(userData, ['firstName', 'lastName', 'email', 'language'])) // TODO Probably put the pick inside the component
+    matchaClient.patchMe(_.pick(userData, ['profileImage'])) // TODO Probably put the pick inside the component
       .then()
       .catch(error => {
         this.setState({Error: "Unknown error. Please try again"});
@@ -80,7 +80,7 @@ class profile extends Component {
   SubmitPassword = (userData) => {
     // TODO + check passwords are the same
     // TODO + error not printing
-    matchaClient.patchMe(_.pick(userData, ['firstName', 'lastName', 'email', 'language'])) // TODO Probably put the pick inside the component
+    matchaClient.patchMe(_.pick(userData, ['password'])) // TODO Probably put the pick inside the component
       .then()
       .catch(error => {
         this.setState({Error: "Unknown error. Please try again"});
@@ -89,7 +89,7 @@ class profile extends Component {
 
   render() {
     const value = {confirmPassword: "", password: ""};
-    const valueImage = {profileImageUrl: ""};
+    const valueImage = {profileImage: ""};
     return (
       <Profile
         validationSchemaPassword={validationSchemaPassword}

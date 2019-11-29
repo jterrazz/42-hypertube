@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 const FormUpdateImgae = (props, error) => {
   const {
-    values: { profileImageUrl },
+    values: { profileImage },
     errors,
     touched,
     handleSubmit,
@@ -36,13 +36,13 @@ const FormUpdateImgae = (props, error) => {
       {props.error ? <BoxError text={props.error}/> : ''}
       <Grid container direction="column" justify="center" alignItems="center" style={{ marginTop: 20 }}>
         <Field
-          name="profileImageUrl"
+          name="profileImage"
           component={CustomImageInput}
-          fileUpload={profileImageUrl}
+          fileUpload={profileImage}
           title="Select a file"
           setFieldValue={setFieldValue}
-          errorMessage={errors['profileImageUrl'] ? i18n.t(errors['profileImageUrl']) : undefined}
-          touched={touched['profileImageUrl']}
+          errorMessage={errors['profileImage'] ? i18n.t(errors['profileImage']) : undefined}
+          touched={touched['profileImage']}
           style={{ display: 'flex' }}
           onBlur={handleBlur}
         />
