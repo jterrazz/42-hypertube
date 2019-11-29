@@ -30,10 +30,6 @@ export const CardProfile = (props) => {
           <Typography variant="h6" component="h3" className={classes.welcome}>
             {i18n.t("Welcome back")} {props.username}!
           </Typography>
-          <Typography component="h4">
-            <div>Paper can be used to build surface</div>
-            <div>Or other elements for your application.</div>
-          </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
           <CardMedia

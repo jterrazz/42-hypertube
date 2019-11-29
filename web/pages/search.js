@@ -4,6 +4,8 @@ import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
 
 class SearchPage extends Component {
+  _isMounted = false;
+
   state = {
     movies: [],
     hasMore: true,
@@ -82,6 +84,10 @@ class SearchPage extends Component {
 
   async componentDidMount() {
     this.getSimilarTitleMovie({movieTitle: this.props.title});
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
