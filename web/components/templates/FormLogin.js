@@ -1,6 +1,5 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
 import { BoxError } from "../molecules/ErrorMessage";
 import { HeadLockPage } from "../molecules/HeadLockPage"
@@ -12,7 +11,7 @@ import { ImageSplitPage } from "../atoms/ImageSplitPage";
 import {i18n} from '../../utils/i18n';
 import {GroupButtonOauth} from "../organisms/GroupButtonOauth";
 import {DividerSplit} from "../atoms/DividerSplit";
-import Container from "@material-ui/core/Container/Container";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(theme => ({
   root: {
