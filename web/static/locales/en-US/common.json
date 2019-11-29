@@ -60,5 +60,9 @@
   "\"email\" must be a valid email": "\"email\" must be a valid email",
   "A profile image is required": "A profile image is required",
   "Welcome back": "Welcome back",
-  "UserName is required": "UserName is required"
+  "UserName is required": "UserName is required",
+  "Completed Your Profile": "Completed Your Profile",
+  "Please set profile photo": "Please set profile photo",
+  "Too Short!": "Too Short!",
+  "Too Long!": "Too Long!"
 }

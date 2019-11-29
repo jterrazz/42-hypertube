@@ -13,6 +13,7 @@ export const InputUserName = (props, error = null, onChange) => {
 
   return (
     <TextField
+      style={{ background: "white" }}
       variant="outlined"
       margin="normal"
       required
@@ -25,7 +26,7 @@ export const InputUserName = (props, error = null, onChange) => {
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
       helperText={touched.username ? i18n.t(errors.username) : ''}
-      error={touched.username && Boolean(errors.username) || Boolean(props.error)}
+      error={touched.username && Boolean(errors.username) || Boolean(props.error === 'This username is already in use' ? props.error : '')}
     />
   )
 };

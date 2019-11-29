@@ -33,7 +33,7 @@ const FormUpdateImgae = (props) => {
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      {props.error ? <BoxError text={props.error}/> : ''}
+      {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
       <Grid container direction="column" justify="center" alignItems="center" style={{ marginTop: 20 }}>
         <Field
           name="profileImage"

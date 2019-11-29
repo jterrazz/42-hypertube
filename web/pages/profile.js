@@ -23,7 +23,13 @@ const validationSchemaInfos = Yup.object({
   lastName: Yup.string().required('Required'),
   email: Yup.string()
     .email('Enter a valid email')
-    .required('Email is required')
+    .required('Email is required'),
+  username: Yup.string()
+    .required('UserName is required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!')
+    .strict()
+    .trim('Spaces not allowed in UserName'),
 });
 
 const validationSchemaImage = Yup.object({
@@ -50,12 +56,21 @@ class profile extends Component {
   }
 
   state = {
-    ErrorMail: '',
-    Error: ''
+    ErrorInfo: '',
+    ErrorImage: '',
+    ErrorPassword: ''
   };
 
   onChange = () => {
-    this.setState({ErrorMail: ""});
+    this.setState({ErrorInfo: ""});
+  };
+
+  onChangeImage = () => {
+    this.setState({ErrorImage: ""});
+  };
+
+  onChangePassword = () => {
+    this.setState({ErrorPassword: ""});
   };
 
   SubmitImage = (userData) => {
@@ -63,17 +78,17 @@ class profile extends Component {
     matchaClient.patchMe(_.pick(userData, ['profileImage'])) // TODO Probably put the pick inside the component
       .then()
       .catch(error => {
-        this.setState({Error: "Unknown error. Please try again"});
+        this.setState({ErrorImage: "Unknown error. Please try again"});
       })
   };
 // TODO Rename
   SubmitInfos = (userData) => {
-    this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language']))) // TODO Probably put the pick inside the component
+    this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language', 'username']))) // TODO Probably put the pick inside the component
       .then()
       .catch(error => {
         error.response && error.response.status === 409
-          ? this.setState({ErrorMail: "This email is already in use"})
-          : this.setState({ErrorMail: "Unknown error. Please try again"});
+          ? this.setState({ErrorInfo: error.response.data})
+          : this.setState({ErrorInfo: "Unknown error. Please try again"});
       })
   };
 
@@ -83,13 +98,19 @@ class profile extends Component {
     matchaClient.patchMe(_.pick(userData, ['password'])) // TODO Probably put the pick inside the component
       .then()
       .catch(error => {
-        this.setState({Error: "Unknown error. Please try again"});
+        this.setState({ErrorPassword: "Unknown error. Please try again"});
       })
   };
+
+  async componentDidMount() {
+    if (!this.props.me.profileImageUrl)
+      this.setState({ErrorImage: 'Please set profile photo'});
+  }
 
   render() {
     const value = {confirmPassword: "", password: ""};
     const valueImage = {profileImage: ""};
+
     return (
       <Profile
         validationSchemaPassword={validationSchemaPassword}
@@ -99,9 +120,12 @@ class profile extends Component {
         SubmitImage={this.SubmitImage}
         SubmitInfos={this.SubmitInfos}
         SubmitPassword={this.SubmitPassword}
+        onChangeImage={this.onChangeImage}
+        onChangePassword={this.onChangePassword}
         me={this.props.me}
-        Error={this.state.Error}
-        ErrorMail={this.state.ErrorMail}
+        ErrorImage={this.state.ErrorImage}
+        ErrorInfo={this.state.ErrorInfo}
+        ErrorPassword={this.state.ErrorPassword}
         value={value}
         valueImage={valueImage}
       />

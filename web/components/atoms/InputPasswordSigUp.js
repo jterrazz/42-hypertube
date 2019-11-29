@@ -24,7 +24,7 @@ export const InputPasswordSigUp = (props) => {
       id="password"
       autoComplete="current-password"
       value={password}
-      onChange={handleChange}
+      onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
       helperText={touched.password ? i18n.t(errors.password) : ''}
       error={touched.password && Boolean(errors.password)}

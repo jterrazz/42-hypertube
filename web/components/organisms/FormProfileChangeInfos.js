@@ -7,6 +7,7 @@ import { InputLastName } from "../atoms/InputLastName";
 import { InputUpdateEmail } from "../atoms/InputUpdateEmail";
 import { SelectLang } from "../molecules/SelectLang";
 import {i18n} from '../../utils/i18n';
+import {InputUserName} from "../atoms/InputUserName";
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -22,6 +23,7 @@ const FormInfos = (props) => {
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
+      {!props.me.profileCompleted ? <InputUserName {...props}/> : ''}
       <InputFirstName {...props} />
       <InputLastName {...props} />
       <InputUpdateEmail {...props} onChange={props.onChange} />

@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core";
 import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
+import {BoxError} from "../molecules/ErrorMessage";
+import {i18n} from "../../utils/i18n";
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -18,7 +20,8 @@ const FormPassword = (props) => {
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      <InputPasswordSigUp {...props} />
+      {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
+      <InputPasswordSigUp {...props} onChange={props.onChange} />
       <InputConfirmPasswordSigUp {...props} />
       <ButtonSubmit text="Change password"/>
     </form>

@@ -28,7 +28,11 @@ export const CardProfile = (props) => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Typography variant="h6" component="h3" className={classes.welcome}>
-            {i18n.t("Welcome back")} {props.username}!
+            {!props.me.profileCompleted ?
+              <>{i18n.t('Completed Your Profile')}</>
+                :
+              <>{i18n.t("Welcome back")} {props.username}!</>
+            }
           </Typography>
         </Grid>
         <Grid item xs={12} md={6}>

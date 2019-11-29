@@ -30,8 +30,12 @@ class Profile extends Component {
     const {
       classes,
       onChange,
-      ErrorMail,
-      Error
+      onChangeImage,
+      onChangePassword,
+      ErrorInfo,
+      ErrorImage,
+      ErrorPassword,
+      me
     } = this.props;
 
     const FormUpdateImage = dynamic(() => import("../molecules/FormUpdateImageProfile"));
@@ -43,25 +47,25 @@ class Profile extends Component {
           <Container fixed>
             <TypographyTitle text="Dashboard"/>
             {this.props.me ?
-              <CardProfile username={this.props.me.username}/> : ''}
+              <CardProfile me={me} username={this.props.me.username}/> : ''}
             <TypographyTitle text="Settings Profile"/>
             <Grid container spacing={5} style={{marginTop: 10}}>
               <BoxFormik
-                render={(props) => <FormUpdateImage error={Error} {...props} />}
+                render={(props) => <FormUpdateImage error={ErrorImage} onChange={onChangeImage} {...props} />}
                 initialValues={this.props.valueImage}
                 validationSchema={this.props.validationSchemaImage}
                 onSubmit={this.props.SubmitImage}
               />
               {this.props.me ?
                 <BoxFormik
-                  render={props => <FormInfos error={ErrorMail} onChange={onChange} {...props} />}
+                  render={props => <FormInfos error={ErrorInfo} onChange={onChange} me={me} {...props} />}
                   initialValues={this.props.me}
                   validationSchema={this.props.validationSchemaInfos}
                   onSubmit={this.props.SubmitInfos}
                 />
                 : ''}
               <BoxFormik
-                render={props => <FormPassword {...props} />}
+                render={props => <FormPassword error={ErrorPassword} onChange={onChangePassword} {...props} />}
                 initialValues={this.props.value}
                 validationSchema={this.props.validationSchemaPassword}
                 onSubmit={this.props.SubmitPassword}

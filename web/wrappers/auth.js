@@ -12,9 +12,9 @@ export const authentified = isRequired => WrappedComponent => {
     const hasToken = state.auth.user;
     const mustRedirect = (isRequired && !hasToken) || (!isRequired && hasToken);
 
-    let redirectTo = '/'
-    if (state.auth.needToCompleteProfile) {
-      redirectTo = '/complete' // TODO Maybe use the already made profile page
+    let redirectTo = '/';
+    if (hasToken && !state.auth.user.profileCompleted) {
+      redirectTo = '/profile' // TODO Maybe use the already made profile page
     } else if (isRequired) {
       redirectTo = '/login';
     }
@@ -24,8 +24,11 @@ export const authentified = isRequired => WrappedComponent => {
       return ctx.res.end()
     }
 
-    if (mustRedirect) {
-      return Router.push(redirectTo);
+    if (mustRedirect || (hasToken && !state.auth.user.profileCompleted && ctx.pathname !== '/profile')) {
+      if(ctx.isServer)
+        return ctx.res.redirect(redirectTo);
+      else
+        return Router.push(redirectTo);
     }
 
     const componentProps =
