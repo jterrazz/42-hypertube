@@ -10,8 +10,14 @@ const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
+  firstName: Yup.string()
+    .required('Required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!'),
+  lastName: Yup.string()
+    .required('Required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!'),
   userName: Yup.string()
     .required('UserName is required')
     .min(3, 'Too Short!')
