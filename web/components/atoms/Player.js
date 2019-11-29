@@ -17,7 +17,6 @@ const useStyle = makeStyles(() => ({
 const Player = (props, {hashMovie = null, thumbnail = null, subtitles = null, onStart = null, url = null}) => {
   const classes = useStyle();
 
-  console.log(url)
   return (
     <div className={classes.playerWrapper}>
       <ReactPlayer

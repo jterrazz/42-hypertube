@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core";
 import { LinkTorrent } from "../atoms/LinkTorrent";
 import Player from "../atoms/Player";
 import Copyright from "../atoms/Copyright";
+import {TypographyError} from "../atoms/TypographyError";
+import {TypographyTitle} from "../atoms/TypographyTitle";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
@@ -26,6 +28,7 @@ export const Torrent = (props) => {
           <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
             <Grid item xs={9} md={9}>
               <LinkTorrent {...props} />
+              <TypographyError ErrorText={props.error}/>
             </Grid>
             <Grid item xs={2} md={1}>
               <Fab
@@ -38,6 +41,11 @@ export const Torrent = (props) => {
             </Grid>
           </Grid>
           <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
+            {props.name ?
+              <Grid item xs={10} md={10}>
+                <TypographyTitle text={props.name}/>
+              </Grid>
+            : ''}
             <Grid item xs={10} md={10}>
               <Player url={props.urlMovieTorrent}/>
             </Grid>
