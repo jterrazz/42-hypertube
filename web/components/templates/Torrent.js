@@ -25,17 +25,21 @@ export const Torrent = (props) => {
         <Container fixed>
           <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
             <Grid item xs={9} md={9}>
-              <LinkTorrent />
+              <LinkTorrent {...props} />
             </Grid>
             <Grid item xs={2} md={1}>
-              <Fab color="primary" aria-label="add">
+              <Fab
+                color="primary"
+                aria-label="add"
+                onClick={props.onClick}
+              >
                 <AddIcon />
               </Fab>
             </Grid>
           </Grid>
           <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
             <Grid item xs={10} md={10}>
-              <Player />
+              <Player url={props.urlMovieTorrent}/>
             </Grid>
           </Grid>
         </Container>

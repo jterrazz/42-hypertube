@@ -8,24 +8,28 @@ class TorrentPlay extends Component {
   state = {
     magnet: '',
     ErrorMagnet: '',
-    urlPlay: ''
+    urlMovieTorrent: null
   };
 
   onClick = () => {
+
     const magnet = magnetDecode(this.state.magnet);
     if (!magnet.announce.length){
       this.setState({ErrorMagnet: 'error magnet'});
       return;
     }
 
-    const i = magnet.announce.length;
-    var tr = '';
+    let tr = '';
+    const nb = magnet.announce.length;
+
     magnet.announce.map((item, index) => {
-      tr.concat('tr=', item);
-      if (i - 1 !== index)
-        tr.concat('&');
+      tr = tr.concat('tr=', item);
+      if (nb - 1 !== index)
+        tr = tr.concat('&');
     }, tr);
-    const tmp = `${ROOT_URL.ROOT_URL}/torrent/${magnet.infoHash}/`;
+
+    const url = `${ROOT_URL.ROOT_URL}/torrent/${magnet.infoHash}/stream?${tr}`;
+    this.setState({urlMovieTorrent: url})
   };
 
   onChange = (ev) => {
@@ -39,6 +43,7 @@ class TorrentPlay extends Component {
         onChange={this.onChange}
         onClick={this.onClick}
         error={this.state.ErrorMagnet}
+        urlMovieTorrent={this.state.urlMovieTorrent}
       />
     )
   }
