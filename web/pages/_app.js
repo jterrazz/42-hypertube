@@ -63,7 +63,10 @@ class MyApp extends App {
                 {ActiveNavBar ? <NavBar /> : '' }
                 <Component {...pageProps} />
               </div>
-              <div style={{ marginLeft: 240 }}><Copyright /></div>
+              {ActiveNavBar
+                ? <div style={{marginLeft: 240}}><Copyright/></div>
+                : <div><Copyright/></div>
+              }
             </Provider>
           </ThemeProvider>
       </React.Fragment>
