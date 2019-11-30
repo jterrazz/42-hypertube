@@ -41,6 +41,7 @@ const useStyles = makeStyles(theme => ({
 export const Form = (props, {error = null}) => {
   const { handleSubmit } = props;
   const classes = useStyles();
+
   return (
   <main className={classes.content}>
     <Container fixed>
@@ -61,7 +62,7 @@ export const Form = (props, {error = null}) => {
               <InputEmail {...props} onChange={props.onChange} error={props.error}/>
               <InputPasswordSigUp {...props}/>
               <InputConfirmPasswordSigUp {...props} />
-              <BoxReCaptcha {...props}/>
+              <BoxReCaptcha {...props} setRefCaptcha={props.setRefCaptcha}/>
               <ButtonSubmit text="Sign up"/>
               <ButtomSigUpPage />
             </form>

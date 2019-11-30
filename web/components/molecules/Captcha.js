@@ -9,10 +9,10 @@ export const Captcha = (props) => {
     touched,
     errors,
     setFieldValue } = props;
-
   return (
     <div>
       <Recaptcha
+        ref={ref => (props.setRefCaptcha(ref))}
         name="reCaptcha"
         sitekey="6LeSqisUAAAAAJ9byufAwiGKahmH3F67vBwvN3E2"
         onChange={response => {

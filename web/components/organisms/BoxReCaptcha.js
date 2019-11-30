@@ -6,7 +6,7 @@ export const BoxReCaptcha = (props) => {
   return (
     <Grid>
       <Grid container justify="center">
-        <Captcha {...props}/>
+        <Captcha {...props} setRefCaptcha={props.setRefCaptcha}/>
       </Grid>
     </Grid>
   )

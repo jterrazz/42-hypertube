@@ -52,16 +52,23 @@ const validationSchema = Yup.object().shape({
 class SignUp extends Component {
   state = {
     Error: '',
+    refCaptcha: '',
   };
 
   onChange = () => {
     this.setState({Error: ""});
   };
 
+  setRefCaptcha = (ref) => {
+    if (ref)
+      this.refCaptcha = ref;
+  };
+
   handleSubmit = (userData) =>
     matchaAPI.signup(userData)
       .then(() => Router.push('/'))
       .catch(error => {
+        this.refCaptcha.reset();
         if (error.response && (error.response.status === 422 || error.response.status === 409)) {
           this.setState({Error: error.response.data});
         }
@@ -80,7 +87,7 @@ class SignUp extends Component {
     };
     return (
       <Formik
-        render={props => <Form {...props} error={this.state.Error} onChange={this.onChange}/>}
+        render={props => <Form {...props} error={this.state.Error} onChange={this.onChange} setRefCaptcha={this.setRefCaptcha}/>}
         initialValues={values}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}
