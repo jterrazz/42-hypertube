@@ -64,11 +64,12 @@ class SignUp extends Component {
       this.refCaptcha = ref;
   };
 
-  handleSubmit = (userData) =>
+  handleSubmit = (userData, {setFieldValue}) =>
     matchaAPI.signup(userData)
       .then(() => Router.push('/'))
       .catch(error => {
         this.refCaptcha.reset();
+        setFieldValue('reCaptcha', '');
         if (error.response && (error.response.status === 422 || error.response.status === 409)) {
           this.setState({Error: error.response.data});
         }
