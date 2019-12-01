@@ -18,7 +18,8 @@ class SearchPage extends Component {
 
   static async getInitialProps({query}) {
     return {
-      title: query.title
+      title: query.title,
+      namespacesRequired: ['common'],
     }
   }
 

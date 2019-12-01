@@ -13,6 +13,7 @@ class Users extends Component {
 
     return {
       users,
+      namespacesRequired: ['common'],
     };
   }
 

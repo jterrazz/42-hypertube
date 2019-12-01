@@ -55,4 +55,8 @@ class Login extends Component {
   }
 }
 
+Login.getInitialProps = async () => ({
+  namespacesRequired: ['common'],
+})
+
 export default authentified(false)(connect()(Login));

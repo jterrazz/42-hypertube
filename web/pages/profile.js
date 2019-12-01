@@ -53,7 +53,9 @@ class profile extends Component {
     if (!req) {
       store.dispatch(fetchUserIfNeeded(matchaClient, true))
     }
-    return {}
+    return {
+      namespacesRequired: ['common'],
+    }
   }
 
   state = {

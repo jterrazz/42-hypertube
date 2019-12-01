@@ -17,7 +17,8 @@ class Player extends React.Component {
       movie,
       comments,
       hash,
-      movieId: id
+      movieId: id,
+      namespacesRequired: ['common'],
     }
   }
 

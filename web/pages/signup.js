@@ -97,4 +97,8 @@ class SignUp extends Component {
   }
 }
 
+SignUp.getInitialProps = async () => ({
+  namespacesRequired: ['common'],
+})
+
 export default authentified(false)(SignUp);

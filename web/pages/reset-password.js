@@ -20,6 +20,7 @@ class Forgot extends Component {
   static async getInitialProps({query}) {
     return {
       token: query.token,
+      namespacesRequired: ['common'],
     }
   }
 

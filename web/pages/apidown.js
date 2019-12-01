@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   }
 });
 
-const apiDown = () => {
+const ErrorPageApi = () => {
   const classes = useStyles();
   return (
     <main className={classes.content}>
@@ -23,4 +23,9 @@ const apiDown = () => {
     </main>
   )
 };
-export default apiDown;
+
+ErrorPageApi.getInitialProps = async () => ({
+  namespacesRequired: ['common'],
+})
+
+export default ErrorPageApi;

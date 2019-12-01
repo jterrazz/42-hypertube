@@ -51,4 +51,8 @@ class TorrentPlay extends Component {
   }
 }
 
+TorrentPlay.getInitialProps = async () => ({
+  namespacesRequired: ['common'],
+})
+
 export default authentified(true)(TorrentPlay);
