@@ -19,7 +19,7 @@ import {Home as HomeIcon, Search as SearchIcon} from '@material-ui/icons';
 import PersonIcon from '@material-ui/icons/Person';
 import PeopleIcon from '@material-ui/icons/People';
 import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 import Link from "next/link";
 import {connect} from "react-redux";
 import Router from "next/router";
@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // TODO Replace all by <Link>
-const NavBar = (props) => {
+const NavBar = withTranslation()((props) => {
   const {container} = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -103,7 +103,7 @@ const NavBar = (props) => {
           onClick={props.logout}
           color="primary"
         >
-          {i18n.t("logout")}
+          {props.t("logout")}
         </Button>
       </Grid>
       <Divider/>
@@ -116,7 +116,7 @@ const NavBar = (props) => {
             <ListItemIcon>
               <HomeIcon/>
             </ListItemIcon>
-            <ListItemText primary={i18n.t("Home")}/>
+            <ListItemText primary={props.t("Home")}/>
           </ListItem>
         </Link>
 
@@ -125,7 +125,7 @@ const NavBar = (props) => {
             <ListItemIcon>
               <SearchIcon/>
             </ListItemIcon>
-            <ListItemText primary={i18n.t("Search")}/>
+            <ListItemText primary={props.t("Search")}/>
           </ListItem>
         </Link>
 
@@ -134,7 +134,7 @@ const NavBar = (props) => {
             <ListItemIcon>
               <PersonIcon/>
             </ListItemIcon>
-            <ListItemText primary={i18n.t("My profile")}/>
+            <ListItemText primary={props.t("My profile")}/>
           </ListItem>
         </Link>
 
@@ -152,7 +152,7 @@ const NavBar = (props) => {
             <ListItemIcon>
               <PeopleIcon/>
             </ListItemIcon>
-            <ListItemText primary={i18n.t("Users")}/>
+            <ListItemText primary={props.t("Users")}/>
           </ListItem>
         </Link>
       </List>
@@ -212,7 +212,7 @@ const NavBar = (props) => {
       </nav>
     </div>
   );
-}
+})
 
 class Bar extends Component {
 
