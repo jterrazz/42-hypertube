@@ -4,14 +4,16 @@ import React from "react";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center" style={{ margin: 15 }}>
-      {'Copyright © '}
-      <MuiLink color="inherit" href="https://intra.42.fr/">
-        HyperTube
-      </MuiLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <footer>
+      <Typography variant="body2" color="textSecondary" align="center" style={{ margin: 15 }}>
+        {'Copyright © '}
+        <MuiLink color="inherit" href="https://intra.42.fr/">
+          HyperTube
+        </MuiLink>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    </footer>
   )
 }
 

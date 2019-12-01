@@ -24,6 +24,7 @@ class Index extends Component {
       rankedMovies,
       featuredYTS,
       featuredPopcorn,
+      namespacesRequired: ['common']
     };
   }
 

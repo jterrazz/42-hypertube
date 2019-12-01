@@ -224,7 +224,9 @@ class Bar extends Component {
 
   render() {
     return (
-      <NavBar me={this.props.me} logout={this.logout}/>
+      <header>
+        <NavBar me={this.props.me} logout={this.logout}/>
+      </header>
     )
   }
 }
