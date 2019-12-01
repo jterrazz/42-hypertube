@@ -10,7 +10,12 @@ class MoviePage extends Component {
 
   static async getInitialProps({query: {id}, matchaClient}) {
     const [movie, movieTorrent] = await Promise.all([matchaClient.getMovie(id), matchaClient.getMovieTorrents(id)])
-    return {movieId: id, movie, movieTorrent}
+    return {
+      movieId: id,
+      movie,
+      movieTorrent,
+      namespacesRequired: ['common'],
+    }
   }
 
   render() {
