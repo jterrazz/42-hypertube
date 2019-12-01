@@ -13,6 +13,7 @@ import {MatchaAPI} from '../services/matcha-api'
 import nextCookie from 'next-cookies';
 import NavBar from "../components/organisms/NavBar";
 import Copyright from "../components/atoms/Copyright";
+import { appWithTranslation } from '../utils/i18n'
 
 class MyApp extends App {
 
@@ -74,4 +75,4 @@ class MyApp extends App {
   }
 }
 
-export default withRedux(makeStore)(MyApp);
+export default withRedux(makeStore)(appWithTranslation(MyApp));

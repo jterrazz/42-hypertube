@@ -1,4 +1,4 @@
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 import {makeStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ButtonSubmit = (props) => {
+export const ButtonSubmit = withTranslation()((props) => {
   const classes = useStyles();
   return (
     <Button
@@ -18,7 +18,7 @@ export const ButtonSubmit = (props) => {
       color="primary"
       className={classes.submit}
     >
-      {i18n.t(props.text)}
+      {props.t(props.text)}
     </Button>
   )
-};
+});

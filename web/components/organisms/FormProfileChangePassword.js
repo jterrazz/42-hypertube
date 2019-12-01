@@ -4,7 +4,7 @@ import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import {BoxError} from "../molecules/ErrorMessage";
-import {i18n} from "../../utils/i18n";
+import {withTranslation} from "../../utils/i18n";
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -13,19 +13,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FormPassword = (props) => {
+const FormPassword = withTranslation()((props) => {
   const { handleSubmit } = props;
 
   const classes = useStyles();
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
-      {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
+      {props.error ? <BoxError text={props.t(props.error)}/> : ''}
       <InputPasswordSigUp {...props} onChange={props.onChange} />
       <InputConfirmPasswordSigUp {...props} />
       <ButtonSubmit text="Change password"/>
     </form>
   );
-};
+});
 
 export default FormPassword;

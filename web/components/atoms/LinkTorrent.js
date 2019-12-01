@@ -3,9 +3,9 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import React from "react";
-import {i18n} from "../../utils/i18n";
+import {withTranslation} from "../../utils/i18n";
 
-export const LinkTorrent = (props) => {
+export const LinkTorrent = withTranslation()((props) => {
   const {
     error,
   } = props;
@@ -21,4 +21,4 @@ export const LinkTorrent = (props) => {
       />
     </FormControl>
   )
-};
+});

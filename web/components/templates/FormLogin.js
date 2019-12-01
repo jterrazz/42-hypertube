@@ -8,7 +8,7 @@ import { InputUserName } from "../atoms/InputUserName"
 import { InputPassword } from "../atoms/InputPassword"
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import { ImageSplitPage } from "../atoms/ImageSplitPage";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 import {GroupButtonOauth} from "../organisms/GroupButtonOauth";
 import {DividerSplit} from "../atoms/DividerSplit";
 import Container from "@material-ui/core/Container";
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Form = (props, error = null, onChange) => {
+export const Form = withTranslation()((props, error = null, onChange) => {
   const {
     handleSubmit,
   } = props;
@@ -51,7 +51,7 @@ export const Form = (props, error = null, onChange) => {
               <form className={classes.form} onSubmit={handleSubmit}>
                 <GroupButtonOauth />
                 <DividerSplit />
-                {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
+                {props.error ? <BoxError text={props.t(props.error)}/> : ''}
                 <InputUserName {...props} onChange={props.onChange} error={props.error}/>
                 <InputPassword {...props} onChange={props.onChange} error={props.error}/>
                 <ButtonSubmit text="Sign in" className={classes.submit}/>
@@ -66,4 +66,4 @@ export const Form = (props, error = null, onChange) => {
       </Container>
     </main>
   );
-};
+});

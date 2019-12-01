@@ -1,8 +1,8 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 
-export const InputConfirmPasswordSigUp = (props) => {
+export const InputConfirmPasswordSigUp = withTranslation()((props) => {
   const {
     values: {confirmPassword},
     errors,
@@ -20,14 +20,14 @@ export const InputConfirmPasswordSigUp = (props) => {
       fullWidth
       name="confirmPassword"
       type="password"
-      label={i18n.t("Confirm Password")}
+      label={props.t("Confirm Password")}
       id="confirmPassword"
       autoComplete="confirm-password"
       value={confirmPassword}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.confirmPassword ? i18n.t(errors.confirmPassword) : ''}
+      helperText={touched.confirmPassword ? props.t(errors.confirmPassword) : ''}
       error={touched.confirmPassword && Boolean(errors.confirmPassword)}
     />
   )
-};
+});

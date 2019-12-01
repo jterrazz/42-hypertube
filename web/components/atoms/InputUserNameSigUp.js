@@ -1,8 +1,8 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 
-export const InputUserNameSigUp = (props, error = null) => {
+export const InputUserNameSigUp = withTranslation()((props, error = null) => {
   const {
     values,
     errors,
@@ -18,14 +18,14 @@ export const InputUserNameSigUp = (props, error = null) => {
       required
       fullWidth
       id="userName"
-      label={i18n.t("UserName")}
+      label={props.t("UserName")}
       name="userName"
       autoComplete="uname"
       value={values.userName}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.userName ? i18n.t(errors.userName) : ''}
+      helperText={touched.userName ? props.t(errors.userName) : ''}
       error={touched.userName && Boolean(errors.userName) || Boolean(props.error === 'This username is already in use' ? props.error : '')}
     />
   )
-};
+});

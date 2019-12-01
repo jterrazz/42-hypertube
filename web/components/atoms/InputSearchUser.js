@@ -1,7 +1,7 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
 import { makeStyles } from "@material-ui/core";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 
 const useStyles = makeStyles({
   searchInput: {
@@ -9,14 +9,14 @@ const useStyles = makeStyles({
   }
 });
 
-export const InputSearchUser = (props) => {
+export const InputSearchUser = withTranslation()((props) => {
   const classes = useStyles();
 
   return (
     <TextField
       id="search"
-      label={i18n.t("Search")}
-      placeholder={i18n.t("Find User")}
+      label={props.t("Search")}
+      placeholder={props.t("Find User")}
       fullWidth
       onChange={props.onChange}
       margin="normal"
@@ -30,4 +30,4 @@ export const InputSearchUser = (props) => {
       }}
     />
   )
-};
+});

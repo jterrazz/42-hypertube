@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import React from "react";
 import {makeStyles} from "@material-ui/core";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // TODO Change text and translate
-export const CardProfile = (props) => {
+export const CardProfile = withTranslation()((props) => {
   const classes = useStyles();
   return (
     <Paper className={classes.paper} elevation={0}>
@@ -29,9 +29,9 @@ export const CardProfile = (props) => {
         <Grid item xs={12} md={6}>
           <Typography variant="h6" component="h3" className={classes.welcome}>
             {!props.me.profileCompleted ?
-              <>{i18n.t('Completed Your Profile')}</>
+              <>{props.t('Completed Your Profile')}</>
                 :
-              <>{i18n.t("Welcome back")} {props.username}!</>
+              <>{props.t("Welcome back")} {props.username}!</>
             }
           </Typography>
         </Grid>
@@ -45,4 +45,4 @@ export const CardProfile = (props) => {
       </Grid>
     </Paper>
   )
-};
+});

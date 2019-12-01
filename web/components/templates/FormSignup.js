@@ -16,7 +16,7 @@ import { InputEmail } from "../atoms/InputEmail";
 import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { DividerSplit } from "../atoms/DividerSplit";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Form = (props, {error = null}) => {
+export const Form = withTranslation()((props, {error = null}) => {
   const { handleSubmit } = props;
   const classes = useStyles();
 
@@ -52,7 +52,7 @@ export const Form = (props, {error = null}) => {
             <form className={classes.form} onSubmit={handleSubmit}>
               <GroupButtonOauth />
               <DividerSplit />
-              {props.error ? <BoxError text={i18n.t(props.error)}/> : ''}
+              {props.error ? <BoxError text={props.t(props.error)}/> : ''}
               <Grid container justify="center" spacing={2}>
                 <Grid container direction="column" justify="center" alignItems="center" item xs={6} sm={2}><InputImage {...props}/></Grid>
                 <Grid item xs={12} sm={5}><InputFirstName {...props} /></Grid>
@@ -73,4 +73,4 @@ export const Form = (props, {error = null}) => {
     </Container>
   </main>
   )
-};
+});

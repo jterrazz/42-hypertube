@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Moment from "moment";
 import React from "react";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 import {makeStyles} from "@material-ui/core";
 import {DialogUser} from "../organisms/DialogUser";
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Comment = (props) => {
+export const Comment = withTranslation()((props) => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -40,7 +40,7 @@ export const Comment = (props) => {
           value={props.commentaire}
           onChange={props.Change}
           rowsMax="4"
-          placeholder={i18n.t("Add a public comment ...")}
+          placeholder={props.t("Add a public comment ...")}
         />
         <Grid container justify="flex-end">
           <Grid item xs={9} md={9}>
@@ -51,7 +51,7 @@ export const Comment = (props) => {
               size="small"
               onClick={props.Click}
             >
-              {i18n.t("Add comment")}
+              {props.t("Add comment")}
             </Button>
           </Grid>
         </Grid>
@@ -73,4 +73,4 @@ export const Comment = (props) => {
       <DialogUser userInfo={props.userInfo} open={open} onClose={handleClose} />
     </Grid>
   )
-};
+});

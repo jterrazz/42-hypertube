@@ -1,10 +1,10 @@
 import Recaptcha from "react-google-recaptcha";
 import { TypographyError } from "../atoms/TypographyError";
 import React from "react";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 
 // TODO Put in .env
-export const Captcha = (props) => {
+export const Captcha = withTranslation()((props) => {
   const {
     touched,
     errors,
@@ -20,8 +20,8 @@ export const Captcha = (props) => {
         }}
       />
       {errors.reCaptcha && touched.reCaptcha && (
-        <TypographyError ErrorText={i18n.t(errors.reCaptcha)} />
+        <TypographyError ErrorText={props.t(errors.reCaptcha)} />
       )}
     </div>
   )
-};
+});

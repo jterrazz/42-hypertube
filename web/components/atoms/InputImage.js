@@ -1,9 +1,9 @@
 import CustomImageInput from "../molecules/CustomImageInput";
 import {Field} from "formik";
 import React from "react";
-import {i18n} from '../../utils/i18n';
+import {withTranslation} from '../../utils/i18n';
 
-export const InputImage = (props) => {
+export const InputImage = withTranslation()((props) => {
   const {
     touched,
     errors,
@@ -22,4 +22,4 @@ export const InputImage = (props) => {
       onBlur={handleBlur}
     />
   )
-};
+});
