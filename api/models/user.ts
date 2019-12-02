@@ -28,6 +28,7 @@ UserSchema.methods = {
     this.set('hashedPassword', hashedPassword)
   },
   verifyPassword: async function(password): Promise<boolean> {
+    if (!this.hashedPassword) return false
     return await bcrypt.compare(password, this.hashedPassword)
   },
 }
