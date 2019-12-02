@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .trim('Spaces not allowed in UserName'),
+    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only, Spaces not allowed')
 });
 
 class Forgot extends Component {

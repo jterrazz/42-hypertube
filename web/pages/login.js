@@ -14,7 +14,7 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only'),
+    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only, Spaces not allowed'),
   password: Yup.string()
     .min(8, 'Password must contain at least 8 characters')
     .max(100, 'Too Long!')
