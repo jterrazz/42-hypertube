@@ -25,7 +25,8 @@ class Player extends React.Component {
   state = {
     subtitles: null,
     comment: '',
-    userInfo: {}
+    userInfo: {},
+    errorComment: ''
   };
 
   async componentdidmount() {
@@ -35,10 +36,22 @@ class Player extends React.Component {
 
   handleChange = (e) => {
     this.setState({ comment: e.target.value});
+
+    if (e.target.value.length < 5) {
+      this.setState({errorComment: 'Too Short!'});
+      return;
+    }
+
+    if (e.target.value.length > 150) {
+      this.setState({errorComment: 'Too Long!'});
+      return;
+    }
+
+    this.setState({errorComment: ''});
   };
 
   handleClick = () => {
-    if (!this.state.comment)
+    if (!this.state.comment || this.state.errorComment)
       return;
 
     matchaAPI.postComment(this.props.movieId, this.state.comment)
@@ -71,6 +84,7 @@ class Player extends React.Component {
         getUser={this.getUser}
         userInfo={this.state.userInfo}
         onStart={this.onStart}
+        errorComment={this.state.errorComment}
       />
     )
   }
