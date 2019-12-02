@@ -38,7 +38,7 @@ class Player extends React.Component {
   };
 
   handleClick = () => {
-    if (!this.props.comment)
+    if (!this.state.comment)
       return;
 
     matchaAPI.postComment(this.props.movieId, this.state.comment)
