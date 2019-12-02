@@ -19,39 +19,37 @@ const useStyles = makeStyles(theme => ({
 export const Torrent = (props) => {
   const classes = useStyles();
   return (
-    <>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
+    <main className={classes.content}>
+      <div className={classes.toolbar} />
 
-        <Container fixed>
-          <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
-            <Grid item xs={9} md={9}>
-              <LinkTorrent {...props} />
-              <TypographyError ErrorText={props.error}/>
-            </Grid>
-            <Grid item xs={2} md={1}>
-              <Fab
-                color="primary"
-                aria-label="add"
-                onClick={props.onClick}
-              >
-                <AddIcon />
-              </Fab>
-            </Grid>
+      <Container fixed>
+        <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
+          <Grid item xs={9} md={9}>
+            <LinkTorrent {...props} />
+            <TypographyError ErrorText={props.error}/>
           </Grid>
-          <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
-            {props.name ?
-              <Grid item xs={10} md={10}>
-                <TypographyTitle text={props.name}/>
-              </Grid>
-            : ''}
+          <Grid item xs={2} md={1}>
+            <Fab
+              color="primary"
+              aria-label="add"
+              onClick={props.onClick}
+            >
+              <AddIcon />
+            </Fab>
+          </Grid>
+        </Grid>
+        <Grid container spacing={4} justify="center" style={{ marginTop: 15 }}>
+          {props.name ?
             <Grid item xs={10} md={10}>
-              <Player url={props.urlMovieTorrent}/>
+              <TypographyTitle text={props.name}/>
             </Grid>
+          : ''}
+          <Grid item xs={10} md={10}>
+            <Player url={props.urlMovieTorrent}/>
           </Grid>
-        </Container>
+        </Grid>
+      </Container>
 
-      </main>
-    </>
+    </main>
   )
 };

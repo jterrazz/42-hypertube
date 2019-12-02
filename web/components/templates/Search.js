@@ -24,43 +24,41 @@ const useStyles = makeStyles(theme => ({
 const Search = (props) => {
   const classes = useStyles();
   return (
-    <>
-      <main className={classes.content} >
-        <div className={classes.toolbar} />
+    <main className={classes.content} >
+      <div className={classes.toolbar} />
 
-        <Container fixed>
-          <InputSearch {...props} />
-          <Grid container spacing={4} style={{ marginTop: 15 }}>
+      <Container fixed>
+        <InputSearch {...props} />
+        <Grid container spacing={4} style={{ marginTop: 15 }}>
 
-            {props.titleMovie ?
-              <Grid container spacing={4}>
-                <GroupRadioSource {...props}/>
-                <GroupRadioSort {...props}/>
-                <GroupRadioReverse {...props}/>
-              </Grid>
-              : ''}
-
-            {props.titleMovie && props.movies.length === 0 ? <NotResult title={props.titleMovie}/> : ''}
-          </Grid>
-
-          <InfiniteScroll
-            className={classes.items}
-            dataLength={props.movies.length} //This is important field to render the next data
-            next={props.fetchMoreData}
-            hasMore={props.hasMore}
-            // loader={<CircularProgress />}
-          >
-            <Grid container spacing={4} style={{ marginTop: 15, }}>
-              {props.movies.map((item, index) => (
-                <CardPosterFilm {...item} key={index} />
-              ))}
+          {props.titleMovie ?
+            <Grid container spacing={4}>
+              <GroupRadioSource {...props}/>
+              <GroupRadioSort {...props}/>
+              <GroupRadioReverse {...props}/>
             </Grid>
-          </InfiniteScroll>
+            : ''}
 
-        </Container>
+          {props.titleMovie && props.movies.length === 0 ? <NotResult title={props.titleMovie}/> : ''}
+        </Grid>
 
-      </main>
-    </>
+        <InfiniteScroll
+          className={classes.items}
+          dataLength={props.movies.length} //This is important field to render the next data
+          next={props.fetchMoreData}
+          hasMore={props.hasMore}
+          // loader={<CircularProgress />}
+        >
+          <Grid container spacing={4} style={{ marginTop: 15, }}>
+            {props.movies.map((item, index) => (
+              <CardPosterFilm {...item} key={index} />
+            ))}
+          </Grid>
+        </InfiniteScroll>
+
+      </Container>
+
+    </main>
   )
 };
 

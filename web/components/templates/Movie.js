@@ -24,71 +24,69 @@ const useStyles = makeStyles(theme => ({
 export const Movie = withTranslation()((props) => {
   const classes = useStyles();
   return (
-    <>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        {props.movie.title ?
-          <Container fixed>
-            <Grid container spacing={4}>
+    <main className={classes.content}>
+      <div className={classes.toolbar} />
+      {props.movie.title ?
+        <Container fixed>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+
+              <Typography variant="h2" gutterBottom>
+                {props.movie && props.movie.title ? props.movie.title : ''}
+              </Typography>
+
+              <Typography variant="h4" gutterBottom color="textSecondary">
+                {props.movie && props.movie.release_date ? props.movie.release_date : ''}
+              </Typography>
+
+              <Typography variant="body2" gutterBottom color="textPrimary">
+                {props.movie && props.movie.overview ? props.movie.overview : ''}
+              </Typography>
+
+
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <CardFanart {...props}/>
+            </Grid>
+
+            {props.movie && props.movie.similar.length > 0 ?
               <Grid item xs={12} md={6}>
-
-                <Typography variant="h2" gutterBottom>
-                  {props.movie && props.movie.title ? props.movie.title : ''}
-                </Typography>
-
-                <Typography variant="h4" gutterBottom color="textSecondary">
-                  {props.movie && props.movie.release_date ? props.movie.release_date : ''}
-                </Typography>
-
-                <Typography variant="body2" gutterBottom color="textPrimary">
-                  {props.movie && props.movie.overview ? props.movie.overview : ''}
-                </Typography>
-
-
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <CardFanart {...props}/>
-              </Grid>
-
-              {props.movie && props.movie.similar.length > 0 ?
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h4">{props.t("Similar")}</Typography>
-                  <Grid container spacing={4} style={{ marginTop: 15 }}>
-                    {props.movie && props.movie.similar ? props.movie.similar.slice(0, 4).map((item, index) => (
-                      <CardPosterFilmSimilar {...item} key={index}/>
-                    )) : ''}
-                  </Grid>
+                <Typography variant="h4">{props.t("Similar")}</Typography>
+                <Grid container spacing={4} style={{ marginTop: 15 }}>
+                  {props.movie && props.movie.similar ? props.movie.similar.slice(0, 4).map((item, index) => (
+                    <CardPosterFilmSimilar {...item} key={index}/>
+                  )) : ''}
                 </Grid>
-                : '' }
-
-              <Grid item xs={12} md={6}>
-                <Typography variant="h4">Torrents</Typography>
-                {props.movieTorrent ? Object.keys(props.movieTorrent).map((item) => (
-                  <div key={item}>
-                    <Box mt={3} mb={2}>
-                      <Typography variant="subtitle2" color="textSecondary" style={{ textTransform: 'capitalize' }}>
-                        {item}
-                      </Typography>
-                    </Box>
-                    <TorrentItems sourceTorrent={props.movieTorrent[item]} titleMovie={props.movie && props.movie.title? props.movie.title : ''} movieId={props.movie.imdb_id}/>
-                  </div>
-                )) : ''}
               </Grid>
+              : '' }
 
+            <Grid item xs={12} md={6}>
+              <Typography variant="h4">Torrents</Typography>
+              {props.movieTorrent ? Object.keys(props.movieTorrent).map((item) => (
+                <div key={item}>
+                  <Box mt={3} mb={2}>
+                    <Typography variant="subtitle2" color="textSecondary" style={{ textTransform: 'capitalize' }}>
+                      {item}
+                    </Typography>
+                  </Box>
+                  <TorrentItems sourceTorrent={props.movieTorrent[item]} titleMovie={props.movie && props.movie.title? props.movie.title : ''} movieId={props.movie.imdb_id}/>
+                </div>
+              )) : ''}
             </Grid>
-          </Container>
-          :
-          <Grid
-            container
-            justify="center"
-          >
-            <Grid item>
-              <CircularProgress/>
-            </Grid>
+
           </Grid>
-        }
-      </main>
-    </>
+        </Container>
+        :
+        <Grid
+          container
+          justify="center"
+        >
+          <Grid item>
+            <CircularProgress/>
+          </Grid>
+        </Grid>
+      }
+    </main>
   )
 });
