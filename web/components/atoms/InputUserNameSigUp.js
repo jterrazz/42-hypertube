@@ -22,7 +22,7 @@ export const InputUserNameSigUp = withTranslation()((props, error = null) => {
       name="userName"
       autoComplete="uname"
       value={values.userName}
-      onChange={handleChange}
+      onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
       helperText={touched.userName ? props.t(errors.userName) : ''}
       error={touched.userName && Boolean(errors.userName) || Boolean(props.error === 'This username is already in use' ? props.error : '')}
