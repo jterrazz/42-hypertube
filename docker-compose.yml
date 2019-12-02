@@ -1,7 +1,7 @@
 version: "3.3"
 services:
-  mongo:
-    build: ./mongo
+  mongo_db:
+    build: ./db
     restart: always
     ports:
       - "27017:27017"
@@ -9,10 +9,10 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: dev_password
       MONGO_INITDB_DATABASE: hypertube
-  server:
-    build: ./server
+  api:
+    build: ./api
     depends_on:
-      - mongo
+      - mongo_db
     environment:
       MONGO_URL: mongodb://mongo/hypertube
     ports:
