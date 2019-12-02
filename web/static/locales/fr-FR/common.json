@@ -14,10 +14,10 @@
   "Sign up": "S'inscrire",
   "First Name": "Nom",
   "Last Name": "Prènom",
-  "userName: ": "Nom d'utilisateur: ",
-  "firstName: ": "Nom: ",
-  "lastName: ": "Prènom: ",
-  "language: ": "la langue: ",
+  "userName": "Nom d'utilisateur",
+  "firstName": "Nom",
+  "lastName": "Prènom",
+  "language": "la langue",
   "Email Address": "Adresse E-mail",
   "Confirm Password": "Confirmez le mot de passe",
   "Reset password": "Réinitialiser le mot de passe",
@@ -66,5 +66,6 @@
   "Too Short!": "Trop Court!",
   "Too Long!": "Trop Long!",
   "The username must contains english letters and digits only, Spaces not allowed": "Le username doit contenir des lettres et des chiffres anglais seulement, l'Espaces non autorisés",
-  "This authentication token is not valid": "Ce jeton d'authentification n'est pas valide"
+  "This authentication token is not valid": "Ce jeton d'authentification n'est pas valide",
+  "Find User": "Trouver un utilisateur"
 }

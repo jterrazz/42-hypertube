@@ -40,7 +40,7 @@ export const Comment = withTranslation()((props) => {
           value={props.commentaire}
           onChange={props.Change}
           rowsMax="4"
-          placeholder={props.t("Add a public comment ...")}
+          placeholder={props.t("Add public comment ...")}
         />
         <Grid container justify="flex-end">
           <Grid item xs={9} md={9}>

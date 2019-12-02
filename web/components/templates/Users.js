@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const User = (props) => {
+export const UsersTemplate = withTranslation()((props) => {
   const classes = useStyles();
   return (
     <main className={classes.content}>
@@ -46,19 +46,19 @@ const User = (props) => {
                         </ListItemAvatar>
                       </ListItem>
                       <ListItem>
-                        <ListItemText secondary="userName: "/>
+                        <ListItemText secondary={props.t("userName")}/>
                         <ListItemText primary={item.username}/>
                       </ListItem>
                       <ListItem>
-                        <ListItemText secondary="firstName: "/>
+                        <ListItemText secondary={props.t("firstName")}/>
                         <ListItemText primary={item.firstName}/>
                       </ListItem>
                       <ListItem>
-                        <ListItemText secondary="lastName: "/>
+                        <ListItemText secondary={props.t("lastName")}/>
                         <ListItemText primary={item.lastName}/>
                       </ListItem>
                       <ListItem>
-                        <ListItemText secondary="language: "/>
+                        <ListItemText secondary={props.t("language")}/>
                         <ListItemText primary={item.language}/>
                       </ListItem>
                     </List>
@@ -75,6 +75,4 @@ const User = (props) => {
 
     </main>
   )
-};
-
-export default withTranslation('common')(User);
+});

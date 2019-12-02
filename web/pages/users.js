@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import UsersTemplate from "../components/templates/Users";
+import { UsersTemplate } from "../components/templates/Users";
 import {authentified} from "../wrappers/auth";
 
 class Users extends Component {

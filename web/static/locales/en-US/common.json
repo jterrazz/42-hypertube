@@ -14,10 +14,10 @@
   "Sign up": "Sign up",
   "First Name": "First Name",
   "Last Name": "Last Name",
-  "userName: ": "userName: ",
-  "firstName: ": "firstName: ",
-  "lastName: ": "lastName: ",
-  "language: ": "language: ",
+  "userName": "userName",
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "language": "language",
   "Email Address": "Email Address",
   "Confirm Password": "Confirm Password",
   "Reset password": "Reset password",
@@ -31,7 +31,7 @@
   "Trending": "Trending",
   "Similar": "Similar",
   "Add comment": "Add comment",
-  "Add public comment ...": "Add a public comment ...",
+  "Add public comment ...": "Add public comment ...",
   "result matched": "result matched",
   "save": "save",
   "Settings Profile": "Settings Profile",
@@ -66,5 +66,6 @@
   "Too Short!": "Too Short!",
   "Too Long!": "Too Long!",
   "The username must contains english letters and digits only, Spaces not allowed": "The username must contains english letters and digits only, Spaces not allowed",
-  "This authentication token is not valid": "This authentication token is not valid"
+  "This authentication token is not valid": "This authentication token is not valid",
+  "Find User": "Find User"
 }
