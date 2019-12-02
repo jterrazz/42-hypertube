@@ -42,9 +42,10 @@ export const fetchUserIfNeeded = (matchaClient, force = false) => async (dispatc
           })
         }
 
-        return dispatch({
+        dispatch({
           type: types.CLEAR_USER
         })
+        throw error
       })
   }
 }

@@ -14,6 +14,16 @@ import nextCookie from 'next-cookies';
 import NavBar from "../components/organisms/NavBar";
 import Copyright from "../components/atoms/Copyright";
 import { appWithTranslation } from '../utils/i18n'
+import Router from 'next/router'
+
+function redirect(ctx, route) {
+  if (ctx.req) {
+    ctx.res.writeHead(302, {Location: route});
+    ctx.res.end()
+  } else {
+    Router.push(route)
+  }
+}
 
 class MyApp extends App {
 
@@ -23,7 +33,18 @@ class MyApp extends App {
     Component.getInitialProps = async (ctx) => {
       const matchaClient = new MatchaAPI(nextCookie(ctx))
 
-      await ctx.store.dispatch(fetchUserIfNeeded(matchaClient, false))
+      try {
+        if (ctx.pathname != '/apidown')
+          await ctx.store.dispatch(fetchUserIfNeeded(matchaClient, false))
+      } catch (e) {
+        if (e.code == 'ECONNREFUSED') {
+          redirect(ctx, '/apidown')
+          return {
+            namespacesRequired: ['common']
+          }
+        }
+
+      }
       ctx.matchaClient = matchaClient
       if (oldGetInitialProps)
         return await oldGetInitialProps(ctx);
