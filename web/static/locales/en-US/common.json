@@ -65,5 +65,6 @@
   "Please set profile photo": "Please set profile photo",
   "Too Short!": "Too Short!",
   "Too Long!": "Too Long!",
-  "The username must contains english letters and digits only, Spaces not allowed": "The username must contains english letters and digits only, Spaces not allowed"
+  "The username must contains english letters and digits only, Spaces not allowed": "The username must contains english letters and digits only, Spaces not allowed",
+  "This authentication token is not valid": "This authentication token is not valid"
 }

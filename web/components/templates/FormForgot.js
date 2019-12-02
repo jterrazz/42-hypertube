@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Form = (props, error = null, onChange) => {
+export const Form = (props) => {
   const { handleSubmit } = props;
 
   const classes = useStyles();

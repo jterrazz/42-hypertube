@@ -9,6 +9,7 @@ import {authentified} from "../wrappers/auth";
 const validationSchema = Yup.object({
   password: Yup.string("")
     .min(8, "Password must contain atleast 8 characters")
+    .max(100, 'Too Long!')
     .required("Enter your password"),
   confirmPassword: Yup.string("Enter your password")
     .required("Confirm your password")
@@ -16,6 +17,10 @@ const validationSchema = Yup.object({
 });
 
 class Forgot extends Component {
+
+  state = {
+    Error: ''
+  };
 
   static async getInitialProps({query}) {
     return {
@@ -32,7 +37,11 @@ class Forgot extends Component {
 
     matchaClient.postResetPassword(user)
       .then(() => Router.push('/'))
-      .catch(_ => {})
+      .catch(error => {
+        error.response && error.response.status === 401
+          ? this.setState({Error: "This authentication token is not valid"})
+          : this.setState({Error: "Unknown error. Please try again"});
+      });
   };
 
   render() {
@@ -40,7 +49,7 @@ class Forgot extends Component {
 
     return (
       <Formik
-        render={props => <Form {...props} />}
+        render={props => <Form {...props} error={this.state.Error}/>}
         initialValues={values}
         validationSchema={validationSchema}
         onSubmit={this.onSubmit}

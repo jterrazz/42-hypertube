@@ -65,5 +65,6 @@
   "Please set profile photo": "Veuillez définir la photo de profile",
   "Too Short!": "Trop Court!",
   "Too Long!": "Trop Long!",
-  "The username must contains english letters and digits only, Spaces not allowed": "Le username doit contenir des lettres et des chiffres anglais seulement, l'Espaces non autorisés"
+  "The username must contains english letters and digits only, Spaces not allowed": "Le username doit contenir des lettres et des chiffres anglais seulement, l'Espaces non autorisés",
+  "This authentication token is not valid": "Ce jeton d'authentification n'est pas valide"
 }

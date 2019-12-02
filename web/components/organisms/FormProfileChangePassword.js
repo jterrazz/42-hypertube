@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
-import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
+import { InputPassword } from "../atoms/InputPassword";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import {BoxError} from "../molecules/ErrorMessage";
@@ -21,7 +21,7 @@ const FormPassword = withTranslation()((props) => {
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       {props.error ? <BoxError text={props.t(props.error)}/> : ''}
-      <InputPasswordSigUp {...props} onChange={props.onChange} />
+      <InputPassword {...props} onChange={props.onChange} />
       <InputConfirmPasswordSigUp {...props} />
       <ButtonSubmit text="Change password"/>
     </form>
