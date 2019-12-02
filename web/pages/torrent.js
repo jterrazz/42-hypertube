@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Torrent} from '../components/templates/Torrent';
 import {authentified} from "../wrappers/auth";
 import { magnetDecode } from '@ctrl/magnet-link';
-import ROOT_URL from "../config/index"
+import config from "../config/index"
 
 class TorrentPlay extends Component {
   state = {
@@ -15,21 +15,14 @@ class TorrentPlay extends Component {
   onClick = () => {
 
     const magnet = magnetDecode(this.state.magnet);
-    if (!magnet.announce.length){
-      this.setState({ErrorMagnet: 'error magnet or not tracker'});
+    console.log(magnet)
+    if (!magnet.tr.length){
+      this.setState({ErrorMagnet: 'No tracker available tracker'});
       return;
     }
 
-    let tr = '';
-    const nb = magnet.announce.length;
-
-    magnet.announce.map((item, index) => {
-      tr = tr.concat('tr=', item);
-      if (nb - 1 !== index)
-        tr = tr.concat('&');
-    }, tr);
-
-    const url = `${ROOT_URL.ROOT_URL}/torrent/${magnet.infoHash}/stream?${tr}`;
+    const tr = magnet.tr.join('&tr=');
+    const url = `${config.ROOT_URL}/torrents/${magnet.infoHash}/stream?tr=${tr}`; // TODO Use API Builder
     this.setState({urlMovieTorrent: url, name: magnet.name})
   };
 

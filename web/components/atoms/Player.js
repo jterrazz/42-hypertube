@@ -30,7 +30,7 @@ const Player = (props, {hashMovie = null, thumbnail = null, subtitles = null, on
           // attributes: {
           //   crossOrigin: 'true'
           // },
-          tracks: props.subtitles }}}
+          tracks: props.subtitles || [] }}}
         className={classes.reactPlayer}
         playing={false}
         width="100%"
