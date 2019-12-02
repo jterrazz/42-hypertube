@@ -97,8 +97,15 @@ export const getMostDownloadedMovies = async genre =>
   searchMovies(null, 1, { genre, sort: SORT_VALUES_ENUM.SORT_TRENDING }) // Trending is download_count for yts
 
 export const getMovieDetails = async imdbID => {
-  const movies = await searchMovies(imdbID, 1, {})
-  return movies.length ? movies[0] : null
+  try {
+    const movies = await searchMovies(imdbID, 1, {})
+    return movies.length ? movies[0] : null
+  } catch (e) {
+    if (e.response.status < 500) {
+      return null
+    }
+    throw e
+  }
 }
 
 export const getMovieTorrents = async imdbID => {
