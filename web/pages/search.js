@@ -84,6 +84,7 @@ class SearchPage extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true;
     this.getSimilarTitleMovie({movieTitle: this.props.title});
   }
 
