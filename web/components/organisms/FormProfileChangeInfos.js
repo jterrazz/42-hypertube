@@ -23,7 +23,7 @@ const FormInfos = (props) => {
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       {props.error ? <BoxError text={props.t(props.error)}/> : ''}
-      {!props.me.profileCompleted ? <InputUserName {...props}/> : ''}
+      <InputUserName {...props}/>
       <InputFirstName {...props} />
       <InputLastName {...props} />
       <InputUpdateEmail {...props} onChange={props.onChange} />
