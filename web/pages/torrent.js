@@ -9,17 +9,32 @@ class TorrentPlay extends Component {
     magnet: '',
     ErrorMagnet: '',
     urlMovieTorrent: null,
-    name: ''
+    name: '',
+    edit: false
+  };
+
+  onClickEdit = () => {
+    this.setState({edit: false});
   };
 
   onClick = () => {
 
+    if (this.state.ErrorMagnet || !this.state.magnet)
+      return;
+
     const magnet = magnetDecode(this.state.magnet);
-    console.log(magnet)
-    if (!magnet.tr.length){
-      this.setState({ErrorMagnet: 'No tracker available tracker'});
+
+    if (!magnet.tr || !magnet.infoHash || !magnet.name){
+      this.setState({ErrorMagnet: 'Error magnet link!!', urlMovieTorrent: null});
       return;
     }
+
+    if (!magnet.tr.length){
+      this.setState({ErrorMagnet: 'No tracker available tracker', urlMovieTorrent: null});
+      return;
+    }
+
+    this.setState({edit: true});
 
     const tr = magnet.tr.join('&tr=');
     const url = `${config.ROOT_URL}/torrents/${magnet.infoHash}/stream?tr=${tr}`; // TODO Use API Builder
@@ -36,9 +51,11 @@ class TorrentPlay extends Component {
         magent={this.state.magnet}
         onChange={this.onChange}
         onClick={this.onClick}
+        onClickEdit={this.onClickEdit}
         error={this.state.ErrorMagnet}
         urlMovieTorrent={this.state.urlMovieTorrent}
         name={this.state.name}
+        edit={this.state.edit}
       />
     )
   }
