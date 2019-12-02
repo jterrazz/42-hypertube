@@ -59,7 +59,7 @@ export class MatchaAPI {
 
   signout = async () => await this.client.get('/auth/logout')
 
-  postForgotPassword = username => this.client.post(`/me?username=${username}`)
+  postForgotPassword = username => this.client.post(`/auth/send-reset-email?username=${username}`)
   postResetPassword = data => this.client.post(`/auth/reset-password`, data)
 
   getMe = async () => {

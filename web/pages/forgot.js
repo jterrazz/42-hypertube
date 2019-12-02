@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only, Spaces not allowed')
+    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only, Spaces not allowed'),
 });
 
 class Forgot extends Component {
@@ -26,7 +26,7 @@ class Forgot extends Component {
   };
 
   handleSubmit = (data) => {
-    matchaAPI.postForgotPassword(username)
+    matchaAPI.postForgotPassword(data.username)
       .then(() => {
         Router.push('/')
       })
