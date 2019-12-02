@@ -55,7 +55,8 @@ const useStyles = makeStyles(theme => ({
     width: 80,
     height: 80,
     marginTop: 40,
-    marginBottom: 40
+    marginBottom: 40,
+    border: '3px solid #556cd6',
   },
   NavBar: {
     marginTop: 40,

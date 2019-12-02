@@ -39,7 +39,7 @@
   "Change password": "Change password",
   "save image": "save image",
   "Users": "Users",
-  "Wrong email/password": "Wrong email/password",
+  "Wrong username/password": "Wrong username/password",
   "Unknown error. Please try again": "Unknown error. Please try again",
   "Email is required": "Email is required",
   "Password must contain at least 8 characters": "Password must contain at least 8 characters",
@@ -64,5 +64,6 @@
   "Completed Your Profile": "Completed Your Profile",
   "Please set profile photo": "Please set profile photo",
   "Too Short!": "Too Short!",
-  "Too Long!": "Too Long!"
+  "Too Long!": "Too Long!",
+  "The username must contains english letters and digits only": "The username must contains english letters and digits only"
 }

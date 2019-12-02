@@ -39,7 +39,7 @@
   "Change password": "Change le mot de passe",
   "save image": "enregistrer l'image",
   "Users": "Utilisateurs",
-  "Wrong email/password": "Incorrect email/password",
+  "Wrong username/password": "Incorrect username/password",
   "Unknown error. Please try again": "Erreur inconnue. Veuillez réessayer",
   "Email is required": "Email est requis",
   "Password must contain at least 8 characters": "Le mot de passe doit contenir au moins 8 caractères",
@@ -64,5 +64,6 @@
   "Completed Your Profile": "Complété votre profile",
   "Please set profile photo": "Veuillez définir la photo de profile",
   "Too Short!": "Trop Court!",
-  "Too Long!": "Trop Long!"
+  "Too Long!": "Trop Long!",
+  "The username must contains english letters and digits only": "Le username doit contenir des lettres et des chiffres anglais seulement"
 }

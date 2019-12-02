@@ -26,7 +26,7 @@ export const InputUserName = withTranslation()((props, error = null, onChange) =
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
       helperText={touched.username ? props.t(errors.username) : ''}
-      error={touched.username && Boolean(errors.username) || Boolean(props.error === 'This username is already in use' ? props.error : '')}
+      error={touched.username && Boolean(errors.username) || Boolean(props.error === 'This username is already in use' || props.error === "Wrong username/password" ? props.error : '')}
     />
   )
 });
