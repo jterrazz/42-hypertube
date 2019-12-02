@@ -40,7 +40,7 @@ export const CardPosterFilm = (item) => {
       <Card elevation={0} className={classes.card}>
         {item.played ? <VisibilityIcon className={classes.visibility}/> : ''}
         <Link href="/movie/[id]" as={`/movie/${item.imdb_id}`}>
-          <CardMedia title={item.title} image={item.poster_image ? item.poster_image : URL_Images.poster} className={classes.img} style={{cursor:'pointer'}}/>
+          <CardMedia title={item.title} image={item.poster_image && item.poster_image !== "images/posterholder.png" ? item.poster_image : URL_Images.poster} className={classes.img} style={{cursor:'pointer'}}/>
         </Link>
         <CardContent>
           <Link href="/movie/[id]" as={`/movie/${item.imdb_id}`}>
