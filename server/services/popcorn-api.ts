@@ -7,7 +7,7 @@ import { SORT_VALUES_ENUM } from '../controllers'
  * https://popcornofficial.docs.apiary.io/#reference/movie/get-page/page
  */
 
-const POPCORN_BASE_URL = 'https://tv-v2.api-fetch.website'
+const POPCORN_BASE_URL = 'http://popcorns.live'
 const popcornClient = axios.create({ baseURL: POPCORN_BASE_URL })
 
 const magnetToHash = magnet => {
@@ -74,7 +74,7 @@ export const searchMovies = async (query, page, options) => {
       params.sort = 'rating'
       break
     case SORT_VALUES_ENUM.SORT_YEAR:
-      params.sort = 'SORT_YEAR'
+      params.sort = 'year'
       break
     default:
       params.sort = 'title'
