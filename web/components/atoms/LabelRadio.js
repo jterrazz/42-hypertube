@@ -8,7 +8,7 @@ export const LabelRadio = withTranslation()((props) => {
     <FormControlLabel
       value={props.value}
       control={<Radio color="primary" />}
-      label={i18n.t(props.label)}
+      label={props.t(props.label)}
       labelPlacement="start"
     />
   )
