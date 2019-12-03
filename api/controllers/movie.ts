@@ -209,7 +209,9 @@ export const getMovieCommentsController: Middleware = async ctx => {
 
 export const addMovieCommentController: Middleware = async ctx => {
   const imdbId = sanatize(ctx.params.imdbId)
-  const textSchema = Joi.string().max(500)
+  const textSchema = Joi.string()
+    .min(5)
+    .max(150)
 
   const text = await textSchema.validateAsync(ctx.request.body.text)
 

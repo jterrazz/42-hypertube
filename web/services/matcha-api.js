@@ -54,7 +54,8 @@ export class MatchaAPI {
     form.append('profileImage', user.file);
     form.append('reCaptcha', user.reCaptcha);
 
-    return await this.client.post('/auth/signup', form)
+    const { data: { user: retUser } } = await this.client.post('/auth/signup', form)
+    return retUser
   }
 
   signout = async () => await this.client.get('/auth/logout')
@@ -74,7 +75,8 @@ export class MatchaAPI {
       form.append(key, user[key])
     })
 
-    await this.client.patch('/me', form)
+    const { data: userData } = await this.client.patch('/me', form)
+    return userData
   }
 
   /*

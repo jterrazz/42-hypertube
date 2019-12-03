@@ -5,7 +5,13 @@ import { i18n } from '../../utils/i18n'
 export const login = ({ username, password }) => async dispatch => {
   const me = await matchaAPI.signin(username, password)
 
-  return dispatch(setUser(me))
+  return await dispatch(setUser(me))
+}
+
+export const register = (userData) => async dispatch => {
+  const me = await matchaAPI.signup(userData)
+
+  return await dispatch(setUser(me))
 }
 
 export const logout = async dispatch => {
@@ -24,8 +30,8 @@ export const setUser = user => async dispatch => {
 }
 
 export const patchUser = user => async dispatch => {
-  await matchaAPI.patchMe(user)
-  return dispatch(setUser(user))// TODO Try with ,user
+  const newUser = await matchaAPI.patchMe(user)
+  return dispatch(setUser(newUser))
 }
 
 export const fetchUserIfNeeded = (matchaClient, force = false) => async (dispatch, getState) => {

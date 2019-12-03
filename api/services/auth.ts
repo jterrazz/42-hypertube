@@ -80,13 +80,13 @@ passport.use(
     try {
       const userInput = await userSchema.validateAsync(req.body)
 
-      const { data } = await axios.get('https://www.google.com/recaptcha/api/siteverify', {
-        params: { response: userInput.reCaptcha, secret: config.CAPTCHA_KEY },
-      })
-
-      if (!data.success) {
-        return done(new ClientError(409, 'Wrong captcha code'))
-      }
+      // const { data } = await axios.get('https://www.google.com/recaptcha/api/siteverify', {
+      //   params: { response: userInput.reCaptcha, secret: config.CAPTCHA_KEY },
+      // })
+      //
+      // if (!data.success) {
+      //   return done(new ClientError(409, 'Wrong captcha code'))
+      // }
 
       const profileImage = req.files['profileImage']
       if (!profileImage) {

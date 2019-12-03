@@ -77,16 +77,15 @@ class profile extends Component {
   };
 
   SubmitImage = (userData) => {
-    // TODO Replace by redux
-    matchaClient.patchMe(_.pick(userData, ['profileImage'])) // TODO Probably put the pick inside the component
+    this.props.dispatch(patchUser(_.pick(userData, ['profileImage'])))
       .then()
-      .catch(error => {
+      .catch(_ => {
         this.setState({ErrorImage: "Unknown error. Please try again"});
       })
   };
-// TODO Rename
+
   SubmitInfos = (userData) => {
-    this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language', 'username']))) // TODO Probably put the pick inside the component
+    this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language', 'username'])))
       .then()
       .catch(error => {
         error.response && error.response.status === 409
@@ -96,9 +95,7 @@ class profile extends Component {
   };
 
   SubmitPassword = (userData) => {
-    // TODO + check passwords are the same
-    // TODO + error not printing
-    matchaClient.patchMe(_.pick(userData, ['password'])) // TODO Probably put the pick inside the component
+    matchaClient.patchMe(_.pick(userData, ['password']))
       .then()
       .catch(error => {
         this.setState({ErrorPassword: "Unknown error. Please try again"});

@@ -109,5 +109,7 @@ export const updateMeController: Middleware = async ctx => {
     throw err
   }
 
-  ctx.status = 200
+  const updatedUser = await User.findOne({ _id: ctx.state.user._id })
+
+  ctx.body = serializeUser(_.pick(await addIncompleteProfile(updatedUser), PRIVATE_USER_PROPS))
 }

@@ -2,9 +2,10 @@ import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import {Form} from "../components/templates/FormSignup";
-import matchaAPI from '../services/matcha-api'
-import {Router} from "next/router";
+import Router from "next/router";
 import {authentified} from "../wrappers/auth";
+import {connect} from 'react-redux'
+import {register} from "../store/actions/auth";
 
 const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -64,8 +65,8 @@ class SignUp extends Component {
       this.refCaptcha = ref;
   };
 
-  handleSubmit = (userData, {setFieldValue}) =>
-    matchaAPI.signup(userData)
+  handleSubmit = async (userData, {setFieldValue}) =>
+    await this.props.dispatch(register(userData))
       .then(() => Router.push('/'))
       .catch(error => {
         this.refCaptcha.reset();
@@ -101,4 +102,4 @@ SignUp.getInitialProps = async () => ({
   namespacesRequired: ['common'],
 })
 
-export default authentified(false)(SignUp);
+export default authentified(false)(connect()(SignUp));
