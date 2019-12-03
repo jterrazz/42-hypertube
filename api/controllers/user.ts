@@ -74,10 +74,13 @@ export const getUsernameController: Middleware = async ctx => {
 export const updateMeController: Middleware = async ctx => {
   const userSchema = Joi.object()
     .keys({
-      username: Joi.string().alphanum()
-        .min(3).max(42),
+      username: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(42),
       email: Joi.string().email(),
-      password: Joi.string().min(8)
+      password: Joi.string()
+        .min(8)
         .max(100),
       firstName: Joi.string().max(42),
       lastName: Joi.string().max(42),

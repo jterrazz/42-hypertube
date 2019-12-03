@@ -63,8 +63,6 @@ const addPlayToMovie = user => movie => {
   return movie
 }
 
-
-
 /*
  * Controllers
  */

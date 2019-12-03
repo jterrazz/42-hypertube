@@ -23,12 +23,12 @@ class PopcornSerializer {
     if (typeof original != 'object') return null
 
     return {
-      title: (original.title_english || original.title || "").replace('&amp;', '&'),
+      title: (original.title_english || original.title || '').replace('&amp;', '&'),
       imdb_id: original.imdb_id,
       release_date: original.year,
       rating: _.get(original, 'rating.percentage') / 10,
       runtime: Number(original.runtime),
-      overview: (original.synopsis || "").replace('&amp;', '&'),
+      overview: (original.synopsis || '').replace('&amp;', '&'),
       yt_trailer_id: original.trailer,
       fanart_image: _.get(original, 'images.fanart'),
       poster_image: _.get(original, 'images.banner'),

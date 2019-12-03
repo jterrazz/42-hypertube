@@ -68,8 +68,7 @@ export const sendResetEmailController: Middleware = async ctx => {
   return new Promise((resolve, reject) => {
     const tokenPayload = { username: username }
     jwt.sign(tokenPayload, config.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
-      if (err)
-        return reject(err)
+      if (err) return reject(err)
 
       sendResetPasswordEmail(user.email, token)
         .then(res => {
@@ -110,4 +109,3 @@ export const resetPasswordController: Middleware = async ctx => {
     })
   })
 }
-

@@ -174,7 +174,7 @@ passport.use(
       clientSecret: config.API_GOOGLE_CONSUMER_SECRET,
       callbackURL: '/auth/google/callback',
     },
-    function (accessToken, refreshToken, profile, cb) {
+    function(accessToken, refreshToken, profile, cb) {
       const userData = {
         firstName: _.get(profile, 'name.givenName'),
         lastName: _.get(profile, 'name.familyName'),
