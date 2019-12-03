@@ -21,7 +21,7 @@ export const InputFirstName = withTranslation()((props) => {
       fullWidth
       id="firstName"
       label={props.t("First Name")}
-      value={values.firstName}
+      value={values.firstName || ''}
       onChange={handleChange}
       onBlur={handleBlur}
       helperText={touched.firstName ? props.t(errors.firstName) : ''}
