@@ -9,7 +9,6 @@ import { PRIVATE_USER_PROPS, serializeUser } from './user'
 import { sendResetPasswordEmail } from '../services/mail'
 import { ClientError } from '../services/auth'
 
-// TODO Maybe merge both codes
 export const addIncompleteProfile = async user => {
   const userSchema = Joi.object()
     .keys({

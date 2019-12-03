@@ -18,3 +18,14 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
     }
   }
 }
+
+export const handleStreamDisconnect = s => {
+  const oldOnError = s.context.onerror
+  s.context.onerror = async (error: any) => {
+    /*
+     * When a client streams a video, disconnecting before the end is not an error.
+     */
+    if (error && (error.errno === 'EPIPE' || error.errno === 'ECONNRESET')) return
+    else await oldOnError(error)
+  }
+}
