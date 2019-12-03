@@ -97,6 +97,9 @@ export const updateMeController: Middleware = async ctx => {
   if (userInput.password) {
     await user.savePassword(userInput.password)
   }
+  if (userInput.username) {
+    user.usernameRandom = false
+  }
   if (profileImage) {
     const oldImage = user.profileImageName
     user.profileImageName = await cacheToImageFolder(profileImage)
