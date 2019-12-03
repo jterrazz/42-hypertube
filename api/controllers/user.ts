@@ -53,7 +53,6 @@ export const serializeUser = original => {
 
 export const getMeController: Middleware = async ctx => {
   ctx.body = _.pick(await addIncompleteProfile(serializeUser(ctx.state.user)), PRIVATE_USER_PROPS)
-  console.log(await addIncompleteProfile(serializeUser(ctx.state.user)))
 }
 
 export const getUsersController: Middleware = async ctx => {
