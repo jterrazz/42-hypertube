@@ -67,5 +67,8 @@
   "Too Long!": "Too Long!",
   "The username must contains english letters and digits only, Spaces not allowed": "The username must contains english letters and digits only, Spaces not allowed",
   "This authentication token is not valid": "This authentication token is not valid",
-  "Find User": "Find User"
+  "Find User": "Find User",
+  "Error magnet link!!": "Error magnet link!!",
+  "No tracker available": "No tracker available",
+  "User not found": "User not found"
 }

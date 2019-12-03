@@ -67,5 +67,8 @@
   "Too Long!": "Trop Long!",
   "The username must contains english letters and digits only, Spaces not allowed": "Le username doit contenir des lettres et des chiffres anglais seulement, l'Espaces non autorisés",
   "This authentication token is not valid": "Ce jeton d'authentification n'est pas valide",
-  "Find User": "Trouver un utilisateur"
+  "Find User": "Trouver un utilisateur",
+  "Error magnet link!!": "Erreur de lien magnet!!",
+  "No tracker available": "Aucun tracker disponible",
+  "User not found": "Utilisateur non trouvé"
 }
