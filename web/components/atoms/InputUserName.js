@@ -22,7 +22,7 @@ export const InputUserName = withTranslation()((props, error = null, onChange) =
       label={props.t("UserName")}
       name="username"
       autoComplete="username"
-      value={username}
+      value={username || ''}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
       helperText={touched.username ? props.t(errors.username) : ''}

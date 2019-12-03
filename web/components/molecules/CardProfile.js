@@ -29,7 +29,12 @@ export const CardProfile = withTranslation()((props) => {
         <Grid item xs={12} md={6}>
           <Typography variant="h6" component="h3" className={classes.welcome}>
             {!props.me.profileCompleted ?
-              <>{props.t('Completed Your Profile')}</>
+              <>{`${props.t('Completed Your Profile')}
+                  ${!props.me.username ? `{${props.t('userName')}}` : ''}
+                  ${!props.me.lastName ? `{${props.t('lastName')}}` : ''}
+                  ${!props.me.firstName ? `{${props.t('firstName')}}` : ''}
+                  ${!props.me.profileImageUrl ? `{${props.t('profile photo')}}` : ''}`}
+              </>
                 :
               <>{props.t("Welcome back")} {props.username}!</>
             }

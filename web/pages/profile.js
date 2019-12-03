@@ -78,7 +78,7 @@ class profile extends Component {
 
   SubmitImage = (userData) => {
     this.props.dispatch(patchUser(_.pick(userData, ['profileImage'])))
-      .then()
+      .then(this.setState({ErrorImage: ''}))
       .catch(_ => {
         this.setState({ErrorImage: "Unknown error. Please try again"});
       })
