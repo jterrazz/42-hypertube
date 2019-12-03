@@ -29,7 +29,7 @@ class Player extends React.Component {
     errorComment: ''
   };
 
-  async componentdidmount() {
+  async componentDidMount() {
     const subtitles = await matchaAPI.getSubtitles(this.props.movieId)
     this.setState({ subtitles })
   }

@@ -10,7 +10,7 @@ const envSchema = Joi.object()
       .valid('development', 'production')
       .default('development'),
     SERVER_PORT: Joi.number().default(3000),
-    CLIENT_URL: Joi.string().required(),
+    CLIENT_URL: Joi.string().default('http://localhost:4242'),
     API_URL: Joi.string().default('http://localhost:3000'),
     API_VERSION: Joi.string().default('1.0'),
 

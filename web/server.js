@@ -1,5 +1,6 @@
 const express = require('express')
 const next = require('next')
+const request = require('request')
 const nextI18NextMiddleware = require('next-i18next/middleware').default
 
 const nextI18next = require('./utils/i18n')
@@ -13,6 +14,10 @@ const handle = app.getRequestHandler();
   const server = express()
 
   server.use(nextI18NextMiddleware(nextI18next))
+
+  server.get('/subtitles/:file', (req, res) => {
+    request('http://localhost:3000' + req.originalUrl).pipe(res);
+  })
 
   server.get('*', (req, res) => handle(req, res))
 

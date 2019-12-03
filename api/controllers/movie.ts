@@ -175,7 +175,7 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
       const ft = async () => ({
         kind: 'subtitles',
         srcLang: lang,
-        src: `${config.API_URL}/subtitles/${await downloadAndConvertSubtitle(subtitles, imbdId, lang)}`,
+        src: `${config.CLIENT_URL}/subtitles/${await downloadAndConvertSubtitle(subtitles, imbdId, lang)}`,
       })
       toDownload.push(ft())
     }
