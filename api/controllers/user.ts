@@ -38,11 +38,10 @@ export const serializeUser = original => {
     delete original.usernameRandom
     delete original.username
   }
-  if (original.hashedPassword) {
-    original.noPassword = true
-  }
+
   return {
     ...original,
+    noPassword: !original.hashedPassword,
     profileImageUrl: original.profileImageName ? `${config.API_URL}/images/${original.profileImageName}` : null,
   }
 }
