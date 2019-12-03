@@ -37,7 +37,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     const currentUser = await User.findOne({ _id: id })
     if (!currentUser) done(new ClientError(404, 'User not found'))
-    await done(null, currentUser)
+    await done(null, currentUser.toObject())
   } catch (err) {
     done(err)
   }
@@ -148,6 +148,7 @@ const externalAuth = async (userData, serviceAuthKey, serviceAuthId, cb) => {
     // Step 3: Create a new user
     user = new User({
       username: crypto.randomBytes(20).toString('hex'),
+      usernameRandom: true,
       firstName: userData.firstName,
       lastName: userData.lastName,
       profilePicture: { url: userData.profilePicture },

@@ -39,7 +39,7 @@ export const addIncompleteProfile = async user => {
 export const successfulAuthController: Middleware = async ctx => {
   ctx.body = {
     message: 'Authentication successful',
-    user: serializeUser(_.pick(await addIncompleteProfile(ctx.state.user), PRIVATE_USER_PROPS)),
+    user: _.pick(await addIncompleteProfile(serializeUser(ctx.state.user)), PRIVATE_USER_PROPS),
   }
 }
 

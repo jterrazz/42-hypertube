@@ -9,6 +9,7 @@ export interface UserModelInterface extends Document {
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
+  usernameRandom: { type: Boolean, default: false },
   firstName: String,
   lastName: String,
   email: { type: String, required: true },
