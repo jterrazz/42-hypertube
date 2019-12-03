@@ -71,5 +71,6 @@
   "Error magnet link!!": "Erreur de lien magnet!!",
   "No tracker available": "Aucun tracker disponible",
   "User not found": "Utilisateur non trouvé",
-  "profile photo": "photo de profil"
+  "profile photo": "photo de profil",
+  "You can also add a password if you want to login using it": "Vous pouvez ajouter un mot de passe si vous souhaitez vous connecter à l'aide de celui-ci"
 }

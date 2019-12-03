@@ -61,7 +61,8 @@ class profile extends Component {
   state = {
     ErrorInfo: '',
     ErrorImage: '',
-    ErrorPassword: ''
+    ErrorPassword: '',
+    infoPassword: ''
   };
 
   onChange = () => {
@@ -96,7 +97,7 @@ class profile extends Component {
 
   SubmitPassword = (userData) => {
     matchaClient.patchMe(_.pick(userData, ['password']))
-      .then()
+      .then(this.setState({infoPassword: ''}))
       .catch(error => {
         this.setState({ErrorPassword: "Unknown error. Please try again"});
       })
@@ -105,6 +106,8 @@ class profile extends Component {
   async componentDidMount() {
     if (!this.props.me.profileImageUrl)
       this.setState({ErrorImage: 'Please set profile photo'});
+    if (this.props.me.noPassword)
+      this.setState({infoPassword: 'You can also add a password if you want to login using it'});
   }
 
   render() {
@@ -126,6 +129,7 @@ class profile extends Component {
         ErrorImage={this.state.ErrorImage}
         ErrorInfo={this.state.ErrorInfo}
         ErrorPassword={this.state.ErrorPassword}
+        infoPassword={this.state.infoPassword}
         value={value}
         valueImage={valueImage}
       />

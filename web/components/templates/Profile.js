@@ -35,6 +35,7 @@ class Profile extends Component {
       ErrorInfo,
       ErrorImage,
       ErrorPassword,
+      infoPassword,
       me
     } = this.props;
 
@@ -64,7 +65,7 @@ class Profile extends Component {
               />
               : ''}
             <BoxFormik
-              render={props => <FormPassword error={ErrorPassword} onChange={onChangePassword} {...props} />}
+              render={props => <FormPassword error={ErrorPassword} info={infoPassword} onChange={onChangePassword} {...props} />}
               initialValues={this.props.value}
               validationSchema={this.props.validationSchemaPassword}
               onSubmit={this.props.SubmitPassword}
