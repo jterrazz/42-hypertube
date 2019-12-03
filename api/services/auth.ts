@@ -120,7 +120,7 @@ passport.use(
       const user = await User.findOne({ username: username })
       if (!user) return done(null, false)
       if (!(await user.verifyPassword(password))) return done(null, false)
-      await done(null, user)
+      await done(null, user.toObject())
     } catch (err) {
       done(err)
     }
