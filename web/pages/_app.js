@@ -4,7 +4,6 @@ import Head from 'next/head'
 import {ThemeProvider} from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../styles/theme'
-import {NonScript} from "../components/atoms/NoScript";
 import {Provider} from "react-redux";
 import withRedux from "next-redux-wrapper";
 import makeStore from '../store'
@@ -15,6 +14,8 @@ import NavBar from "../components/organisms/NavBar";
 import Copyright from "../components/atoms/Copyright";
 import { appWithTranslation } from '../utils/i18n'
 import Router from 'next/router'
+import Grid from "@material-ui/core/Grid";
+import {TypographyTitle} from "../components/atoms/TypographyTitle";
 
 function redirect(ctx, route) {
   if (ctx.req) {
@@ -67,7 +68,16 @@ class MyApp extends App {
     };
   }
 
-  // TODO Maybe put noscript in body
+  componentDidMount() {
+    var anchor_tags = document.getElementsByTagName("link");
+    for (var i = 0; i < anchor_tags.length; i++) {
+      var orig_href = anchor_tags[i].rel;
+      if (orig_href == 'preload') {
+        anchor_tags[i].rel = "prefetch"
+      }
+    }
+  }
+
   render() {
     const {Component, pageProps, store, ActiveNavBar} = this.props;
 
@@ -76,21 +86,25 @@ class MyApp extends App {
         <Head>
           <title>HyperTube</title>
           <link rel="icon" href="../static/images/favicons.png"/>
-          <NonScript/>
         </Head>
-          <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <Provider store={store}>
-              <div style={{ display: 'flex', }}>
-                {ActiveNavBar ? <NavBar /> : '' }
-                <Component {...pageProps} />
-              </div>
-              {ActiveNavBar
-                ? <div style={{marginLeft: 240}}><Copyright/></div>
-                : <div><Copyright/></div>
-              }
-            </Provider>
-          </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <noscript>
+            <div style={{paddingTop: 40, backgroudColor: 'orange', width: '100%'}}>
+              <p>Please activate javascript</p>
+            </div>
+          </noscript>
+          <CssBaseline/>
+          <Provider store={store}>
+            <div style={{ display: 'flex', }}>
+              {ActiveNavBar ? <NavBar /> : '' }
+              <Component {...pageProps} />
+            </div>
+            {ActiveNavBar
+              ? <div style={{marginLeft: 240}}><Copyright/></div>
+              : <div><Copyright/></div>
+            }
+          </Provider>
+        </ThemeProvider>
       </React.Fragment>
     )
   }
