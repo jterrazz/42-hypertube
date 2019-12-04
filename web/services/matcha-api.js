@@ -122,6 +122,11 @@ export class MatchaAPI {
 
   postMoviePlay = async movieId => await this.client.post(`/movies/${movieId}/play`)
 
+  getUser = async (username) => {
+    const { data: user } = await this.client.get(`/users/${username}`)
+    return user
+  }
+
   getUsers = async () => {
     const r = await this.client.get('/users')
     return _.get(r, 'data.users')

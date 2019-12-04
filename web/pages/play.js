@@ -65,10 +65,9 @@ class Player extends React.Component {
     matchaAPI.postMoviePlay(this.props.movie.imdb_id).catch(_ => {})
   };
 
-  async getUser(ev) { // TODO Replace by redux // + don't use a function but pass the user object
-    // const response = await axios.get(`${ApiURL.users}${ev.currentTarget.value}`);
-    // const responseData = await response.data;
-    // this.setState({userInfo: responseData});
+  async getUser(ev) {
+    const user = await matchaAPI.getUser(ev.currentTarget.value)
+    this.setState({userInfo: user});
   }
 
   render() {

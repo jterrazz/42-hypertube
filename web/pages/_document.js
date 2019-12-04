@@ -35,6 +35,7 @@ class MyDocument extends Document {
         <meta name="viewport"
               content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"/>
         <meta name="theme-color" content={theme.palette.primary.main}/>
+        <script src="https://cdn.jsdelivr.net/npm/ractive"></script>
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
       </Head>
