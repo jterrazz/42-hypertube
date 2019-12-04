@@ -36,7 +36,7 @@ export const CardPosterFilmSimilar = (item) => {
     <Grid item xs={4} md={3}>
       <Card elevation={0} className={classes.card}>
         {item.played ? <VisibilityIcon className={classes.visibility}/> : ''}
-        <Link href={`/search?title=${encodeURIComponent(item.title)}`} passHref>
+        <Link href={`/search?title=${encodeURIComponent(item.title)}`} passHref prefetch={false}>
           <CardMedia title={item.title} image={item.poster_image} className={classes.img} />
         </Link>
         <CardContent>

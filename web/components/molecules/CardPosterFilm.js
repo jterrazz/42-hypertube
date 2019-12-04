@@ -39,11 +39,11 @@ export const CardPosterFilm = (item) => {
     <Grid item xs={4} md={2}>
       <Card elevation={0} className={classes.card}>
         {item.played ? <VisibilityIcon className={classes.visibility}/> : ''}
-        <Link href="/movie/[id]" as={`/movie/${item.imdb_id}`}>
+        <Link href="/movie/[id]" as={`/movie/${item.imdb_id}`} prefetch={false}>
           <CardMedia title={item.title} image={item.poster_image && item.poster_image !== "images/posterholder.png" ? item.poster_image : URL_Images.poster} className={classes.img} style={{cursor:'pointer'}}/>
         </Link>
         <CardContent>
-          <Link href="/movie/[id]" as={`/movie/${item.imdb_id}`}>
+          <Link href="/movie/[id]" as={`/movie/${item.imdb_id}`} prefetch={false}>
           <Typography gutterBottom variant="subtitle2" component="h5" style={{cursor:'pointer'}}>
             {item.title}
           </Typography>
