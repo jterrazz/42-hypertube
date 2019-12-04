@@ -125,5 +125,5 @@ export const updateMeController: Middleware = async ctx => {
 
   const updatedUser = await User.findOne({ _id: ctx.state.user._id })
 
-  ctx.body = _.pick(await addIncompleteProfile(serializeUser(updatedUser)), PRIVATE_USER_PROPS)
+  ctx.body = _.pick(await addIncompleteProfile(serializeUser(updatedUser.toObject())), PRIVATE_USER_PROPS)
 }
