@@ -30,9 +30,7 @@ export const UsersTemplate = withTranslation()((props) => {
       <div className={classes.toolbar} />
 
       <Container fixed>
-        <Grid container spacing={4} style={{ marginTop: 15 }}>
-          <InputSearchUser {...props}/>
-        </Grid>
+        <InputSearchUser {...props}/>
         <Grid container spacing={4} style={{ marginTop: 15 }}>
           {props.users ?
             <>
