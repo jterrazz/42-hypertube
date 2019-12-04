@@ -221,7 +221,7 @@ export const addMovieCommentController: Middleware = async ctx => {
     const newTorrent = new Movie({ imdbId, comments: [newComment] })
     await newTorrent.save()
   }
-  newComment.user = serializeUser(ctx.state.user._doc)
+  newComment.user = serializeUser(ctx.state.user)
   ctx.body = {
     comment: _.pick(newComment, PUBLIC_COMMENT_PROPERTIES),
   }

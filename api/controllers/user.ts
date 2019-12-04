@@ -68,7 +68,7 @@ export const getUsernameController: Middleware = async ctx => {
 
   const user = await User.findOne({ username })
   ctx.assert(user, 404, 'User not found')
-  ctx.body = _.pick(serializeUser(user), PUBLIC_USER_PROPS)
+  ctx.body = _.pick(serializeUser(user.toObject()), PUBLIC_USER_PROPS)
 }
 
 export const updateMeController: Middleware = async ctx => {
