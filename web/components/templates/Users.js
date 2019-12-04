@@ -20,6 +20,10 @@ const useStyles = makeStyles(theme => ({
   Avatar: {
     width: 80,
     height: 80,
+  },
+  p: {
+    wordBreak: 'break-all',
+    whiteSpace: 'normal',
   }
 }));
 
@@ -45,19 +49,19 @@ export const UsersTemplate = withTranslation()((props) => {
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("userName")}/>
-                        <ListItemText primary={item.username} inset/>
+                        <ListItemText primary={<p className={classes.p}>{item.username}</p>} inset disableTypography/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("firstName")}/>
-                        <ListItemText primary={item.firstName} inset/>
+                        <ListItemText primary={<p className={classes.p}>{item.firstName}</p>} inset disableTypography/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("lastName")}/>
-                        <ListItemText primary={item.lastName} inset/>
+                        <ListItemText primary={<p className={classes.p}>{item.lastName}</p>} inset disableTypography/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("language")}/>
-                        <ListItemText primary={item.language} inset/>
+                        <ListItemText primary={<p className={classes.p}>{item.language}</p>} inset disableTypography/>
                       </ListItem>
                     </List>
                   </Paper>
