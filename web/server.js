@@ -15,8 +15,12 @@ const handle = app.getRequestHandler();
 
   server.use(nextI18NextMiddleware(nextI18next))
 
-  server.get('/subtitles/:file', (req, res) => {
-    request('http://localhost:3000' + req.originalUrl).pipe(res);
+  server.get('/subtitles/:file', async (req, res) => {
+    request(process.env.INTERNAL_CLIENT_API + req.originalUrl)
+      .on('error', function(err) {
+        res.end()
+      })
+      .pipe(res);
   })
 
   server.get('*', (req, res) => handle(req, res))

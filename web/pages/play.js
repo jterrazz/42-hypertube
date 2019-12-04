@@ -11,11 +11,12 @@ class Player extends React.Component {
   }
 
   static async getInitialProps({ query: { hash, id }, matchaClient }) {
-    const [movie, comments] = await Promise.all([matchaClient.getMovie(id), matchaClient.getComments(id)])
+    const [movie, comments, subtitles] = await Promise.all([matchaClient.getMovie(id), matchaClient.getComments(id), matchaAPI.getSubtitles(id)])
 
     return {
       movie,
       comments,
+      subtitles,
       hash,
       movieId: id,
       namespacesRequired: ['common'],
@@ -23,16 +24,10 @@ class Player extends React.Component {
   }
 
   state = {
-    subtitles: null,
     comment: '',
     userInfo: {},
     errorComment: ''
   };
-
-  async componentDidMount() {
-    const subtitles = await matchaAPI.getSubtitles(this.props.movieId)
-    this.setState({ subtitles })
-  }
 
   handleChange = (e) => {
     this.setState({ comment: e.target.value});
@@ -79,7 +74,7 @@ class Player extends React.Component {
         Click={this.handleClick}
         Change={this.handleChange}
         commentaire={this.state.comment}
-        subtitles={this.state.subtitles}
+        subtitles={this.props.subtitles}
         getUser={this.getUser}
         userInfo={this.state.userInfo}
         onStart={this.onStart}
