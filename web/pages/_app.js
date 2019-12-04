@@ -74,7 +74,7 @@ class MyApp extends App {
       <React.Fragment>
         <Head>
           <title>HyperTube</title>
-          <link rel="icon" href="../static/images/favicons.png"/>
+          <link rel="icon" href="../../static/images/favicons.png"/>
         </Head>
         <ThemeProvider theme={theme}>
           <noscript>
