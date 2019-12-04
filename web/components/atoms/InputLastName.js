@@ -21,7 +21,7 @@ export const InputLastName = withTranslation()((props) => {
       label={props.t("Last Name")}
       name="lastName"
       autoComplete="lname"
-      value={values.lastName}
+      value={values.lastName || ''}
       onChange={handleChange}
       onBlur={handleBlur}
       helperText={touched.lastName ? props.t(errors.lastName) : ''}
