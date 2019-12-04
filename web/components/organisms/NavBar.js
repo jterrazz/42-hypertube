@@ -112,7 +112,7 @@ const NavBar = withTranslation()((props) => {
         component="nav" aria-label="main mailbox folders"
         className={classes.listItem}
       >
-        <Link href="/" passHref>
+        <Link href="/" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <HomeIcon/>
@@ -121,7 +121,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/search" passHref>
+        <Link href="/search" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <SearchIcon/>
@@ -130,7 +130,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/profile" passHref>
+        <Link href="/profile" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <PersonIcon/>
@@ -139,7 +139,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/torrent" passHref>
+        <Link href="/torrent" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <SystemUpdateAltIcon/>
@@ -148,7 +148,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/users" passHref>
+        <Link href="/users" passHref prefetch={false}>
           <ListItem button component="a">
             <ListItemIcon>
               <PeopleIcon/>

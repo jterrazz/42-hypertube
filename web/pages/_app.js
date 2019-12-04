@@ -68,16 +68,6 @@ class MyApp extends App {
     };
   }
 
-  componentDidMount() {
-    var anchor_tags = document.getElementsByTagName("link");
-    for (var i = 0; i < anchor_tags.length; i++) {
-      var orig_href = anchor_tags[i].rel;
-      if (orig_href == 'preload') {
-        anchor_tags[i].rel = "prefetch"
-      }
-    }
-  }
-
   render() {
     const {Component, pageProps, store, ActiveNavBar} = this.props;
 
