@@ -95,7 +95,7 @@ const NavBar = withTranslation()((props) => {
           <>
             <Avatar alt={props.me.username} src={props.me.profileImageUrl}
                     className={classes.Avatar}/>
-            <Typography variant="subtitle2" gutterBottom>
+            <Typography variant="subtitle2" gutterBottom align="center">
               {props.me.firstName} {props.me.lastName}
             </Typography>
           </>
