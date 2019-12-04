@@ -47,19 +47,19 @@ export const UsersTemplate = withTranslation()((props) => {
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("userName")}/>
-                        <ListItemText primary={item.username}/>
+                        <ListItemText primary={item.username} inset/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("firstName")}/>
-                        <ListItemText primary={item.firstName}/>
+                        <ListItemText primary={item.firstName} inset/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("lastName")}/>
-                        <ListItemText primary={item.lastName}/>
+                        <ListItemText primary={item.lastName} inset/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("language")}/>
-                        <ListItemText primary={item.language}/>
+                        <ListItemText primary={item.language} inset/>
                       </ListItem>
                     </List>
                   </Paper>
