@@ -17,9 +17,9 @@ export const getStreamURL = hash => `${config.ROOT_URL}/torrents/${hash}/stream`
  */
 
 export class MatchaAPI {
-  constructor(cookies = null) {
+  constructor(cookies = null, rootUrl = config.ROOT_URL) {
     const opt = {
-      baseURL: config.ROOT_URL,
+      baseURL: rootUrl,
       withCredentials: true
     }
 

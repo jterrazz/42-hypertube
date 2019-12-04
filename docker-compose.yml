@@ -31,7 +31,6 @@ services:
       API_FORTYTWO_APP_SECRET: acdc14b0b7568724ebbf2a5978d63d0ca5dc47dd1d344a7c7d53262e7e2669a5
       API_GITHUB_CLIENT_ID: 9da4b03087a23460b89f
       API_GITHUB_CLIENT_SECRET: 59a8975e8c2562b4f473c3b33e9136c0e8934250
-
     ports:
       - "3000:3000"
     command: "yarn start"
@@ -41,6 +40,7 @@ services:
       - api
     environment:
       PORT: 4242
+      INTERNAL_CLIENT_API: http://api:3000
     ports:
       - "4242:4242"
     command: "yarn start"

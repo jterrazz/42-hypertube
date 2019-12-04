@@ -14,8 +14,7 @@ import NavBar from "../components/organisms/NavBar";
 import Copyright from "../components/atoms/Copyright";
 import { appWithTranslation } from '../utils/i18n'
 import Router from 'next/router'
-import Grid from "@material-ui/core/Grid";
-import {TypographyTitle} from "../components/atoms/TypographyTitle";
+import config from '../config'
 
 function redirect(ctx, route) {
   if (ctx.req) {
@@ -32,7 +31,7 @@ class MyApp extends App {
     const oldGetInitialProps = Component.getInitialProps
 
     Component.getInitialProps = async (ctx) => {
-      const matchaClient = new MatchaAPI(nextCookie(ctx))
+      const matchaClient = new MatchaAPI(nextCookie(ctx), config.INTERNAL_ROOT_URL)
 
       try {
         if (ctx.pathname != '/apidown')
