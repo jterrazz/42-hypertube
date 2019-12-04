@@ -66,6 +66,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
     marginLeft: 20
   },
+  p: {
+    wordBreak: 'break-all',
+    whiteSpace: 'normal',
+    marginLeft: 5,
+    marginRight: 5
+  }
 }));
 
 // TODO Replace all by <Link>
@@ -96,7 +102,7 @@ const NavBar = withTranslation()((props) => {
             <Avatar alt={props.me.username} src={props.me.profileImageUrl}
                     className={classes.Avatar}/>
             <Typography variant="subtitle2" gutterBottom align="center">
-              {props.me.firstName} {props.me.lastName}
+              <p className={classes.p}>{props.me.firstName} {props.me.lastName}</p>
             </Typography>
           </>
           : ''}
