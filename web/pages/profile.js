@@ -20,8 +20,14 @@ const validationSchemaPassword = Yup.object({
 });
 
 const validationSchemaInfos = Yup.object({
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
+  firstName: Yup.string()
+    .required('Required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!'),
+  lastName: Yup.string()
+    .required('Required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!'),
   email: Yup.string()
     .email('Enter a valid email')
     .required('Email is required'),
@@ -89,7 +95,7 @@ class profile extends Component {
     this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language', 'username'])))
       .then()
       .catch(error => {
-        error.response && error.response.status === 409
+        error.response && error.response.status === 409 || error.response.status === 422
           ? this.setState({ErrorInfo: error.response.data})
           : this.setState({ErrorInfo: "Unknown error. Please try again"});
       })
