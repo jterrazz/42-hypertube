@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
 import Profile from "../components/templates/Profile";
+import NavBar from "../components/organisms/NavBar";
 
 const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -123,24 +124,27 @@ class profile extends Component {
     const valueImage = {profileImage: ""};
 
     return (
-      <Profile
-        validationSchemaPassword={validationSchemaPassword}
-        validationSchemaInfos={validationSchemaInfos}
-        validationSchemaImage={validationSchemaImage}
-        onChange={this.onChange}
-        SubmitImage={this.SubmitImage}
-        SubmitInfos={this.SubmitInfos}
-        SubmitPassword={this.SubmitPassword}
-        onChangeImage={this.onChangeImage}
-        onChangePassword={this.onChangePassword}
-        me={this.props.me}
-        ErrorImage={this.state.ErrorImage}
-        ErrorInfo={this.state.ErrorInfo}
-        ErrorPassword={this.state.ErrorPassword}
-        infoPassword={this.state.infoPassword}
-        value={value}
-        valueImage={valueImage}
-      />
+      <div style={{ display: 'flex' }}>
+        <NavBar />
+        <Profile
+          validationSchemaPassword={validationSchemaPassword}
+          validationSchemaInfos={validationSchemaInfos}
+          validationSchemaImage={validationSchemaImage}
+          onChange={this.onChange}
+          SubmitImage={this.SubmitImage}
+          SubmitInfos={this.SubmitInfos}
+          SubmitPassword={this.SubmitPassword}
+          onChangeImage={this.onChangeImage}
+          onChangePassword={this.onChangePassword}
+          me={this.props.me}
+          ErrorImage={this.state.ErrorImage}
+          ErrorInfo={this.state.ErrorInfo}
+          ErrorPassword={this.state.ErrorPassword}
+          infoPassword={this.state.infoPassword}
+          value={value}
+          valueImage={valueImage}
+        />
+      </div>
     )
   }
 }

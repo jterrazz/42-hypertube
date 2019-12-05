@@ -84,14 +84,15 @@ class MyApp extends App {
           </noscript>
           <CssBaseline/>
           <Provider store={store}>
-            <div style={{ display: 'flex', }}>
-              {ActiveNavBar ? <NavBar /> : '' }
-              <Component {...pageProps} />
-            </div>
-            {ActiveNavBar
-              ? <div style={{marginLeft: 240}}><Copyright/></div>
-              : <div><Copyright/></div>
-            }
+            {/*<div style={{ display: 'flex', }}>*/}
+            {/*  {ActiveNavBar ? <NavBar /> : '' }*/}
+            {/*  */}
+            {/*</div>*/}
+            {/*{ActiveNavBar*/}
+            {/*  ? <div style={{marginLeft: 240}}><Copyright/></div>*/}
+            {/*  : <div><Copyright/></div>*/}
+            {/*}*/}
+            <Component {...pageProps} />
           </Provider>
         </ThemeProvider>
       </React.Fragment>

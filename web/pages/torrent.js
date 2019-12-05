@@ -3,6 +3,7 @@ import {Torrent} from '../components/templates/Torrent';
 import {authentified} from "../wrappers/auth";
 import { magnetDecode } from '@ctrl/magnet-link';
 import config from "../config/index"
+import NavBar from "../components/organisms/NavBar";
 
 class TorrentPlay extends Component {
   state = {
@@ -47,16 +48,19 @@ class TorrentPlay extends Component {
 
   render() {
     return (
-      <Torrent
-        magent={this.state.magnet}
-        onChange={this.onChange}
-        onClick={this.onClick}
-        onClickEdit={this.onClickEdit}
-        error={this.state.ErrorMagnet}
-        urlMovieTorrent={this.state.urlMovieTorrent}
-        name={this.state.name}
-        edit={this.state.edit}
-      />
+      <div style={{ display: 'flex' }}>
+        <NavBar />
+        <Torrent
+          magent={this.state.magnet}
+          onChange={this.onChange}
+          onClick={this.onClick}
+          onClickEdit={this.onClickEdit}
+          error={this.state.ErrorMagnet}
+          urlMovieTorrent={this.state.urlMovieTorrent}
+          name={this.state.name}
+          edit={this.state.edit}
+        />
+      </div>
     )
   }
 }

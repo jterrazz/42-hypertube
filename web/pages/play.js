@@ -2,6 +2,7 @@ import React from 'react';
 import { Play } from "../components/templates/Play"
 import matchaAPI from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
+import NavBar from "../components/organisms/NavBar";
 
 class Player extends React.Component {
 
@@ -67,19 +68,22 @@ class Player extends React.Component {
 
   render() {
     return (
-      <Play
-        movie={this.props.movie}
-        hashMovie={this.props.hash}
-        comment={this.props.comments}
-        Click={this.handleClick}
-        Change={this.handleChange}
-        commentaire={this.state.comment}
-        subtitles={this.props.subtitles}
-        getUser={this.getUser}
-        userInfo={this.state.userInfo}
-        onStart={this.onStart}
-        errorComment={this.state.errorComment}
-      />
+      <div style={{ display: 'flex' }}>
+        <NavBar />
+        <Play
+          movie={this.props.movie}
+          hashMovie={this.props.hash}
+          comment={this.props.comments}
+          Click={this.handleClick}
+          Change={this.handleChange}
+          commentaire={this.state.comment}
+          subtitles={this.props.subtitles}
+          getUser={this.getUser}
+          userInfo={this.state.userInfo}
+          onStart={this.onStart}
+          errorComment={this.state.errorComment}
+        />
+      </div>
     )
   }
 }

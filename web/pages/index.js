@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Home} from "../components/templates/Home";
 import {connect} from 'react-redux'
 import {authentified} from '../wrappers/auth'
+import NavBar from "../components/organisms/NavBar";
 
 // TODO cache some pages for some time
 // TODO On pages remove all withTranslation(), because getInitialProps is not called
@@ -30,11 +31,14 @@ class Index extends Component {
 
   render() {
     return (
-      <Home
-        movie={this.props.rankedMovies}
-        firstHotPopcorn={this.props.featuredPopcorn}
-        firstHotYts={this.props.featuredYTS}
-      />
+      <div style={{ display: 'flex' }}>
+        <NavBar />
+        <Home
+          movie={this.props.rankedMovies}
+          firstHotPopcorn={this.props.featuredPopcorn}
+          firstHotYts={this.props.featuredYTS}
+        />
+      </div>
     )
   }
 }

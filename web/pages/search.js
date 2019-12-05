@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Search from "../components/templates/Search";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
+import NavBar from "../components/organisms/NavBar";
 
 class SearchPage extends Component {
   _isMounted = false;
@@ -94,16 +95,19 @@ class SearchPage extends Component {
 
   render() {
     return (
-      <Search
-        keyPressEnterSearch={this.keyPressEnterSearch}
-        HandleChangeSource={this.HandleChangeSource}
-        HandleChangeSort={this.HandleChangeSort}
-        HandleChangeReverse={this.HandleChangeReverse}
-        titleMovie={this.state.titleMovie}
-        fetchMoreData={this.fetchMoreData}
-        hasMore={this.state.hasMore}
-        movies={this.state.movies}
-      />
+      <div style={{ display: 'flex' }}>
+        <NavBar />
+        <Search
+          keyPressEnterSearch={this.keyPressEnterSearch}
+          HandleChangeSource={this.HandleChangeSource}
+          HandleChangeSort={this.HandleChangeSort}
+          HandleChangeReverse={this.HandleChangeReverse}
+          titleMovie={this.state.titleMovie}
+          fetchMoreData={this.fetchMoreData}
+          hasMore={this.state.hasMore}
+          movies={this.state.movies}
+        />
+      </div>
     )
   }
 }

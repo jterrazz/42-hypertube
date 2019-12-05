@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Movie} from "../../components/templates/Movie";
 import {authentified} from "../../wrappers/auth";
+import NavBar from "../../components/organisms/NavBar";
 
 class MoviePage extends Component {
   state = {
@@ -20,7 +21,10 @@ class MoviePage extends Component {
 
   render() {
     return (
-      <Movie movie={this.props.movie} movieTorrent={this.props.movieTorrent}/>
+      <div style={{ display: 'flex' }}>
+        <NavBar />
+        <Movie movie={this.props.movie} movieTorrent={this.props.movieTorrent}/>
+      </div>
     )
   }
 }

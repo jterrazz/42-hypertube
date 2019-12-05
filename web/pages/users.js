@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { UsersTemplate } from "../components/templates/Users";
 import {authentified} from "../wrappers/auth";
+import NavBar from "../components/organisms/NavBar";
 
 class Users extends Component {
   state = {
@@ -28,10 +29,13 @@ class Users extends Component {
 
   render() {
     return (
-      <UsersTemplate
-        users={this.state.usersFiltered}
-        onChange={this.getUserName}
-      />
+      <div style={{ display: 'flex' }}>
+        <NavBar />
+        <UsersTemplate
+          users={this.state.usersFiltered}
+          onChange={this.getUserName}
+        />
+      </div>
     )
   }
 }
