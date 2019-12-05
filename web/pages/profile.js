@@ -115,7 +115,7 @@ class profile extends Component {
     if (this.props.me.noPassword)
       this.setState({infoPassword: 'You can also add a password if you want to login using it'});
     if (!this.props.me.username || !this.props.me.lastName || !this.props.me.firstName)
-      this.setState({ErrorInfo: 'Completed Your Profile'});
+      this.setState({ErrorInfo: 'Complete your profile info'});
   }
 
   render() {

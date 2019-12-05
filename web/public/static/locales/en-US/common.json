@@ -61,7 +61,7 @@
   "A profile image is required": "A profile image is required",
   "Welcome back": "Welcome back",
   "UserName is required": "UserName is required",
-  "Completed Your Profile": "Completed Your Profile",
+  "Complete your profile info": "Complete your profile info",
   "Please set profile photo": "Please set profile photo",
   "Too Short!": "Too Short!",
   "Too Long!": "Too Long!",
@@ -72,5 +72,9 @@
   "No tracker available": "No tracker available",
   "User not found": "User not found",
   "profile photo": "profile photo",
-  "You can also add a password if you want to login using it": "You can also add a password if you want to login using it"
+  "You can also add a password if you want to login using it": "You can also add a password if you want to login using it",
+  "Complete your profile and use platform": "Complete your profile and use platform",
+  "Add a profile picture *": "Add a profile picture *",
+  "Set your profile info *": "Set your profile info *",
+  "Add your password (optional)": "Add your password (optional)"
 }

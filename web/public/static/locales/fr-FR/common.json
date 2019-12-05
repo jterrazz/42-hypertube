@@ -61,7 +61,7 @@
   "A profile image is required": "Une image de profil est requise",
   "Welcome back": "Nous saluons le retour",
   "UserName is required": "UserName est requis",
-  "Completed Your Profile": "Complété votre profile",
+  "Complete your profile info": "Complétez les informations de votre profil",
   "Please set profile photo": "Veuillez définir la photo de profile",
   "Too Short!": "Trop Court!",
   "Too Long!": "Trop Long!",
@@ -72,5 +72,9 @@
   "No tracker available": "Aucun tracker disponible",
   "User not found": "Utilisateur non trouvé",
   "profile photo": "photo de profil",
-  "You can also add a password if you want to login using it": "Vous pouvez ajouter un mot de passe si vous souhaitez vous connecter à l'aide de celui-ci"
+  "You can also add a password if you want to login using it": "Vous pouvez ajouter un mot de passe si vous souhaitez vous connecter à l'aide de celui-ci",
+  "Complete your profile and use platform": "Complétez votre profil et utilisez la plateforme",
+  "Add a profile picture *": "Ajouter une photo de profil *",
+  "Set your profile info *": "Définissez les informations de votre profil *",
+  "Add your password (optional)": "Ajoutez votre mot de passe (facultatif)"
 }
