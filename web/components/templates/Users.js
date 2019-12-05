@@ -49,19 +49,19 @@ export const UsersTemplate = withTranslation()((props) => {
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("userName")}/>
-                        <ListItemText primary={<p className={classes.p}>{item.username}</p>} inset disableTypography/>
+                        <ListItemText primary={<p className={classes.p}>{item.username}</p>}  disableTypography/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("firstName")}/>
-                        <ListItemText primary={<p className={classes.p}>{item.firstName}</p>} inset disableTypography/>
+                        <ListItemText primary={<p className={classes.p}>{item.firstName}</p>}  disableTypography/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("lastName")}/>
-                        <ListItemText primary={<p className={classes.p}>{item.lastName}</p>} inset disableTypography/>
+                        <ListItemText primary={<p className={classes.p}>{item.lastName}</p>}  disableTypography/>
                       </ListItem>
                       <ListItem>
                         <ListItemText secondary={props.t("language")}/>
-                        <ListItemText primary={<p className={classes.p}>{item.language}</p>} inset disableTypography/>
+                        <ListItemText primary={<p className={classes.p}>{item.language}</p>}  disableTypography/>
                       </ListItem>
                     </List>
                   </Paper>
