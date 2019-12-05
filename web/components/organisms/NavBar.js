@@ -71,6 +71,11 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'normal',
     marginLeft: 5,
     marginRight: 5
+  },
+  title: {
+    fontWeight: 'bold',
+    display: 'inline',
+    color: theme.palette.primary.main
   }
 }));
 
@@ -96,7 +101,7 @@ const NavBar = withTranslation()((props) => {
       >
         <Typography variant="h4" gutterBottom>
           <p style={{ display: 'inline'}}>Hyper</p>
-          <p style={{ display: 'inline', color: theme.palette.primary.main}}>Tube</p>
+          <p className={classes.title}>Tube</p>
         </Typography>
         {props.me ?
           <>
