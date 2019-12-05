@@ -95,7 +95,8 @@ const NavBar = withTranslation()((props) => {
         alignItems="center"
       >
         <Typography variant="h4" gutterBottom>
-          HyperTube
+          <p style={{ display: 'inline'}}>Hyper</p>
+          <p style={{ display: 'inline', color: theme.palette.primary.main}}>Tube</p>
         </Typography>
         {props.me ?
           <>
