@@ -5,6 +5,7 @@ import { magnetDecode } from '@ctrl/magnet-link';
 import config from "../config/index"
 import NavBar from "../components/organisms/NavBar";
 import {withStyles} from "@material-ui/core";
+import Copyright from "../components/atoms/Copyright";
 
 const styles = theme => ({
   footer: {
@@ -58,6 +59,7 @@ class TorrentPlay extends Component {
   render() {
     const {classes} = this.props;
     return (
+      <>
       <div style={{ display: 'flex' }}>
         <NavBar />
         <Torrent
@@ -71,6 +73,10 @@ class TorrentPlay extends Component {
           edit={this.state.edit}
         />
       </div>
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
