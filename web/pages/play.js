@@ -3,6 +3,16 @@ import { Play } from "../components/templates/Play"
 import matchaAPI from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
 import NavBar from "../components/organisms/NavBar";
+import Copyright from "../components/atoms/Copyright";
+import {withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+  footer: {
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 240,
+    }
+  }
+});
 
 class Player extends React.Component {
 
@@ -67,25 +77,31 @@ class Player extends React.Component {
   }
 
   render() {
+    const {classes} = this.props;
     return (
-      <div style={{ display: 'flex' }}>
-        <NavBar />
-        <Play
-          movie={this.props.movie}
-          hashMovie={this.props.hash}
-          comment={this.props.comments}
-          Click={this.handleClick}
-          Change={this.handleChange}
-          commentaire={this.state.comment}
-          subtitles={this.props.subtitles}
-          getUser={this.getUser}
-          userInfo={this.state.userInfo}
-          onStart={this.onStart}
-          errorComment={this.state.errorComment}
-        />
-      </div>
+      <>
+        <div style={{ display: 'flex' }}>
+          <NavBar />
+          <Play
+            movie={this.props.movie}
+            hashMovie={this.props.hash}
+            comment={this.props.comments}
+            Click={this.handleClick}
+            Change={this.handleChange}
+            commentaire={this.state.comment}
+            subtitles={this.props.subtitles}
+            getUser={this.getUser}
+            userInfo={this.state.userInfo}
+            onStart={this.onStart}
+            errorComment={this.state.errorComment}
+          />
+        </div>
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
 
-export default authentified(true)(Player);
+export default withStyles(styles)(authentified(true)(Player));

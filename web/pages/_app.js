@@ -10,8 +10,6 @@ import makeStore from '../store'
 import {fetchUserIfNeeded} from '../store/actions/auth'
 import {MatchaAPI} from '../services/matcha-api'
 import nextCookie from 'next-cookies';
-import NavBar from "../components/organisms/NavBar";
-import Copyright from "../components/atoms/Copyright";
 import { appWithTranslation } from '../utils/i18n'
 import Router from 'next/router'
 import config from '../config'
@@ -50,25 +48,13 @@ class MyApp extends App {
         return await oldGetInitialProps(ctx);
     }
 
-    let ActiveNavBar = false;
-
-    if (ctx.pathname === '/'
-      || ctx.pathname === '/users'
-      || ctx.pathname === '/search'
-      || ctx.pathname === '/movie/[id]'
-      || ctx.pathname === '/torrent'
-      || ctx.pathname === '/play'
-      || ctx.pathname === '/profile')
-      ActiveNavBar = true;
-
     return {
       pageProps: await Component.getInitialProps ? await Component.getInitialProps(ctx) : {},
-      ActiveNavBar: ActiveNavBar
     };
   }
 
   render() {
-    const {Component, pageProps, store, ActiveNavBar} = this.props;
+    const {Component, pageProps, store} = this.props;
 
     return (
       <React.Fragment>
@@ -84,14 +70,6 @@ class MyApp extends App {
           </noscript>
           <CssBaseline/>
           <Provider store={store}>
-            {/*<div style={{ display: 'flex', }}>*/}
-            {/*  {ActiveNavBar ? <NavBar /> : '' }*/}
-            {/*  */}
-            {/*</div>*/}
-            {/*{ActiveNavBar*/}
-            {/*  ? <div style={{marginLeft: 240}}><Copyright/></div>*/}
-            {/*  : <div><Copyright/></div>*/}
-            {/*}*/}
             <Component {...pageProps} />
           </Provider>
         </ThemeProvider>

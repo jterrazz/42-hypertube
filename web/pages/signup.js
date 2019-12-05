@@ -6,6 +6,7 @@ import Router from "next/router";
 import {authentified} from "../wrappers/auth";
 import {connect} from 'react-redux'
 import {register} from "../store/actions/auth";
+import Copyright from "../components/atoms/Copyright";
 
 const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -88,12 +89,17 @@ class SignUp extends Component {
       reCaptcha: ""
     };
     return (
-      <Formik
-        render={props => <Form {...props} error={this.state.Error} onChange={this.onChange} setRefCaptcha={this.setRefCaptcha}/>}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.handleSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.Error} onChange={this.onChange} setRefCaptcha={this.setRefCaptcha}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.handleSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }

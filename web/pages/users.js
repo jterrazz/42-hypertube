@@ -2,6 +2,16 @@ import React, { Component } from 'react'
 import { UsersTemplate } from "../components/templates/Users";
 import {authentified} from "../wrappers/auth";
 import NavBar from "../components/organisms/NavBar";
+import Copyright from "../components/atoms/Copyright";
+import {withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+  footer: {
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 240,
+    }
+  }
+});
 
 class Users extends Component {
   state = {
@@ -28,16 +38,22 @@ class Users extends Component {
   };
 
   render() {
+    const {classes} = this.props;
     return (
-      <div style={{ display: 'flex' }}>
-        <NavBar />
-        <UsersTemplate
-          users={this.state.usersFiltered}
-          onChange={this.getUserName}
-        />
-      </div>
+      <>
+        <div style={{ display: 'flex' }}>
+          <NavBar />
+          <UsersTemplate
+            users={this.state.usersFiltered}
+            onChange={this.getUserName}
+          />
+        </div>
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
 
-export default authentified(true)(Users);
+export default withStyles(styles)(authentified(true)(Users));

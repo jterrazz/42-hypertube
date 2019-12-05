@@ -6,6 +6,16 @@ import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
 import Profile from "../components/templates/Profile";
 import NavBar from "../components/organisms/NavBar";
+import Copyright from "../components/atoms/Copyright";
+import {withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+  footer: {
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 240,
+    }
+  }
+});
 
 const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -122,29 +132,35 @@ class profile extends Component {
   render() {
     const value = {confirmPassword: "", password: ""};
     const valueImage = {profileImage: ""};
+    const {classes} = this.props;
 
     return (
-      <div style={{ display: 'flex' }}>
-        <NavBar />
-        <Profile
-          validationSchemaPassword={validationSchemaPassword}
-          validationSchemaInfos={validationSchemaInfos}
-          validationSchemaImage={validationSchemaImage}
-          onChange={this.onChange}
-          SubmitImage={this.SubmitImage}
-          SubmitInfos={this.SubmitInfos}
-          SubmitPassword={this.SubmitPassword}
-          onChangeImage={this.onChangeImage}
-          onChangePassword={this.onChangePassword}
-          me={this.props.me}
-          ErrorImage={this.state.ErrorImage}
-          ErrorInfo={this.state.ErrorInfo}
-          ErrorPassword={this.state.ErrorPassword}
-          infoPassword={this.state.infoPassword}
-          value={value}
-          valueImage={valueImage}
-        />
-      </div>
+      <>
+        <div style={{ display: 'flex' }}>
+          <NavBar />
+          <Profile
+            validationSchemaPassword={validationSchemaPassword}
+            validationSchemaInfos={validationSchemaInfos}
+            validationSchemaImage={validationSchemaImage}
+            onChange={this.onChange}
+            SubmitImage={this.SubmitImage}
+            SubmitInfos={this.SubmitInfos}
+            SubmitPassword={this.SubmitPassword}
+            onChangeImage={this.onChangeImage}
+            onChangePassword={this.onChangePassword}
+            me={this.props.me}
+            ErrorImage={this.state.ErrorImage}
+            ErrorInfo={this.state.ErrorInfo}
+            ErrorPassword={this.state.ErrorPassword}
+            infoPassword={this.state.infoPassword}
+            value={value}
+            valueImage={valueImage}
+          />
+        </div>
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
@@ -153,4 +169,4 @@ const mapStateToProps = state => ({
   me: state.auth.user
 });
 
-export default authentified(true)(connect(mapStateToProps)(profile));
+export default withStyles(styles)(authentified(true)(connect(mapStateToProps)(profile)));

@@ -5,6 +5,7 @@ import {Form} from '../components/templates/FormResetPassword';
 import {Formik} from "formik";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
+import Copyright from "../components/atoms/Copyright";
 
 const validationSchema = Yup.object({
   password: Yup.string("")
@@ -48,12 +49,17 @@ class Forgot extends Component {
     const values = {confirmPassword: "", password: ""};
 
     return (
-      <Formik
-        render={props => <Form {...props} error={this.state.Error}/>}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.onSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.Error}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.onSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }

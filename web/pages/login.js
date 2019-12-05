@@ -7,6 +7,7 @@ import {login} from '../store/actions/auth'
 import {authentified} from "../wrappers/auth";
 import Router from "next/router";
 import {connect} from 'react-redux'
+import Copyright from "../components/atoms/Copyright";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -44,13 +45,18 @@ class Login extends Component {
     const values = {username: "", password: ""};
 
     return (
-      <Formik
-        render={props => <Form {...props} error={this.state.ErrorAuth}
-                               onChange={this.onChange}/>}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.handleSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.ErrorAuth}
+                                 onChange={this.onChange}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.handleSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }

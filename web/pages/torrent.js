@@ -4,6 +4,15 @@ import {authentified} from "../wrappers/auth";
 import { magnetDecode } from '@ctrl/magnet-link';
 import config from "../config/index"
 import NavBar from "../components/organisms/NavBar";
+import {withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+  footer: {
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 240,
+    }
+  }
+});
 
 class TorrentPlay extends Component {
   state = {
@@ -47,6 +56,7 @@ class TorrentPlay extends Component {
   };
 
   render() {
+    const {classes} = this.props;
     return (
       <div style={{ display: 'flex' }}>
         <NavBar />
@@ -69,4 +79,4 @@ TorrentPlay.getInitialProps = async () => ({
   namespacesRequired: ['common'],
 })
 
-export default authentified(true)(TorrentPlay);
+export default withStyles(styles)(authentified(true)(TorrentPlay));

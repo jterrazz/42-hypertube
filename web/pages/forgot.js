@@ -6,6 +6,7 @@ import matchaAPI from '../services/matcha-api'
 import Router from 'next/router'
 import {authentified} from "../wrappers/auth";
 import ErrorPageApi from "./apidown";
+import Copyright from "../components/atoms/Copyright";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -41,12 +42,17 @@ class Forgot extends Component {
     const values = {username: ""};
 
     return (
-      <Formik
-        render={props => <Form {...props} error={this.state.ErrorUserName} onChange={this.onChange}/>}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.handleSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.ErrorUserName} onChange={this.onChange}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.handleSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
