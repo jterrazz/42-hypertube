@@ -1,10 +1,10 @@
 # 42-hypertube
 
-*To learn more about this project, use the [wiki](https://github.com/jterrazz/42-hypertube/wiki) 😜*
-
-A web based application to explore and search torrent providers. Videos are downloaded on the backend using the BitTorrent protocol and streamed to the browser. The front-end features a beautiful discovery page and social features such as comments.
+A web application to explore, search and play videos of torrent providers. Videos are downloaded on the backend using the BitTorrent protocol and streamed to the browser. The front-end features a beautiful discovery page and social features such as comments.
 
 *Disclaimer: This application was made for learning purposes at the 42 Paris School. For legal reasons, this shouldn't be used in the real world.*
+
+*Learn more about how this project workd with the [wiki](https://github.com/jterrazz/42-hypertube/wiki) 😜*
 
 ## Starting guide
 
@@ -12,63 +12,89 @@ A web based application to explore and search torrent providers. Videos are down
 
 - Docker `>2.0`
 
-You must first create a `.env`  in the `server` folder with the following environment variables.
+### Start services
 
-```dotnet
-SERVER_PORT=3000
-CLIENT_URL=http://localhost:4242
-API_NODE_MAILER_KEY=XXX
-API_NODE_MAILER_DOMAIN=XXX.fr
-API_THE_MOVIE_DB_KEY=XXX
-API_YTS_KEY=XXX
-API_GOOGLE_CONSUMER_KEY=XXX
-API_GOOGLE_CONSUMER_SECRET=XXX
-API_FACEBOOK_APP_ID=XXX
-API_FACEBOOK_APP_SECRET=XXX
-API_FORTYTWO_APP_ID=XXX
-API_FORTYTWO_APP_SECRET=XXX
-API_GITHUB_CLIENT_ID=XXX
-API_GITHUB_CLIENT_SECRET=XXX
-```
-
-#### Start
+Replace the environment variables inside the `docker-compose.yml` file.
 
 ```bash
-docker-compose up
+docker-compose up # Start all services
 ```
 
-#### Development environment
+The web app is listening on `localhost:4242`. The API is accessible on `localhost:3000`.
 
-##### Server side
+## Development
 
-Depends of  `NodeJS 12+` and `yarn`.
+### Start each services independently
 
-```shell
+#### Database
+Start a mongodb process in the background
+```bash
+docker-compose up -d db_mongo
+```
+
+#### Web app
+In development mode, the app is served using **hot reload** (A change in the code source automatically reload the app).
+
+```bash
+# Requires NodeJS >=12
+yarn # Install dependencies
+yarn dev
+```
+The app is available by default on `http://localhost:4242/`
+
+#### API
+##### Setup
+The API service requires environment variables. You can either pass them as usual **process** environment variables or create a `.env` file in the `server`.
+
+```dotnet
+MONGO_URL: mongodb://localhost/hypertube
+SERVER_PORT: 3000
+API_URL: http://localhost:3000
+CLIENT_URL: http://localhost:4242
+CAPTCHA_KEY: XXXXX
+API_NODE_MAILER_KEY: XXXXX
+API_NODE_MAILER_DOMAIN: XXXXX
+API_THE_MOVIE_DB_KEY: XXXXX
+API_YTS_KEY: XXXXX
+API_GOOGLE_CONSUMER_KEY: XXXXX
+API_GOOGLE_CONSUMER_SECRET: XXXXX
+API_FACEBOOK_APP_ID: XXXXX
+API_FACEBOOK_APP_SECRET: XXXXX
+API_FORTYTWO_APP_ID: XXXXX
+API_FORTYTWO_APP_SECRET: XXXXX
+API_GITHUB_CLIENT_ID: XXXXX
+API_GITHUB_CLIENT_SECRET: XXXXX
+```
+
+##### Start
+
+```bash
+# Requires NodeJS >= 12 and yarn
 yarn # Installs dependencies
-yarn dev # Hot reload API
-yarn start # Simple API
-yarn lint # Lint with autofix
-yarn reset # Clear all temporary files
+yarn dev # Hot reloaded API
+yarn lint # Lint code
+yarn reset # Clean all temporary files
 ```
 
 ## Implementation
 
-### Server
+### Backend
 
-The **hypertube API** handles all the data needs of the web website. The API provides searches, movie lists, account and stream endpoints. The user must authenticated to use most of our services.
+The **API** service provides all the data needed by the web client. It provides endpoints for searching and hot lists of movies, user informations and authentication, video streaming endpoint, etc. Most of the endpoints requires authentication. Authentication must be set on the cookies (see passport.js documentation).
 
-We use `NodeJS` with the framework `koa` and `typescript`. The data is persisted with `MongoDB`.
+It uses `NodeJS` with the framework `koa` and `typescript`. The data is persisted by `MongoDB`.
 
-[API Documentation: click here to view the API endpoints](https://documenter.getpostman.com/view/9049212/SVtVV8SF?version=latest#intro)
+[Auto generated API documentation](https://documenter.getpostman.com/view/9049212/SVtVV8SF?version=latest#intro)
 
 ### Frontend
 
-The client is served using server side rendering with the `NextJS` framework (`ReactJS`).
+The web client is served with SSR (server side rendering) with the `NextJS` framework (`ReactJS` with SSR).
 
 ### Bonus
+On top of the required project, we did:
 - Github authentication
-- Custom magnet-link player
-- RESTFUL API
+- Custom `magnet-link` player
+- A RESTFUL API
 - NextJS Server side rendering + ReactJS: Fast first html downloading / page rendering, + web app in the browser
 - Captcha for registration
 - Docker: one line start
