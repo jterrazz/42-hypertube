@@ -72,6 +72,7 @@ The client is served using server side rendering with the `NextJS` framework (`R
 - NextJS Server side rendering + ReactJS: Fast first html downloading / page rendering, + web app in the browser
 - Captcha for registration
 - Docker: one line start
+- Real email domain name
 
 ## Credits 👩‍💻
 

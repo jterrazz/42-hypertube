@@ -63,8 +63,6 @@ const addPlayToMovie = user => movie => {
   return movie
 }
 
-
-
 /*
  * Controllers
  */
@@ -175,7 +173,7 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
       const ft = async () => ({
         kind: 'subtitles',
         srcLang: lang,
-        src: `${config.API_URL}/subtitles/${await downloadAndConvertSubtitle(subtitles, imbdId, lang)}`,
+        src: `${config.CLIENT_URL}/subtitles/${await downloadAndConvertSubtitle(subtitles, imbdId, lang)}`,
       })
       toDownload.push(ft())
     }
@@ -209,7 +207,9 @@ export const getMovieCommentsController: Middleware = async ctx => {
 
 export const addMovieCommentController: Middleware = async ctx => {
   const imdbId = sanatize(ctx.params.imdbId)
-  const textSchema = Joi.string().max(500)
+  const textSchema = Joi.string()
+    .min(5)
+    .max(150)
 
   const text = await textSchema.validateAsync(ctx.request.body.text)
 
@@ -221,7 +221,7 @@ export const addMovieCommentController: Middleware = async ctx => {
     const newTorrent = new Movie({ imdbId, comments: [newComment] })
     await newTorrent.save()
   }
-  newComment.user = serializeUser(ctx.state.user._doc)
+  newComment.user = serializeUser(ctx.state.user)
   ctx.body = {
     comment: _.pick(newComment, PUBLIC_COMMENT_PROPERTIES),
   }

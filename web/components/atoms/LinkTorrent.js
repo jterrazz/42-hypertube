@@ -18,6 +18,7 @@ export const LinkTorrent = withTranslation()((props) => {
         labelWidth={60}
         onChange={props.onChange}
         error={Boolean(error)}
+        disabled={props.edit}
       />
     </FormControl>
   )

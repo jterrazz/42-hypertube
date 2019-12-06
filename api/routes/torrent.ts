@@ -1,6 +1,6 @@
 import * as Router from 'koa-router'
 import { getTorrentStreamController } from '../controllers'
-import {isUser, userInfosCompleted} from '../middlewares/auth'
+import { isUser, userInfosCompleted } from '../middlewares/auth'
 
 const torrentRouter = new Router()
 

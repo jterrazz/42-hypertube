@@ -20,63 +20,61 @@ const useStyles = makeStyles(theme => ({
   Avatar: {
     width: 80,
     height: 80,
+  },
+  p: {
+    wordBreak: 'break-all',
+    whiteSpace: 'normal',
   }
 }));
 
-const User = (props) => {
+export const UsersTemplate = withTranslation()((props) => {
   const classes = useStyles();
   return (
-    <>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
+    <main className={classes.content}>
+      <div className={classes.toolbar} />
 
-        <Container fixed>
-          <Grid container spacing={4} style={{ marginTop: 15 }}>
-            <InputSearchUser {...props}/>
-          </Grid>
-          <Grid container spacing={4} style={{ marginTop: 15 }}>
-            {props.users ?
-              <>
-                {props.users.map((item, index) => (
-                  <Grid item xs={12} sm={6} md={3} key={index}>
-                    <Paper style={{background: '#F2F5F9'}}>
-                      <List>
-                        <ListItem style={{display: 'flex', justifyContent: "center"}}>
-                          <ListItemAvatar>
-                            <Avatar alt={item.username} src={item.profileImageUrl} className={classes.Avatar}/>
-                          </ListItemAvatar>
-                        </ListItem>
-                        <ListItem>
-                          <ListItemText secondary="userName: "/>
-                          <ListItemText primary={item.username}/>
-                        </ListItem>
-                        <ListItem>
-                          <ListItemText secondary="firstName: "/>
-                          <ListItemText primary={item.firstName}/>
-                        </ListItem>
-                        <ListItem>
-                          <ListItemText secondary="lastName: "/>
-                          <ListItemText primary={item.lastName}/>
-                        </ListItem>
-                        <ListItem>
-                          <ListItemText secondary="language: "/>
-                          <ListItemText primary={item.language}/>
-                        </ListItem>
-                      </List>
-                    </Paper>
-                  </Grid>
-                ))}
-              </>
-              :
-              <CircularProgress/>
-            }
+      <Container fixed>
+        <InputSearchUser {...props}/>
+        <Grid container spacing={4} style={{ marginTop: 15 }}>
+          {props.users ?
+            <>
+              {props.users.map((item, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <Paper style={{background: '#F2F5F9'}}>
+                    <List>
+                      <ListItem style={{display: 'flex', justifyContent: "center"}}>
+                        <ListItemAvatar>
+                          <Avatar alt={item.username} src={item.profileImageUrl} className={classes.Avatar}/>
+                        </ListItemAvatar>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText secondary={props.t("userName")}/>
+                        <ListItemText primary={<p className={classes.p}>{item.username}</p>} inset disableTypography/>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText secondary={props.t("firstName")}/>
+                        <ListItemText primary={<p className={classes.p}>{item.firstName}</p>} inset disableTypography/>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText secondary={props.t("lastName")}/>
+                        <ListItemText primary={<p className={classes.p}>{item.lastName}</p>} inset disableTypography/>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText secondary={props.t("language")}/>
+                        <ListItemText primary={<p className={classes.p}>{item.language}</p>} inset disableTypography/>
+                      </ListItem>
+                    </List>
+                  </Paper>
+                </Grid>
+              ))}
+            </>
+            :
+            <CircularProgress/>
+          }
 
-          </Grid>
-        </Container>
+        </Grid>
+      </Container>
 
-      </main>
-    </>
+    </main>
   )
-};
-
-export default withTranslation('common')(User);
+});

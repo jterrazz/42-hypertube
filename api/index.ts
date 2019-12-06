@@ -7,14 +7,13 @@ import * as cors from '@koa/cors'
 import * as serve from 'koa-static'
 import * as mount from 'koa-mount'
 
-import { errorMiddleware } from './middlewares/error-handler'
+import { errorMiddleware, handleStreamDisconnect } from './middlewares/error-handler'
+import { checkOriginMiddleware } from './middlewares/check-origin'
 import { clearCacheJob, clearOldMoviesJob } from './utils/cron'
 import logs from './utils/logger'
 import router from './routes'
 import config from './config'
 import './services/auth'
-
-const ORIGIN_WHITELIST = ['http://localhost:4242']
 
 /*
  * Cron jobs
@@ -29,20 +28,7 @@ clearOldMoviesJob()
 
 const app = new Koa()
 
-const checkOriginMiddleware = ctx => {
-  const requestOrigin = ctx.accept.headers.origin
-  if (!ORIGIN_WHITELIST.includes(requestOrigin)) {
-    return ctx.throw(`🙈 ${requestOrigin} is not a valid origin`)
-  }
-  return requestOrigin
-}
-
-// TODO Streams are not passed  to ... but are automatiacally  added with onerror. When the user disconnect a streamed response, overrid the default koa comportment for handling the error. In our case, a client disconnecting is not an error and will happens as soon as he closes his browser.
-const oldOnError = app.context.onerror
-app.context.onerror = async (error: any) => {
-  if (error && (error.errno === 'EPIPE' || error.errno === 'ECONNRESET')) return
-  else await oldOnError(error)
-}
+handleStreamDisconnect(app)
 app.use(cors({ credentials: true, origin: checkOriginMiddleware }))
 app.use(errorMiddleware)
 app.use(koaBody())
@@ -60,6 +46,12 @@ app.use(passport.session())
 app.use(router.routes()).use(router.allowedMethods())
 app.use(mount('/subtitles', serve('./public/subtitles')))
 app.use(mount('/images', serve('./public/images')))
+
+/*
+ * Starting the API
+ * - First we connect to the database
+ * - Second the app listen on PORT
+ */
 
 const mongoOptions = {
   useNewUrlParser: true,

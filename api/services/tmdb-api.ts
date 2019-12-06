@@ -54,12 +54,19 @@ class TmdbSerializer {
  */
 
 export const getMovieDetails = async (imdbID, language) => {
-  const { data } = await tmdbClient.get(`/find/${imdbID}`, { params: { external_source: 'imdb_id' } })
-  const movieId = _.get(data, 'movie_results[0].id')
-  if (!movieId) return null
+  try {
+    const { data } = await tmdbClient.get(`/find/${imdbID}`, { params: { external_source: 'imdb_id' } })
+    const movieId = _.get(data, 'movie_results[0].id')
+    if (!movieId) return null
 
-  const { data: movie } = await tmdbClient.get(`/movie/${movieId}`, {
-    params: { language: language, append_to_response: 'videos,credits,images,similar,reviews' },
-  })
-  return TmdbSerializer.movie(movie)
+    const { data: movie } = await tmdbClient.get(`/movie/${movieId}`, {
+      params: { language: language, append_to_response: 'videos,credits,images,similar,reviews' },
+    })
+    return TmdbSerializer.movie(movie)
+  } catch (e) {
+    if (e.response.status < 500) {
+      return null
+    }
+    throw e
+  }
 }

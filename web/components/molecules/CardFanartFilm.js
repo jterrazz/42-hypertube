@@ -34,11 +34,11 @@ export const CardFanartFilm = (props, film) => {
     <Grid item xs={12} md={6}>
       <Card elevation={0} style={{ position: 'relative' }}>
         {props.film.played ? <VisibilityIcon className={classes.visibility}/> : ''}
-        <Link href="/movie/[id]" as={`/movie/${props.film.imdb_id}`}>
+        <Link href="/movie/[id]" as={`/movie/${props.film.imdb_id}`} prefetch={false}>
           <CardMedia title={props.film.title} image={props.film.fanart_image} className={classes.BigImg} style={{cursor:'pointer'}} />
         </Link>
         <CardContent>
-          <Link href="/movie/[id]" as={`/movie/${props.film.imdb_id}`}>
+          <Link href="/movie/[id]" as={`/movie/${props.film.imdb_id}`} prefetch={false}>
             <Typography gutterBottom variant="h5" component="h2" style={{cursor:'pointer'}}>
               {props.film.title}
             </Typography>

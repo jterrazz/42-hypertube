@@ -7,6 +7,7 @@ import { InputPasswordSigUp } from "../atoms/InputPasswordSigUp";
 import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import Container from "@material-ui/core/Container";
+import {BoxError} from "../molecules/ErrorMessage";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -37,6 +38,7 @@ export const Form = props => {
             <div className={classes.paper}>
               <HeadLockPage text="Reset password"/>
               <form className={classes.form} onSubmit={handleSubmit}>
+                {props.error ? <BoxError text={props.error}/> : ''}
                 <InputPasswordSigUp {...props} />
                 <InputConfirmPasswordSigUp {...props} />
                 <ButtonSubmit text="reset"/>

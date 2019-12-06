@@ -7,6 +7,7 @@ import {login} from '../store/actions/auth'
 import {authentified} from "../wrappers/auth";
 import Router from "next/router";
 import {connect} from 'react-redux'
+import Copyright from "../components/atoms/Copyright";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -14,7 +15,7 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .trim('Spaces not allowed in UserName'),
+    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only, Spaces not allowed'),
   password: Yup.string()
     .min(8, 'Password must contain at least 8 characters')
     .max(100, 'Too Long!')
@@ -35,7 +36,7 @@ class Login extends Component {
       .then(() => Router.push('/'))
       .catch(error => {
         error.response && error.response.status === 401
-          ? this.setState({ErrorAuth: "Wrong email/password"})
+          ? this.setState({ErrorAuth: "Wrong username/password"})
           : this.setState({ErrorAuth: "Unknown error. Please try again"});
       })
   }
@@ -44,13 +45,18 @@ class Login extends Component {
     const values = {username: "", password: ""};
 
     return (
-      <Formik
-        render={props => <Form {...props} error={this.state.ErrorAuth}
-                               onChange={this.onChange}/>}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.handleSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.ErrorAuth}
+                                 onChange={this.onChange}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.handleSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }

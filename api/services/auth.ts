@@ -37,7 +37,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     const currentUser = await User.findOne({ _id: id })
     if (!currentUser) done(new ClientError(404, 'User not found'))
-    await done(null, currentUser)
+    await done(null, currentUser.toObject())
   } catch (err) {
     done(err)
   }
@@ -120,12 +120,46 @@ passport.use(
       const user = await User.findOne({ username: username })
       if (!user) return done(null, false)
       if (!(await user.verifyPassword(password))) return done(null, false)
-      await done(null, user)
+      await done(null, user.toObject())
     } catch (err) {
       done(err)
     }
   }),
 )
+
+/*
+ * EXTERNAL STRATEGIES
+ */
+
+const externalAuth = async (userData, serviceAuthKey, serviceAuthId, cb) => {
+  if (!userData.email) {
+    return cb(new ClientError(422, 'No email found from your 2id service'))
+  }
+
+  try {
+    // Step 1: If user exists, login
+    let user = await User.findOne({ googleAuthId: serviceAuthId })
+    if (user) return await cb(null, user)
+
+    // Step 2: If the email is already registered, link the accounts and register
+    user = await User.findOneAndUpdate({ email: userData.email }, { $set: { googleAuthId: serviceAuthId } })
+    if (user) return await cb(null, user)
+
+    // Step 3: Create a new user
+    user = new User({
+      username: crypto.randomBytes(20).toString('hex'),
+      usernameRandom: true,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      profilePicture: { url: userData.profilePicture },
+      email: userData.email,
+    })
+    await user.save()
+    return await cb(null, user)
+  } catch (err) {
+    return cb(err)
+  }
+}
 
 /*
  * STRATEGY: Google
@@ -140,36 +174,15 @@ passport.use(
       clientSecret: config.API_GOOGLE_CONSUMER_SECRET,
       callbackURL: '/auth/google/callback',
     },
-    async (accessToken, refreshToken, profile, cb) => {
-      const googleData: any = {
-        firstName: _.get(profile, ['name', 'givenName']),
-        lastName: _.get(profile, ['name', 'familyName']),
-      }
-      if (!profile.emails) {
-        return cb(new Error('Google auth: no email found'))
-      }
-      googleData.email = profile.emails[0].value
-      if (profile.photos) {
-        googleData.profilePicture = profile.photos[0].value
+    function(accessToken, refreshToken, profile, cb) {
+      const userData = {
+        firstName: _.get(profile, 'name.givenName'),
+        lastName: _.get(profile, 'name.familyName'),
+        email: _.get(profile, 'emails[0].value'),
+        profilePicture: _.get(profile, 'photos[0].value'),
       }
 
-      try {
-        let user = await User.findOne({ googleAuthId: profile.id })
-        if (user) return await cb(null, user)
-        user = await User.findOneAndUpdate({ email: googleData.email }, { $set: { googleAuthId: profile.id } })
-        if (user) return await cb(null, user)
-        user = new User({
-          username: crypto.randomBytes(20).toString('hex'),
-          firstName: googleData.firstName,
-          lastName: googleData.lastName,
-          profilePicture: { url: googleData.profilePicture },
-          email: googleData.email,
-        })
-        await user.save()
-        return await cb(null, user)
-      } catch (err) {
-        return cb(err)
-      }
+      externalAuth(userData, 'googleAuthId', profile.id, cb)
     },
   ),
 )
@@ -189,45 +202,14 @@ passport.use(
       profileFields: ['email', 'id', 'name', 'photos'],
     },
     function(accessToken, refreshToken, profile, cb) {
-      if (!profile._json.email) {
-        return cb(new Error('Facebook auth: no email found'))
+      const userData = {
+        firstName: _.get(profile, 'name.givenName'),
+        lastName: _.get(profile, 'name.familyName'),
+        email: _.get(profile, '_json.email'),
+        profilePicture: _.get(profile, 'photos[0].value'),
       }
-      User.findOne({ facebookAuthId: profile.id })
-        .then(async user => {
-          if (!user) {
-            const newUser = new User({
-              username: crypto.randomBytes(20).toString('hex'),
-              firstName: profile.name.givenName,
-              lastName: profile.name.familyName,
-              email: profile._json.email,
-              profilePicture: profile.photos ? profile.photos[0].value : null, // TODO Delete or adapt
-              facebookAuthId: profile.id,
-            })
-            User.findOneAndUpdate({ email: profile._json.email }, { $set: { facebookAuthId: profile.id } })
-              .then(async user => {
-                if (user) {
-                  return await cb(null, user)
-                } else {
-                  newUser
-                    .save()
-                    .then(async user => {
-                      return await cb(null, user)
-                    })
-                    .catch(err => {
-                      return cb(err)
-                    })
-                }
-              })
-              .catch(err => {
-                return cb(err)
-              })
-          } else {
-            return await cb(null, user)
-          }
-        })
-        .catch(err => {
-          return cb(err)
-        })
+
+      externalAuth(userData, 'facebookAuthId', profile.id, cb)
     },
   ),
 )
@@ -245,34 +227,15 @@ passport.use(
       clientSecret: config.API_FORTYTWO_APP_SECRET,
       callbackURL: '/auth/42/callback',
     },
-    async function(accessToken, refreshToken, profile, cb) {
-      if (!profile.emails[0].value) {
-        return cb(new Error('42 auth: no email found'))
+    function(accessToken, refreshToken, profile, cb) {
+      const userData = {
+        firstName: _.get(profile, 'name.givenName'),
+        lastName: _.get(profile, 'name.familyName'),
+        email: _.get(profile, 'emails[0].value'),
+        profilePicture: _.get(profile, 'photos[0].value'),
       }
-      try {
-        let user = await User.findOne({ intraAuthId: profile.id })
-        if (!user) {
-          const newUser = new User({
-            username: crypto.randomBytes(20).toString('hex'),
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName,
-            email: profile.emails[0].value,
-            profilePicture: profile.photos[0].value, // TODO Delete or adapt
-            intraAuthId: profile.id,
-          })
-          user = await User.findOneAndUpdate({ email: profile.emails[0].value }, { $set: { intraAuthId: profile.id } })
-          if (!user) {
-            user = await newUser.save()
-            return await cb(null, user)
-          } else {
-            return await cb(null, user)
-          }
-        } else {
-          return await cb(null, user)
-        }
-      } catch (err) {
-        return cb(err)
-      }
+
+      externalAuth(userData, 'intraAuthId', profile.id, cb)
     },
   ),
 )
@@ -290,32 +253,13 @@ passport.use(
       clientSecret: config.API_GITHUB_CLIENT_SECRET,
       callbackURL: '/auth/github/callback',
     },
-    async function(accessToken, refreshToken, profile, cb) {
-      if (!profile._json.email) {
-        return cb(new Error('Github auth: no email found'))
+    function(accessToken, refreshToken, profile, cb) {
+      const userData = {
+        email: _.get(profile, '_json.email'),
+        profilePicture: _.get(profile, '_json.avatar_url'),
       }
-      try {
-        let user = await User.findOne({ githubAuthId: profile.id })
-        if (!user) {
-          user = await User.findOneAndUpdate({ email: profile._json.email }, { $set: { githubAuthId: profile.id } })
-          if (!user) {
-            const newUser = new User({
-              username: crypto.randomBytes(20).toString('hex'),
-              email: profile._json.email,
-              profilePicture: profile._json.avatar_url, // TODO Delete or adapt
-              githubAuthId: profile.id,
-            })
-            user = await newUser.save()
-            return await cb(null, user)
-          } else {
-            return await cb(null, user)
-          }
-        } else {
-          return await cb(null, user)
-        }
-      } catch (err) {
-        return cb(err)
-      }
+
+      externalAuth(userData, 'githubAuthId', profile.id, cb)
     },
   ),
 )

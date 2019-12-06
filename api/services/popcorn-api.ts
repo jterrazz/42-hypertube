@@ -23,12 +23,12 @@ class PopcornSerializer {
     if (typeof original != 'object') return null
 
     return {
-      title: (original.title_english || original.title || "").replace('&amp;', '&'),
+      title: (original.title_english || original.title || '').replace('&amp;', '&'),
       imdb_id: original.imdb_id,
       release_date: original.year,
       rating: _.get(original, 'rating.percentage') / 10,
       runtime: Number(original.runtime),
-      overview: (original.synopsis || "").replace('&amp;', '&'),
+      overview: (original.synopsis || '').replace('&amp;', '&'),
       yt_trailer_id: original.trailer,
       fanart_image: _.get(original, 'images.fanart'),
       poster_image: _.get(original, 'images.banner'),
@@ -88,13 +88,20 @@ export const searchMovies = async (query, page, options) => {
 export const getTrendingMovies = async genre => searchMovies(null, 1, { genre, sort: SORT_VALUES_ENUM.SORT_TRENDING })
 
 export const getMovieDetails = async imdbID => {
-  const res = await popcornClient.get(`/movie/${imdbID}`)
-  return PopcornSerializer.movie(res.data)
+  try {
+    const res = await popcornClient.get(`/movie/${imdbID}`)
+    return PopcornSerializer.movie(res.data)
+  } catch (e) {
+    if (e.response.status < 500) {
+      return null
+    }
+    throw e
+  }
 }
 
 export const getMovieTorrents = async imdbID => {
   const res = await popcornClient.get(`/movie/${imdbID}`)
   const torrents = _.get(res, 'data.torrents.en')
 
-  return Object.values(torrents).map(PopcornSerializer.torrent)
+  return torrents ? Object.values(torrents).map(PopcornSerializer.torrent) : null
 }

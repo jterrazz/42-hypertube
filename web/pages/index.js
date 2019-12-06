@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import {Home} from "../components/templates/Home";
 import {connect} from 'react-redux'
 import {authentified} from '../wrappers/auth'
+import NavBar from "../components/organisms/NavBar";
+import Copyright from "../components/atoms/Copyright";
+import {withStyles} from "@material-ui/core";
 
 // TODO cache some pages for some time
 // TODO On pages remove all withTranslation(), because getInitialProps is not called
@@ -10,6 +13,14 @@ import {authentified} from '../wrappers/auth'
 // TODO Clean imports and condensate them
 // TODO Rename variables + use correct case
 // TODO Could use proptypes
+
+const styles = theme => ({
+  footer: {
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 240,
+    }
+  }
+});
 
 class Index extends Component {
 
@@ -29,12 +40,21 @@ class Index extends Component {
   }
 
   render() {
+    const {classes} = this.props;
     return (
-      <Home
-        movie={this.props.rankedMovies}
-        firstHotPopcorn={this.props.featuredPopcorn}
-        firstHotYts={this.props.featuredYTS}
-      />
+      <>
+        <div style={{ display: 'flex' }}>
+          <NavBar />
+          <Home
+            movie={this.props.rankedMovies}
+            firstHotPopcorn={this.props.featuredPopcorn}
+            firstHotYts={this.props.featuredYTS}
+          />
+        </div>
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
@@ -43,4 +63,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default authentified(true)(connect(mapStateToProps)(Index));
+export default withStyles(styles)(authentified(true)(connect(mapStateToProps)(Index)));

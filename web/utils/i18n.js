@@ -9,7 +9,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const NextI18NextInstance = new nextI18next.default({
   defaultLanguage: 'fr-FR',
-  otherLanguages: ['en-US']
+  otherLanguages: ['en-US'],
+  localePath: 'public/static/locales'
 });
 
 module.exports = NextI18NextInstance;

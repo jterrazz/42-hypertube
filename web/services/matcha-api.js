@@ -17,9 +17,9 @@ export const getStreamURL = hash => `${config.ROOT_URL}/torrents/${hash}/stream`
  */
 
 export class MatchaAPI {
-  constructor(cookies = null) {
+  constructor(cookies = null, rootUrl = config.ROOT_URL) {
     const opt = {
-      baseURL: config.ROOT_URL,
+      baseURL: rootUrl,
       withCredentials: true
     }
 
@@ -54,12 +54,13 @@ export class MatchaAPI {
     form.append('profileImage', user.file);
     form.append('reCaptcha', user.reCaptcha);
 
-    return await this.client.post('/auth/signup', form)
+    const { data: { user: retUser } } = await this.client.post('/auth/signup', form)
+    return retUser
   }
 
   signout = async () => await this.client.get('/auth/logout')
 
-  postForgotPassword = username => this.client.post(`/me?username=${username}`)
+  postForgotPassword = username => this.client.post(`/auth/send-reset-email?username=${username}`)
   postResetPassword = data => this.client.post(`/auth/reset-password`, data)
 
   getMe = async () => {
@@ -74,7 +75,8 @@ export class MatchaAPI {
       form.append(key, user[key])
     })
 
-    await this.client.patch('/me', form)
+    const { data: userData } = await this.client.patch('/me', form)
+    return userData
   }
 
   /*
@@ -119,6 +121,11 @@ export class MatchaAPI {
   }
 
   postMoviePlay = async movieId => await this.client.post(`/movies/${movieId}/play`)
+
+  getUser = async (username) => {
+    const { data: user } = await this.client.get(`/users/${username}`)
+    return user
+  }
 
   getUsers = async () => {
     const r = await this.client.get('/users')

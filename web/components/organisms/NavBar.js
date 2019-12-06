@@ -55,7 +55,8 @@ const useStyles = makeStyles(theme => ({
     width: 80,
     height: 80,
     marginTop: 40,
-    marginBottom: 40
+    marginBottom: 40,
+    border: '3px solid #556cd6',
   },
   NavBar: {
     marginTop: 40,
@@ -65,6 +66,17 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
     marginLeft: 20
   },
+  p: {
+    wordBreak: 'break-all',
+    whiteSpace: 'normal',
+    marginLeft: 5,
+    marginRight: 5
+  },
+  title: {
+    fontWeight: 'bold',
+    display: 'inline',
+    color: theme.palette.primary.main
+  }
 }));
 
 // TODO Replace all by <Link>
@@ -88,14 +100,15 @@ const NavBar = withTranslation()((props) => {
         alignItems="center"
       >
         <Typography variant="h4" gutterBottom>
-          HyperTube
+          <p style={{ display: 'inline'}}>Hyper</p>
+          <p className={classes.title}>Tube</p>
         </Typography>
         {props.me ?
           <>
             <Avatar alt={props.me.username} src={props.me.profileImageUrl}
                     className={classes.Avatar}/>
-            <Typography variant="subtitle2" gutterBottom>
-              {props.me.firstName} {props.me.lastName}
+            <Typography variant="subtitle2" gutterBottom align="center">
+              <p className={classes.p}>{props.me.firstName} {props.me.lastName}</p>
             </Typography>
           </>
           : ''}
@@ -111,7 +124,7 @@ const NavBar = withTranslation()((props) => {
         component="nav" aria-label="main mailbox folders"
         className={classes.listItem}
       >
-        <Link href="/" passHref>
+        <Link href="/" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <HomeIcon/>
@@ -120,7 +133,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/search" passHref>
+        <Link href="/search" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <SearchIcon/>
@@ -129,7 +142,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/profile" passHref>
+        <Link href="/profile" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <PersonIcon/>
@@ -138,7 +151,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/torrent" passHref>
+        <Link href="/torrent" passHref prefetch={false}>
           <ListItem button>
             <ListItemIcon>
               <SystemUpdateAltIcon/>
@@ -147,7 +160,7 @@ const NavBar = withTranslation()((props) => {
           </ListItem>
         </Link>
 
-        <Link href="/users" passHref>
+        <Link href="/users" passHref prefetch={false}>
           <ListItem button component="a">
             <ListItemIcon>
               <PeopleIcon/>

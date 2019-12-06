@@ -9,7 +9,6 @@ import { PRIVATE_USER_PROPS, serializeUser } from './user'
 import { sendResetPasswordEmail } from '../services/mail'
 import { ClientError } from '../services/auth'
 
-// TODO Maybe merge both codes
 export const addIncompleteProfile = async user => {
   const userSchema = Joi.object()
     .keys({
@@ -39,7 +38,7 @@ export const addIncompleteProfile = async user => {
 export const successfulAuthController: Middleware = async ctx => {
   ctx.body = {
     message: 'Authentication successful',
-    user: serializeUser(_.pick(await addIncompleteProfile(ctx.state.user), PRIVATE_USER_PROPS)),
+    user: _.pick(await addIncompleteProfile(serializeUser(ctx.state.user)), PRIVATE_USER_PROPS),
   }
 }
 
@@ -68,8 +67,7 @@ export const sendResetEmailController: Middleware = async ctx => {
   return new Promise((resolve, reject) => {
     const tokenPayload = { username: username }
     jwt.sign(tokenPayload, config.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
-      if (err)
-        return reject(err)
+      if (err) return reject(err)
 
       sendResetPasswordEmail(user.email, token)
         .then(res => {
@@ -110,4 +108,3 @@ export const resetPasswordController: Middleware = async ctx => {
     })
   })
 }
-

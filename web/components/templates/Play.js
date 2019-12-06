@@ -22,31 +22,29 @@ export const Play = (props, {movie = null, hashMovie = null, comment = null, sub
   const url = getStreamURL(props.hashMovie);
 
   return (
-    <>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
+    <main className={classes.content}>
+      <div className={classes.toolbar} />
 
-        <Container fixed>
-          {props.movie ?
-            <>
-              <Player
-                url={url}
-                thumbnail={props.movie.fanart_image !== 'https://image.tmdb.org/t/p/originalnull' ? props.movie.fanart_image : URL_Images.fanart}
-                subtitles={props.subtitles}
-                onStart={props.onStart}
-              />
-              <Grid container spacing={3} style={{marginTop: 10}}>
-                <FilmDescription {...props}/>
-                <Casting {...props}/>
-                <Comment {...props}/>
-              </Grid>
-            </>
-            :
-            <CircularProgress />
-          }
-        </Container>
+      <Container fixed>
+        {props.movie ?
+          <>
+            <Player
+              url={url}
+              thumbnail={props.movie.fanart_image !== 'https://image.tmdb.org/t/p/originalnull' ? props.movie.fanart_image : URL_Images.fanart}
+              subtitles={props.subtitles}
+              onStart={props.onStart}
+            />
+            <Grid container spacing={3} style={{marginTop: 10}}>
+              <FilmDescription {...props}/>
+              <Casting {...props}/>
+              <Comment {...props}/>
+            </Grid>
+          </>
+          :
+          <CircularProgress />
+        }
+      </Container>
 
-      </main>
-    </>
+    </main>
   )
 };

@@ -18,29 +18,27 @@ const useStyles = makeStyles(theme => ({
 export const Home = (props) => {
   const classes = useStyles();
   return (
-    <>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
+    <main className={classes.content}>
+      <div className={classes.toolbar} />
 
-        {props.movie && props.movie.popcorn && props.movie.yts ?
-          <Container fixed>
-            <TypographyTitle text="Featured"/>
-            <TypographyTextSecondary text="Discover our best picks"/>
+      {props.movie && props.movie.popcorn && props.movie.yts ?
+        <Container fixed>
+          <TypographyTitle text="Featured"/>
+          <TypographyTextSecondary text="Discover our best picks"/>
 
-            <Grid container spacing={5} style={{marginTop: 15}}>
-              {props.firstHotPopcorn ? <CardFanartFilm film={props.firstHotPopcorn}/> : "" }
-              {props.firstHotYts ? <CardFanartFilm film={props.firstHotYts}/> : "" }
-            </Grid>
+          <Grid container spacing={5} style={{marginTop: 15}}>
+            {props.firstHotPopcorn ? <CardFanartFilm film={props.firstHotPopcorn}/> : "" }
+            {props.firstHotYts ? <CardFanartFilm film={props.firstHotYts}/> : "" }
+          </Grid>
 
-            <GroupFilmHot {...props} text="Yts" source="yts"/>
-            <GroupFilmHot {...props} text="Popcorn" source="popcorn"/>
+          <GroupFilmHot {...props} text="Yts" source="yts"/>
+          <GroupFilmHot {...props} text="Popcorn" source="popcorn"/>
 
-          </Container>
-          :
-          <CircularProgress/>
-        }
+        </Container>
+        :
+        <CircularProgress/>
+      }
 
-      </main>
-    </>
+    </main>
   )
 };

@@ -5,6 +5,17 @@ import {connect} from "react-redux";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
 import Profile from "../components/templates/Profile";
+import NavBar from "../components/organisms/NavBar";
+import Copyright from "../components/atoms/Copyright";
+import {withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+  footer: {
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 240,
+    }
+  }
+});
 
 const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -20,8 +31,14 @@ const validationSchemaPassword = Yup.object({
 });
 
 const validationSchemaInfos = Yup.object({
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
+  firstName: Yup.string()
+    .required('Required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!'),
+  lastName: Yup.string()
+    .required('Required')
+    .min(3, 'Too Short!')
+    .max(42, 'Too Long!'),
   email: Yup.string()
     .email('Enter a valid email')
     .required('Email is required'),
@@ -30,7 +47,7 @@ const validationSchemaInfos = Yup.object({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .trim('Spaces not allowed in UserName'),
+    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only, Spaces not allowed')
 });
 
 const validationSchemaImage = Yup.object({
@@ -61,7 +78,8 @@ class profile extends Component {
   state = {
     ErrorInfo: '',
     ErrorImage: '',
-    ErrorPassword: ''
+    ErrorPassword: '',
+    infoPassword: ''
   };
 
   onChange = () => {
@@ -77,29 +95,26 @@ class profile extends Component {
   };
 
   SubmitImage = (userData) => {
-    // TODO Replace by redux
-    matchaClient.patchMe(_.pick(userData, ['profileImage'])) // TODO Probably put the pick inside the component
-      .then()
-      .catch(error => {
+    this.props.dispatch(patchUser(_.pick(userData, ['profileImage'])))
+      .then(this.setState({ErrorImage: ''}))
+      .catch(_ => {
         this.setState({ErrorImage: "Unknown error. Please try again"});
       })
   };
-// TODO Rename
+
   SubmitInfos = (userData) => {
-    this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language', 'username']))) // TODO Probably put the pick inside the component
+    this.props.dispatch(patchUser(_.pick(userData, ['firstName', 'lastName', 'email', 'language', 'username'])))
       .then()
       .catch(error => {
-        error.response && error.response.status === 409
+        error.response && error.response.status === 409 || error.response.status === 422
           ? this.setState({ErrorInfo: error.response.data})
           : this.setState({ErrorInfo: "Unknown error. Please try again"});
       })
   };
 
   SubmitPassword = (userData) => {
-    // TODO + check passwords are the same
-    // TODO + error not printing
-    matchaClient.patchMe(_.pick(userData, ['password'])) // TODO Probably put the pick inside the component
-      .then()
+    matchaClient.patchMe(_.pick(userData, ['password']))
+      .then(this.setState({infoPassword: ''}))
       .catch(error => {
         this.setState({ErrorPassword: "Unknown error. Please try again"});
       })
@@ -108,30 +123,44 @@ class profile extends Component {
   async componentDidMount() {
     if (!this.props.me.profileImageUrl)
       this.setState({ErrorImage: 'Please set profile photo'});
+    if (this.props.me.noPassword)
+      this.setState({infoPassword: 'You can also add a password if you want to login using it'});
+    if (!this.props.me.username || !this.props.me.lastName || !this.props.me.firstName)
+      this.setState({ErrorInfo: 'Complete your profile info'});
   }
 
   render() {
     const value = {confirmPassword: "", password: ""};
     const valueImage = {profileImage: ""};
+    const {classes} = this.props;
 
     return (
-      <Profile
-        validationSchemaPassword={validationSchemaPassword}
-        validationSchemaInfos={validationSchemaInfos}
-        validationSchemaImage={validationSchemaImage}
-        onChange={this.onChange}
-        SubmitImage={this.SubmitImage}
-        SubmitInfos={this.SubmitInfos}
-        SubmitPassword={this.SubmitPassword}
-        onChangeImage={this.onChangeImage}
-        onChangePassword={this.onChangePassword}
-        me={this.props.me}
-        ErrorImage={this.state.ErrorImage}
-        ErrorInfo={this.state.ErrorInfo}
-        ErrorPassword={this.state.ErrorPassword}
-        value={value}
-        valueImage={valueImage}
-      />
+      <>
+        <div style={{ display: 'flex' }}>
+          <NavBar />
+          <Profile
+            validationSchemaPassword={validationSchemaPassword}
+            validationSchemaInfos={validationSchemaInfos}
+            validationSchemaImage={validationSchemaImage}
+            onChange={this.onChange}
+            SubmitImage={this.SubmitImage}
+            SubmitInfos={this.SubmitInfos}
+            SubmitPassword={this.SubmitPassword}
+            onChangeImage={this.onChangeImage}
+            onChangePassword={this.onChangePassword}
+            me={this.props.me}
+            ErrorImage={this.state.ErrorImage}
+            ErrorInfo={this.state.ErrorInfo}
+            ErrorPassword={this.state.ErrorPassword}
+            infoPassword={this.state.infoPassword}
+            value={value}
+            valueImage={valueImage}
+          />
+        </div>
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
@@ -140,4 +169,4 @@ const mapStateToProps = state => ({
   me: state.auth.user
 });
 
-export default authentified(true)(connect(mapStateToProps)(profile));
+export default withStyles(styles)(authentified(true)(connect(mapStateToProps)(profile)));

@@ -5,10 +5,12 @@ import {Form} from '../components/templates/FormResetPassword';
 import {Formik} from "formik";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
+import Copyright from "../components/atoms/Copyright";
 
 const validationSchema = Yup.object({
   password: Yup.string("")
     .min(8, "Password must contain atleast 8 characters")
+    .max(100, 'Too Long!')
     .required("Enter your password"),
   confirmPassword: Yup.string("Enter your password")
     .required("Confirm your password")
@@ -16,6 +18,10 @@ const validationSchema = Yup.object({
 });
 
 class Forgot extends Component {
+
+  state = {
+    Error: ''
+  };
 
   static async getInitialProps({query}) {
     return {
@@ -32,19 +38,28 @@ class Forgot extends Component {
 
     matchaClient.postResetPassword(user)
       .then(() => Router.push('/'))
-      .catch(_ => {})
+      .catch(error => {
+        error.response && error.response.status === 401
+          ? this.setState({Error: "This authentication token is not valid"})
+          : this.setState({Error: "Unknown error. Please try again"});
+      });
   };
 
   render() {
     const values = {confirmPassword: "", password: ""};
 
     return (
-      <Formik
-        render={props => <Form {...props} />}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.onSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.Error}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.onSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }

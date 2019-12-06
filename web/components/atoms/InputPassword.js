@@ -2,7 +2,7 @@ import TextField from "@material-ui/core/TextField";
 import React from "react";
 import {withTranslation} from '../../utils/i18n';
 
-export const InputPassword = withTranslation()((props, error = null, onChange) => {
+export const InputPassword = withTranslation()((props) => {
   const {
     values: { password },
     errors,
@@ -13,6 +13,7 @@ export const InputPassword = withTranslation()((props, error = null, onChange) =
 
   return (
     <TextField
+      style={{ background: "white" }}
       variant="outlined"
       margin="normal"
       required

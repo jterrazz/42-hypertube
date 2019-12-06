@@ -58,7 +58,7 @@ export const Form = withTranslation()((props, {error = null}) => {
                 <Grid item xs={12} sm={5}><InputFirstName {...props} /></Grid>
                 <Grid item xs={12} sm={5}><InputLastName {...props}/></Grid>
               </Grid>
-              <InputUserNameSigUp {...props} error={props.error}/>
+              <InputUserNameSigUp {...props} error={props.error} onChange={props.onChange}/>
               <InputEmail {...props} onChange={props.onChange} error={props.error}/>
               <InputPasswordSigUp {...props}/>
               <InputConfirmPasswordSigUp {...props} />

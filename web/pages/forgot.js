@@ -6,6 +6,7 @@ import matchaAPI from '../services/matcha-api'
 import Router from 'next/router'
 import {authentified} from "../wrappers/auth";
 import ErrorPageApi from "./apidown";
+import Copyright from "../components/atoms/Copyright";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -13,7 +14,7 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .trim('Spaces not allowed in UserName'),
+    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only, Spaces not allowed'),
 });
 
 class Forgot extends Component {
@@ -26,7 +27,7 @@ class Forgot extends Component {
   };
 
   handleSubmit = (data) => {
-    matchaAPI.postForgotPassword(username)
+    matchaAPI.postForgotPassword(data.username)
       .then(() => {
         Router.push('/')
       })
@@ -41,12 +42,17 @@ class Forgot extends Component {
     const values = {username: ""};
 
     return (
-      <Formik
-        render={props => <Form {...props} error={this.state.ErrorUserName} onChange={this.onChange}/>}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.handleSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.ErrorUserName} onChange={this.onChange}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.handleSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }

@@ -16,7 +16,7 @@ export const InputImage = withTranslation()((props) => {
       component={CustomImageInput}
       title="Select a file"
       setFieldValue={setFieldValue}
-      errorMessage={errors['file'] ? i18n.t(errors['file']) : undefined}
+      errorMessage={errors['file'] ? props.t(errors['file']) : undefined}
       touched={touched['file']}
       style={{ display: 'flex' }}
       onBlur={handleBlur}

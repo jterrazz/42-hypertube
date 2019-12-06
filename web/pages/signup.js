@@ -2,9 +2,11 @@ import React, {Component} from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import {Form} from "../components/templates/FormSignup";
-import matchaAPI from '../services/matcha-api'
-import {Router} from "next/router";
+import Router from "next/router";
 import {authentified} from "../wrappers/auth";
+import {connect} from 'react-redux'
+import {register} from "../store/actions/auth";
+import Copyright from "../components/atoms/Copyright";
 
 const FILE_SIZE = 10 * 1000 * 1024;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
@@ -23,7 +25,7 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .trim('Spaces not allowed in UserName'),
+    .matches(/^[a-zA-Z0-9]+$/, 'The username must contains english letters and digits only'),
   email: Yup.string()
     .email('Enter a valid email')
     .required('Email is required'),
@@ -64,8 +66,8 @@ class SignUp extends Component {
       this.refCaptcha = ref;
   };
 
-  handleSubmit = (userData, {setFieldValue}) =>
-    matchaAPI.signup(userData)
+  handleSubmit = async (userData, {setFieldValue}) =>
+    await this.props.dispatch(register(userData))
       .then(() => Router.push('/'))
       .catch(error => {
         this.refCaptcha.reset();
@@ -87,12 +89,17 @@ class SignUp extends Component {
       reCaptcha: ""
     };
     return (
-      <Formik
-        render={props => <Form {...props} error={this.state.Error} onChange={this.onChange} setRefCaptcha={this.setRefCaptcha}/>}
-        initialValues={values}
-        validationSchema={validationSchema}
-        onSubmit={this.handleSubmit}
-      />
+      <>
+        <Formik
+          render={props => <Form {...props} error={this.state.Error} onChange={this.onChange} setRefCaptcha={this.setRefCaptcha}/>}
+          initialValues={values}
+          validationSchema={validationSchema}
+          onSubmit={this.handleSubmit}
+        />
+        <div>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
@@ -101,4 +108,4 @@ SignUp.getInitialProps = async () => ({
   namespacesRequired: ['common'],
 })
 
-export default authentified(false)(SignUp);
+export default authentified(false)(connect()(SignUp));

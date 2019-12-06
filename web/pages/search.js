@@ -2,6 +2,17 @@ import React, {Component} from 'react';
 import Search from "../components/templates/Search";
 import matchaClient from '../services/matcha-api'
 import {authentified} from "../wrappers/auth";
+import NavBar from "../components/organisms/NavBar";
+import Copyright from "../components/atoms/Copyright";
+import {withStyles} from "@material-ui/core";
+
+const styles = theme => ({
+  footer: {
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 240,
+    }
+  }
+});
 
 class SearchPage extends Component {
   _isMounted = false;
@@ -84,6 +95,7 @@ class SearchPage extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true;
     this.getSimilarTitleMovie({movieTitle: this.props.title});
   }
 
@@ -92,19 +104,28 @@ class SearchPage extends Component {
   }
 
   render() {
+    const {classes} = this.props;
     return (
-      <Search
-        keyPressEnterSearch={this.keyPressEnterSearch}
-        HandleChangeSource={this.HandleChangeSource}
-        HandleChangeSort={this.HandleChangeSort}
-        HandleChangeReverse={this.HandleChangeReverse}
-        titleMovie={this.state.titleMovie}
-        fetchMoreData={this.fetchMoreData}
-        hasMore={this.state.hasMore}
-        movies={this.state.movies}
-      />
+      <>
+        <div style={{ display: 'flex' }}>
+          <NavBar />
+          <Search
+            keyPressEnterSearch={this.keyPressEnterSearch}
+            HandleChangeSource={this.HandleChangeSource}
+            HandleChangeSort={this.HandleChangeSort}
+            HandleChangeReverse={this.HandleChangeReverse}
+            titleMovie={this.state.titleMovie}
+            fetchMoreData={this.fetchMoreData}
+            hasMore={this.state.hasMore}
+            movies={this.state.movies}
+          />
+        </div>
+        <div className={classes.footer}>
+          <Copyright />
+        </div>
+      </>
     )
   }
 }
 
-export default authentified(true)(SearchPage);
+export default withStyles(styles)(authentified(true)(SearchPage));

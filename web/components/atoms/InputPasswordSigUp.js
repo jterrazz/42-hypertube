@@ -24,7 +24,7 @@ export const InputPasswordSigUp = withTranslation()((props) => {
       id="password"
       autoComplete="current-password"
       value={password}
-      onChange={e => {handleChange(e); props.onChange()}}
+      onChange={handleChange}
       onBlur={handleBlur}
       helperText={touched.password ? props.t(errors.password) : ''}
       error={touched.password && Boolean(errors.password)}

@@ -2,9 +2,9 @@ import TextField from "@material-ui/core/TextField";
 import React from "react";
 import {withTranslation} from '../../utils/i18n';
 
-export const InputLastName = withTranslation()((props) => {
+export const InputLastNameProfile = withTranslation()((props) => {
   const {
-    values,
+    values: {lastName},
     touched,
     errors,
     handleChange,
@@ -21,11 +21,11 @@ export const InputLastName = withTranslation()((props) => {
       label={props.t("Last Name")}
       name="lastName"
       autoComplete="lname"
-      value={values.lastName || ''}
+      value={lastName || ''}
       onChange={handleChange}
       onBlur={handleBlur}
-      helperText={touched.lastName ? props.t(errors.lastName) : ''}
-      error={touched.lastName && Boolean(errors.lastName)}
+      helperText={touched.lastName ? props.t(errors.lastName) : '' || Boolean(!lastName) ? props.t('Required') : ''}
+      error={touched.lastName && Boolean(errors.lastName) || Boolean(!lastName)}
     />
   )
 });

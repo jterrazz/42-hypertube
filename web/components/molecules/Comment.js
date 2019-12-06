@@ -8,6 +8,7 @@ import React from "react";
 import {withTranslation} from '../../utils/i18n';
 import {makeStyles} from "@material-ui/core";
 import {DialogUser} from "../organisms/DialogUser";
+import { TypographyError } from "../atoms/TypographyError";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,8 +41,10 @@ export const Comment = withTranslation()((props) => {
           value={props.commentaire}
           onChange={props.Change}
           rowsMax="4"
-          placeholder={props.t("Add a public comment ...")}
+          placeholder={props.t("Add public comment ...")}
+          error={Boolean(props.errorComment)}
         />
+        {props.errorComment ? <TypographyError ErrorText={props.errorComment}/> : ''}
         <Grid container justify="flex-end">
           <Grid item xs={9} md={9}>
             <Button

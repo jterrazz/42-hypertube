@@ -22,7 +22,7 @@ export const InputUpdateEmail = withTranslation()((props, error = null, onChange
       label={props.t("Email Address")}
       name="email"
       autoComplete="email"
-      value={values.email}
+      value={values.email || ''}
       onChange={e => {handleChange(e); props.onChange()}}
       onBlur={handleBlur}
       helperText={touched.email ? props.t(errors.email) : ''}

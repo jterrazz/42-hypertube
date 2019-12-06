@@ -1,11 +1,13 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-
-*/cache/*
-*/public/images/*
-*/public/subtitles/*
-*/public/torrents/*
-!.gitkeep
+# misc
+.DS_Store
+../._.DS_Store
+._.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.idea
 
 # dependencies
 node_modules
@@ -15,23 +17,20 @@ node_modules
 # testing
 *coverage
 
-# next.js
-*.next/
-*out/
-
-# production
-*build
-
-# misc
-.DS_Store
-._.DS_Store
-.env
-
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 report-*
 
-# IDEs
-*.idea
+# next.js
+web/.next/
+web/out/
+web/*build
+
+# api
+api/cache/*
+api/public/images/*
+api/public/subtitles/*
+api/public/torrents/*
+!.gitkeep

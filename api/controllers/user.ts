@@ -7,7 +7,7 @@ import { User } from '../models'
 import { ClientError } from '../services/auth'
 import * as crypto from 'crypto'
 import config from '../config'
-import {addIncompleteProfile} from "./auth";
+import { addIncompleteProfile } from './auth'
 
 export const PUBLIC_USER_PROPS = [
   'profileImageName',
@@ -17,7 +17,7 @@ export const PUBLIC_USER_PROPS = [
   'lastName',
   'username',
 ]
-export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', 'profileCompleted', ...PUBLIC_USER_PROPS]
+export const PRIVATE_USER_PROPS = ['email', '_id', 'plays', 'profileCompleted', 'noPassword', ...PUBLIC_USER_PROPS]
 const IMAGE_FOLDER = __dirname + '/../public/images/'
 
 export const cacheToImageFolder = file =>
@@ -33,17 +33,25 @@ export const cacheToImageFolder = file =>
     }
   })
 
-export const serializeUser = original => ({
-  ...original,
-  profileImageUrl: original.profileImageName ? `${config.API_URL}/images/${original.profileImageName}` : null,
-})
+export const serializeUser = original => {
+  if (original.usernameRandom) {
+    delete original.usernameRandom
+    delete original.username
+  }
+
+  return {
+    ...original,
+    noPassword: !original.hashedPassword,
+    profileImageUrl: original.profileImageName ? `${config.API_URL}/images/${original.profileImageName}` : null,
+  }
+}
 
 /*
  * Controllers
  */
 
 export const getMeController: Middleware = async ctx => {
-  ctx.body = serializeUser(_.pick(await addIncompleteProfile(ctx.state.user), PRIVATE_USER_PROPS))
+  ctx.body = _.pick(await addIncompleteProfile(serializeUser(ctx.state.user)), PRIVATE_USER_PROPS)
 }
 
 export const getUsersController: Middleware = async ctx => {
@@ -60,16 +68,19 @@ export const getUsernameController: Middleware = async ctx => {
 
   const user = await User.findOne({ username })
   ctx.assert(user, 404, 'User not found')
-  ctx.body = serializeUser(_.pick(user, PUBLIC_USER_PROPS))
+  ctx.body = _.pick(serializeUser(user.toObject()), PUBLIC_USER_PROPS)
 }
 
 export const updateMeController: Middleware = async ctx => {
   const userSchema = Joi.object()
     .keys({
-      username: Joi.string().alphanum()
-        .min(3).max(42),
+      username: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(42),
       email: Joi.string().email(),
-      password: Joi.string().min(8)
+      password: Joi.string()
+        .min(8)
         .max(100),
       firstName: Joi.string().max(42),
       lastName: Joi.string().max(42),
@@ -88,6 +99,9 @@ export const updateMeController: Middleware = async ctx => {
   _.merge(user, userInput)
   if (userInput.password) {
     await user.savePassword(userInput.password)
+  }
+  if (userInput.username) {
+    user.usernameRandom = false
   }
   if (profileImage) {
     const oldImage = user.profileImageName
@@ -109,5 +123,7 @@ export const updateMeController: Middleware = async ctx => {
     throw err
   }
 
-  ctx.status = 200
+  const updatedUser = await User.findOne({ _id: ctx.state.user._id })
+
+  ctx.body = _.pick(await addIncompleteProfile(serializeUser(updatedUser.toObject())), PRIVATE_USER_PROPS)
 }

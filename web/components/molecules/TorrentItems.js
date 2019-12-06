@@ -49,7 +49,7 @@ export const TorrentItems = (props) => {
               </div>
             </Typography>
             <span className={classes.toolbarButtons}>
-              <Link href={`/play?hash=${item.hash}&id=${props.movieId}`} passHref>
+              <Link href={`/play?hash=${item.hash}&id=${props.movieId}`} passHref prefetch={false}>
                 <IconButton color="inherit" aria-label="More Options">
                   <PlayCircleFilledWhiteIcon className={classes.play}/>
                 </IconButton>
