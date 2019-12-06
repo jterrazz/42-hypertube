@@ -4,7 +4,7 @@ A web application to explore, search and play videos of torrent providers. Video
 
 *Disclaimer: This application was made for learning purposes at the 42 Paris School. For legal reasons, this shouldn't be used in the real world.*
 
-*Learn more about how this project workd with the [wiki](https://github.com/jterrazz/42-hypertube/wiki) 😜*
+*Learn more about how this project workd with the [wiki](https://github.com/jterrazz/42-hypertube/wiki) ⚠️⚠️⚠️*
 
 ## Starting guide
 
