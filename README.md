@@ -27,12 +27,15 @@ The web app is listening on `localhost:4242`. The API is accessible on `localhos
 ### Start each services independently
 
 #### Database
+
 Start a mongodb process in the background
+
 ```bash
 docker-compose up -d db_mongo
 ```
 
 #### Web app
+
 In development mode, the app is served using **hot reload** (A change in the code source automatically reload the app).
 
 ```bash
@@ -40,10 +43,13 @@ In development mode, the app is served using **hot reload** (A change in the cod
 yarn # Install dependencies
 yarn dev
 ```
+
 The app is available by default on `http://localhost:4242/`
 
 #### API
+
 ##### Setup
+
 The API service requires environment variables. You can either pass them as usual **process** environment variables or create a `.env` file in the `server`.
 
 ```dotnet
@@ -91,7 +97,9 @@ It uses `NodeJS` with the framework `koa` and `typescript`. The data is persiste
 The web client is served with SSR (server side rendering) with the `NextJS` framework (`ReactJS` with SSR).
 
 ### Bonus
+
 On top of the required project, we did:
+
 - Github authentication
 - Custom `magnet-link` player
 - A RESTFUL API
@@ -105,3 +113,15 @@ On top of the required project, we did:
 - @plogan - Front and back
 - @abbensid - Mostly frontend
 - @jterrazz - Mostly backend 
+
+## Screens
+
+![screen-0.png](./doc/screen-0.png)
+
+![screen-1.png](./doc/screen-1.png)
+
+![screen-2.png](./doc/screen-2.png)
+
+![screen-3.png](./doc/screen-3.png)
+
+
