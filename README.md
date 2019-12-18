@@ -110,9 +110,8 @@ On top of the required project, we did:
 
 ## Credits 👩‍💻
 
-- @plogan - Front and back
-- @abbensid - Mostly frontend
-- @jterrazz - Mostly backend 
+- @abbensid - Frontend
+- @jterrazz - Backend 
 
 ## Screens
 
