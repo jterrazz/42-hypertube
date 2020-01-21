@@ -15,7 +15,7 @@ export const InputSearch = withTranslation()((props) => {
     <TextField
       id="search"
       label={props.t("Search")}
-      placeholder={props.t("Find Movies, TV Shows, ...")}
+      placeholder="Videos ..."
       fullWidth
       onKeyPress={props.keyPressEnterSearch}
       margin="normal"
