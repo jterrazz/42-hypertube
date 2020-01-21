@@ -172,6 +172,7 @@ export const getMovieSubtitlesController: Middleware = async ctx => {
     if (subtitles[lang] && subtitles[lang].url) {
       const ft = async () => ({
         kind: 'subtitles',
+        label: lang,
         srcLang: lang,
         src: `${config.CLIENT_URL}/subtitles/${await downloadAndConvertSubtitle(subtitles, imbdId, lang)}`,
       })
