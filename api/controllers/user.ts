@@ -22,7 +22,7 @@ const IMAGE_FOLDER = __dirname + '/../public/images/'
 
 export const cacheToImageFolder = file =>
   new Promise((resolve, reject) => {
-    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+    if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
       const newName = crypto.randomBytes(20).toString('hex')
       fs.rename(file.path, IMAGE_FOLDER + newName, err => {
         if (err) return reject(err)
