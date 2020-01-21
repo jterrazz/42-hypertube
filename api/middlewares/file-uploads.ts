@@ -1,6 +1,6 @@
 import * as koaBody from 'koa-body'
 
-const MAX_FILE_SIZE = 1024 * 1024 * 5
+const MAX_FILE_SIZE = 1024 * 1024 * 10
 
 const formidableOptions = {
   uploadDir: __dirname + '/../cache',
