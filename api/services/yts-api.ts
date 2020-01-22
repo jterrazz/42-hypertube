@@ -109,8 +109,15 @@ export const getMovieDetails = async imdbID => {
 }
 
 export const getMovieTorrents = async imdbID => {
-  const res = await ytsClient.get('list_movies.json', { params: { query_term: imdbID } })
-  const movies = _.get(res, 'data.data.movies')
+  try {
+    const res = await ytsClient.get('list_movies.json', { params: { query_term: imdbID } })
+    const movies = _.get(res, 'data.data.movies')
 
-  return movies && movies.length ? movies[0].torrents.map(YtsSerializer.torrent) : null
+    return movies && movies.length ? movies[0].torrents.map(YtsSerializer.torrent) : null
+  } catch (e) {
+    if (e.response.status < 500) {
+      return null
+    }
+    throw e
+  }
 }

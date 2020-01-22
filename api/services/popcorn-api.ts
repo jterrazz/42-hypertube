@@ -100,8 +100,14 @@ export const getMovieDetails = async imdbID => {
 }
 
 export const getMovieTorrents = async imdbID => {
-  const res = await popcornClient.get(`/movie/${imdbID}`)
-  const torrents = _.get(res, 'data.torrents.en')
-
-  return torrents ? Object.values(torrents).map(PopcornSerializer.torrent) : null
+  try {
+    const res = await popcornClient.get(`/movie/${imdbID}`)
+    const torrents = _.get(res, 'data.torrents.en')
+    return torrents ? Object.values(torrents).map(PopcornSerializer.torrent) : null
+  } catch (e) {
+    if (e.response.status < 500) {
+      return null
+    }
+    throw e
+  }
 }
