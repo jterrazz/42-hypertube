@@ -18,7 +18,7 @@ class Player extends React.Component {
 
   constructor(props) {
     super(props);
-    this.getUser = this.getUser.bind(this) // TODO Del
+    this.getUser = this.getUser.bind(this)
   }
 
   static async getInitialProps({ query: { hash, id }, matchaClient }) {

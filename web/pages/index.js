@@ -6,14 +6,6 @@ import NavBar from "../components/organisms/NavBar";
 import Copyright from "../components/atoms/Copyright";
 import {withStyles} from "@material-ui/core";
 
-// TODO cache some pages for some time
-// TODO On pages remove all withTranslation(), because getInitialProps is not called
-// TODO Connect back translation
-// TODO Auth middleware from redux
-// TODO Clean imports and condensate them
-// TODO Rename variables + use correct case
-// TODO Could use proptypes
-
 const styles = theme => ({
   footer: {
     [theme.breakpoints.up('sm')]: {
@@ -27,7 +19,7 @@ class Index extends Component {
   static async getInitialProps({matchaClient}) {
     const {rankedMovies} = await matchaClient.getHotMovies()
     if (!rankedMovies)
-      return {}; // TODO Handle error
+      return {};
 
     const [featuredYTS, featuredPopcorn] = await Promise.all([matchaClient.getMovie(rankedMovies.yts[0].imdb_id), matchaClient.getMovie(rankedMovies.popcorn[0].imdb_id)])
 
