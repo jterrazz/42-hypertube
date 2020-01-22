@@ -35,7 +35,7 @@ class Player extends React.Component {
 
   state = {
     comment: '',
-    subtitles: '',
+    subtitles: null,
     userInfo: {},
     errorComment: ''
   };
@@ -43,7 +43,15 @@ class Player extends React.Component {
   componentDidMount() {
     matchaAPI.getSubtitles(this.props.movieId)
       .then(subtitles => {
-        this.setState({ subtitles })
+        console.log(subtitles)
+        this.setState({ subtitles: subtitles.map(subtitle => {
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+            if (isChrome) {
+              delete subtitle.label
+            }
+            return subtitle
+          }) })
       })
       .catch(_ => {})
   }
