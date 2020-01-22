@@ -22,7 +22,9 @@ class Player extends React.Component {
   }
 
   static async getInitialProps({ query: { hash, id }, matchaClient }) {
-    const [movie, comments] = await Promise.all([matchaClient.getMovie(id), matchaClient.getComments(id)])
+    var [movie, comments] = [null, null];
+    if (hash && hash.length === 40 && typeof id === 'string')
+      [movie, comments] = await Promise.all([matchaClient.getMovie(id), matchaClient.getComments(id)])
 
     return {
       movie,

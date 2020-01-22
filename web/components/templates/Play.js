@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core";
 import URL_Images from "../../services/online-assets";
 import Player from "../atoms/Player";
 import { getStreamURL } from '../../services/matcha-api'
+import {Error404} from "../molecules/Error404";
 
 const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
@@ -25,8 +26,8 @@ export const Play = (props, {movie = null, hashMovie = null, comment = null, sub
     <main className={classes.content}>
       <div className={classes.toolbar} />
 
-      <Container fixed>
-        {props.movie ?
+      {props.movie ?
+        <Container fixed>
           <>
             <Player
               url={url}
@@ -40,11 +41,10 @@ export const Play = (props, {movie = null, hashMovie = null, comment = null, sub
               <Comment {...props}/>
             </Grid>
           </>
-          :
-          <CircularProgress />
-        }
-      </Container>
-
+        </Container>
+        :
+        <Error404 />
+      }
     </main>
   )
 };
