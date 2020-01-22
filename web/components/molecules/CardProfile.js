@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// TODO Change text and translate
 export const CardProfile = withTranslation()((props) => {
   const classes = useStyles();
   return (

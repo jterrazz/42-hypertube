@@ -79,7 +79,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// TODO Replace all by <Link>
 const NavBar = withTranslation()((props) => {
   const {container} = props;
   const classes = useStyles();
