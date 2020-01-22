@@ -14,7 +14,7 @@ export const errorMiddleware: Middleware = async (ctx, next) => {
     } else {
       ctx.status = 500
       ctx.message = 'Internal server error'
-      logger.error(err) // TODO Hide
+      logger.error(err)
     }
   }
 }

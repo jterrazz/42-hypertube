@@ -13,6 +13,7 @@ const handle = app.getRequestHandler();
   await app.prepare()
   const server = express()
 
+  server.use('/public', express.static('public'))
   server.use(nextI18NextMiddleware(nextI18next))
 
   server.get('/subtitles/:file', async (req, res) => {

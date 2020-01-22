@@ -133,4 +133,4 @@ export class MatchaAPI {
   }
 }
 
-export default new MatchaAPI() // TODO Export only class
+export default new MatchaAPI()

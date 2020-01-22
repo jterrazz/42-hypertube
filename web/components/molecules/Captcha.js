@@ -3,7 +3,6 @@ import { TypographyError } from "../atoms/TypographyError";
 import React from "react";
 import {withTranslation} from '../../utils/i18n';
 
-// TODO Put in .env
 export const Captcha = withTranslation()((props) => {
   const {
     touched,

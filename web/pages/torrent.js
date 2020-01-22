@@ -48,7 +48,7 @@ class TorrentPlay extends Component {
     this.setState({edit: true});
 
     const tr = magnet.tr.join('&tr=');
-    const url = `${config.ROOT_URL}/torrents/${magnet.infoHash}/stream?tr=${tr}`; // TODO Use API Builder
+    const url = `${config.ROOT_URL}/torrents/${magnet.infoHash}/stream?tr=${tr}`;
     this.setState({urlMovieTorrent: url, name: magnet.name})
   };
 

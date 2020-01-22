@@ -48,7 +48,7 @@ const validationSchema = Yup.object().shape({
       "File too large",
       value => value && value.size <= FILE_SIZE
     ),
-  reCaptcha: Yup.string().required('Required'), // TODO Put back
+  reCaptcha: Yup.string().required('Required'),
 });
 
 class SignUp extends Component {
