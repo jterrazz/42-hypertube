@@ -45,7 +45,6 @@ class Player extends React.Component {
   componentDidMount() {
     matchaAPI.getSubtitles(this.props.movieId)
       .then(subtitles => {
-        console.log(subtitles)
         this.setState({ subtitles: subtitles.map(subtitle => {
             var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
