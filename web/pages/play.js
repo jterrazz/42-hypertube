@@ -77,7 +77,7 @@ class Player extends React.Component {
 
     matchaAPI.postComment(this.props.movieId, this.state.comment)
       .then(comment => {
-        this.props.comments.unshift(comment);
+        this.props.comments.push(comment);
         this.setState({ comments: this.state.comments, comment: ''});
       })
   };
