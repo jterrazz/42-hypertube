@@ -22,14 +22,16 @@ class Player extends React.Component {
   }
 
   static async getInitialProps({ query: { hash, id }, matchaClient }) {
-    var [movie, comments] = [null, null];
+    let movie, comments, subtitles
+    // var [movie, comments, subtitles] = [null, null, null];
     if (hash && hash.length === 40 && typeof id === 'string')
-      [movie, comments] = await Promise.all([matchaClient.getMovie(id), matchaClient.getComments(id)])
+      [movie, comments, subtitles] = await Promise.all([matchaClient.getMovie(id), matchaClient.getComments(id), matchaClient.getSubtitles(id)])
 
     return {
       movie,
       comments,
       hash,
+      subtitles,
       movieId: id,
       namespacesRequired: ['common'],
     }
@@ -37,24 +39,20 @@ class Player extends React.Component {
 
   state = {
     comment: '',
-    subtitles: null,
+    subtitles: [],
     userInfo: {},
     errorComment: ''
   };
 
   componentDidMount() {
-    matchaAPI.getSubtitles(this.props.movieId)
-      .then(subtitles => {
-        this.setState({ subtitles: subtitles.map(subtitle => {
-            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    this.setState({subtitles: this.props.subtitles.map(subtitle => {
+        var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
-            if (isChrome) {
-              delete subtitle.label
-            }
-            return subtitle
-          }) })
-      })
-      .catch(_ => {})
+        if (isChrome) {
+          delete subtitle.label
+        }
+        return subtitle
+      })})
   }
 
   handleChange = (e) => {
