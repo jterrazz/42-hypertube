@@ -6,7 +6,7 @@ import { CardCasting } from "./CardCasting";
 export const Casting = (props) => {
   return (
     <Grid item xs={12} md={8}>
-      {props.movie.cast.length ?
+      {props.movie && props.movie.cast && props.movie.cast.length ?
         <>
           <TypographyTitleG text="Casting"/>
           <CardCasting {...props}/>

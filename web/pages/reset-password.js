@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import * as Yup from 'yup';
-import {Router} from "next/router";
+import Router from "next/router";
 import {Form} from '../components/templates/FormResetPassword';
 import {Formik} from "formik";
 import matchaClient from '../services/matcha-api'
