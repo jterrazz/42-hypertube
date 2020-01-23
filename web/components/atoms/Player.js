@@ -22,14 +22,6 @@ const Player = (props, {hashMovie = null, thumbnail = null, subtitles = null, on
       <ReactPlayer
         url={props.url}
         config={{ file:{
-          // hlsOptions: {
-          //   xhrSetup: function(xhr, url) {
-          //     xhr.withCredentials = true; // do send cookies
-          //   },
-          // },
-          // attributes: {
-          //   crossOrigin: 'true'
-          // },
           tracks: props.subtitles || [] }}}
         className={classes.reactPlayer}
         playing={false}
