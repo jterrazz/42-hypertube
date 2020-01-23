@@ -8,6 +8,7 @@ import { InputConfirmPasswordSigUp } from "../atoms/InputConfirmPasswordSigUp";
 import { ButtonSubmit } from "../atoms/ButtonSubmit";
 import Container from "@material-ui/core/Container";
 import {BoxError} from "../molecules/ErrorMessage";
+import {Error404} from "../molecules/Error404";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -27,27 +28,29 @@ const useStyles = makeStyles(theme => ({
 
 export const Form = props => {
   const { handleSubmit } = props;
-
   const classes = useStyles();
-
   return (
     <main className={classes.content}>
-      <Container fixed>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={6} elevation={1}>
-            <div className={classes.paper}>
-              <HeadLockPage text="Reset password"/>
-              <form className={classes.form} onSubmit={handleSubmit}>
-                {props.error ? <BoxError text={props.error}/> : ''}
-                <InputPasswordSigUp {...props} />
-                <InputConfirmPasswordSigUp {...props} />
-                <ButtonSubmit text="reset"/>
-              </form>
-            </div>
+      {!props.errorToken ?
+        <Container fixed>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={6} elevation={1}>
+              <div className={classes.paper}>
+                <HeadLockPage text="Reset password"/>
+                <form className={classes.form} onSubmit={handleSubmit}>
+                  {props.error ? <BoxError text={props.error}/> : ''}
+                  <InputPasswordSigUp {...props} />
+                  <InputConfirmPasswordSigUp {...props} />
+                  <ButtonSubmit text="reset"/>
+                </form>
+              </div>
+            </Grid>
+            <ImageSplitPage />
           </Grid>
-          <ImageSplitPage />
-        </Grid>
-      </Container>
+        </Container>
+        :
+        <Error404 />
+      }
     </main>
   );
 };

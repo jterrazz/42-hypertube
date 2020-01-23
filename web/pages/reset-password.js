@@ -20,14 +20,23 @@ const validationSchema = Yup.object({
 class Forgot extends Component {
 
   state = {
-    Error: ''
+    Error: '',
+    errorToken: false
   };
 
   static async getInitialProps({query}) {
+    let errorToken = false;
+    if (!query.token && !(typeof query.token === 'string'))
+      errorToken = true;
     return {
       token: query.token,
+      errorToken,
       namespacesRequired: ['common'],
     }
+  }
+
+  componentDidMount() {
+    this.setState({errorToken: this.props.errorToken})
   }
 
   onSubmit = (data) => {
@@ -51,7 +60,7 @@ class Forgot extends Component {
     return (
       <>
         <Formik
-          render={props => <Form {...props} error={this.state.Error}/>}
+          render={props => <Form {...props} error={this.state.Error} errorToken={this.state.errorToken}/>}
           initialValues={values}
           validationSchema={validationSchema}
           onSubmit={this.onSubmit}
