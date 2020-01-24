@@ -17,7 +17,7 @@ const handle = app.getRequestHandler();
   server.use(nextI18NextMiddleware(nextI18next))
 
   server.get('/subtitles/:file', async (req, res) => {
-    request(process.env.INTERNAL_CLIENT_API + req.originalUrl)
+    request(process.env.INTERNAL_CLIENT_API || "http://localhost:3000" + req.originalUrl)
       .on('error', function(err) {
         res.end()
       })
