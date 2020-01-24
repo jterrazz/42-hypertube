@@ -26,7 +26,7 @@ class Forgot extends Component {
 
   static async getInitialProps({query}) {
     let errorToken = false;
-    if (!query.token && !(typeof query.token === 'string'))
+    if (!query.token || !(typeof query.token === 'string'))
       errorToken = true;
     return {
       token: query.token,
