@@ -82,7 +82,7 @@ export const getTorrentStreamController: Middleware = async ctx => {
   const engine = torrentStream(magnet, { path: folderPath })
 
   return new Promise((resolve, reject) => {
-    engine.on('error', logger.error).on('ready', async () => {
+    engine.on('error', () => {}).on('ready', async () => {
       try {
         if (!engine.files.length) return reject()
 
