@@ -21,13 +21,19 @@ const Player = (props, {hashMovie = null, thumbnail = null, subtitles = null, on
     <div className={classes.playerWrapper}>
       <ReactPlayer
         url={props.url}
-        config={{ file:{
-          tracks: props.subtitles || [] }}}
+        controls={true}
+        config={{
+          file: {
+            tracks: props.subtitles || [],
+            attributes: {
+              controlsList: 'nodownload'
+            }
+          }
+        }}
         className={classes.reactPlayer}
         playing={false}
         width="100%"
         height="100%"
-        controls={true}
         onStart={props.onStart}
         light={props.thumbnail}
       />
