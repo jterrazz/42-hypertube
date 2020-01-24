@@ -76,5 +76,7 @@
   "Complete your profile and use platform": "Complétez votre profil et utilisez la plateforme",
   "Add a profile picture *": "Ajouter une photo de profil *",
   "Set your profile info *": "Définissez les informations de votre profil *",
-  "Add your password (optional)": "Ajoutez votre mot de passe (facultatif)"
+  "Add your password (optional)": "Ajoutez votre mot de passe (facultatif)",
+  "The First Name must contains english letters only": "Le Nom doit contenir des lettres anglais seulement, l'Espaces non autorisés",
+  "The Last Name must contains english letters only": "Le Prénom doit contenir des lettres anglais seulement, l'Espaces non autorisés"
 }

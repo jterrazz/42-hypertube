@@ -44,7 +44,7 @@ class Player extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({subtitles: this.props.subtitles.map(subtitle => {
+    this.setState({subtitles: this.props.subtitles && this.props.subtitles.map(subtitle => {
         var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
         if (isChrome) {

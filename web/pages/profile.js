@@ -34,11 +34,15 @@ const validationSchemaInfos = Yup.object({
   firstName: Yup.string()
     .required('Required')
     .min(3, 'Too Short!')
-    .max(42, 'Too Long!'),
+    .max(42, 'Too Long!')
+    .strict()
+    .matches(/^[a-zA-Z]+$/, 'The First Name must contains english letters only'),
   lastName: Yup.string()
     .required('Required')
     .min(3, 'Too Short!')
-    .max(42, 'Too Long!'),
+    .max(42, 'Too Long!')
+    .strict()
+    .matches(/^[a-zA-Z]+$/, 'The Last Name must contains english letters only'),
   email: Yup.string()
     .email('Enter a valid email')
     .required('Email is required'),

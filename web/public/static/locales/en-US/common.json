@@ -76,5 +76,7 @@
   "Complete your profile and use platform": "Complete your profile and use platform",
   "Add a profile picture *": "Add a profile picture *",
   "Set your profile info *": "Set your profile info *",
-  "Add your password (optional)": "Add your password (optional)"
+  "Add your password (optional)": "Add your password (optional)",
+  "The Last Name must contains english letters only": "The Last Name must contains english letters only",
+  "The First Name must contains english letters only": "The First Name must contains english letters only"
 }
