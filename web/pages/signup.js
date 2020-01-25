@@ -17,13 +17,13 @@ const validationSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .matches(/^[a-zA-Z]+$/, 'The First Name must contains english letters only'),
+    .matches(/[[a-zA-ZÀ-ú]+[\-\s]?]*/, 'The First Name must contains french letters only'),
   lastName: Yup.string()
     .required('Required')
     .min(3, 'Too Short!')
     .max(42, 'Too Long!')
     .strict()
-    .matches(/^[a-zA-Z]+$/, 'The Last Name must contains english letters only'),
+    .matches(/[[a-zA-ZÀ-ú]+[\-\s]?]*/, 'The Last Name must contains french letters only'),
   userName: Yup.string()
     .required('UserName is required')
     .min(3, 'Too Short!')
