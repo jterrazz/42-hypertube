@@ -44,10 +44,9 @@ const Search = (props) => {
 
         <InfiniteScroll
           className={classes.items}
-          dataLength={props.movies.length} //This is important field to render the next data
+          dataLength={props.movies.length}
           next={props.fetchMoreData}
           hasMore={props.hasMore}
-          // loader={<CircularProgress />}
         >
           <Grid container spacing={4} style={{ marginTop: 15, }}>
             {props.movies.map((item, index) => (

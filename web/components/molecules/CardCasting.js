@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { TypographyTextSecondary } from "../atoms/TypographyTextSecondary";
 import { makeStyles } from "@material-ui/core";
+import URL_Images from "../../services/online-assets";
 
 const useStyles = makeStyles({
   img: {
@@ -24,7 +25,11 @@ export const CardCasting = (props) => {
       {props.movie.cast.slice(0, 4).map((item, index) => (
         <Grid item xs={4} md={3} key={index}>
           <Card elevation={0} className={classes.card}>
-            <CardMedia title={item.character} image={item.profile_path} className={classes.img} />
+            <CardMedia
+              title={item.character}
+              image={item.profile_path !== 'https://image.tmdb.org/t/p/originalnull' ? item.profile_path : URL_Images.poster}
+              className={classes.img}
+              />
             <CardContent>
               <Typography gutterBottom variant="subtitle2" component="h5">
                 {item.character}
