@@ -7,7 +7,7 @@ import { SORT_VALUES_ENUM } from '../controllers'
  * https://popcornofficial.docs.apiary.io/#reference/movie/get-page/page
  */
 
-const POPCORN_BASE_URL = 'http://popcorns.live'
+const POPCORN_BASE_URL = 'ADD YOUR SOURCE HERE'
 const popcornClient = axios.create({ baseURL: POPCORN_BASE_URL })
 
 const magnetToHash = magnet => {
